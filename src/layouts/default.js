@@ -3,7 +3,6 @@ import Sidebar from "components/Sidebar/UserSidebar";
 import Navbar from "components/Navbar/UserNavbar";
 import { defaultRoutes } from "../routes/default";
 import { Route, Routes, } from "react-router-dom";
-import "assets/css/layout.css"
 export default function Layout() {
 
   let routes = defaultRoutes();
@@ -14,7 +13,7 @@ export default function Layout() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/") {
+      if (prop.layout === "/default") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -31,21 +30,21 @@ export default function Layout() {
 
 
   return (
-    <div className="container">
-      <div className="sidebar">
-      <Sidebar
-        routes={routes}
-      />
-      </div>
-      <div className="wrapper">
-      <Navbar />
-          <Routes>
-            {getRoutes(routes)}
-          </Routes>
-       
+    <div className="body-wrapper">
+        {/* <Sidebar
+          routes={routes}
+        /> */}
+      {/* <div className="ltn__utilize-overlay" /> */}
+
+      {/* <div className="body-content-area body-bg-1 pb-80---"> */}
+        {/* <Navbar /> */}
+        <Routes>
+          {getRoutes(routes)}
+        </Routes>
+
         {/* <Footer />  */}
-      </div>
-      
+      {/* </div> */}
+
     </div>
   );
 }

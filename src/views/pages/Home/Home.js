@@ -1,18 +1,5 @@
-import instance from "config/axios/instance";
-import React, { useEffect } from "react";
-
+import React from "react";
 export default function Home() {
-
-
-
-  //Test Request 
-  useEffect(() => {
-    const err =  instance.get('/status/404').
-      then((err) => {
-        // console.log(err);
-      });
-  }, [])
-
 
   
   return (
