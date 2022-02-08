@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../../../../assets/img/logo-2.png'
+import {Link } from 'react-router-dom'
 function TermsCondition() {
     return (
         <React.Fragment>
@@ -10,9 +11,9 @@ function TermsCondition() {
                             <div className="col-lg-12">
                                 <div className="ltnd__header-3-inner">
                                     <div className="logo-img">
-                                        <a href="index.html">
-                                            <img src={logo} alt="#" />
-                                        </a>
+                                        <Link to="/">
+                                            <img src={logo} alt="logo" />
+                                        </Link>
                                     </div>
                                     {/* Mobile Menu Button */}
                                     <div className="mobile-menu-toggle d-xl-none">

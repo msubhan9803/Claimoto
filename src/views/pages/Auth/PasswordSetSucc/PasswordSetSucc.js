@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 function PasswordSetSuccess() {
     return (
         <React.Fragment>
@@ -22,13 +23,13 @@ function PasswordSetSuccess() {
               </p>
                                 </div>
                                 <div className="btn-wrapper mt-30">
-                                    <a
-                                        href="login.html"
+                                    <Link
+                                        to="/login"
                                         className="theme-btn-1 btn btn-block w-100 btn-round-12"
                                         type="submit"
                                     >
                                         Login
-              </a>
+              </Link>
                                 </div>
                             </div>
                         </div>
