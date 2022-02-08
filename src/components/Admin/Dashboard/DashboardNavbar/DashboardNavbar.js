@@ -1,6 +1,7 @@
 import React from "react";
 import RespHeader from "../../ResponsiveHeader/RespHeader";
-
+import {Link } from 'react-router-dom'
+import mcIcon from '../../../../assets/img/icons/mc/png/10.png'
 export default function DashboardNavbar() {
   return (
     <React.Fragment>
@@ -28,9 +29,9 @@ export default function DashboardNavbar() {
                           <ul>
                             <li>
                               <div className="ltnd-dropdown-menu-item">
-                                <a href="#">
+                                <Link to="/">
                                   <div className="image">
-                                    <img src="img/icons/mc/png/10.png" alt="#" />
+                                    <img src={mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -39,14 +40,14 @@ export default function DashboardNavbar() {
                                     </h6>
                                     <p className="ltn__color-1">2 mins ago </p>
                                   </div>
-                                </a>
+                                </Link>
                               </div>
                             </li>
                             <li>
                               <div className="ltnd-dropdown-menu-item">
-                                <a href="#">
+                                <Link to="/">
                                   <div className="image">
-                                    <img src="img/icons/mc/png/10.png" alt="#" />
+                                    <img src={mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -55,14 +56,14 @@ export default function DashboardNavbar() {
                                     </h6>
                                     <p className="ltn__color-1">2 mins ago </p>
                                   </div>
-                                </a>
+                                </Link>
                               </div>
                             </li>
                             <li>
                               <div className="ltnd-dropdown-menu-item">
                                 <a href="#">
                                   <div className="image">
-                                    <img src="img/icons/mc/png/10.png" alt="#" />
+                                  <img src={mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -80,13 +81,13 @@ export default function DashboardNavbar() {
                     </li>
                     {/*User Account*/}
                     <li className="ltnd-dropdown ltnd__user-img">
-                      <a className="toggle" href="#">
-                        <img src="img/blog/author.jpg" alt="User" />
-                      </a>
+                      <Link className="toggle" to="/">
+                      <img src={mcIcon} alt="mC_img" />
+                      </Link>
                       <div className="ltnd-dropdown-menu dropdown-menu-user">
                         <div className="head">
                           <div className="dropdown-menu-user-img">
-                            <img src="img/icons/mc/png/10.png" alt="#" />
+                          <img src={mcIcon} alt="mC_img" />
                           </div>
                           <div className="dropdown-menu-user-info">
                             <h6>Yasmin Ali</h6>

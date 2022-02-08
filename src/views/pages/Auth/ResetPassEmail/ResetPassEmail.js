@@ -1,5 +1,7 @@
 import React from 'react'
 import logo from '../../../../assets/img/logo.png'
+import {Link } from 'react-router-dom'
+
 function ResetPassEmail() {
     return (
         <React.Fragment>
@@ -24,9 +26,9 @@ function ResetPassEmail() {
                                     <div className="btn-normal mt-25">
                                         <span>
                                             Didn't receive an Email yet?{" "}
-                                            <a href="forgot-password.html" className="ltn__secondary-color">
+                                            <Link to="/reset_password" className="ltn__secondary-color">
                                                 Resend email
-                </a>
+                </Link>
                                         </span>
                                     </div>
                                 </div>

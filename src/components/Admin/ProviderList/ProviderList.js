@@ -1,5 +1,5 @@
 import React from 'react'
-
+import carImg from '../../../assets/img/icons/mc/png/3.png'
 function ProviderList() {
     return (
         <React.Fragment>
@@ -46,7 +46,7 @@ function ProviderList() {
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-1">
                                                                 <strong>
-                                                                    <img src="img/icons/mc/png/3.png" alt="#" /> Car
+                                                                    <img src={carImg} alt="car" /> Car
                               and body shop{" "}
                                                                 </strong>
                                                             </li>
@@ -105,7 +105,8 @@ function ProviderList() {
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-1">
                                                                 <strong>
-                                                                    <img src="img/icons/mc/png/4.png" alt="#" /> Agent orange{" "}
+                                                                <img src={carImg} alt="car" />
+                                                                Agent orange{" "}
                                                                 </strong>
                                                             </li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
@@ -138,7 +139,8 @@ function ProviderList() {
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-1">
                                                                 <strong>
-                                                                    <img src="img/icons/mc/png/4.png" alt="#" /> Agent orange{" "}
+                                                                <img src={carImg} alt="car" />
+                                                                    Agent orange{" "}
                                                                 </strong>
                                                             </li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
@@ -195,7 +197,8 @@ function ProviderList() {
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-1">
                                                                 <strong>
-                                                                    <img src="img/icons/mc/png/5.png" alt="#" /> Local car agent{" "}
+                                                                <img src={carImg} alt="car" />
+                                                                    Local car agent{" "}
                                                                 </strong>
                                                             </li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>

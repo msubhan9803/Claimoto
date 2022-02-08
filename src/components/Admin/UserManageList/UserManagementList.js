@@ -1,5 +1,5 @@
 import React from 'react'
-
+import carImg from '../../../assets/img/icons/mc/png/10.png'
 function UserManagementList() {
     return (
         <React.Fragment>
@@ -43,7 +43,8 @@ function UserManagementList() {
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <img src="img/icons/mc/png/9.png" alt="#" /> Ahmad
+                                                                <img src={carImg} alt="car" />
+                                                                 Ahmad
                             Housam{" "}
                                                                 </strong>
                                                             </li>

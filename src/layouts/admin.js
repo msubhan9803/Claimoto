@@ -14,7 +14,7 @@ export default function Layout() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "admin") {
+      if (prop.layout === "/") {
         console.log("Route",prop.layout + prop.path);
         return (
           <Route
