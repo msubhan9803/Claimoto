@@ -1,5 +1,5 @@
 import React from 'react'
-import motorImg from '../../../assets/img/motor/login-bg-1.png'
+import motorImg from '../../../../assets/img/motor/login-bg-1.png'
 
 function Login() {
     return (

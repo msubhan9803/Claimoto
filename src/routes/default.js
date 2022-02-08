@@ -1,55 +1,69 @@
 //Components
-import Home from "views/pages/Home/Home"
-import Test from "views/pages/Test/Test";
+
+import Dashboard from 'views/pages/Admin/Dashboard/DashBoard'
+import Product from 'views/pages/Admin/Product/Products/Product'
+import Policies from 'views/pages/Admin/Policies/PoliciesData/Policies'
+import Provider from 'views/pages/Admin/Provider/Provider'
+import Vihicle from 'views/pages/Admin/Vihicle/Vihicle'
+import UserManagement from 'views/pages/Admin/UserManagement/UserManagement'
+import Setting from 'views/pages/Admin/Setting/Setting'
+import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail'
 
 export const defaultRoutes = () => {
   return [
     {
         name: "Dashboard",
-        path:"/dashboard",
-        component: <Home />,
+        path:"/default",
+        component: <Dashboard />,
         icon:"ti-layout",
         layout: "/default",
     },
     {
         name: "Products",
-        path:"/dashboar",
-        component: <Test />,
+        path:"/products",
+        component: <Product />,
         icon:"ti-file",
-        layout: "/default",
+        layout: "/",
     },
     {
         name: "Policies",
-        path:"/dashboar",
-        component: <Test />,
+        path:"/policies",
+        component: <Policies />,
         icon:"ti-clipboard",
-        layout: "/default",
+        layout: "/",
     },
     {
         name: "Providers",
-        path:"/dashboar",
-        component: <Test />,
+        path:"/provider",
+        component: <Provider />,
         icon:"ti-server",
-        layout: "/default",
+        layout: "/",
     },
    {
         name: "Vehicle parts",
-        path:"/dashboar",
-        component: <Test />,
+        path:"/vihicle_parts",
+        component: <Vihicle />,
         icon: "ti-envelope",
-        layout: "/default",
+        layout: "/",
     },{
         name: "User management",
-        path:"/dashboar",
-        component: <Test />,
+        path:"/user_management",
+        component: <UserManagement />,
         icon: "ti-user",
-        layout: "/default",
+        layout: "/",
     },{
         name: "Settings",
-        path:"/register",
-        component: <Test />,
+        path:"/settings",
+        component: <Setting />,
         icon: "ti-settings",
-        layout: "/default",
+        layout: "/",
+    },
+    {
+        name: "Product Detail",
+        path:"/product_detail",
+        component: <ProductDetail />,
+        icon: "ti-settings",
+        layout: "/",
     },
 ];
 };

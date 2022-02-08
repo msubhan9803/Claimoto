@@ -1,8 +1,9 @@
 import React from 'react'
-import logo from '../../../assets/img/logo.png'
-function ResetPassword() {
+import logo from '../../../../assets/img/logo.png'
+function NewPassword() {
     return (
         <React.Fragment>
+            {/* Body main wrapper start */}
             <div className="body-wrapper">
                 {/* Body Content Area Start */}
                 <div className="body-content-area ltnd__no-sidebar-menu body-100vh body-bg-1---">
@@ -14,20 +15,27 @@ function ResetPassword() {
                                     <img src={logo} alt="#" />
                                 </div>
                                 <div className="section-title-area ">
-                                    <h1 className="section-title">Let’s reset your Password</h1>
-                                    <p>
-                                        Enter your Email so we can reset your <br /> password
-            </p>
+                                    <h1 className="section-title">Let’s choose a new Password</h1>
+                                    <p>Enter your new password </p>
                                 </div>
                                 <form action="#" className="ltn__form-box form-width-360">
-                                    <input type="text" name="email" placeholder="Email*" />
-                                    <div className="btn-wrapper mt-0">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Enter your new password"
+                                    />
+                                    <input
+                                        type="password"
+                                        name="password-2"
+                                        placeholder="Confrim your new password"
+                                    />
+                                    <div className="btn-wrapper mt-20">
                                         <button
                                             className="theme-btn-1 btn btn-block w-100 btn-round-12"
                                             type="submit"
                                         >
-                                            Submit
-              </button>
+                                            Reset password
+                </button>
                                     </div>
                                 </form>
                             </div>
@@ -40,10 +48,9 @@ function ResetPassword() {
 
 
 
-
         </React.Fragment>
 
     )
 }
 
-export default ResetPassword
+export default NewPassword

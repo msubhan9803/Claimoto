@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../../../assets/img/logo-2.png'
+import logo from '../../../../assets/img/logo-2.png'
 function TermsCondition() {
     return (
         <React.Fragment>

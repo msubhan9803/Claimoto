@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import DefaultLayout from "layouts/default";
+import AdminLayout from "layouts/admin";
 import AuthRoute from "layouts/auth"
 import { Provider } from "react-redux";
 import { store, persistor } from "store/store";
@@ -17,7 +17,7 @@ ReactDOM.render(
       <Router history={hist}>
         <Routes>
          <Route path="*" element={<AuthRoute />} />
-          <Route path="*" element={<DefaultLayout />} />
+          <Route path="*" element={<AdminLayout />} />
         </Routes>
       </Router>
     </PersistGate>
