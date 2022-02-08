@@ -2,11 +2,11 @@ import React from "react";
 import Sidebar from "components/Sidebar/UserSidebar";
 // import ProductNavbar from "components/Admin/ProductNavbar/ProductNavbar";
 import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
-import { defaultRoutes } from "../routes/default";
+import { adminRoutes } from "../routes/admin";
 import { Route, Routes, } from "react-router-dom";
 export default function Layout() {
 
-  let routes = defaultRoutes();
+  let routes = adminRoutes();
 
   //Creating Routes
   const getRoutes = (routes) => {
@@ -14,10 +14,11 @@ export default function Layout() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/default") {
+      if (prop.layout === "admin") {
+        console.log("Route",prop.layout + prop.path);
         return (
           <Route
-            path={prop.layout + prop.path}
+            path={`${prop.path}`}
             element={prop.component}
             key={key}
           />

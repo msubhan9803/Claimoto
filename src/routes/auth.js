@@ -14,12 +14,12 @@ export const AuthRoutes = () => {
     return [
         {
             path: "/",
-            component: <Register />,
+            component: <Login />,
             layout: "/",
         },
         {
-            path: "/login",
-            component: <Login />,
+            path: "/register",
+            component: <Register />,
             layout: "/",
         },
         {
@@ -54,5 +54,6 @@ export const AuthRoutes = () => {
             component: <PasswordSetSuccess />,
             layout: "/",
         },
+        
     ];
 };

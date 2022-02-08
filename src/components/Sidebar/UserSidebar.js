@@ -30,7 +30,7 @@ export default function Sidebar(props) {
             <ul>
               {routes.map((route, index) => (
                 <li key={index}>
-                  <Link to={route.path} >
+                  <Link to={`.${route.path}`} >
                     <i className={route.icon}></i>
                     <span className="ltn__sidebar-menu-text">{route.name}</span>
                   </Link>
