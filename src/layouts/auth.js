@@ -1,6 +1,7 @@
 import React from "react";
 import { AuthRoutes } from "../routes/auth";
 import { Route, Routes, } from "react-router-dom";
+import NotFound from "views/pages/404/404";
 export default function AuthRoute() {
 
     let routes = AuthRoutes();
@@ -11,11 +12,11 @@ export default function AuthRoute() {
             if (prop.collapse) {
                 return getRoutes(prop.views);
             }
-            if (prop.layout === "/") {
+            if (prop.layout === "auth") {
                 return (
                     <Route
-                        path={prop.layout + prop.path}
-                        element={prop.component}
+                    path={`${prop.path}`}
+                    element={prop.component}
                         key={key}
                     />
                 );
@@ -31,6 +32,7 @@ export default function AuthRoute() {
         <div className="container">
             <Routes>
                 {getRoutes(routes)}
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
     );

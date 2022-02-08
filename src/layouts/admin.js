@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Sidebar from "components/Sidebar/UserSidebar";
 // import ProductNavbar from "components/Admin/ProductNavbar/ProductNavbar";
 import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
 import { adminRoutes } from "../routes/admin";
-import { Route, Routes, } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import NotFound from "views/pages/404/404";
 export default function Layout() {
 
   let routes = adminRoutes();
+  let location = useLocation();
 
   //Creating Routes
   const getRoutes = (routes) => {
@@ -15,7 +17,7 @@ export default function Layout() {
         return getRoutes(prop.views);
       }
       if (prop.layout === "admin") {
-        console.log("Route",prop.layout + prop.path);
+
         return (
           <Route
             path={`${prop.path}`}
@@ -26,6 +28,10 @@ export default function Layout() {
       } else {
         return null;
       }
+
+     
+
+
     });
   };
 
@@ -39,9 +45,10 @@ export default function Layout() {
       <div className="ltn__utilize-overlay" />
 
       <div className="body-content-area body-bg-1 pb-80---">
-        <DashboardNavbar/>
+        <DashboardNavbar />
         <Routes>
           {getRoutes(routes)}
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         {/* <Footer /> */}

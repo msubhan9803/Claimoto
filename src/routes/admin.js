@@ -8,6 +8,7 @@ import Vihicle from 'views/pages/Admin/Vihicle/Vihicle'
 import UserManagement from 'views/pages/Admin/UserManagement/UserManagement'
 import Setting from 'views/pages/Admin/Setting/Setting'
 import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail'
+import NotFound from 'views/pages/404/404'
 
 export const adminRoutes = () => {
     return [
@@ -64,6 +65,6 @@ export const adminRoutes = () => {
             component: <ProductDetail />,
             icon: "ti-settings",
             layout: "admin",
-        },
+        }
     ];
 };
