@@ -1,12 +1,319 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { RegisterProduct  , GetInputs} from 'store/actions/product'
 function ProductDetail() {
+
+    // states 
+    const [benifit, setBenifit] = useState(false)
+    const [editbenifit, setEditBenifit] = useState(false)
+
+    // dispatch hook 
+
+    const dispatch = useDispatch()
+
+    // selector state from redux 
+
+    const product = useSelector(state => state.productReducer.product)
+
+    // destructre  input value from reducer 
+    
+    const { ProductName , ProductType , AnnualPremium ,ProductDetail , Status , Copay, Deductibles, Gragage_Agency} = product 
+    
+    // Change value 
+
+    const changeValue = (e) => {
+        e.persist();
+        if (e.target.name === "Status") {
+            let value = e.target.checked;
+            let name = e.target.name ;
+            dispatch(GetInputs(name, value))
+
+        }
+        else {
+            const { name, value } = e.target;
+            dispatch(GetInputs(name, value))
+        }
+
+    }
+
+
+    // Send Form data 
+
+    const SendForm = (e) =>{
+       e.preventDefault();
+         dispatch(RegisterProduct(product))
+    }
+
+
+
     return (
         <React.Fragment>
-            
+            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+
+                {/* header-middle-area start */}
+                <div className="ltnd__header-middle-area mt-30">
+                    <div className="row">
+                        <div className="col-lg-9">
+                            <div className="ltnd__page-title-area">
+                                <p className="page-back-btn">
+                                    <Link to="/products">
+                                        <i className="icon-left-arrow-1" /> Back
+                                    </Link>
+                                </p>
+                                <h2>Liability coverage</h2>
+                            </div>
+                        </div>
+                        <div className="col-lg-3 align-self-center text-end">
+                            <div className="ltnd__date-area d-none">
+                                <div className="ltn__datepicker">
+                                    <div className="ltn_datepicker-title">
+                                        <span>Date</span>
+                                    </div>
+                                    <div className="input-group date" data-provide="datepicker">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Select Date"
+                                        />
+                                        <div className="input-group-addon">
+                                            <i className="far fa-calendar-alt" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* header-middle-area end */}
+            </div>
+
+            {/* Body Content Area Inner Start */}
+            <div className="body-content-area-inner">
+                {/* BLOCK AREA START ( Product Details section - 1 ) */}
+                <div className="ltnd__block-area">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="ltnd__block-item mt-30">
+                                <div className="ltnd__title ltnd__title-2">
+                                    <h4>Product information</h4>
+                                </div>
+                                <div className="ltn__block-item-info">
+                                    {/* form */}
+                                    <form className="ltnd__form-1">
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Product name</h6>
+                                                    <input
+                                                        type="text"
+                                                        name="ProductName"
+                                                        value={ProductName}
+                                                        onChange={changeValue}
+                                                        placeholder="Liability coverage"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Product type</h6>
+                                                    <select className="nice-select" name="ProductType" onChange={changeValue}>
+                                                        <option value="TPL">TPL</option>
+                                                        <option value="CMP">Option 1 </option>
+                                                        <option>Option 2 </option>
+                                                        <option>Option 3 </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Annual premium</h6>
+                                                    <input type="text" name="AnnualPremium" value={AnnualPremium} onChange={changeValue} placeholder="1000 KWD" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {/* excerpt */}
+                                    <div className="ltnd__product-details-excerpt">
+                                        <h6 className="ltnd__title-3" name="ProductDetail" onChange={changeValue}> Product information</h6>
+                                        <p>
+                                            Auto liability insurance is a type of car insurance coverage
+                                            that's required by law in most states. If you cause a car
+                                            accident — in other words, if you are liable for the accident
+                                            — liability coverage helps pay for the other person's
+                                            expenses. Auto liability coverage comes in two forms: bodily
+                                            injury liability coverage and property damage liability
+                                            coverage. Drivers in most states must have both types of
+                                            coverage.
+                                        </p>
+                                    </div>
+                                    <hr />
+                                    {/* status */}
+                                    <div className="ltnd__product-status mt-30">
+                                        <h6 className="ltnd__title-3 ">Status</h6>
+                                        <div className="ltn__checkbox-radio-group inline">
+                                            <label className="ltn__switch-2">
+                                                <input type="checkbox" name="Status" checked={Status} onChange={changeValue} />
+                                                <i className="lever" /> <span className="text">{"active"}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {/*  */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* BLOCK AREA END */}
+                {/* BLOCK AREA START ( Product Details section - 2 ) */}
+                <div className="ltnd__block-area">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="ltnd__block-item mt-30">
+                                <div className="ltnd__title ltnd__title-2">
+                                    <h4>Coverage</h4>
+                                </div>
+                                <div className="ltn__block-item-info">
+                                    {/* form */}
+                                    <form className="ltnd__form-1">
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Copay</h6>
+                                                    <input
+                                                        type="text"
+                                                        name="Copay"
+                                                        value={Copay}
+                                                        onChange={changeValue}
+                                                        placeholder="$0 after deductible"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Deductibles</h6>
+                                                    <input type="text" value={Deductibles} onChange={changeValue} name="Deductibles" placeholder="$2,5000" />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="input-item">
+                                                    <h6 className="ltnd__title-3">Gragage/ Agency repair</h6>
+                                                    <select className="nice-select" value={Gragage_Agency} name="Gragage_Agency" onChange={changeValue}>
+                                                        <option value="hellow">Repair body shop</option>
+                                                        <option>Option 1 </option>
+                                                        <option>Option 2 </option>
+                                                        <option>Option 3 </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {/*  */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* BLOCK AREA END */}
+                {/* BLOCK AREA START ( Benefits ) */}
+                <div className="ltnd__block-area pb-60">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="benifits-header mt-30">
+                                <h4>Benefits (5)</h4>
+                                <div className="btn-normal">
+                                    <span style={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setBenifit(true)} className="ltn__secondary-color">
+                                        Add benefit+
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="benifits-list">
+
+                                {/* benifits-list-item */}
+                                <div className="benifits-list-item">
+                                    {editbenifit ?
+                                        <>
+                                            <div className="benifits-brief" style={{ width: '70%' }}>
+                                                <input type="text"  className='form-control' name="Benifits" />
+                                            </div>
+                                        </>
+                                        :
+
+                                        <div className="benifits-brief">
+                                            <i className="fas fa-circle" />
+                                            <span>
+                                                Liability insurance provides protection against claims
+                                                resulting from injuries and damage to people and/or property.
+                                            </span>
+                                        </div>
+                                    }
+                                    <div className="benifits-btn btn-normal" style={editbenifit ? { marginTop: '20px' } : null}>
+                                        <span className="ltn__color-1 cancel_btn">
+                                            {editbenifit ? "Cancel" : "Delete"}
+                                        </span>
+                                        <span onClick={() => setEditBenifit(true)} className="ltn__secondary-color add_btn">
+
+                                            {editbenifit ? "Save" : "Edit"}
+
+                                        </span>
+                                    </div>
+                                </div>
+                                {benifit &&
+                                    (
+                                        <div div className="benifits-list-item">
+                                            <div className="benifits-brief" style={{ width: '70%' }}>
+                                                <input type="text" className='form-control' placeholder='Enter benifits here...' name="addBenifit" />
+                                            </div>
+                                            <div className="benifits-btn btn-normal mt-3 ">
+                                                <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
+                                                    Cancel
+                                                </span>
+                                                <span className="ltn__secondary-color add_btn">
+                                                    Add
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    )
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* BLOCK AREA END */}
+            </div>
+            {/* Body Content Area Inner End */}
+            <footer className="ltnd__footer-1 fixed-footer-1">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="ltnd__footer-1-inner bg-white">
+                                <div className="ltnd__left btn-normal">
+                                    <Link to="/">
+                                        <i className="ti-trash" /> Delete
+                                    </Link>
+                                </div>
+                                <div className="ltnd__right btn-normal">
+                                    <div className="btn-wrapper">
+                                        <Link to="/products">
+                                            <i className="ti-angle-left" /> Back
+                                        </Link>
+                                        <span className="btn theme-btn-1 btn-round-12">
+                                            Save
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            {/* Body Content Area End */}
 
 
-        </React.Fragment>
+
+        </React.Fragment >
     )
 }
 

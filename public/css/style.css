@@ -13288,6 +13288,15 @@ form .ltnd__title-3 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
+
+  .add_btn{
+    margin-left: 20px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cancel_btn{
+    cursor: pointer;
+  }
   .benifits-btn a {
     margin-left: 20px; }
 
