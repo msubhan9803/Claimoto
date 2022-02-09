@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "components/Sidebar/UserSidebar";
-// import ProductNavbar from "components/Admin/ProductNavbar/ProductNavbar";
+import UserNavbar from "components/Navbar/UserNavbar/UserNavbar";
 import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
 import { adminRoutes } from "../routes/admin";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -9,6 +9,8 @@ export default function Layout() {
 
   let routes = adminRoutes();
   let location = useLocation();
+
+  console.log("location ", location.pathname)
 
   //Creating Routes
   const getRoutes = (routes) => {
@@ -46,7 +48,12 @@ export default function Layout() {
       <div className="ltn__utilize-overlay" />
 
       <div className="body-content-area body-bg-1 pb-80---">
-        <DashboardNavbar />
+        {location.pathname === '/admin/' ?
+          <DashboardNavbar />
+          :
+            <UserNavbar />
+        }
+
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<NotFound />} />
