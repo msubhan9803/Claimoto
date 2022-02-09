@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
-import UserManagementList from 'components/Admin/UserManage/UserManagementList';
-import Img from 'assets/img/testimonial/1.jpg';
-import { CSSTransition } from 'react-transition-group';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from 'react'
+import TabsWrapper from 'components/Tabs/TabsWrapper';
+import TabContent from 'components/Tabs/TabsContent';
+import TabsHeader from 'components/Tabs/TabsHeader';
+import Tab from 'components/Tabs/Tab';
+
+
 import UserAddModal from 'components/Admin/UserManage/UserAddModal';
+import RoleAddModal from 'components/Admin/RoleManage/RoleAddModal';
+import { useSelector } from 'react-redux';
+
+
 
 function UserManagement() {
-
+    const { selectedTab, tabs } = useSelector(state => state.usersScreenReducer);
     const [comState, setComState] = useState({
-        openModal: false
+        openModal: false,
     });
 
 
@@ -22,7 +28,9 @@ function UserManagement() {
 
     return (
         <React.Fragment>
-            <UserAddModal toggleModal={_toggleModal} openModal={comState.openModal} />
+            {selectedTab == "members" ?
+                <UserAddModal toggleModal={_toggleModal} openModal={comState.openModal} /> :
+                <RoleAddModal toggleModal={_toggleModal} openModal={comState.openModal} />}
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -119,12 +127,25 @@ function UserManagement() {
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* ltnd__policies-table start */}
-                                <UserManagementList />
+                                <div className="select-availability-area pb-120">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <TabsWrapper>
+                                                <TabsHeader tabs={tabs} />
+                                                <TabContent>
+                                                    {tabs.map((tab, index) => (
+                                                        <Tab key={tab.id} tab={tab} index={index}>
+                                                            {tab.component}
+                                                        </Tab>
+                                                    ))}
+                                                </TabContent>
+                                            </TabsWrapper>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 

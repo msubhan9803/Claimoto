@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from '../../assets/img/logo/logo-icon-1.png'
+import logo from 'assets/img/logo/logo-icon-1.png';
 export default function Sidebar(props) {
-  let { routes } = props;
+  let { routes, activeRoute } = props;
+
+
 
   return (
     <React.Fragment>
@@ -28,14 +30,15 @@ export default function Sidebar(props) {
           </div>
           <div className="ltn__utilize-menu">
             <ul>
-              {routes.map((route, index) => (
-                <li key={index}>
+              {routes.map((route, index) => {
+                let isActiveRoute = `/${route.layout+route.path}` === activeRoute;
+                return <li className={isActiveRoute ? "active" : ""} key={index}>
                   <Link to={`.${route.path}`} >
                     <i className={route.icon}></i>
                     <span className="ltn__sidebar-menu-text">{route.name}</span>
                   </Link>
                 </li>
-              ))}
+                })}
               {/* <button className="sidebar-menu-collapse">
                 <div className="sidebar-menu-collapse-icon">
                   <i className="ti-arrows-horizontal" />

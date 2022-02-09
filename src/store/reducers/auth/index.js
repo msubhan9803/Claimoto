@@ -21,7 +21,6 @@ const userReducer = (state = initialState, action) => {
             }
         }
         case SET_TOKEN: {
-            debugger
             return { ...state , token : action.payload };
 
         }

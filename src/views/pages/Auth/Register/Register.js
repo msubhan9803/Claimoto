@@ -12,7 +12,6 @@ function Register() {
 
     //   Selector function hooks
     const userValue = useSelector(state => state.userReducer.user)
-    console.log("user value ", userValue)
 
     // Onchange Input Value
 
@@ -53,7 +52,6 @@ function Register() {
                                     validationSchema={SignupSchema}
                                     onSubmit={values => {
                                         // same shape as initial values
-                                        console.log(values);
                                         // dispatch login function
                                         // dispatch(loginUser(values))
 

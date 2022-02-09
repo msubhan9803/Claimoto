@@ -42,6 +42,7 @@ export default function Layout() {
     <div className="body-wrapper">
       <Sidebar
         routes={routes}
+        activeRoute={location.pathname}
       />
       <div className="ltn__utilize-overlay" />
 

@@ -23,8 +23,8 @@ export const RegisterUser = (name, value) => async dispatch => {
 export const loginUser = (data) => async dispatch => {
     try {
         let dummy = {
-            email: "laherasif@gmail.com",
-            pass: "1234567"
+            email: "admin@admin.com",
+            pass: "admin"
         }
 
         // api fetch
