@@ -12,7 +12,6 @@ function Register() {
 
     //   Selector function hooks
     const userValue = useSelector(state => state.userReducer.user)
-    console.log("user value ", userValue)
 
     // Onchange Input Value
 
@@ -21,6 +20,8 @@ function Register() {
         const { name, value } = e.target
         dispatch(RegisterUser(name, value))
     }
+
+    // Validation schema
     const SignupSchema = Yup.object().shape({
         name: Yup.string().required('Password Field is required'),
         email: Yup.string().email('Invalid email').required('Email Field is required'),

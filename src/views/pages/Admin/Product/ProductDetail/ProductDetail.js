@@ -1,8 +1,49 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { RegisterProduct  , GetInputs} from 'store/actions/product'
 function ProductDetail() {
+
+    // states 
     const [benifit, setBenifit] = useState(false)
+    const [editbenifit, setEditBenifit] = useState(false)
+
+    // dispatch hook 
+
+    const dispatch = useDispatch()
+
+    // selector state from redux 
+
+    const product = useSelector(state => state.productReducer.product)
+
+    // destructre  input value from reducer 
+    
+    const { ProductName , ProductType , AnnualPremium ,ProductDetail , Status , Copay, Deductibles, Gragage_Agency} = product 
+    
+    // Change value 
+
+    const changeValue = (e) => {
+        e.persist();
+        if (e.target.name === "Status") {
+            let value = e.target.checked;
+            let name = e.target.name ;
+            dispatch(GetInputs(name, value))
+
+        }
+        else {
+            const { name, value } = e.target;
+            dispatch(GetInputs(name, value))
+        }
+
+    }
+
+
+    // Send Form data 
+
+    const SendForm = (e) =>{
+       e.preventDefault();
+         dispatch(RegisterProduct(product))
+    }
 
 
 
@@ -66,7 +107,9 @@ function ProductDetail() {
                                                     <h6 className="ltnd__title-3">Product name</h6>
                                                     <input
                                                         type="text"
-                                                        name="name"
+                                                        name="ProductName"
+                                                        value={ProductName}
+                                                        onChange={changeValue}
                                                         placeholder="Liability coverage"
                                                     />
                                                 </div>
@@ -74,9 +117,9 @@ function ProductDetail() {
                                             <div className="col-md-4">
                                                 <div className="input-item">
                                                     <h6 className="ltnd__title-3">Product type</h6>
-                                                    <select className="nice-select">
-                                                        <option>TPL</option>
-                                                        <option>Option 1 </option>
+                                                    <select className="nice-select" name="ProductType" onChange={changeValue}>
+                                                        <option value="TPL">TPL</option>
+                                                        <option value="CMP">Option 1 </option>
                                                         <option>Option 2 </option>
                                                         <option>Option 3 </option>
                                                     </select>
@@ -85,14 +128,14 @@ function ProductDetail() {
                                             <div className="col-md-4">
                                                 <div className="input-item">
                                                     <h6 className="ltnd__title-3">Annual premium</h6>
-                                                    <input type="text" name="name" placeholder="1000 KWD" />
+                                                    <input type="text" name="AnnualPremium" value={AnnualPremium} onChange={changeValue} placeholder="1000 KWD" />
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
                                     {/* excerpt */}
                                     <div className="ltnd__product-details-excerpt">
-                                        <h6 className="ltnd__title-3">Product information</h6>
+                                        <h6 className="ltnd__title-3" name="ProductDetail" onChange={changeValue}> Product information</h6>
                                         <p>
                                             Auto liability insurance is a type of car insurance coverage
                                             that's required by law in most states. If you cause a car
@@ -110,8 +153,8 @@ function ProductDetail() {
                                         <h6 className="ltnd__title-3 ">Status</h6>
                                         <div className="ltn__checkbox-radio-group inline">
                                             <label className="ltn__switch-2">
-                                                <input type="checkbox" defaultChecked="" />{" "}
-                                                <i className="lever" /> <span className="text">Active</span>
+                                                <input type="checkbox" name="Status" checked={Status} onChange={changeValue} />
+                                                <i className="lever" /> <span className="text">{"active"}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -139,7 +182,9 @@ function ProductDetail() {
                                                     <h6 className="ltnd__title-3">Copay</h6>
                                                     <input
                                                         type="text"
-                                                        name="name"
+                                                        name="Copay"
+                                                        value={Copay}
+                                                        onChange={changeValue}
                                                         placeholder="$0 after deductible"
                                                     />
                                                 </div>
@@ -147,14 +192,14 @@ function ProductDetail() {
                                             <div className="col-md-4">
                                                 <div className="input-item">
                                                     <h6 className="ltnd__title-3">Deductibles</h6>
-                                                    <input type="text" name="name" placeholder="$2,5000" />
+                                                    <input type="text" value={Deductibles} onChange={changeValue} name="Deductibles" placeholder="$2,5000" />
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
                                                 <div className="input-item">
                                                     <h6 className="ltnd__title-3">Gragage/ Agency repair</h6>
-                                                    <select className="nice-select">
-                                                        <option>Repair body shop</option>
+                                                    <select className="nice-select" value={Gragage_Agency} name="Gragage_Agency" onChange={changeValue}>
+                                                        <option value="hellow">Repair body shop</option>
                                                         <option>Option 1 </option>
                                                         <option>Option 2 </option>
                                                         <option>Option 3 </option>
@@ -186,33 +231,44 @@ function ProductDetail() {
 
                                 {/* benifits-list-item */}
                                 <div className="benifits-list-item">
-                                    <div className="benifits-brief">
-                                        <i className="fas fa-circle" />
-                                        <span>
-                                            Liability insurance provides protection against claims
-                                            resulting from injuries and damage to people and/or property.
+                                    {editbenifit ?
+                                        <>
+                                            <div className="benifits-brief" style={{ width: '70%' }}>
+                                                <input type="text"  className='form-control' name="Benifits" />
+                                            </div>
+                                        </>
+                                        :
+
+                                        <div className="benifits-brief">
+                                            <i className="fas fa-circle" />
+                                            <span>
+                                                Liability insurance provides protection against claims
+                                                resulting from injuries and damage to people and/or property.
+                                            </span>
+                                        </div>
+                                    }
+                                    <div className="benifits-btn btn-normal" style={editbenifit ? { marginTop: '20px' } : null}>
+                                        <span className="ltn__color-1 cancel_btn">
+                                            {editbenifit ? "Cancel" : "Delete"}
                                         </span>
-                                    </div>
-                                    <div className="benifits-btn btn-normal">
-                                        <Link to="/" className="ltn__color-1">
-                                            Delete
-                                        </Link>
-                                        <Link to="/" className="ltn__secondary-color">
-                                            Edit
-                                        </Link>
+                                        <span onClick={() => setEditBenifit(true)} className="ltn__secondary-color add_btn">
+
+                                            {editbenifit ? "Save" : "Edit"}
+
+                                        </span>
                                     </div>
                                 </div>
                                 {benifit &&
                                     (
                                         <div div className="benifits-list-item">
                                             <div className="benifits-brief" style={{ width: '70%' }}>
-                                                <input type="text" className='form-control'  placeholder='Enter benifits here...' name="addBenifit" />
+                                                <input type="text" className='form-control' placeholder='Enter benifits here...' name="addBenifit" />
                                             </div>
                                             <div className="benifits-btn btn-normal mt-3 ">
-                                                <span className="ltn__color-1 cancel_btn" onClick={()=> setBenifit(false)}>
+                                                <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
                                                     Cancel
                                                 </span>
-                                                <span  className="ltn__secondary-color add_btn">
+                                                <span className="ltn__secondary-color add_btn">
                                                     Add
                                                 </span>
                                             </div>
@@ -243,9 +299,9 @@ function ProductDetail() {
                                         <Link to="/products">
                                             <i className="ti-angle-left" /> Back
                                         </Link>
-                                        <a href="#" className="btn theme-btn-1 btn-round-12">
+                                        <span className="btn theme-btn-1 btn-round-12">
                                             Save
-                                        </a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

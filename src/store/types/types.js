@@ -1,6 +1,13 @@
-
-export const REGISTER_USER = 'REGISTER_USER';
+// Auth
 export const SET_TOKEN = 'SET_TOKEN';
+export const REGISTER_USER = 'REGISTER_USER';
+
+// Product
+export const GET_PRODUCT_INPUTS = 'GET_PRODUCT_INPUTS'
+export const REGISTER_PRODUCT = "REGISTER_PRODUCT";
+export const GET_PRODUCT = "GET_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 
 
@@ -10,10 +17,6 @@ export const SET_TOKEN = 'SET_TOKEN';
 
 
 
-
-// export const UPDATE_USER = 'UPDATE_USER';
-// export const GET_USER = "GET_USER";
-// export const GET_ONLION_USER = "GET_ONLION_USER";
 
 // export const GET_FRIEND_REQUEST = 'GET_FRIEND_REQUEST';
 // export const UPDATE_USER_SEND_REQ = 'UPDATE_USER_SEND_REQ';
