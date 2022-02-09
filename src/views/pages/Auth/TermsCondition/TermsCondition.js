@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../../../../assets/img/logo-2.png'
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 function TermsCondition() {
     return (
         <React.Fragment>
@@ -58,7 +58,7 @@ function TermsCondition() {
                                             essentially unchanged. It was popularised in the 1960s with
                                             the release of Letraset sheets containing Lorem Ipsum
                                             passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.{" "}
+                                            like Aldus PageMaker including versions of Lorem Ipsum.{" "}
                                         </p>
                                         <p>
                                             orem Ipsum is simply dummy text of the printing and
@@ -90,18 +90,6 @@ function TermsCondition() {
                                             the release of Letraset sheets containing Lorem Ipsum
                                             passages, and more recently with desktop publishing software
                                             like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
-                                        <p>
-                                            orem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's
-                                            standard dummy text ever since the 1500s, when an unknown
-                                            printer took a galley of type and scrambled it to make a type
-                                            specimen book. It has survived not only five centuries, but
-                                            also the leap into electronic typesetting, remaining
-                                            essentially unchanged. It was popularised in the 1960s with
-                                            the release of Letraset sheets containing Lorem Ipsum
-                                            passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.{" "}
                                         </p>
                                         <p>
                                             orem Ipsum is simply dummy text of the printing and
@@ -113,7 +101,19 @@ function TermsCondition() {
                                             essentially unchanged. It was popularised in the 1960s with
                                             the release of Letraset sheets containing Lorem Ipsum
                                             passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.{" "}
+                                            like Aldus PageMaker including versions of Lorem Ipsum.{" "}
+                                        </p>
+                                        <p>
+                                            orem Ipsum is simply dummy text of the printing and
+                                            typesetting industry. Lorem Ipsum has been the industry's
+                                            standard dummy text ever since the 1500s, when an unknown
+                                            printer took a galley of type and scrambled it to make a type
+                                            specimen book. It has survived not only five centuries, but
+                                            also the leap into electronic typesetting, remaining
+                                            essentially unchanged. It was popularised in the 1960s with
+                                            the release of Letraset sheets containing Lorem Ipsum
+                                            passages, and more recently with desktop publishing software
+                                            like Aldus PageMaker including versions of Lorem Ipsum.{" "}
                                         </p>
                                     </div>
                                 </div>
@@ -133,10 +133,10 @@ function TermsCondition() {
                                             <div className="btn-wrapper">
                                                 <a href="product.html">
                                                     <i className="ti-angle-left" /> Back
-                    </a>
+                                                </a>
                                                 <a href="#" className="btn theme-btn-1 btn-round-12">
                                                     Done
-                    </a>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

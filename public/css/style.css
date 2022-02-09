@@ -14641,7 +14641,7 @@ form .ltnd__title-3 {
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   margin-right: 15px; }
   .btn:last-child {
     margin-right: 0; }

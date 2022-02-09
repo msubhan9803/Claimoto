@@ -24,7 +24,7 @@ function Login() {
             navigate('/admin')
         }
 
-    }, [])
+    }, [token])
 
 
     // password show and hide control

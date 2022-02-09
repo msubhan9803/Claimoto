@@ -12,7 +12,7 @@ export default function AuthRoute() {
             if (prop.collapse) {
                 return getRoutes(prop.views);
             }
-            if (prop.layout === "auth") {
+            if (prop.layout === "/") {
                 return (
                     <Route
                     path={`${prop.path}`}

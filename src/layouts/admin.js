@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "components/Sidebar/UserSidebar";
 // import ProductNavbar from "components/Admin/ProductNavbar/ProductNavbar";
 import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
@@ -21,6 +21,7 @@ export default function Layout() {
         return (
           <Route
             path={`${prop.path}`}
+            index={prop.path == "/" ? true : false}
             element={prop.component}
             key={key}
           />
@@ -29,7 +30,7 @@ export default function Layout() {
         return null;
       }
 
-     
+
 
 
     });

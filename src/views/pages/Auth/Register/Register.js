@@ -12,7 +12,6 @@ function Register() {
 
     //   Selector function hooks
     const userValue = useSelector(state => state.userReducer.user)
-    debugger
     console.log("user value ", userValue)
 
     // Onchange Input Value

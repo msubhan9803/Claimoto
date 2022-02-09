@@ -1,8 +1,28 @@
-import React from 'react'
-import UserManagementList from '../../../../components/Admin/UserManageList/UserManagementList'
+import React, { useState } from 'react'
+import UserManagementList from 'components/Admin/UserManage/UserManagementList';
+import Img from 'assets/img/testimonial/1.jpg';
+import { CSSTransition } from 'react-transition-group';
+import Modal from 'react-modal';
+import UserAddModal from 'components/Admin/UserManage/UserAddModal';
+
 function UserManagement() {
+
+    const [comState, setComState] = useState({
+        openModal: false
+    });
+
+
+    //toggleModal
+    const _toggleModal = () => {
+        setComState((comState) => ({
+            ...comState,
+            openModal: !comState.openModal,
+        }));
+    }
+
     return (
         <React.Fragment>
+            <UserAddModal toggleModal={_toggleModal} openModal={comState.openModal} />
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -78,6 +98,13 @@ function UserManagement() {
                                                     <option>Sort by new </option>
                                                     <option>Sort by price</option>
                                                 </select>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div className="btn-wrapper text-center mt-0">
+                                                <a onClick={_toggleModal} href="#" className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                    Add +
+                                                </a>
                                             </div>
                                         </li>
                                     </ul>
