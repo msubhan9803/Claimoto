@@ -13458,7 +13458,8 @@ form .ltnd__title-3 {
     Select Availability Table Area
 ---------------------------------------------------- */
 .ltn__select-availability-table-wrap {
-  overflow-y: auto; }
+  /* overflow-y: auto;  */
+}
   .ltn__select-availability-table-wrap .tower-name {
     text-transform: uppercase; }
 
