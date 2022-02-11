@@ -14,44 +14,44 @@ export const AuthRoutes = () => {
     return [
         {
             path: "/",
-            component: < Login / > ,
+            component: <Login /> ,
             layout: "/",
         },
         {
             path: "/register",
-            component: < Register / > ,
+            component: <Register /> ,
             layout: "/",
         },
         {
             path: "/verify_email",
-            component: < EmailSend / > ,
+            component: <EmailSend /> ,
             layout: "/",
         },
         {
             path: "/verify_success",
-            component: < EmailVerify / > ,
+            component: <EmailVerify /> ,
             layout: "/",
         },
         {
             path: "/terms_condition",
-            component: < TermsCondition / > ,
+            component: <TermsCondition /> ,
             layout: "/",
         }, {
             path: "/reset_password",
-            component: < ResetPassword / > ,
+            component: <ResetPassword /> ,
             layout: "/",
         }, {
             path: "/reset_passwordEmail",
-            component: < RestPassEmail / > ,
+            component: <RestPassEmail /> ,
             layout: "/",
         }, {
             path: "/new_password",
-            component: < NewPassword / > ,
+            component: <NewPassword /> ,
             layout: "/",
         },
         {
             path: "/password_success",
-            component: < PasswordSetSuccess / > ,
+            component: <PasswordSetSuccess /> ,
             layout: "/",
         },
 

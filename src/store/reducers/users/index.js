@@ -25,9 +25,66 @@ const initialState = {
         email:"",
         access_role:""
     },
-    modules:[],
-    roles:[],
-    users:[]
+    modules:[
+        {}
+    ],
+    users:[
+        {
+            name:"Ahmad Housam",
+            id:1,
+            email:"yasminali@claimoto.com",
+            mobile_number:"079 079 1189",
+            role:1,
+            status:true
+        },
+        {
+            name:"Jahanzaib Ahmad",
+            id:2,
+            email:"jehanxaibahmed@claimoto.com",
+            mobile_number:"03337767438",
+            role:1,
+            status:false
+        },
+
+    ],
+    roles:[
+        {
+            id:1,
+            name:"Administrator",
+            modifyBy:"admin@claimoto.com",
+            modifyAt:new Date(),
+            status:true
+        },
+        {
+            id:2,
+            name:"Insurance Agent",
+            modifyBy:"agent@claimoto.com",
+            modifyAt:new Date(),
+            status:true
+        },
+        {
+            id:3,
+            name:"Replacement",
+            modifyBy:"replacement@claimoto.com",
+            modifyAt:new Date(),
+            status:true
+        },
+        {
+            id:4,
+            name:"surveyor",
+            modifyBy:"surveyor@claimoto.com",
+            modifyAt:new Date(),
+            status:true
+        },
+        {
+            id:5,
+            name:"Customer",
+            modifyBy:"customer@claimoto.com",
+            modifyAt:new Date(),
+            status:true
+        }
+
+    ]
 };
 
 

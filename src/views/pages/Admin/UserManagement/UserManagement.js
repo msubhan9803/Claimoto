@@ -88,7 +88,7 @@ function UserManagement() {
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        <li>
+                                        {/* <li>
                                             <div className="short-by text-center">
                                                 <select className="nice-select">
                                                     <option>Download</option>
@@ -107,7 +107,7 @@ function UserManagement() {
                                                     <option>Sort by price</option>
                                                 </select>
                                             </div>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
                                                 <a onClick={_toggleModal} href="#" className="btn theme-btn-1 btn-round-12 zindexNormal">
