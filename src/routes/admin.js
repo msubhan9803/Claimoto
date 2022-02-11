@@ -1,7 +1,7 @@
 //Components
 
 import Dashboard from 'views/pages/Admin/Dashboard/DashBoard'
-import Product from 'views/pages/Admin/Product/Products/Product'
+import Products from 'views/pages/Admin/Product/Products/Products'
 import Policies from 'views/pages/Admin/Policies/PoliciesData/Policies'
 import Provider from 'views/pages/Admin/Provider/Provider'
 import Vehicle from 'views/pages/Admin/Vehicle/Vehicle'
@@ -23,7 +23,7 @@ export const adminRoutes = () => {
         {
             name: "Products",
             path: "/products",
-            component: <Product />,
+            component: <Products />,
             icon: "ti-file",
             layout: "admin",
         },
@@ -74,5 +74,6 @@ export const adminRoutes = () => {
             icon: "ti-settings",
             layout: "admin"
         }
+       
     ];
 };

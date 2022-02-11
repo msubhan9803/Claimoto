@@ -1,28 +1,71 @@
-import { GET_PRODUCT_INPUTS } from 'store/types/types';
-import { REGISTER_PRODUCT, GET_PRODUCT, DELETE_PRODUCT, UPDATE_PRODUCT } from 'store/types/types'
+
+import {
+    REGISTER_PRODUCT,
+    REGISTER_BENEFIT,
+    GET_PRODUCTS,
+    GET_PRODUCT_TYPE,
+    GET_SINGLE_PRODUCT,
+    GET_PRODUCT_INPUTS,
+    // EDIT_PRODUCT_TYPE,
+    // EDIT_PRODUCT,
+    DELETE_PRODUCT,
+    DELETE_PRODUCT_TYPE,
+    UPDATE_PRODUCT,
+    UPDATE_PRODUCT_TYPE,
+} from 'store/types/types'
 const initialState = {
+    product_Types: [],
     product: {
         ProductName: "",
         ProductType: "",
-        ProductDetail: "",
+        ProductDetails: "",
         AnnualPremium: '',
         Status: false,
         CreateBy: "",
         UpdatedBy: "",
         IsDeleted: "",
         IsActive: false,
-        Copay: '',
+        CoPayPercentage: '',
         Deductibles: '',
-        Gragage_Agency: '',
-        Benifits: []
+        IsAgencyRepair: '',
+        BenefitDetails: '',
+        Benefit: []
 
     },
-    Products: []
+    singlProduct: [],
+    allProducts: [],
+
 };
 
 
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
+
+
+        case REGISTER_BENEFIT: {
+            return {
+                ...state,
+                ...state.product.Benefit = [...state.product.Benefit, {BenefitDetails : state.product.BenefitDetails  , Status : true }],
+                ...state.product.BenefitDetails = ""
+            }
+        }
+        case REGISTER_PRODUCT: {
+            return {
+                ...state,
+                allProducts: [ action.payload]
+            }
+        }
+
+        case GET_PRODUCTS: {
+            return { ...state, allProducts: action.payload };
+        }
+
+        case GET_PRODUCT_TYPE: {
+            return {
+                ...state,
+                product_Types: action.payload
+            }
+        }
 
         case GET_PRODUCT_INPUTS: {
             return {
@@ -30,36 +73,65 @@ const productReducer = (state = initialState, action) => {
                 product: {
                     ...state.product,
                     [action.payload.name]: action.payload.value,
-                    ...action.payload.name === "Benifits" ? action.payload.value : ""
                 }
 
             }
         }
-        case REGISTER_PRODUCT: {
-            return {
-                ...state,
-                product: action.payload
-            }
+        case GET_SINGLE_PRODUCT: {
+            return { ...state,
+                 singlProduct: action.payload 
+                };
         }
-        case GET_PRODUCT: {
-            return { ...state, product: action.payload };
-        }
+
+        // case EDIT_PRODUCT: {
+        //     return {
+        //         ...state,
+        //         product: state.product.filter((data) => data.id !== action.payload.id)
+        //     }
+        // }
+
+
+        // case EDIT_PRODUCT_TYPE: {
+        //     return {
+        //         ...state,
+        //         product: state.product.filter((data) => data.id !== action.payload.id)
+        //     }
+        // }
 
         case DELETE_PRODUCT: {
             return {
                 ...state,
-                product: state.product.filter((data) => data.id === action.payload.id)
+                product: state.singleProduct.Benifits.filter((data) => data.id !== action.payload.id)
+            }
+        }
+        case DELETE_PRODUCT_TYPE: {
+            return {
+                ...state,
+                product: state.singleProduct.Benifits.filter((data) => data.id !== action.payload.id)
             }
         }
         case UPDATE_PRODUCT: {
             return Object.assign({}, state, {
-                Products: state.products.map((item) => {
-                    if (item.id === action.payload.id)
+                ...state.product.Benifits = state.product.Benifits.map((item) => {
+                    if (item === action.payload)
                         item = action.payload
                     return item
                 })
             })
         }
+
+        case UPDATE_PRODUCT_TYPE: {
+            return {
+                ...state,
+                product: state.singleProduct.Benifits.filter((data) => {
+                    if (data.id === action.payload.id) {
+
+                    }
+                })
+            }
+        }
+
+
         default:
             return { ...state };
     }
