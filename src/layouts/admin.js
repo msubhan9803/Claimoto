@@ -5,12 +5,12 @@ import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/Dashboar
 import { adminRoutes } from "../routes/admin";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import NotFound from "views/pages/404/404";
+import ProductDetail from "views/pages/Admin/Product/ProductDetail/ProductDetail";
 export default function Layout() {
 
   let routes = adminRoutes();
   let location = useLocation();
 
-  console.log("location ", location.pathname)
 
   //Creating Routes
   const getRoutes = (routes) => {
@@ -58,6 +58,8 @@ export default function Layout() {
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<NotFound />} />
+          <Route path="/product_detail" element={<ProductDetail/>}/>
+          <Route path="/product_detail/:id" element={<ProductDetail/>}/>
         </Routes>
 
         {/* <Footer /> */}
