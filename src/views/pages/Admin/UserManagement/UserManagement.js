@@ -4,33 +4,102 @@ import TabContent from 'components/Tabs/TabsContent';
 import TabsHeader from 'components/Tabs/TabsHeader';
 import Tab from 'components/Tabs/Tab';
 
-
 import UserAddModal from 'components/Admin/UserManage/UserAddModal';
-import RoleAddModal from 'components/Admin/RoleManage/RoleAddModal';
+import AccessAddModal from 'components/Admin/AccessManage/AccessAddModal';
 import { useSelector } from 'react-redux';
 
+import { useSearchParams } from "react-router-dom";
 
 
 function UserManagement() {
-    const { selectedTab, tabs } = useSelector(state => state.usersScreenReducer);
-    const [comState, setComState] = useState({
-        openModal: false,
-    });
+    let [searchParams, setSearchParams] = useSearchParams();
+
+    //Redux State
+    const { tabs } = useSelector(state => state.usersScreenReducer);
+
+    //Component State
+    let initialState = {
+        openUserModal: false,
+        openAccessModal: false,
+        edit: false,
+        id: null
+    }
+    const [comState, setComState] = useState(initialState);
+
+
+
+    //Actions
+    const _handleComActions = () => {
+        let action = searchParams.get("action");
+        let activeTab = searchParams.get("tab");
+        let id = searchParams.get("id");
+        switch (action) {
+            case "add_user":
+                setComState((comState) => ({
+                    ...initialState,
+                    openUserModal: true,
+                }));
+                break;
+            case "add_access_group":
+                setComState((comState) => ({
+                    ...initialState,
+                    openAccessModal: true,
+                }));
+                break;
+            case "edit_user":
+                setComState((comState) => ({
+                    ...initialState,
+                    openUserModal: true,
+                    edit: true,
+                    id
+                }));
+                break;
+            case "edit_access_group":
+                setComState((comState) => ({
+                    ...initialState,
+                    openAccessModal: true,
+                    edit: true,
+                    id
+                }));
+                break;
+            default:
+                setComState(initialState);
+                break;
+        }
+        if (!activeTab) {
+            searchParams.set("tab", 0);
+            setSearchParams(searchParams);
+        }
+    }
+
 
 
     //toggleModal
-    const _toggleModal = () => {
-        setComState((comState) => ({
-            ...comState,
-            openModal: !comState.openModal,
-        }));
+    const _toggleModal = (action) => {
+        if (searchParams.has("action")) {
+            searchParams.delete("action");
+            searchParams.delete("id");
+            searchParams.delete("edit");
+            setSearchParams(searchParams)
+        }
+        else {
+            searchParams.set("action", action);
+            setSearchParams(searchParams)
+        };
     }
+
+
+    useEffect(() => {
+        _handleComActions();
+    }, [searchParams]);
+
+
+
 
     return (
         <React.Fragment>
-            {selectedTab == "members" ?
-                <UserAddModal toggleModal={_toggleModal} openModal={comState.openModal} /> :
-                <RoleAddModal toggleModal={_toggleModal} openModal={comState.openModal} />}
+            <UserAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />
+            <AccessAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -88,30 +157,23 @@ function UserManagement() {
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        {/* <li>
+                                        <li>
                                             <div className="short-by text-center">
                                                 <select className="nice-select">
-                                                    <option>Download</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
                                                 </select>
                                             </div>
                                         </li>
                                         <li>
-                                            <div className="short-by text-center">
-                                                <select className="nice-select">
-                                                    <option>Import</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
-                                                </select>
-                                            </div>
-                                        </li> */}
-                                        <li>
                                             <div className="btn-wrapper text-center mt-0">
-                                                <a onClick={_toggleModal} href="#" className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    Add +
+                                                <a
+                                                    onClick={() => _toggleModal("add_user")}
+                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                    Add User +
+                                                </a>
+                                                <a
+                                                    onClick={() => _toggleModal("add_access_group")}
+                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                    Add Access Group +
                                                 </a>
                                             </div>
                                         </li>
@@ -133,11 +195,12 @@ function UserManagement() {
                                             <TabsWrapper>
                                                 <TabsHeader tabs={tabs} />
                                                 <TabContent>
-                                                    {tabs.map((tab, index) => (
+                                                    {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                                    {/* {tabs.map((tab, index) => (
                                                         <Tab key={tab.id} tab={tab} index={index}>
                                                             {tab.component}
                                                         </Tab>
-                                                    ))}
+                                                    ))} */}
                                                 </TabContent>
                                             </TabsWrapper>
                                         </div>

@@ -1,15 +1,19 @@
 import React, {useRef} from 'react';
 import {useDispatch} from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import {changeTab} from 'store/actions/users/users_screen';
 
 
 function TabsHeader({tabs}) {
+    let [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
     const tabNav = useRef();
 
     //onChange we are updating redux
-    const _onTabChange = (name) => {
-        dispatch(changeTab(name));
+    const _onTabChange = (index) => {
+        dispatch(changeTab(index));
+        searchParams.set("tab", index);
+        setSearchParams(searchParams);
     }
 
     return (
@@ -18,10 +22,11 @@ function TabsHeader({tabs}) {
         {tabs.map((tab, index)=>(
             <a
                 key={tab.id}
-                className={index === 0 ? "active show": ""}
-                onClick={()=> _onTabChange(tab.name)}
-                data-bs-toggle="tab"
-                href={`#${tab.id}`}
+                className={parseInt(searchParams.get("tab")) === index ? "active show": ""}
+                onClick={()=> _onTabChange(index)}
+                // data-bs-toggle="tab"
+                // href={`#${tab.id}`}
+                style={{cursor:"pointer"}}
             >
                 {tab.label}
             </a>

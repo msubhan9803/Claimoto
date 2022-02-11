@@ -9,6 +9,7 @@ import UserManagement from 'views/pages/Admin/UserManagement/UserManagement'
 import Setting from 'views/pages/Admin/Setting/Setting'
 import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail'
 import NotFound from 'views/pages/404/404'
+import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
 
 export const adminRoutes = () => {
     return [
@@ -65,6 +66,13 @@ export const adminRoutes = () => {
             component: <ProductDetail />,
             icon: "ti-settings",
             layout: "admin",
+        },
+        {
+            name:"Test Route",
+            path:"/test_route",
+            component: <DragAndDrop />,
+            icon: "ti-settings",
+            layout: "admin"
         }
     ];
 };
