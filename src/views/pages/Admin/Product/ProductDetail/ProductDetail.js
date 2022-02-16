@@ -181,19 +181,17 @@ const location = useLocation();
     // Delete banefits
 
     const DelBenifit = () => {
-        console.log("del", delBenifit)
-        // dispatch(DeleteProductBenifit(delBenifit))
+        dispatch(DeleteProductBenifit(delBenifit))
         closeModal()
         setDelBenifit("")
     }
 
-    console.log("del", delBenifit)
 
 
     // delete Product
 
     const delProduct = () => {
-        // dispatch(DeleteProduct(params.id))
+        dispatch(DeleteProduct(params.id))
         closeModal()
 
     }
@@ -584,7 +582,7 @@ const location = useLocation();
                     <div className="modal-content">
                         <div className="modal-header flex-column">
                             <div className="icon-box">
-                                <i className="fa fa-close ml-3"></i>
+                                <i className="fa fa-close" style={{marginLeft:'20px'}}></i>
                             </div>
                             <h4 className="modal-title w-100">Are you sure?</h4>
                             <button
