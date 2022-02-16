@@ -122,7 +122,7 @@ export const RegisterProduct = (data) => async dispatch => {
         console.log("res" , value )
         if(res.data )
         SweetAlert({
-            text: "Product are successfully register",
+            text: res.data.Message,
             icon: "success"
         })
 
@@ -233,7 +233,7 @@ export const CencelProductBenifit = () => dispatch => {
 export const DeleteProduct = (ID, navigate) => async (dispatch) => {
     try {
 
-        await instance.delete(`api/product/${ID}`)
+       let res =  await instance.delete(`api/product/${ID}`)
         SweetAlert({
             text: "Product are successfully Deleted",
             icon: "success"

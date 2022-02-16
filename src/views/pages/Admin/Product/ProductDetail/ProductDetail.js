@@ -31,12 +31,11 @@ const customStyles = {
     },
 };
 
-function ProductDetail(props) {
+function ProductDetail() {
 
     //  Get id from Url  
     let params = useParams();
 
-    let navigate = useNavigate();
 
 
     // states 
@@ -204,37 +203,15 @@ const location = useLocation();
 
 
 
-
-
     
-    const validationSchema = Yup.object().shape({
-        ProductName: Yup.string()
-        .required('ProductName is required'),
-        ProductDetails: Yup.string()
-        .required('ProductDetails is required'),
-        AnnualPremium: Yup.string()
-        .required('AnnualPremium is required')
-        .min(4 , "Minimum 4 digit is required"),
-        CoPayPercentage: Yup.string()
-        .required('CoPayPercentage is required'),
-        Deductibles: Yup.string()
-        .required('Deductibles is required'),
-        IsAgencyRepair: Yup.string()
-        .required('IsAgencyRepair is required'),
-        
-
-        
-
-        
-    });
     
     
     // validetion useform
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
-        resolver: yupResolver(validationSchema)
     });
     
+    console.log("error" , errors)
 
     function onSubmit() {
       return params.id
@@ -304,12 +281,12 @@ const location = useLocation();
                                                         type="text"
                                                         name="ProductName"
                                                         value={ProductName}
-                                                        {...register('ProductName')}
+                                                        {...register('ProductName' , { required : "Product Name is required" })}
                                                         onChange={changeValue}
                                                         placeholder="Product Name"
                                                     />
 
-                                                    <div className="error_show"> {errors.ProductName?.message } </div>
+                                                    {/* <div className="error_show"> {errors.ProductName?.message } </div> */}
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -318,7 +295,7 @@ const location = useLocation();
                                                     <select className="nice-select"
                                                         value={ProductType}
                                                         name="ProductType"
-                                                        {...register('ProductType')}
+                                                        {...register('ProductType', { required : "Product Type is required " })}
                                                         onChange={changeValue}
                                                     >
                                                         {productTyps.map((i) => (
@@ -336,10 +313,10 @@ const location = useLocation();
                                                     <input type="text"
                                                         name="AnnualPremium"
                                                         value={AnnualPremium}
-                                                        {...register('AnnualPremium')}
+                                                        {...register('AnnualPremium' , { required : "Annual Premium is required" ,  min: 4, max: 99 })}
 
-                                                        onChange={(e) => changeValue(currencyMap(e))} placeholder="0.000" />
-                                                    <div className="error_show"> {errors.AnnualPremium?.message } </div>
+                                                        onChange={changeValue} placeholder="0.000 KDW" />
+                                                    {/* <div className="error_show"> {errors.AnnualPremium?.message } </div> */}
                                                    
 
                                                 </div>
@@ -354,12 +331,12 @@ const location = useLocation();
                                                 <input type="text"
                                                     style={{ borderBottom: 'none' }}
                                                     className='form-control'
-                                                    {...register('ProductDetails')}
+                                                    {...register('ProductDetails' , { required : true })}
                                                     onChange={changeValue}
                                                     value={ProductDetails}
                                                     placeholder='Type Here....'
                                                     name="ProductDetails" />
-                                                <div className="error_show"> { errors.ProductDetails?.message } </div>
+                                                {/* <div className="error_show"> { errors.ProductDetails?.message } </div> */}
 
                                             </div>
 
@@ -379,7 +356,7 @@ const location = useLocation();
 
                                                     <i className="lever" /> <span className="text">{Status === true ? "active" : "Inactive"}</span>
                                                 </label>
-                                                {/* <div className="error_show"> {errors.Status && "Status is required"} </div> */}
+                                                <div className="error_show"> {errors.Status && "Status is required"} </div>
                                             </div>
                                         </div>
                                         {/*  */}
@@ -408,12 +385,12 @@ const location = useLocation();
                                                         type="number"
                                                         name="CoPayPercentage"
                                                         value={CoPayPercentage}
-                                                        {...register('CoPayPercentage')}
+                                                        {...register('CoPayPercentage', { required : true })}
 
                                                         onChange={changeValue}
                                                         placeholder="Amount"
                                                     />
-                                                    <div className="error_show"> { errors.CoPayPercentage?.message} </div>
+                                                    {/* <div className="error_show"> { errors.CoPayPercentage} </div> */}
 
                                                 </div>
                                             </div>
@@ -422,11 +399,11 @@ const location = useLocation();
                                                     <h6 className="ltnd__title-3">Deductibles</h6>
                                                     <input type="number"
                                                         value={Deductibles}
-                                                        {...register('Deductibles')}
+                                                        {...register('Deductibles' , { required : true })}
 
                                                         onChange={changeValue}
                                                         name="Deductibles" placeholder="Amount" />
-                                                    <div className="error_show"> {errors.Deductibles?.message} </div>
+                                                    {/* <div className="error_show"> {errors.Deductibles?.message} </div> */}
 
                                                 </div>
                                             </div>
@@ -436,13 +413,13 @@ const location = useLocation();
                                                     <select className="nice-select"
                                                         value={IsAgencyRepair}
                                                         name="IsAgencyRepair"
-                                                        {...register('IsAgencyRepair')}
+                                                        {...register('IsAgencyRepair' ,{ required : true })}
                                                         onChange={changeValue}>
                                                         <option defaultValue={1} >Repair By Agency </option>
                                                         <option value={2}>Repair By Garage </option>
                                                         <option value={3}>Repair By Agency/Garage </option>
                                                     </select>
-                                                    <div className="error_show"> {errors.IsAgencyRepair?.message} </div>
+                                                    {/* <div className="error_show"> {errors.IsAgencyRepair?.message} </div> */}
 
                                                 </div>
                                             </div>
@@ -511,7 +488,7 @@ const location = useLocation();
                                             <div div className="benifits-list-item">
                                                 <div className="benifits-brief" style={{ width: '70%' }}>
                                                     <input type="text" value={BenefitDetails} className='form-control' onChange={changeValue} name="BenefitDetails" placeholder='Enter benifits here...' />
-                                                    { field && <div className='error_show'>Benefit Field is Required</div>}
+                                                    {/* { field && <div className='error_show'>Benefit Field is Required</div>} */}
                                                 </div>
                                                 <div className="benifits-btn btn-normal mt-3 ">
                                                     <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
