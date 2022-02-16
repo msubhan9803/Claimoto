@@ -605,15 +605,9 @@ const location = useLocation();
                             <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modal">
                                 Cancel
                             </button>
-                            {delBenifit ?
-                            <button onClick={() => DelBenifit() } type="button" className="btn btn-danger" className="btn btn-secondary" data-dismiss="modal">
+                            <button onClick={delBenifit ? DelBenifit : delProduct} type="button" className="btn btn-danger">
                                 Delete
                             </button>
-                            :
-                            <button type="button" onClick={()=> delProduct()} >
-  Delete
-                            </button>
-}
                         </div>
                     </div>
                 </div>
