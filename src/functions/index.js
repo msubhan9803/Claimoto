@@ -1,12 +1,13 @@
 import swal from 'sweetalert';
 import moment from "moment";
+import validator from 'validator';
 
-export const SweetAlert = ({title , text , icon }) => {
-    swal({
-        title: title,
-        text: text,
-        icon: icon,
-      });
+export const SweetAlert = ({ title, text, icon }) => {
+  swal({
+    title: title,
+    text: text,
+    icon: icon,
+  });
 };
 
 
@@ -32,7 +33,7 @@ export const formatDateTime = (given_date) => {
   const date = moment(now)
     .utcOffset(offset)
     .format("DD-MM-YYYY");
-  return {dateTime, date};
+  return { dateTime, date };
 };
 
 

@@ -5,7 +5,7 @@ import Progress from '../../../../components/Admin/Dashboard/ProgressBar/Progres
 function DashBoard() {
     return (
         <React.Fragment>
-            <div className="body-content-area-inner">
+            <div className="body-content-area-inner mt-10">
                 <Counter />
                 <Charts />
                 <Progress />

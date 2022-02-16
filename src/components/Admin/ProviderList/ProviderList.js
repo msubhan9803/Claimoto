@@ -1,5 +1,5 @@
 import React from 'react'
-import carImg from '../../../assets/img/icons/mc/png/3.png'
+import carImg from 'assets/img/icons/mc/png/3.png'
 function ProviderList() {
     return (
         <React.Fragment>
