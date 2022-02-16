@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 import TabsWrapper from 'components/Tabs/TabsWrapper';
 import TabContent from 'components/Tabs/TabsContent';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import Tab from 'components/Tabs/Tab';
 
 import UserAddModal from 'components/Admin/UserManage/UserAddModal';
 import AccessAddModal from 'components/Admin/AccessManage/AccessAddModal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useSearchParams } from "react-router-dom";
+import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
 
 
 function UserManagement() {
+    let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
 
     //Redux State
@@ -30,6 +31,9 @@ function UserManagement() {
 
     //Actions
     const _handleComActions = () => {
+        dispatch(getRoles());
+        dispatch(getAccessRoles());
+        // dispatch(getModules());
         let action = searchParams.get("action");
         let activeTab = searchParams.get("tab");
         let id = searchParams.get("id");
@@ -69,6 +73,15 @@ function UserManagement() {
         if (!activeTab) {
             searchParams.set("tab", 0);
             setSearchParams(searchParams);
+        }
+
+        if(action){
+            document.body.style.overflow = 'hidden';
+        }
+        else{
+            setTimeout(() => {
+                document.body.style.overflow = 'scroll';
+            }, 700);
         }
     }
 
@@ -145,7 +158,7 @@ function UserManagement() {
                                         <input
                                             type="text"
                                             name="search"
-                                            placeholder="Search product..."
+                                            placeholder="Search ..."
                                             className=""
                                         />
                                         <button type="submit">

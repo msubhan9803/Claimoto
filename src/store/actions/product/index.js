@@ -13,12 +13,10 @@ import {
     UPDATE_PRODUCT,
     UPDATE_PRODUCT_TYPE,
 } from 'store/types/types'
-// import instance from 'config/axios/instance'
 
 
 
 export const GetInputs = (name, value) => dispatch => {
-      console.log("inputs" , name , "value" , value )
     try {
         dispatch({
             type: GET_PRODUCT_INPUTS,

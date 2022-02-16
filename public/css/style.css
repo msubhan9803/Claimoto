@@ -876,7 +876,7 @@ textarea {
   font-size: 14px;
   color: var(--ltn__paragraph-color);
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   border-radius: 0;
   padding-right: 40px; }
 
@@ -12930,7 +12930,7 @@ input.cart-plus-minus-box {
 
 /* Header */
 .ltnd__header-area {
-  padding: 35px 60px 55px; }
+  padding: 10px 60px 55px; }
 
 .ltnd__header-area-2 {
   padding-bottom: 15px; }
@@ -14052,7 +14052,7 @@ form .ltnd__title-3 {
   .body-content-area-inner {
     padding: 0 30px; }
   .ltnd__header-area {
-    padding: 35px 30px 55px; } }
+    padding: 15px 20px 25px; } }
 
 @media (max-width: 1400px) {
   .ltn__utilize.ltn__sidebar-menu {
@@ -14867,3 +14867,7 @@ form .ltnd__title-3 {
 ---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
+
+.errorMsg{
+  color:  red !important
+}

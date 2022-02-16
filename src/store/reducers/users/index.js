@@ -1,7 +1,11 @@
-import { CHANGE_TAB, CLEAR_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_ACCESS_GROUP_SCREEN } from '../../types/users';
+import { CHANGE_TAB, CLEAR_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_ACCESS_GROUP_SCREEN, SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES, SET_USERS, SET_USER_DETAILS } from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
 import AccessGroupList from 'components/Admin/AccessManage/AccessGroupList';
+
+
+
+import Img from 'assets/img/testimonial/1.jpg';
 
 const initialState = {
     tabs: [
@@ -9,168 +13,121 @@ const initialState = {
             label: "Members",
             id: "ltn__tab_3_1",
             name: "members",
-            component: <UserList />
+            component: <UserList />,
+            short:"Members"
         },
         {
             label: "User roles",
             id: "ltn__tab_3_2",
             name: "user_roles",
-            component: <RoleList />
+            component: <RoleList />,
+            short:"Roles"
         },
         {
-            label: "Access Management",
+            label: "Access Groups",
             id: "ltn__tab_3_3",
             name: "access_management",
-            component: <AccessGroupList />
+            component: <AccessGroupList />,
+            short:"Groups"
         }
     ],
-    selectedTab: "members",
+    selectedTab: 0,
     userValues: {
         first_name: "",
         last_name: "",
         phone: "",
         email: "",
         access_role: "",
-        access_group:"",
+        access_group: [],
+        selected_image: "",
+        password:"",
+        confirm_password:""
     },
-    accessValues:{
-        access_role:"",
-        name:"",
-        module
+    accessValues: {
+        access_group: "",
+        name: "",
+        modules: [],
+        module: ""
     },
-    modules: [
+    modules: [],
+    actions: [
         {
-            name:"Products",
-            id:1,
-            role_id:1
-        }
-    ],
-    actions:[
-        {
-            name:"Add",
-            status:true,
-            module_id:1,
-            id:1,
-            disabled:false
-        },
-        {
-            name:"Edit",
-            status:false,
-            module_id:1,
-            id:2,
-            disabled:true
-        },
-        {
-            name:"Delete",
-            status:false,
-            module_id:1,
-            id:3,
-            disabled:true
-        },
-        {
-            name:"View",
-            status:true,
-            module_id:1,
-            id:4,
-            disabled:false
-        },
-        {
-            name:"View Details",
-            status:true,
-            module_id:1,
-            id:5,
-            disabled:false
-        }
-
-    ],
-    users: [
-        {
-            name: "Ahmad Housam",
+            name: "Add Product",
+            status: true,
+            module_id: 1,
             id: 1,
-            email: "yasminali@claimoto.com",
-            mobile_number: "079 079 1189",
-            role: 1,
-            status: true
+            disabled: false
         },
         {
-            name: "Jahanzaib Ahmad",
+            name: "Edit Product",
+            status: false,
+            module_id: 1,
             id: 2,
-            email: "jehanxaibahmed@claimoto.com",
-            mobile_number: "03337767438",
-            role: 1,
-            status: false
-        },
-
-    ],
-    roles: [
-        {
-            id: 1,
-            name: "Administrator",
-            modifyBy: "admin@claimoto.com",
-            modifyAt: new Date(),
-            status: true
+            disabled: true
         },
         {
-            id: 2,
-            name: "Insurance Agent",
-            modifyBy: "agent@claimoto.com",
-            modifyAt: new Date(),
-            status: true
-        },
-        {
+            name: "Delete Product",
+            status: false,
+            module_id: 1,
             id: 3,
-            name: "Replacement",
-            modifyBy: "replacement@claimoto.com",
-            modifyAt: new Date(),
-            status: true
+            disabled: true
         },
         {
+            name: "View Product",
+            status: true,
+            module_id: 1,
             id: 4,
-            name: "surveyor",
-            modifyBy: "surveyor@claimoto.com",
-            modifyAt: new Date(),
-            status: true
+            disabled: false
         },
         {
+            name: "View Details",
+            status: true,
+            module_id: 1,
             id: 5,
-            name: "Customer",
-            modifyBy: "customer@claimoto.com",
-            modifyAt: new Date(),
-            status: true
+            disabled: false
+        },
+        {
+            name: "Add Policy",
+            status: true,
+            module_id: 2,
+            id: 6,
+            disabled: false
+        },
+        {
+            name: "Edit Policy",
+            status: false,
+            module_id: 2,
+            id: 7,
+            disabled: true
+        },
+        {
+            name: "Delete Policy",
+            status: false,
+            module_id: 2,
+            id: 8,
+            disabled: true
+        },
+        {
+            name: "View Policy",
+            status: true,
+            module_id: 2,
+            id: 9,
+            disabled: false
+        },
+        {
+            name: "View Details",
+            status: true,
+            module_id: 2,
+            id: 10,
+            disabled: false
         }
 
     ],
-    access_groups:[
-        {
-            name:"Access Group 1",
-            id:1,
-            role_id:1
-        },
-        {
-            name:"Access Group 2",
-            id:2,
-            role_id:2
-        },
-        {
-            name:"Access Group 3",
-            id:3,
-            role_id:3
-        },
-        {
-            name:"Access Group 4",
-            id:4,
-            role_id:1
-        },
-        {
-            name:"Access Group 5",
-            id:5,
-            role_id:4
-        },
-
-    ],
-    access_groups_role:[],
-    modules_role:[],
-    modules_actions:[]
+    users: [],
+    roles: [],
+    access_groups: [],
+    modules_access_groups: [],
+    modules_actions: []
 };
 
 
@@ -185,44 +142,92 @@ const usersScreenReducer = (state = initialState, action) => {
             const { name, value } = action.payload;
             return {
                 ...state,
-                access_groups_role:name === "access_role" ? state.access_groups.filter(ag=>ag.role_id === parseInt(value)) : state.access_groups_role,
                 userValues: {
                     ...state.userValues,
-                    [name]: value
+                    [name]: value,
+                    access_group: name === "access_role" ? initialState.userValues.access_group : name === "access_group" ? value : state.userValues.access_group,
+
                 }
             }
         }
 
-        case CLEAR_INPUT_VALUES_USER_SCREEN : {
+        case CLEAR_INPUT_VALUES_USER_SCREEN: {
             return {
                 ...state,
                 userValues: initialState.userValues
             }
         }
 
-        case SET_INPUT_VALUES_ACCESS_GROUP_SCREEN : {
+        case SET_INPUT_VALUES_ACCESS_GROUP_SCREEN: {
             const { name, value } = action.payload;
-            if(name === "actions"){
-                let indexOfAction = state.actions.findIndex(act=>act.id === parseInt(value));
+            if (name === "actions") {
+                let indexOfAction = state.actions.findIndex(act => act.id === parseInt(value));
                 let actions = state.actions;
                 actions[indexOfAction].status = !actions[indexOfAction].status;
-                return { 
+                return {
                     ...state,
                     actions
                 }
             }
             else {
-            return {
-                ...state,
-                modules_role:name === "access_role" ? state.modules.filter(mod=>mod.role_id === parseInt(value.value)) : state.modules_role,
-                modules_actions:name === "module" ? state.actions.filter(act=>act.module_id === parseInt(value.value)) : state.modules_actions,
-                accessValues: {
-                    ...state.accessValues,
-                    [name]: value,
-                    module: name === "access_role" ? initialState.accessValues.module : name === "module" ? value : state.accessValues.module
+                return {
+                    ...state,
+                    modules_actions: name === "module" ? state.actions.filter(act => act.module_id === parseInt(value.value)) : state.modules_actions,
+                    accessValues: {
+                        ...state.accessValues,
+                        [name]: value,
+                        modules: name === "access_group" ? initialState.accessValues.modules : name === "modules" ? value : state.accessValues.modules,
+                        // module: name === "access_group" ? initialState.accessValues.module : name === "module" ? value : state.accessValues.module
+                    }
                 }
             }
         }
+
+        case SET_ROLES: {
+            return {
+                ...state,
+                roles: action.payload
+            }
+        }
+
+        case SET_ACCESS_GROUPS: {
+            return {
+                ...state,
+                access_groups: action.payload
+            }
+        }
+
+
+        case SET_MODULES: {
+            return {
+                ...state,
+                modules_access_groups: action.payload
+            }
+        }
+
+        case SET_USERS: {
+            return {
+                ...state,
+                users: action.payload
+            }
+        }
+
+        case SET_USER_DETAILS: {
+            let user_details = action.payload;
+            if (user_details) {
+                let role = state.roles.find(role => role.RoleId === parseInt(user_details.RoleId));
+                return {
+                    ...state,
+                    userValues: {
+                        first_name: user_details.FirstName,
+                        last_name: user_details.LastName,
+                        phone: user_details.MobileNo,
+                        email: user_details.Email,
+                        access_role: { label: role.RoleName, value: role.RoleId },
+                        access_group: [],
+                    }
+                }
+            }
         }
 
         default:

@@ -9,6 +9,19 @@ export const SweetAlert = ({title , text , icon }) => {
       });
 };
 
+
+export const msgAlert = ({title , text , icon }) => {
+  swal({
+      title: title,
+      text: text,
+      icon: icon,
+    });
+};
+
+
+
+
+
 export const formatDateTime = (given_date) => {
   var offset;
   offset = moment().utcOffset();
