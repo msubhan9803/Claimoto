@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GetProduct, SortProducts, ProductStatus , GetInputs} from 'store/actions/product'
 import { useSelector, useDispatch } from 'react-redux'
+import { formatDateTime}  from 'functions'
+import moment from 'moment'
 function Products() {
 
     // State 
@@ -11,6 +13,8 @@ function Products() {
     // selector hook
     const products = useSelector(state => state.productReducer.allProducts)
     const inputValue = useSelector(state => state.productReducer.product)
+
+    console.log("products" , products )
 
     // dipatch hook
 
@@ -190,7 +194,7 @@ function Products() {
                                             </h6>
                                             <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
                                                 <p className="ltnd__product-availability">{item.AnnualPremium}</p>
-                                                <p className="ltnd__product-availability">{item.AnnualPremium}</p>
+                                                <p className="ltnd__product-availability">{item.CreatedDate}</p>
 
                                             </div>
                                             <div className="ltnd__product-brief">

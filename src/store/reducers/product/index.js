@@ -131,6 +131,7 @@ const productReducer = (state = initialState, action) => {
         case GET_SINGLE_PRODUCT: {
             return {
                 ...state,
+
                 product: {
                     ...state.product,
                     ...action.payload
@@ -152,6 +153,7 @@ const productReducer = (state = initialState, action) => {
         case DELETE_PRODUCT: {
             return {
                 ...state,
+                isSuccess: true , 
                 allProducts: state.allProducts.filter((data, index) => index !== action.payload)
             }
         }

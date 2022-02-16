@@ -239,6 +239,7 @@ export const DeleteProduct = (ID, navigate) => async (dispatch) => {
             text: "Product are successfully Deleted",
             icon: "success"
         })
+        history.push('/admin/products')
 
         dispatch({ type: DELETE_PRODUCT, payload: ID })
 
