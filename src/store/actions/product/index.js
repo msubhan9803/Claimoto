@@ -121,11 +121,11 @@ export const RegisterProduct = (data) => async dispatch => {
 
         let res  = await instance.post('api/product', value )
         console.log("res" , value )
-        // if(res.data )
-        // SweetAlert({
-        //     text: "Product are successfully register",
-        //     icon: "success"
-        // })
+        if(res.data )
+        SweetAlert({
+            text: "Product are successfully register",
+            icon: "success"
+        })
 
         history.push('/admin/products')
 
