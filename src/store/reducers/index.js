@@ -5,7 +5,7 @@ import { combineReducers } from "redux";
 import userReducer from "store/reducers/auth";
 import usersScreenReducer from "store/reducers/users";
 import productReducer from 'store/reducers/product'
-
+import policyReducer from 'store/reducers/policies'
 
 const rootPersistConfig = {
   key: 'root',
@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
   userReducer: persistReducer(authPersistConfig, userReducer),
   usersScreenReducer:usersScreenReducer,
   productReducer: productReducer,
+  policyReducer: policyReducer,
 })
  
 export default persistReducer(rootPersistConfig, rootReducer)

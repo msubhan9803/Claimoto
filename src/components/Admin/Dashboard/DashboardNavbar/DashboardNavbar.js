@@ -7,7 +7,7 @@ export default function DashboardNavbar() {
     <React.Fragment>
         <RespHeader/>
       {/* HEADER AREA START */}
-      <div className="ltnd__header-area section-bg-5" >
+      <div className="ltnd__header-area section-bg-5" style={{padding:'25px'}} >
         {/* ltn__header-top-area start */}
         <div className="ltn__header-top-area top-area-color-white ltnd__header-top-area">
           <div className="row">

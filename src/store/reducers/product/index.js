@@ -7,33 +7,47 @@ import {
     GET_SINGLE_PRODUCT,
     GET_PRODUCT_INPUTS,
     // EDIT_PRODUCT_TYPE,
-    // EDIT_PRODUCT,
+    EDIT_PRODUCT_BENEFIT,
+    CANCEL_PRODUCT_BENEFIT,
     DELETE_PRODUCT,
-    DELETE_PRODUCT_TYPE,
+    DELETE_PRODUCT_BENEFIT,
     UPDATE_PRODUCT,
-    UPDATE_PRODUCT_TYPE,
+    UPDATE_PRODUCT_BENEFIT,
 } from 'store/types/types'
 const initialState = {
     product_Types: [],
+    isSuccess:false,
     product: {
+        Id: '',
+        TenantId: '',
         ProductName: "",
         ProductType: "",
         ProductDetails: "",
         AnnualPremium: '',
-        Status: false,
+        Status: true,
         CreateBy: "",
         UpdatedBy: "",
         IsDeleted: "",
-        IsActive: false,
+        IsActive: true,
         CoPayPercentage: '',
         Deductibles: '',
         IsAgencyRepair: '',
         BenefitDetails: '',
-        Benefit: []
+        Benefit: [],
+        editBenft: '',
+        sort :'',
+        active:'',
+        
 
     },
-    singlProduct: [],
+   
+    findType: {},
+    findName: {},
     allProducts: [],
+    dummy: [],
+    Editproduct: {},
+    EidtDat: '',
+
 
 };
 
@@ -45,19 +59,54 @@ const productReducer = (state = initialState, action) => {
         case REGISTER_BENEFIT: {
             return {
                 ...state,
-                ...state.product.Benefit = [...state.product.Benefit, {BenefitDetails : state.product.BenefitDetails  , Status : true }],
+                ...state.product.Benefit = [...state.product.Benefit,
+                {
+                    BenefitDetails: state.product.BenefitDetails,
+
+                }],
                 ...state.product.BenefitDetails = ""
             }
+        }
+
+        case "CHECK_PRODUCT_TYPE": {
+            
+                return {
+                    ...state,
+                    allProducts: action.payload
+                    };
+
+
+
+        }
+
+        case "CHECK_PRODUCT_ACTIVE": {
+            let productActive = state.dummy.filter((item) => item.Status === action.payload)
+            return {
+                ...state,
+                allProducts: productActive,
+
+
+            }
+
         }
         case REGISTER_PRODUCT: {
             return {
                 ...state,
-                allProducts: [ action.payload]
+                isSuccess:true,
+                allProducts: [action.payload],
+                    product : initialState.product
             }
         }
 
         case GET_PRODUCTS: {
-            return { ...state, allProducts: action.payload };
+            let activeFilter = action.payload.filter((item)=> item.Status === true )
+            return {
+                ...state,
+                product : initialState.product,
+                checkType: null,
+                allProducts: activeFilter,
+                dummy: action.payload,
+            };
         }
 
         case GET_PRODUCT_TYPE: {
@@ -77,57 +126,78 @@ const productReducer = (state = initialState, action) => {
 
             }
         }
+
+        
         case GET_SINGLE_PRODUCT: {
-            return { ...state,
-                 singlProduct: action.payload 
-                };
+            return {
+                ...state,
+                product: {
+                    ...state.product,
+                    ...action.payload
+                }
+            };
         }
 
-        // case EDIT_PRODUCT: {
-        //     return {
-        //         ...state,
-        //         product: state.product.filter((data) => data.id !== action.payload.id)
-        //     }
-        // }
+        case EDIT_PRODUCT_BENEFIT: {
+            let Editproduct = state.product.Benefit.find((data, index) => index == action.payload);
+            return {
+                ...state,
+                product: {
+                    ...state.product,
+                    BenefitDetails: Editproduct?.BenefitDetails,
+                },
 
-
-        // case EDIT_PRODUCT_TYPE: {
-        //     return {
-        //         ...state,
-        //         product: state.product.filter((data) => data.id !== action.payload.id)
-        //     }
-        // }
-
+            }
+        }
         case DELETE_PRODUCT: {
             return {
                 ...state,
-                product: state.singleProduct.Benifits.filter((data) => data.id !== action.payload.id)
+                allProducts: state.allProducts.filter((data, index) => index !== action.payload)
             }
         }
-        case DELETE_PRODUCT_TYPE: {
+        case DELETE_PRODUCT_BENEFIT: {
+            let benefit = state.product.Benefit
+            let new_benefit = benefit.filter((data, index) => index !== action.payload)
             return {
                 ...state,
-                product: state.singleProduct.Benifits.filter((data) => data.id !== action.payload.id)
+                product: {
+                    ...state.product,
+                    Benefit: new_benefit
+                }
             }
         }
         case UPDATE_PRODUCT: {
             return Object.assign({}, state, {
-                ...state.product.Benifits = state.product.Benifits.map((item) => {
-                    if (item === action.payload)
+                ...state.allProducts = state.allProducts.map((item) => {
+                    if (item.id === action.payload.Id)
                         item = action.payload
                     return item
                 })
             })
         }
 
-        case UPDATE_PRODUCT_TYPE: {
-            return {
-                ...state,
-                product: state.singleProduct.Benifits.filter((data) => {
-                    if (data.id === action.payload.id) {
-
+        case UPDATE_PRODUCT_BENEFIT: {
+            return Object.assign({}, state, {
+                ...state.product.Benefit = state.product.Benefit.map((item, index) =>
+                    index === action.payload ? {
+                        ...item,
+                        BenefitDetails: state.product.BenefitDetails
                     }
-                })
+                        : item
+                ),
+                product: {
+                    ...state.product,
+                    BenefitDetails: ""
+                },
+            })
+        }
+
+        case CANCEL_PRODUCT_BENEFIT: {
+            return {
+                product: {
+                    ...state.product,
+                    BenefitDetails: ""
+                },
             }
         }
 

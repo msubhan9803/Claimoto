@@ -1,4 +1,5 @@
 import instance from 'config/axios/instance'
+import { SweetAlert } from 'functions'
 import {
     REGISTER_PRODUCT,
     REGISTER_BENEFIT,
@@ -6,19 +7,18 @@ import {
     GET_PRODUCT_TYPE,
     GET_SINGLE_PRODUCT,
     GET_PRODUCT_INPUTS,
-    EDIT_PRODUCT_TYPE,
-    EDIT_PRODUCT,
+    EDIT_PRODUCT_BENEFIT,
     DELETE_PRODUCT,
-    DELETE_PRODUCT_TYPE,
+    DELETE_PRODUCT_BENEFIT,
     UPDATE_PRODUCT,
-    UPDATE_PRODUCT_TYPE,
+    UPDATE_PRODUCT_BENEFIT,
 } from 'store/types/types'
 // import instance from 'config/axios/instance'
 
+import { history } from 'functions/history'
 
 
 export const GetInputs = (name, value) => dispatch => {
-      console.log("inputs" , name , "value" , value )
     try {
         dispatch({
             type: GET_PRODUCT_INPUTS,
@@ -32,17 +32,109 @@ export const GetInputs = (name, value) => dispatch => {
 }
 
 
+// CheckProductType
+
+export const SortProducts = (value, products) => (dispatch) => {
+    const product = products.slice();
+    if (value === "ProductName") {
+        product.sort((a, b) =>
+
+            a > b
+                ? 1
+                : -1
+        );
+    } else {
+        product.sort((a, b) => (a < b ? 1 : -1));
+    }
+    dispatch({
+        type: "CHECK_PRODUCT_TYPE",
+        payload: product
+    });
+};
+
+export const ProductStatus = (value) => dispatch => {
+    try {
+        if (value === "active") {
+            dispatch({
+                type: "CHECK_PRODUCT_ACTIVE",
+                payload: true
+            });
+        }
+        else {
+            dispatch({
+                type: "CHECK_PRODUCT_ACTIVE",
+                payload: false
+            });
+        }
+    }
+    catch (err) {
+        console.log("err", err)
+    }
+}
+
+
+
+export const CheckProductName = (value) => dispatch => {
+    try {
+
+        dispatch({
+            type: "CHECK_PRODUCT_NAME",
+            payload: value
+        })
+    }
+    catch (err) {
+        console.log("err", err)
+    }
+}
+
+
 
 // Register Products 
 
 export const RegisterProduct = (data) => async dispatch => {
     try {
-        let res = await instance.post('api/Product/PostProduct',data)
-        console.log("data register" , res )
+        const {
+            ProductDetails,
+            CoPayPercentage, ProductName,
+            ProductType, Status,
+            AnnualPremium,
+            Deductibles, IsAgencyRepair,
+            Benefit
+        } = data
+        let check = Array.isArray(Benefit) && Benefit.length
+
+        let value = {
+            ProductName,
+            ProductType,
+            ProductDetails,
+            Status,
+            AnnualPremium,
+            TenantId: 12345,
+            Coverage: {
+                CoPayPercentage,
+                Deductibles,
+                IsAgencyRepair,
+            },
+            Benefit : check === 1 ? Benefit : null
+
+        }
+
+        let res  = await instance.post('api/product', value )
+        console.log("res" , value )
+        // if(res.data )
+        // SweetAlert({
+        //     text: "Product are successfully register",
+        //     icon: "success"
+        // })
+
+        history.push('/admin/products')
+
         dispatch({
             type: REGISTER_PRODUCT,
             payload: data
         })
+
+
 
     }
     catch (err) {
@@ -84,7 +176,6 @@ export const GetProducType = () => async dispatch => {
 export const GetProduct = () => async dispatch => {
     try {
         let res = await instance.get('api/product')
-        console.log("res" ,res )
         dispatch({ type: GET_PRODUCTS, payload: res.data })
     }
     catch (err) {
@@ -94,11 +185,42 @@ export const GetProduct = () => async dispatch => {
 
 
 // Get Single Products 
-export const GetSingleProduct = (id) => async dispatch => {
+export const GetSingleProduct = (ID) => async dispatch => {
     try {
-        let res = await instance.get(`api/product/${id}`)
-        console.log("res" , res)
+        let res = await instance.get(`api/Product/${ID}`)
         dispatch({ type: GET_SINGLE_PRODUCT, payload: res.data })
+    }
+    catch (err) {
+        SweetAlert({ text: err.response.data.Message, icon: 'warning' })
+        console.log("err", err.response.data)
+    }
+}
+
+
+
+// Edit Product Benifit
+
+export const EditProductBenifit = (id) => dispatch => {
+    try {
+        dispatch({
+            type: EDIT_PRODUCT_BENEFIT,
+            payload: id
+        })
+    }
+    catch (err) {
+
+    }
+}
+
+
+// Cancel Product Benifit
+
+export const CencelProductBenifit = () => dispatch => {
+    debugger
+    try {
+        dispatch({
+            type: EDIT_PRODUCT_BENEFIT,
+        })
     }
     catch (err) {
         console.log("err", err)
@@ -107,43 +229,18 @@ export const GetSingleProduct = (id) => async dispatch => {
 
 
 
-// Edit Product 
-
-// export const EditProduct = (data) => async dispatch => {
-//     try{
-
-//         dispatch({
-//             type:EDIT_PRODUCT,
-//             pyaload : data
-//         })
-//     }
-//     catch(err){
-
-//     }
-// }
-
-
-// Edit Product 
-
-// export const EditProductType = (data) => async dispatch => {
-//     try{
-
-//         dispatch({
-//             type:EDIT_PRODUCT_TYPE,
-//             pyaload : data
-//         })
-//     }
-//     catch(err){
-
-//     }
-// }
-
 
 // Delete Product
-export const DeleteProduct = (id) => async dispatch => {
+export const DeleteProduct = (ID, navigate) => async (dispatch) => {
     try {
-        let res = await instance.post('api/product/')
-        dispatch({ type: DELETE_PRODUCT, payload: "res.data" })
+
+        await instance.delete(`api/product/${ID}`)
+        SweetAlert({
+            text: "Product are successfully Deleted",
+            icon: "success"
+        })
+
+        dispatch({ type: DELETE_PRODUCT, payload: ID })
 
     }
     catch (err) {
@@ -153,11 +250,10 @@ export const DeleteProduct = (id) => async dispatch => {
 
 
 // Delete Product Type
-export const DeleteProductType = (id) => async dispatch => {
+export const DeleteProductBenifit = (id) => async dispatch => {
     try {
-        // let res = await instance.post('/')
 
-        dispatch({ type: DELETE_PRODUCT_TYPE, payload: "res.data" })
+        dispatch({ type: DELETE_PRODUCT_BENEFIT, payload: id })
 
     }
     catch (err) {
@@ -167,9 +263,43 @@ export const DeleteProductType = (id) => async dispatch => {
 
 // Update Product
 export const UpdateProduct = (data) => async dispatch => {
+    const {
+        Id, ProductDetails,
+        CoPayPercentage, ProductName,
+        ProductType, Status,
+        TenantId, AnnualPremium,
+        Deductibles, IsAgencyRepair,
+        Benefit
+    } = data
     try {
-        let res = await instance.post('api/product')
-        dispatch({ type: UPDATE_PRODUCT, payload: "res.data" })
+
+        let BenefitId = Benefit.map(obj => ({ ...obj, ProductId: Id, }))
+        let Copy = Number(CoPayPercentage)
+        let value = {
+            Id,
+            ProductName,
+            ProductType,
+            ProductDetails,
+            Status,
+            TenantId,
+            AnnualPremium,
+            Coverage: {
+                ProductId: Id,
+                CoPayPercentage: Copy,
+                Deductibles,
+                IsAgencyRepair,
+            },
+            Benefit: BenefitId,
+        }
+
+        await instance.put('api/Product/PutProduct', value)
+
+        SweetAlert({
+            text: "Product are successfully upDated",
+            icon: "success"
+        })
+
+        dispatch({ type: UPDATE_PRODUCT, payload: value })
 
     }
     catch (err) {
@@ -179,10 +309,9 @@ export const UpdateProduct = (data) => async dispatch => {
 
 
 // Update Product Type
-export const UpdateProductType = (data) => async dispatch => {
+export const UpdateProductBenifit = (id) => async dispatch => {
     try {
-        // let res = await instance.post('/')
-        dispatch({ type: UPDATE_PRODUCT_TYPE, payload: "res.data" })
+        dispatch({ type: UPDATE_PRODUCT_BENEFIT, payload: id })
 
     }
     catch (err) {

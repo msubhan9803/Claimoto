@@ -1,5 +1,5 @@
 import React from 'react'
-import PolicyList from '../../../../../components/Admin/Policies/PolicyList/PolicyList'
+import PoliciesList from 'components/Admin/PoliciesList/PoliciesList'
 function Policies() {
     return (
         <React.Fragment>
@@ -92,7 +92,7 @@ function Policies() {
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* ltnd__policies-table start */}
-                                <PolicyList/>
+                                <PoliciesList/>
                             </div>
                         </div>
                     </div>

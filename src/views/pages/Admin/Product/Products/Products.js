@@ -1,14 +1,17 @@
-import SearchBar from 'components/Admin/SearchBar/SearchBar'
-import React, { useEffect } from 'react'
+// import SearchBar from 'components/Admin/SearchBar/SearchBar'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GetProduct } from 'store/actions/product'
+import { GetProduct, SortProducts, ProductStatus , GetInputs} from 'store/actions/product'
 import { useSelector, useDispatch } from 'react-redux'
 function Products() {
 
+    // State 
+    const [search, setSearch] = useState('')
+
     // selector hook
     const products = useSelector(state => state.productReducer.allProducts)
+    const inputValue = useSelector(state => state.productReducer.product)
 
-   console.log("prdo" , products)
     // dipatch hook
 
     const dispatch = useDispatch()
@@ -16,7 +19,32 @@ function Products() {
     // disptach peoduct action 
     useEffect(() => {
         dispatch(GetProduct())
+
     }, [])
+
+
+    // search filter 
+    const filteredProduct = products.filter(
+        (item) => {
+            return item.ProductName && item.ProductName.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        }
+    );
+
+    // sort product 
+    const changeValue = (e) => {
+        if (e.target.name === "status") {
+            const { name, value } = e.target;
+            dispatch(GetInputs(name, value))
+            dispatch(ProductStatus(value))
+        }
+        else {
+            const { name, value } = e.target;
+            dispatch(GetInputs(name, value))
+            dispatch(SortProducts(value, products))
+        }
+    }
+
+
 
     return (
         <React.Fragment>
@@ -62,7 +90,19 @@ function Products() {
                         <div className="row">
                             <div className="col-lg-5">
                                 <div className="ltn__search-widget ltnd__product-search-widget mb-30">
-                                    <SearchBar />
+                                    <form _lpchecked={1}>
+                                        <input
+                                            type="text"
+                                            name="search"
+                                            placeholder="Search product..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            className="search"
+                                        />
+                                        <button type="submit">
+                                            <i className="fas fa-search" />
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div className="col-lg-7">
@@ -74,26 +114,35 @@ function Products() {
                                                     <p>Status</p>
                                                 </div>
                                                 <div className="short-by-menu">
-                                                    <select className="nice-select">
-                                                        <option>All</option>
-                                                        <option>Sort by </option>
-                                                        <option>Sort by new </option>
-                                                        <option>Sort by price</option>
+                                                    <select className="nice-select"
+                                                     onChange={changeValue} 
+                                                     value={inputValue.status}
+                                                     name="status">
+                                                        <option value="active" >Active </option>
+                                                        <option value="inActive">InActive </option>
                                                     </select>
                                                 </div>
                                             </div>
+
                                         </li>
+                                        {/* <button onClick={()=> changeValue()}>sort</button> */}
                                         <li>
                                             <div className="short-by text-center">
                                                 <div className="short-by-title">
                                                     <p>Date Added</p>
                                                 </div>
                                                 <div className="short-by-menu">
-                                                    <select className="nice-select">
-                                                        <option>All</option>
-                                                        <option>Sort by </option>
-                                                        <option>Sort by new </option>
-                                                        <option>Sort by price</option>
+                                                    <select
+                                                       className="nice-select"
+                                                        name="sort"
+                                                        value={inputValue.sort}
+                                                        onChange={changeValue}
+                                                        
+                                                    >
+                                                        <option value="All">All</option>
+                                                        <option value="ProductName">Sort by Name </option>
+                                                        <option value="All" >All </option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -120,7 +169,7 @@ function Products() {
                                         </li>
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
-                                                <Link to="/admin/product_detail" className="btn theme-btn-1 btn-round-12">
+                                                <Link to="/admin/create_product" className="btn theme-btn-1 btn-round-12">
                                                     Add +
                                                 </Link>
                                                 {/* <button type="submit" class="btn theme-btn-1 btn-round">Add +</button> */}
@@ -132,14 +181,18 @@ function Products() {
                         </div>
                         <div className="row">
                             {/* product-item */}
-                            {products.map((item) => {
+                            {filteredProduct ? filteredProduct.map((item) => {
                                 return (
                                     <div className="col-lg-3 col-md-6" key={item.id}>
                                         <div className="ltnd__product-item">
                                             <h6 className="ltnd__product-title">
-                                                <Link to="/product_detail">{item.ProductName}</Link>
+                                                <Link to={`/admin/product_detail/${item.id}`}>{item.ProductName}</Link>
                                             </h6>
-                                            <p className="ltnd__product-availability">{item.AnnualPremium}</p>
+                                            <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
+                                                <p className="ltnd__product-availability">{item.AnnualPremium}</p>
+                                                <p className="ltnd__product-availability">{item.AnnualPremium}</p>
+
+                                            </div>
                                             <div className="ltnd__product-brief">
                                                 <p>
                                                     {item.ProductDetails}
@@ -153,7 +206,11 @@ function Products() {
                                         </div>
                                     </div>
                                 )
-                            })}
+                            })
+                                :null
+                            }
+
+                            {products && !products.length && <h2>Product not available</h2> }
 
                         </div>
                     </div>
