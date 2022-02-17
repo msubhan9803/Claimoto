@@ -1,9 +1,9 @@
-import swal from 'sweetalert';
+// import swal from 'sweetalert';
 import moment from "moment";
-import validator from 'validator';
+import Swal from 'sweetalert2'
 
 export const SweetAlert = ({ title, text, icon }) => {
-  swal({
+  Swal.fire({
     title: title,
     text: text,
     icon: icon,
@@ -12,13 +12,33 @@ export const SweetAlert = ({ title, text, icon }) => {
 
 
 export const msgAlert = ({title , text , icon }) => {
-  swal({
+  Swal.fire({
       title: title,
       text: text,
       icon: icon,
     });
 };
 
+
+export const confirmAlert = ({}) => {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    }
+  })
+}
 
 
 

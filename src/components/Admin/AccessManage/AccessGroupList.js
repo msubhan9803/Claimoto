@@ -1,6 +1,6 @@
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import { useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
 function AccessGroupList() {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -124,4 +124,4 @@ function AccessGroupList() {
         </React.Fragment>)
 }
 
-// export default AccessGroupList;
+export default AccessGroupList;

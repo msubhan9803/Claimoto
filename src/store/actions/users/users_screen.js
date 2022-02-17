@@ -9,7 +9,8 @@ import {
     SET_ACCESS_GROUPS,
     SET_MODULES,
     SET_USERS,
-    SET_USER_DETAILS
+    SET_USER_DETAILS,
+    SET_USER_DETAILS_REQUEST
 } from '../../types/users'
 
 
@@ -122,6 +123,7 @@ export const getUsers = () => async dispatch => {
 
 export const getUserDetails = (id) => async dispatch => {
     try{
+    dispatch({type: SET_USER_DETAILS_REQUEST});
     let { data } =  await instance.get(`api/UserProfile/${id}`);  
         dispatch({
             type: SET_USER_DETAILS,

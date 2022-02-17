@@ -8,6 +8,7 @@ export const SET_ACCESS_GROUPS = "SET_ACCESS_GROUPS";
 export const SET_MODULES = "SET_MODULES";
 export const SET_USERS = "SET_USERS";
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
+export const SET_USER_DETAILS_REQUEST = "SET_USER_DETAILS_REQUEST";
 
 
 

@@ -1,4 +1,4 @@
-import { CHANGE_TAB, CLEAR_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_ACCESS_GROUP_SCREEN, SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES, SET_USERS, SET_USER_DETAILS } from '../../types/users';
+import { CHANGE_TAB, CLEAR_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_ACCESS_GROUP_SCREEN, SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES, SET_USERS, SET_USER_DETAILS, SET_USER_DETAILS_REQUEST } from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
 import AccessGroupList from 'components/Admin/AccessManage/AccessGroupList';
@@ -41,7 +41,8 @@ const initialState = {
         access_group: [],
         selected_image: "",
         password:"",
-        confirm_password:""
+        confirm_password:"",
+        loading:false
     },
     accessValues: {
         access_group: "",
@@ -212,6 +213,17 @@ const usersScreenReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_USER_DETAILS_REQUEST :{
+            return {
+                ...state,
+                userValues: {
+                    ...initialState.userValues,
+                    loading:true
+                }
+            }
+        }
+
+
         case SET_USER_DETAILS: {
             let user_details = action.payload;
             if (user_details) {
@@ -225,6 +237,7 @@ const usersScreenReducer = (state = initialState, action) => {
                         email: user_details.Email,
                         access_role: { label: role.RoleName, value: role.RoleId },
                         access_group: [],
+                        loading:false
                     }
                 }
             }

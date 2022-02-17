@@ -338,7 +338,9 @@ const location = useLocation();
                                                         value={AnnualPremium}
                                                         {...register('AnnualPremium')}
 
-                                                        onChange={(e) => changeValue(currencyMap(e))} placeholder="0.000" />
+                                                        // onChange={(e) => changeValue(currencyMap(e))}
+                                                        
+                                                        placeholder="0.000" />
                                                     <div className="error_show"> {errors.AnnualPremium?.message } </div>
                                                    
 
