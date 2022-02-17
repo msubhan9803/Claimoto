@@ -1,9 +1,9 @@
 // import SearchBar from 'components/Admin/SearchBar/SearchBar'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GetProduct, SortProducts, ProductStatus , GetInputs} from 'store/actions/product'
+import { GetProduct, SortProducts, ProductStatus, GetInputs , GetProducts } from 'store/actions/product'
 import { useSelector, useDispatch } from 'react-redux'
-import { formatDateTime}  from 'functions'
+import { formatDateTime } from 'functions'
 import moment from 'moment'
 function Products() {
 
@@ -14,7 +14,6 @@ function Products() {
     const products = useSelector(state => state.productReducer.allProducts)
     const inputValue = useSelector(state => state.productReducer.product)
 
-    console.log("products" , products )
 
     // dipatch hook
 
@@ -48,6 +47,15 @@ function Products() {
         }
     }
 
+    const _productDetail = (string, limit) => {
+        var dots = "...";
+        if (string.length > limit) {
+            // you can also use substr instead of substring
+            string = string.substring(0, limit) + dots;
+        }
+
+        return string;
+    }
 
 
     return (
@@ -119,9 +127,9 @@ function Products() {
                                                 </div>
                                                 <div className="short-by-menu">
                                                     <select className="nice-select"
-                                                     onChange={changeValue} 
-                                                     value={inputValue.status}
-                                                     name="status">
+                                                        onChange={changeValue}
+                                                        value={inputValue.status}
+                                                        name="status">
                                                         <option value="active" >Active </option>
                                                         <option value="inActive">InActive </option>
                                                     </select>
@@ -137,11 +145,11 @@ function Products() {
                                                 </div>
                                                 <div className="short-by-menu">
                                                     <select
-                                                       className="nice-select"
+                                                        className="nice-select"
                                                         name="sort"
                                                         value={inputValue.sort}
                                                         onChange={changeValue}
-                                                        
+
                                                     >
                                                         <option value="All">All</option>
                                                         <option value="ProductName">Sort by Name </option>
@@ -185,36 +193,48 @@ function Products() {
                         </div>
                         <div className="row">
                             {/* product-item */}
-                            {filteredProduct ? filteredProduct.map((item) => {
+                            {filteredProduct ? filteredProduct.map((item, index) => {
                                 return (
                                     <div className="col-lg-3 col-md-6" key={item.id}>
                                         <div className="ltnd__product-item">
                                             <h6 className="ltnd__product-title">
-                                                <Link to={`/admin/product_detail/${item.id}`}>{item.ProductName}</Link>
+                                                <Link to={`/admin/product_detail/${item.id}`}>{_productDetail(item.ProductName, 20)}</Link>
                                             </h6>
                                             <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
-                                                <p className="ltnd__product-availability">{item.AnnualPremium}</p>
-                                                <p className="ltnd__product-availability">{item.CreatedDate}</p>
+                                                <p className="ltnd__product-availability">{Number(item.AnnualPremium).toFixed(3)} KDW</p>
+                                                <p className="ltnd__product-availability">{moment(new Date()).format('MMMM Do YYYY, h:mm')}</p>
 
                                             </div>
                                             <div className="ltnd__product-brief">
                                                 <p>
-                                                    {item.ProductDetails}
+                                                    {
+                                                        _productDetail(item.ProductDetails, 120)
+                                                    }
+
                                                 </p>
                                             </div>
-                                            <div className="ltnd__product-btn">
-                                                <Link to={`/admin/product_detail/${item.id}`}>
-                                                    <strong>View details</strong>
-                                                </Link>
+                                            <div className="ltnd__product-btn" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <div style={{display:'flex' , flexDirection:'column' , textAlign:'left'}}>
+
+                                                        <strong>Last Modify</strong>
+                                                        <small style={{fontSize:'10px'}}>{moment(new Date()).format('MMMM Do YYYY, h:mm')}</small>
+                                                </div>
+                                               
+                                                <div>
+
+                                                    <Link to={`/admin/product_detail/${item.id}`}>
+                                                        <strong>View details</strong>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 )
                             })
-                                :null
+                                : null
                             }
 
-                            {products && !products.length && <h2>Product not available</h2> }
+                            {products && !products.length && <h2>Product not available</h2>}
 
                         </div>
                     </div>

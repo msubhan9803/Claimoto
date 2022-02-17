@@ -7,6 +7,10 @@ import {
     GET_POLICIES_INPUTS,
     DELETE_POLICIES,
     UPDATE_POLICIES,
+    GET_CAR_COLORS,
+    GET_POLICY_MAKE,
+    GET_PRODUCT_NAMES,
+    GET_PRODUCT_BENEFIT_COV
 } from 'store/types/types'
 // import instance from 'config/axios/instance'
 
@@ -39,9 +43,9 @@ export const RegisterPolicies = (data) => async dispatch => {
             })
 
             SweetAlert({
-                title : "Success Job!",
-                text:"Product are successfully register",
-                icon:"Success"
+                title: "Success Job!",
+                text: "Product are successfully register",
+                icon: "Success"
             })
         }
 
@@ -78,7 +82,57 @@ export const GetSinglePolicies = (ProductID) => async dispatch => {
     }
 }
 
+// Get car colors  
+export const GetColor = () => async dispatch => {
+    debugger
+    try {
+        let res = await instance.get(`api/Policy/Colour`)
+        dispatch({ type: GET_CAR_COLORS, payload: res.data })
+    }
+    catch (err) {
+        console.log("err", err)
+    }
+}
 
+// Get policy make  
+export const GetMake = () => async dispatch => {
+    debugger
+    try {
+        let res = await instance.get('api/Policy/PolicyMake')
+        dispatch({ type: GET_POLICY_MAKE, payload: res.data })
+    }
+    catch (err) {
+        console.log("err", err)
+    }
+}
+
+// Get product Names according to product type 
+
+export const GetProductNames = (type) => async dispatch =>{
+    debugger
+    try{
+        let res = await instance.get(`api/Policy/GetPolicyType/${type}`)
+        console.log("res", res)
+        dispatch({ type: GET_PRODUCT_NAMES, payload: res.data })  
+    }
+    catch(err){
+
+    }
+}
+
+// Get product Names according to product type 
+
+export const GetProductBeniftCov = (type) => async dispatch =>{
+    debugger
+    try{
+        let res = await instance.get(`api/Policy/GetProductDetails/${type}`)
+        console.log("res", res)
+        dispatch({ type: GET_PRODUCT_BENEFIT_COV, payload: res.data })  
+    }
+    catch(err){
+
+    }
+}
 
 
 

@@ -6,6 +6,9 @@ import {
     GET_POLICIES_INPUTS,
     DELETE_POLICIES,
     UPDATE_POLICIES,
+    GET_CAR_COLORS,
+    GET_POLICY_MAKE,
+    GET_PRODUCT_NAMES,
 } from 'store/types/types'
 const initialState = {
     policy: {
@@ -14,6 +17,7 @@ const initialState = {
         carNumber: "",
         insuranceComp: "",
         policyType: "",
+        productName:"",
         policyHolder: '',
         make: '',
         icon: "",
@@ -38,6 +42,9 @@ const initialState = {
     },
     findType: {},
     allPolicies: [],
+    color:[],
+    make:[],
+    prouctNames:[],
     Editproduct: {},
     EidtDat: '',
 
@@ -85,6 +92,27 @@ const policyReducer = (state = initialState, action) => {
                     ...state.policy,
                     ...action.payload
                 }
+            };
+        }
+
+        case GET_CAR_COLORS: {
+            return {
+                ...state,
+                color: action.payload 
+            };
+        }
+
+        case GET_POLICY_MAKE: {
+            return {
+                ...state,
+                make:action.payload 
+            };
+        }
+
+        case GET_PRODUCT_NAMES: {
+            return {
+                ...state,
+                prouctNames:action.payload 
             };
         }
 

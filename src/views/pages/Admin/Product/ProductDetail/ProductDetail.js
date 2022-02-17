@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams, useNavigate , useHistory, useLocation } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
     RegisterProduct,
@@ -15,11 +15,12 @@ import {
     CencelProductBenifit,
 } from 'store/actions/product'
 import Modal from 'react-modal';
-import { currencyMap } from 'functions'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
+// Custom model styling 
 const customStyles = {
     content: {
         top: '50%',
@@ -36,8 +37,9 @@ function ProductDetail(props) {
     //  Get id from Url  
     let params = useParams();
 
-    let navigate = useNavigate();
+    // Routing navigate Hook
 
+    const navigate = useNavigate()
 
     // states 
     const [benifit, setBenifit] = useState(false)
@@ -45,19 +47,8 @@ function ProductDetail(props) {
     const [field, setField] = useState(false);
     const [editbenifit, setEditBenifit] = useState('')
     const [addBenfit, setAddBenfit] = useState('')
-    const [delBenifit, setDelBenifit] = useState('')
-
-    // Get ProductTypes from Server
-const location = useLocation();
-    useEffect(() => {
-        if (params.id) {
-            dispatch(GetSingleProduct(params.id))
-        }
-        dispatch(GetProducType())
-    }, [])
-
-   
-
+    const [delBenifit, setDelBenifit] = useState({ id: null, show: false })
+    const [scrol, setScrol] = useState(false)
 
     // dispatch hook 
 
@@ -67,10 +58,9 @@ const location = useLocation();
 
     const product = useSelector(state => state.productReducer.product)
     const productTyps = useSelector(state => state.productReducer.product_Types)
-    const {isSuccess} = useSelector(state => state.productReducer)
-    console.log(isSuccess);
-    // destructre  input value from reducer 
+    const { isSuccess } = useSelector(state => state.productReducer)
 
+    // destructre  input value from reducer 
     const {
         Id,
         TenantId,
@@ -87,12 +77,38 @@ const location = useLocation();
     } = product
 
 
-// useEffect(() => {
-// if (isSuccess) {
-//     navigate('/admin/products')
-    
-// }
-// }, [isSuccess])
+
+    // Get ProductTypes from Server
+    useEffect(() => {
+        if (params.id) {
+            dispatch(GetSingleProduct(params.id))
+        }
+        dispatch(GetProducType())
+
+        window.scroll({ top: 0, behavior: 'smooth' })
+    }, [scrol])
+
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/admin/products')
+
+        }
+
+    }, [isSuccess])
+
+
+    // Model open and close function 
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+
 
 
     // Change value 
@@ -115,7 +131,7 @@ const location = useLocation();
     // save benefit in redux array
 
     const SaveBenift = () => {
-        if(BenefitDetails !== "" ){
+        if (BenefitDetails !== "") {
             dispatch(RegisterBenft(addBenfit))
             setTimeout(() => {
                 setAddBenfit("")
@@ -124,8 +140,8 @@ const location = useLocation();
             setField(false)
 
         }
-        else{
-            setField(true )
+        else {
+            setField(true)
         }
 
 
@@ -142,25 +158,14 @@ const location = useLocation();
 
 
 
-    function openModal() {
-        setIsOpen(true);
-    }
-
-
-    function closeModal() {
-        setIsOpen(false);
-    }
-
-
     // Send Form data 
 
 
     const SendForm = (e) => {
-            dispatch(RegisterProduct(product))
-        
-    }
+        dispatch(RegisterProduct(product))
+        setScrol(true)
 
-    
+    }
 
 
     // Edit Benefit
@@ -180,8 +185,8 @@ const location = useLocation();
 
     // Delete banefits
 
-    const DelBenifit = () => {
-        dispatch(DeleteProductBenifit(delBenifit))
+    const DelBenifits = () => {
+        dispatch(DeleteProductBenifit(delBenifit.id))
         closeModal()
         setDelBenifit("")
     }
@@ -198,49 +203,52 @@ const location = useLocation();
 
     // update Product 
 
-    const updateProduct = (e) => {
+    const updateProduct = () => {
         dispatch(UpdateProduct(product))
     }
 
 
 
+    const handleClick = (index) => {
+        openModal();
+        setDelBenifit({ id: index, show: true });
+    }
 
 
-    
-    const validationSchema = Yup.object().shape({
+
+    const formSchema = Yup.object().shape({
         ProductName: Yup.string()
-        .required('ProductName is required'),
+            .required('Product Name is required'),
+        ProductType: Yup.string()
+            .required('Product Type is required'),
         ProductDetails: Yup.string()
-        .required('ProductDetails is required'),
+            .required('Product Details is required'),
         AnnualPremium: Yup.string()
-        .required('AnnualPremium is required')
-        .min(4 , "Minimum 4 digit is required"),
+            .required('Annual Premium is required')
+            .min(4, "Minimum 4 digit is required"),
         CoPayPercentage: Yup.string()
-        .required('CoPayPercentage is required'),
+            .required('CoPay Percentage is required')
+            .min(4, "Minimum 4 digit is required"),
+
         Deductibles: Yup.string()
-        .required('Deductibles is required'),
+            .required('Deductibles is required')
+            .min(4, "Minimum 4 digit is required"),
+
         IsAgencyRepair: Yup.string()
-        .required('IsAgencyRepair is required'),
-        
+            .required('Grage and Agency is required')
 
-        
-
-        
     });
-    
-    
+
+
     // validetion useform
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
-        mode: 'onChange',
-        resolver: yupResolver(validationSchema)
-    });
-    
+    const formOptions = { resolver: yupResolver(formSchema), mode:"onChange" }
+    const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
 
     function onSubmit() {
-      return params.id
-          ? updateProduct()
-          : SendForm();
-  }
+        return params.id
+            ? updateProduct()
+            : SendForm();
+    }
     return (
         <React.Fragment>
             <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
@@ -283,7 +291,7 @@ const location = useLocation();
             </div>
 
             {/* Body Content Area Inner Start */}
-            <form className="ltnd__form-1" onSubmit={handleSubmit(onSubmit) } onReset={reset}>
+            <form className="ltnd__form-1" onSubmit={handleSubmit(onSubmit)}>
                 <div className="body-content-area-inner">
                     {/* BLOCK AREA START ( Product Details section - 1 ) */}
                     <div className="ltnd__block-area">
@@ -307,9 +315,14 @@ const location = useLocation();
                                                         {...register('ProductName')}
                                                         onChange={changeValue}
                                                         placeholder="Product Name"
+
+                                                    />
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="ProductName"
+                                                        render={({ message }) => <p style={{ color: 'red' , paddingTop:'20px'}}>{message}</p>}
                                                     />
 
-                                                    <div className="error_show"> {errors.ProductName?.message } </div>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -321,28 +334,35 @@ const location = useLocation();
                                                         {...register('ProductType')}
                                                         onChange={changeValue}
                                                     >
+                                                        <option value="">--- Please Select ---</option>
                                                         {productTyps.map((i) => (
                                                             <option value={i.Id} key={i.Id}>{i.ProductTypeName}</option>
                                                         ))}
                                                     </select>
-
-                                                    {/* <div className="error_show"> {errors.ProductName.message && <p>{errors.ProductName.message}</p>} </div> */}
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="ProductType"
+                                                        render={({ message }) => <p style={{ color: 'red' , }}>{message}</p>}
+                                                    />
 
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
                                                 <div className="input-item">
                                                     <h6 className="ltnd__title-3">Annual premium</h6>
-                                                    <input type="text"
+                                                    <input type="number"
                                                         name="AnnualPremium"
                                                         value={AnnualPremium}
                                                         {...register('AnnualPremium')}
 
-                                                        // onChange={(e) => changeValue(currencyMap(e))}
-                                                        
-                                                        placeholder="0.000" />
-                                                    <div className="error_show"> {errors.AnnualPremium?.message } </div>
-                                                   
+                                                        onChange={changeValue} placeholder="0.000 KWD" />
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="AnnualPremium"
+                                                        render={({ message }) => <p style={{ color: 'red', paddingTop:'20px' }}>{message}</p>}
+                                                    />
+                                                    {/* <div className="error_show"> {errors.AnnualPremium?.message } </div> */}
+
 
                                                 </div>
                                             </div>
@@ -361,7 +381,11 @@ const location = useLocation();
                                                     value={ProductDetails}
                                                     placeholder='Type Here....'
                                                     name="ProductDetails" />
-                                                <div className="error_show"> { errors.ProductDetails?.message } </div>
+                                                <ErrorMessage
+                                                    errors={errors}
+                                                    name="ProductDetails"
+                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                />
 
                                             </div>
 
@@ -415,7 +439,11 @@ const location = useLocation();
                                                         onChange={changeValue}
                                                         placeholder="Amount"
                                                     />
-                                                    <div className="error_show"> { errors.CoPayPercentage?.message} </div>
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="CoPayPercentage"
+                                                        render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                    />
 
                                                 </div>
                                             </div>
@@ -428,7 +456,12 @@ const location = useLocation();
 
                                                         onChange={changeValue}
                                                         name="Deductibles" placeholder="Amount" />
-                                                    <div className="error_show"> {errors.Deductibles?.message} </div>
+                                                    <ErrorMessage
+                                                        errors={errors}
+
+                                                        name="Deductibles"
+                                                        render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                    />
 
                                                 </div>
                                             </div>
@@ -440,11 +473,17 @@ const location = useLocation();
                                                         name="IsAgencyRepair"
                                                         {...register('IsAgencyRepair')}
                                                         onChange={changeValue}>
+                                                        <option value="" >--- Please Select ---</option>
                                                         <option defaultValue={1} >Repair By Agency </option>
                                                         <option value={2}>Repair By Garage </option>
                                                         <option value={3}>Repair By Agency/Garage </option>
                                                     </select>
-                                                    <div className="error_show"> {errors.IsAgencyRepair?.message} </div>
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="IsAgencyRepair"
+                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                    />
+
 
                                                 </div>
                                             </div>
@@ -473,36 +512,36 @@ const location = useLocation();
 
                                     {/* benifits-list-item */}
                                     {Benefit ? Benefit.map((item, index) => {
-                                        if(item != null)
-                                        return (
+                                        if (item != null)
+                                            return (
 
-                                            <div className="benifits-list-item" key={index}>
-                                                {editbenifit === index ?
+                                                <div className="benifits-list-item" key={index}>
+                                                    {editbenifit === index ?
 
-                                                    <>
-                                                        <div className="benifits-brief" style={{ width: '70%' }}>
-                                                            <input type="text" className='form-control' onChange={changeValue} value={BenefitDetails} placeholder='Type Here....' name="BenefitDetails" />
+                                                        <>
+                                                            <div className="benifits-brief" style={{ width: '70%' }}>
+                                                                <input type="text" className='form-control' onChange={changeValue} value={BenefitDetails} placeholder='Type Here....' name="BenefitDetails" />
+                                                            </div>
+                                                        </>
+                                                        :
+                                                        <div className="benifits-brief">
+                                                            <i className="fas fa-circle" />
+                                                            <span>
+                                                                {item?.BenefitDetails}
+                                                            </span>
                                                         </div>
-                                                    </>
-                                                    :
-                                                    <div className="benifits-brief">
-                                                        <i className="fas fa-circle" />
-                                                        <span>
-                                                            {item?.BenefitDetails}
+                                                    }
+                                                    <div className="benifits-btn btn-normal" style={editbenifit === index ? { marginTop: '20px' } : null}>
+                                                        <span className="ltn__color-1 cancel_btn">
+                                                            {editbenifit === index ? <div onClick={() => CancelBenift()}>Cancel</div> : <div onClick={() => handleClick(index)}>Delete</div>}
+                                                        </span>
+                                                        <span className="ltn__secondary-color add_btn">
+                                                            {editbenifit === index ? <div onClick={() => UpdateBenift(index)}>Save</div> : <div onClick={() => EditBnft(index)}>Edit</div>}
+
                                                         </span>
                                                     </div>
-                                                }
-                                                <div className="benifits-btn btn-normal" style={editbenifit === index ? { marginTop: '20px' } : null}>
-                                                    <span className="ltn__color-1 cancel_btn">
-                                                        {editbenifit === index ? <div onClick={() => CancelBenift()}>Cancel</div> : <div onClick={() => { return setDelBenifit(index), openModal() }}>Delete</div>}
-                                                    </span>
-                                                    <span className="ltn__secondary-color add_btn">
-                                                        {editbenifit === index ? <div onClick={() => UpdateBenift(index)}>Save</div> : <div onClick={() => EditBnft(index)}>Edit</div>}
-
-                                                    </span>
                                                 </div>
-                                            </div>
-                                        )
+                                            )
                                     }
                                     )
 
@@ -513,7 +552,7 @@ const location = useLocation();
                                             <div div className="benifits-list-item">
                                                 <div className="benifits-brief" style={{ width: '70%' }}>
                                                     <input type="text" value={BenefitDetails} className='form-control' onChange={changeValue} name="BenefitDetails" placeholder='Enter benifits here...' />
-                                                    { field && <div className='error_show'>Benefit Field is Required</div>}
+                                                    {field && <div className='error_show mt-1'>Benefit Field is Required</div>}
                                                 </div>
                                                 <div className="benifits-btn btn-normal mt-3 ">
                                                     <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
@@ -559,7 +598,7 @@ const location = useLocation();
                                             <Link to="/products">
                                                 <i className="ti-angle-left" /> Back
                                             </Link>
-                                            <button   type="submit" className="btn theme-btn-1 btn-round-12">
+                                            <button type="submit" className="btn theme-btn-1 btn-round-12">
                                                 Save
                                             </button>
                                         </div>
@@ -584,30 +623,17 @@ const location = useLocation();
                     <div className="modal-content">
                         <div className="modal-header flex-column">
                             <div className="icon-box">
-                                <i className="fa fa-close" style={{marginLeft:'20px'}}></i>
+                                <i className="fa fa-close" style={{ marginLeft: '20px' }}></i>
                             </div>
                             <h4 className="modal-title w-100">Are you sure?</h4>
-                            <button
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-hidden="true"
-                                onClick={() => closeModal()}
-                            >
-                                ×
-                            </button>
+
                         </div>
-                        <div className="modal-body">
-                            <p>
-                                Do you really want to delete these records? This process cannot be
-                                undone.
-                            </p>
-                        </div>
-                        <div className="modal-footer justify-content-center">
+
+                        <div className="modal-footer justify-content-center mt-20">
                             <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modal">
                                 Cancel
                             </button>
-                            <button onClick={delBenifit ? DelBenifit : delProduct} type="button" className="btn btn-danger">
+                            <button onClick={delBenifit.show ? DelBenifits : delProduct} type="button" className="btn btn-danger">
                                 Delete
                             </button>
                         </div>

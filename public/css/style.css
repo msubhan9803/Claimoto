@@ -573,6 +573,7 @@ ol li {
   .section-bg-3 .slick-arrow-1 .slick-arrow {
     background-color: transparent; }
   .section-bg-3 input[type="text"],
+  .section-bg-3 input[type="date"],
   .section-bg-3 input[type="email"],
   .section-bg-3 input[type="password"],
   .section-bg-3 input[type="submit"] {
@@ -924,6 +925,7 @@ fieldset legend {
 ---------------------------------------------------- */
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="date"]:focus,
 input[type="email"]:focus,
 input[type="url"]:focus,
 input[type="password"]:focus,
@@ -949,6 +951,7 @@ code {
 input[type="text"],
 input[type="number"],
 input[type="email"],
+input[type="date"],
 input[type="password"],
 input[type="submit"],
 textarea {
@@ -968,6 +971,7 @@ textarea {
   padding-right: 40px; }
 
 input[type="text"]::-webkit-input-placeholder,
+input[type="date"]::-webkit-input-placeholder,
 input[type="number"]::-webkit-input-placeholder,
 input[type="email"]::-webkit-input-placeholder,
 input[type="password"]::-webkit-input-placeholder,
@@ -984,8 +988,10 @@ textarea::-webkit-input-placeholder {
 }
 
 input[type="text"]:focus,
+input[type="date"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
+input[type="password"]:focus,
 input[type="password"]:focus,
 textarea:focus {
   border: 0;
@@ -13462,7 +13468,9 @@ form .ltnd__title-3 {
 
 /* policies */
 .policies-details-single-info {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  padding-top: 20px;;
+ }
   .policies-details-single-info h6,
   .policies-details-single-info strong {
     font-weight: 600; }
@@ -14964,4 +14972,89 @@ form .ltnd__title-3 {
 
 .errorMsg{
   color:  red !important
+}
+
+
+/* page not found */
+
+svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -250px;
+  margin-left: -400px;
+}
+.message-box {
+  height: 200px;
+  width: 380px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: 50px;
+  color: #FFF;
+  font-family: Roboto;
+  font-weight: 300;
+}
+.message-box h1 {
+  font-size: 60px;
+  line-height: 46px;
+  margin-bottom: 40px;
+}
+.buttons-con .action-link-wrap {
+  margin-top: 40px;
+}
+.buttons-con .action-link-wrap a {
+  background: #68c950;
+  padding: 8px 25px;
+  border-radius: 4px;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px
+}
+.buttons-con .action-link-wrap a:hover {
+  background: #5A5C6C;
+  color: #fff;
+}
+
+#Polygon-1 , #Polygon-2 , #Polygon-3 , #Polygon-4 , #Polygon-4, #Polygon-5 {
+  animation: float 1s infinite ease-in-out alternate;
+}
+#Polygon-2 {
+  animation-delay: .2s; 
+}
+#Polygon-3 {
+  animation-delay: .4s; 
+}
+#Polygon-4 {
+  animation-delay: .6s; 
+}
+#Polygon-5 {
+  animation-delay: .8s; 
+}
+
+@keyframes float {
+	100% {
+    transform: translateY(20px);
+  }
+}
+@media (max-width: 450px) {
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -190px;
+  }
+  .message-box {
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -190px;
+    text-align: center;
+  }
 }

@@ -31,13 +31,13 @@ function PoliciesList() {
                                     <li className="table-data-6">Prince Nails' bent Asem St...</li>
                                     <li className="table-data-7">
                                         <strong>
-                                            <Link to={`/admin/vehical_details/${1}`}>Vehicle</Link>
+                                            <Link to={`/admin/vehical_detail/${1}`}>Vehicle</Link>
                                         </strong>{" "}
                                     </li>
                                     <li className="table-data-8">
                                         <Link
                                             className="ltn__secondary-color"
-                                            to={`/admin/policies_details/${1}`}
+                                            to={`/admin/policy_detail/${1}`}
                                         >
                                             <strong>Details</strong>
                                         </Link>{" "}

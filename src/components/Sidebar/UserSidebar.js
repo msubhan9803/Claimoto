@@ -32,6 +32,7 @@ export default function Sidebar(props) {
             <ul>
               {routes.map((route, index) => {
                 let isActiveRoute = `/${route.layout+route.path}` === activeRoute;
+                if(route.name !== "")
                 return <li className={isActiveRoute ? "active" : ""} key={index}>
                   <Link to={`.${route.path}`} >
                     <i className={route.icon}></i>

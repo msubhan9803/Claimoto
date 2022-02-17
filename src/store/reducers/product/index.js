@@ -6,17 +6,18 @@ import {
     GET_PRODUCT_TYPE,
     GET_SINGLE_PRODUCT,
     GET_PRODUCT_INPUTS,
-    // EDIT_PRODUCT_TYPE,
     EDIT_PRODUCT_BENEFIT,
     CANCEL_PRODUCT_BENEFIT,
     DELETE_PRODUCT,
     DELETE_PRODUCT_BENEFIT,
     UPDATE_PRODUCT,
     UPDATE_PRODUCT_BENEFIT,
+    CHECK_PRODUCT_ACTIVE,
+    PRODUCT_SORT,
 } from 'store/types/types'
 const initialState = {
     product_Types: [],
-    isSuccess:false,
+    isSuccess: false,
     product: {
         Id: '',
         TenantId: '',
@@ -35,12 +36,12 @@ const initialState = {
         BenefitDetails: '',
         Benefit: [],
         editBenft: '',
-        sort :'',
-        active:'',
-        
+        sort: '',
+        active: '',
+
 
     },
-   
+
     findType: {},
     findName: {},
     allProducts: [],
@@ -68,18 +69,18 @@ const productReducer = (state = initialState, action) => {
             }
         }
 
-        case "CHECK_PRODUCT_TYPE": {
-            
-                return {
-                    ...state,
-                    allProducts: action.payload
-                    };
+        case PRODUCT_SORT: {
+
+            return {
+                ...state,
+                allProducts: action.payload
+            };
 
 
 
         }
 
-        case "CHECK_PRODUCT_ACTIVE": {
+        case CHECK_PRODUCT_ACTIVE: {
             let productActive = state.dummy.filter((item) => item.Status === action.payload)
             return {
                 ...state,
@@ -92,22 +93,24 @@ const productReducer = (state = initialState, action) => {
         case REGISTER_PRODUCT: {
             return {
                 ...state,
-                isSuccess:true,
-                allProducts: [action.payload],
-                    product : initialState.product
+                allProducts: [...state.allProducts, action.payload],
+                product: initialState.product
             }
         }
 
         case GET_PRODUCTS: {
-            let activeFilter = action.payload.filter((item)=> item.Status === true )
+            let activeFilter = action.payload.filter((item) => item.Status === true)
             return {
                 ...state,
-                product : initialState.product,
+                product: initialState.product,
+                isSuccess: false,
                 checkType: null,
                 allProducts: activeFilter,
                 dummy: action.payload,
             };
         }
+       
+
 
         case GET_PRODUCT_TYPE: {
             return {
@@ -127,14 +130,14 @@ const productReducer = (state = initialState, action) => {
             }
         }
 
-        
+
         case GET_SINGLE_PRODUCT: {
+            debugger
             return {
                 ...state,
-
                 product: {
                     ...state.product,
-                    ...action.payload
+                    ...action.payload,
                 }
             };
         }
@@ -153,8 +156,8 @@ const productReducer = (state = initialState, action) => {
         case DELETE_PRODUCT: {
             return {
                 ...state,
-                isSuccess: true , 
-                allProducts: state.allProducts.filter((data, index) => index !== action.payload)
+                isSuccess: true,
+                allProducts: state.allProducts.filter((data, index) => index != action.payload)
             }
         }
         case DELETE_PRODUCT_BENEFIT: {
@@ -174,7 +177,8 @@ const productReducer = (state = initialState, action) => {
                     if (item.id === action.payload.Id)
                         item = action.payload
                     return item
-                })
+                }),
+              ...state.isSuccess = true 
             })
         }
 

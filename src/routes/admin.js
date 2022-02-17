@@ -8,8 +8,11 @@ import Vehicle from 'views/pages/Admin/Vehicle/Vehicle'
 import UserManagement from 'views/pages/Admin/UserManagement/UserManagement'
 import Setting from 'views/pages/Admin/Setting/Setting'
 import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail'
-import NotFound from 'views/pages/404/404'
-import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
+import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail";
+import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
+
+// import NotFound from 'views/pages/404/404'
+// import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
 
 export const adminRoutes = () => {
     return [
@@ -61,19 +64,50 @@ export const adminRoutes = () => {
             layout: "admin",
         },
         {
-            name: "Product Detail",
-            path: "/product_detail",
+            name: "",
+            path: "/create_product",
             component: <ProductDetail />,
-            icon: "ti-settings",
             layout: "admin",
         },
         {
-            name:"Test Route",
-            path:"/test_route",
-            component: <DragAndDrop />,
-            icon: "ti-settings",
+            name:"",
+            path:"/product_detail/:id",
+            component: <ProductDetail />,
             layout: "admin"
-        }
+        },
+        {
+            name:"",
+            path:"/create_policy",
+            component: <PoliciesDetail />,
+            layout: "admin"
+        },
+        {
+            name:"",
+            path:"/policy_detail/:id",
+            component: <PoliciesDetail />,
+            layout: "admin"
+        },
+        {
+            name:"",
+            path:"/create_vehical",
+            component: <VehicalDetail />,
+            layout: "admin"
+        },
+        {
+            name:"",
+            path:"/vehical_detail/:id",
+            component: <VehicalDetail />,
+            layout: "admin"
+        },
        
     ];
 };
+
+
+// <Route path="/create_product" element={<ProductDetail/>}/>
+//           <Route path="/product_detail/:id" element={<ProductDetail/>}/>
+//           <Route path="/products" element={<Products/>}/>
+//           <Route path="/create_policies" element={<PoliciesDetail/>}/>
+//           <Route path="/policies_details/:id" element={<PoliciesDetail/>}/>
+//           <Route path="/create_vehical" element={<VehicalDetail/>}/>
+//           <Route path="/vehical_details/:id" element={<VehicalDetail/>}/>
