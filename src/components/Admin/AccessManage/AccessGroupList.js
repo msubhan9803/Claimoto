@@ -1,8 +1,8 @@
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import { useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
-function AccessGroupList() {
+ function AccessGroupList() {
     let [searchParams, setSearchParams] = useSearchParams();
     const { access_groups, roles } = useSelector(state => state.usersScreenReducer);
 
@@ -124,4 +124,4 @@ function AccessGroupList() {
         </React.Fragment>)
 }
 
-// export default AccessGroupList;
+export default AccessGroupList;

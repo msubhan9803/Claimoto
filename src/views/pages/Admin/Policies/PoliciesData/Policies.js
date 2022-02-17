@@ -1,5 +1,6 @@
 import React from 'react'
 import PoliciesList from 'components/Admin/PoliciesList/PoliciesList'
+import { Link } from 'react-router-dom'
 function Policies() {
     return (
         <React.Fragment>
@@ -78,6 +79,14 @@ function Policies() {
                                                     <option>Sort by new </option>
                                                     <option>Sort by price</option>
                                                 </select>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div className="btn-wrapper text-center mt-0">
+                                                <Link to="/admin/create_policy" className="btn theme-btn-1 btn-round-12">
+                                                    Add +
+                                                </Link>
+                                                {/* <button type="submit" class="btn theme-btn-1 btn-round">Add +</button> */}
                                             </div>
                                         </li>
                                     </ul>

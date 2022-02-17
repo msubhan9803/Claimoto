@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const instance = axios.create({
     // .. where we make our configurations
-    baseURL: "http://127.0.0.1:8080/"
+    // swagger/ui/index#/
+    baseURL: "http://103.173.62.74:70/"
 });
 
 

@@ -12,9 +12,10 @@ import {
     DELETE_PRODUCT_BENEFIT,
     UPDATE_PRODUCT,
     UPDATE_PRODUCT_BENEFIT,
+    CHECK_PRODUCT_ACTIVE,
+    PRODUCT_SORT,
 } from 'store/types/types'
 
-import { history } from 'functions/history'
 
 
 export const GetInputs = (name, value) => dispatch => {
@@ -30,6 +31,10 @@ export const GetInputs = (name, value) => dispatch => {
     }
 }
 
+export const GetProducts = () => dispatch => {
+    dispatch({ type: "PRODUTS", payload: "hellow" })
+
+}
 
 // CheckProductType
 
@@ -46,7 +51,7 @@ export const SortProducts = (value, products) => (dispatch) => {
         product.sort((a, b) => (a < b ? 1 : -1));
     }
     dispatch({
-        type: "CHECK_PRODUCT_TYPE",
+        type: PRODUCT_SORT,
         payload: product
     });
 };
@@ -55,13 +60,13 @@ export const ProductStatus = (value) => dispatch => {
     try {
         if (value === "active") {
             dispatch({
-                type: "CHECK_PRODUCT_ACTIVE",
+                type: CHECK_PRODUCT_ACTIVE,
                 payload: true
             });
         }
         else {
             dispatch({
-                type: "CHECK_PRODUCT_ACTIVE",
+                type: CHECK_PRODUCT_ACTIVE,
                 payload: false
             });
         }
@@ -101,37 +106,46 @@ export const RegisterProduct = (data) => async dispatch => {
             Benefit
         } = data
         let check = Array.isArray(Benefit) && Benefit.length
+        let annual = Number(AnnualPremium).toFixed(2)
+        let copay = Number(CoPayPercentage).toFixed(2)
+        let deduc = Number(Deductibles).toFixed(2)
 
         let value = {
             ProductName,
             ProductType,
             ProductDetails,
             Status,
-            AnnualPremium,
+            AnnualPremium: annual,
             TenantId: 12345,
             Coverage: {
-                CoPayPercentage,
-                Deductibles,
+                CoPayPercentage: copay,
+                Deductibles: deduc,
                 IsAgencyRepair,
             },
-            Benefit : check === 1 ? Benefit : null
+            Benefit: check === 1 ? Benefit : null
 
         }
 
-        let res  = await instance.post('api/product', value )
-        console.log("res" , value )
-        if(res.data )
-        SweetAlert({
-            text: res.data.Message,
-            icon: "success"
-        })
+        console.log("benefit" , value)
 
-        history.push('/admin/products')
+        let res = await instance.post('api/product', value)
+        if (res.data?.includes('Already')) {
+            SweetAlert({
+                text: res.data,
+                icon: "warning"
+            })
+        }
+        else {
+            dispatch({
+                type: REGISTER_PRODUCT,
+                payload: data
+            })
+            SweetAlert({
+                text: res.data,
+                icon: "success"
+            })
 
-        dispatch({
-            type: REGISTER_PRODUCT,
-            payload: data
-        })
+        }
 
 
 
@@ -173,7 +187,9 @@ export const GetProducType = () => async dispatch => {
 
 // Get Products 
 export const GetProduct = () => async dispatch => {
+    debugger
     try {
+        
         let res = await instance.get('api/product')
         dispatch({ type: GET_PRODUCTS, payload: res.data })
     }
@@ -186,12 +202,12 @@ export const GetProduct = () => async dispatch => {
 // Get Single Products 
 export const GetSingleProduct = (ID) => async dispatch => {
     try {
+        debugger
         let res = await instance.get(`api/Product/${ID}`)
         dispatch({ type: GET_SINGLE_PRODUCT, payload: res.data })
     }
     catch (err) {
         SweetAlert({ text: err.response.data.Message, icon: 'warning' })
-        console.log("err", err.response.data)
     }
 }
 
@@ -230,15 +246,15 @@ export const CencelProductBenifit = () => dispatch => {
 
 
 // Delete Product
-export const DeleteProduct = (ID, navigate) => async (dispatch) => {
+export const DeleteProduct = (ID) => async (dispatch) => {
     try {
 
-       let res =  await instance.delete(`api/product/${ID}`)
+        let res = await instance.delete(`api/product/${ID}`)
+        console.log("res" ,res )
         SweetAlert({
-            text: "Product are successfully Deleted",
+            text: res.data.Message,
             icon: "success"
         })
-        history.push('/admin/products')
 
         dispatch({ type: DELETE_PRODUCT, payload: ID })
 
@@ -292,13 +308,11 @@ export const UpdateProduct = (data) => async dispatch => {
             Benefit: BenefitId,
         }
 
-        await instance.put('api/Product/PutProduct', value)
-
+        let res = await instance.put('api/Product/PutProduct', value)
         SweetAlert({
-            text: "Product are successfully upDated",
+            text: res.data.Message,
             icon: "success"
         })
-
         dispatch({ type: UPDATE_PRODUCT, payload: value })
 
     }
