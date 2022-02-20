@@ -6,7 +6,7 @@ import { CSSTransition } from 'react-transition-group';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalStyle } from 'variables/modalCSS';
-import { handleInputValue, clearInputValues, getModules, getUserDetails } from 'store/actions/users/users_screen';
+import { handleInputValue, clearInputValues, getModules, getAccessGroupDetails } from 'store/actions/users/users_screen';
 import Select, { components } from 'react-select';
 import { Animated } from 'react-animated-css';
 import ClickAwayListener from 'react-click-away-listener';
@@ -20,13 +20,14 @@ import { ErrorMessage } from "@hookform/error-message";
 const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     const dispatch = useDispatch();
     const { accessValues, modules_access_groups, modules_actions, access_groups, actions } = useSelector(state => state.usersScreenReducer);
-    const { access_group, name, modules, module, } = accessValues;
+    const { access_group, name, modules, module, loading } = accessValues;
     const { register, handleSubmit, formState: { errors }, control } = useForm(
         { mode: "onChange" }
     );
 
 
     const _onSubmit = data => {
+        _addUpdateAccessGroup();
         // alert(JSON.stringify(data));
 
     };
@@ -34,7 +35,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
     const _getActionName = (actionId) => {
-        return actions.find(act=>act.Id === actionId)?.ActionName || "";
+        return actions.find(act => act.Id === actionId)?.ActionName || "";
     }
 
 
@@ -80,10 +81,27 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
     useEffect(() => {
         if (edit && id) {
-            dispatch(getUserDetails(id));
+            dispatch(getAccessGroupDetails(id));
         }
     }, []);
 
+
+
+    const _addUpdateAccessGroup = () => {
+        let selected_modules = modules.map((mod) => {
+            let module_id = mod.value;
+            let selectedActions = modules_actions.filter(act => act.ModuleId === mod.value && act.status);
+            return {
+                ModuleId: module_id,
+                Actions: selectedActions
+            }
+        })
+        const payload = {
+            AccessGroupId: access_group.value,
+            Modules: selected_modules
+        }
+        console.log(payload);
+    }
 
 
 
@@ -113,122 +131,133 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                     </button>
                 </div>
                 <div className="modal-body">
-                    <div className="ltnd__adding-modal-inner">
-                        <div className="section-title-area mb-30---">
-                            <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
+                    {loading ?
+                        <div className="spinner-grow" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
-                        <div className="row">
-                            <form onSubmit={handleSubmit(_onSubmit)}>
-                                <div className="col-lg-12">
-                                    <div className="ltnd__edit-table-item">
-                                        <div className="input-item">
-                                            <h6 className="ltnd__title-3">Access Group Name <span className={errors.name && "errorMsg"}>*</span></h6>
-                                            <input type="text"
-                                                aria-invalid={errors.name ? "true" : "false"}
-                                                autoComplete="off"
-                                                {...register("name", {
-                                                    required: "Access Group Name is required.",
-                                                    minLength: {
-                                                        value: 4,
-                                                        message: "Access Group Name must exceed 5 characters"
-                                                    }
-                                                })}
-                                                onChange={_handleChange} name="name" placeholder="" value={name} />
-                                            <ErrorMessage
-                                                errors={errors}
-                                                name="name"
-                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                            />
+                        :
+                        <div className="ltnd__adding-modal-inner">
+                            <div className="section-title-area mb-30---">
+                                <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
+                            </div>
+                            <div className="row">
+                                <form onSubmit={handleSubmit(_onSubmit)}>
+                                    <div className="col-lg-12">
+                                        <div className="ltnd__edit-table-item">
+                                            <div className="input-item">
+                                                <h6 className="ltnd__title-3">Access Group Name <span className={errors.name && "errorMsg"}>*</span></h6>
+                                                <input type="text"
+                                                    aria-invalid={errors.name ? "true" : "false"}
+                                                    autoComplete="off"
+                                                    {...register("name", {
+                                                        required: "Access Group Name is required.",
+                                                        minLength: {
+                                                            value: 4,
+                                                            message: "Access Group Name must exceed 5 characters"
+                                                        }
+                                                    })}
+                                                    onChange={_handleChange} name="name" placeholder="" value={name} />
+                                                <ErrorMessage
+                                                    errors={errors}
+                                                    name="name"
+                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                />
 
-                                        </div>
-                                        <div className="input-item my-3">
-                                            <h6 className="ltnd__title-3 ">Inherited From <span className={errors.access_group && "errorMsg"}>*</span></h6>
-                                            <Controller
-                                                control={control}
-                                                name="access_group"
-                                                value={access_group}
-                                                // rules={{ required: "Access Group is required" }}
-                                                render={({ field: { onChange } }) => (
-                                                    <Select
-                                                        onChange={(event) => _handleSelect(event, "access_group")}
-                                                        options={access_groups.map((option => { return { label: option.GroupName, value: option.Id } }))}
-                                                        closeMenuOnSelect={true}
-                                                    />
-                                                )}
-                                            />
-                                            <ErrorMessage
-                                                errors={errors}
-                                                name="access_group"
-                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                            />
-                                        </div>
-                                        <div className="input-item my-3">
-                                            <h6 className="ltnd__title-3 mb-2">Modules <span className={errors.modules && "errorMsg"}>*</span></h6>
-                                            <span>click module to manage its actions</span>
-                                            <Controller
-                                                control={control}
-                                                value={modules}
-                                                name="modules"
-                                                // rules={{ required: "Modules is required *" }}
-                                                render={({ field: { onChange } }) => (
-                                                    <Select
-                                                        closeMenuOnSelect={true}
-                                                        isMulti
-                                                        components={{ MultiValueLabel: _multiValueLabel }}
-                                                        onChange={(event) => _handleSelect(event, "modules")}
-                                                        options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
-                                                    />
-                                                )}
-                                            />
-                                            <ErrorMessage
-                                                errors={errors}
-                                                name="modules"
-                                                className="errorMsg"
-                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                            />
-                                        </div>
-
-
-
-
-                                        <div className="row">
-                                            <div className="col-lg-12">
-                                                <h4>{module?.label || ""}</h4>
-                                                <div className="ltn__checkbox-radio-group inline mt-30">
-                                                    {modules_actions.filter(act => act.ModuleId === module.value).map((act) => (
-                                                        <label className="ltn__switch-2"><input type="checkbox" onChange={_handleChange} name="actions"  value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>
-                                                    ))}
-                                                </div>
                                             </div>
-                                        </div>
+                                            <div className="input-item my-3">
+                                                <h6 className="ltnd__title-3 ">Inherited From <span className={errors.access_group && "errorMsg"}>*</span></h6>
+                                                {/* <Controller
+                                                    control={control}
+                                                    name="access_group"
+                                                    value={access_group}
+                                                    // rules={{ required: "Access Group is required" }} */}
+                                                {/* render={({ field: { onChange } }) => ( */}
+                                                <Select
+                                                    name="access_group"
+                                                    value={access_group}
+                                                    onChange={(event) => _handleSelect(event, "access_group")}
+                                                    options={access_groups.map((option => { return { label: option.GroupName, value: option.Id } }))}
+                                                    closeMenuOnSelect={true}
+                                                />
+                                                {/* )}
+                                                /> */}
+                                                <ErrorMessage
+                                                    errors={errors}
+                                                    name="access_group"
+                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                />
+                                            </div>
+                                            <div className="input-item my-3">
+                                                <h6 className="ltnd__title-3 mb-2">Modules <span className={errors.modules && "errorMsg"}>*</span></h6>
+                                                <span>click module to manage its actions</span>
+                                                {/* <Controller
+                                                    control={control}
+                                                    value={modules}
+                                                    name="modules"
+                                                    // rules={{ required: "Modules is required *" }}
+                                                    render={({ field: { onChange } }) => ( */}
+                                                <Select
+                                                    value={modules}
+                                                    name="modules"
+                                                    closeMenuOnSelect={true}
+                                                    isMulti
+                                                    components={{ MultiValueLabel: _multiValueLabel }}
+                                                    onChange={(event) => _handleSelect(event, "modules")}
+                                                    options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
+                                                />
+                                                {/* )}
+                                                /> */}
+                                                <ErrorMessage
+                                                    errors={errors}
+                                                    name="modules"
+                                                    className="errorMsg"
+                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                />
+                                            </div>
 
 
 
-                                        {/* <footer className="ltnd__footer-1 fixed-footer-1 bg-white mt-50"> */}
-                                        <div className="container-fluid">
+
                                             <div className="row">
                                                 <div className="col-lg-12">
-                                                    <div className="ltnd__footer-1-inner pl-0 pr-0">
-                                                        <div className="ltnd__left btn-normal">
-                                                            <a className="ltn__color-1"><i className="ti-trash"></i> Delete</a>
-                                                        </div>
-                                                        <div className="ltnd__right btn-normal">
-                                                            <div className="btn-wrapper">
-                                                                {/* <a onClick={_clearState} className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a> */}
-                                                                <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
+                                                    <h4>{module?.label || ""}</h4>
+                                                    <div className="ltn__checkbox-radio-group inline mt-30">
+                                                        {modules_actions.filter(act => act.ModuleId === module.value).map((act) => (
+                                                            <label className="ltn__switch-2"><input type="checkbox" onChange={_handleChange} name="actions" value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            {/* <footer className="ltnd__footer-1 fixed-footer-1 bg-white mt-50"> */}
+                                            <div className="container-fluid">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="ltnd__footer-1-inner pl-0 pr-0">
+                                                            <div className="ltnd__left btn-normal">
+                                                                <a className="ltn__color-1"><i className="ti-trash"></i> Delete</a>
+                                                            </div>
+                                                            <div className="ltnd__right btn-normal">
+                                                                <div className="btn-wrapper">
+                                                                    {/* <a onClick={_clearState} className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a> */}
+                                                                    <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {/* </footer> */}
                                         </div>
-                                        {/* </footer> */}
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
+
 
             </Animated>
             {/* </ClickAwayListener> */}

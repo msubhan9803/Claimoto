@@ -3,13 +3,17 @@ CHANGE_TAB,
 CLEAR_INPUT_VALUES_USER_SCREEN,
 SET_INPUT_VALUES_USER_SCREEN,
 SET_INPUT_VALUES_ACCESS_GROUP_SCREEN,
-SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES,
+SET_ROLES, SET_ACCESS_GROUPS,
+SET_MODULES,
 SET_USERS, SET_USER_DETAILS,
 SET_USER_DETAILS_REQUEST,
-SET_USER_DELETE_REQUEST, SET_USERS_REQUEST,
+SET_USER_DELETE_REQUEST,
+SET_USERS_REQUEST,
 SET_USER_PAGE_INDEX,
 SET_ACTIONS,
-SET_MODULES_ACTIONS
+SET_MODULES_ACTIONS,
+SET_ACCESS_GROUP_DETAILS_REQUEST,
+SET_ACCESS_GROUP_DETAILS
 } from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
@@ -135,16 +139,16 @@ const usersScreenReducer = (state = initialState, action) => {
                 userValues: initialState.userValues
             }
         }
-            break;
+        break;
         case SET_INPUT_VALUES_ACCESS_GROUP_SCREEN: {
             const { name, value } = action.payload;
             if (name === "actions") {
-                let indexOfAction = state.actions.findIndex(act => act.id === parseInt(value));
-                let actions = state.actions;
-                actions[indexOfAction].status = !actions[indexOfAction].status;
+                let indexOfAction = state.modules_actions.findIndex(act => act.Id === parseInt(value));
+                let actions = state.modules_actions;
+                actions[indexOfAction].status = actions[indexOfAction].status ? false : true;
                 return {
                     ...state,
-                    actions
+                    modules_actions:actions
                 }
             }
             else {
@@ -263,6 +267,38 @@ const usersScreenReducer = (state = initialState, action) => {
             }
         }
         break;
+
+
+        case SET_ACCESS_GROUP_DETAILS_REQUEST:{
+            return {
+                ...state,
+                accessValues:{
+                    ...initialState.accessValues,
+                    loading:action.payload
+                }
+            }
+        }
+
+        case SET_ACCESS_GROUP_DETAILS:{
+            let { modules , group_details, actions  } = action.payload;
+            let modified_actions = state.modules_actions.map((act)=>{
+                return {
+                    ...act,
+                    status:actions.find(acti=> acti.ModuleId === act.ModuleId && acti.ActionId === act.ActionId) ? true : false
+                }
+            })
+            return {
+                ...state,
+                modules_actions:modified_actions,
+                accessValues:{
+                    ...state.accessValues,
+                    name:group_details.GroupName,
+                    access_group:  {label:group_details.GroupName,value:group_details.Id},
+                    modules:modules.map((mod)=>{ return {label:mod.ModuleMenuName, value:mod.Id}}),
+                    loading:false
+                },
+            }
+        }
 
         default:
             return { ...state };

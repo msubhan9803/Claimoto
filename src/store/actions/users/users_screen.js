@@ -17,7 +17,9 @@ import {
     SET_USER_ADD_REQUEST,
     SET_USER_PAGE_INDEX,
     SET_ACTIONS,
-    SET_MODULES_ACTIONS
+    SET_MODULES_ACTIONS,
+    SET_ACCESS_GROUP_DETAILS_REQUEST,
+    SET_ACCESS_GROUP_DETAILS
 } from '../../types/users'
 
 
@@ -114,7 +116,7 @@ export const getModules = (id) => async dispatch => {
 
 
 
-export const getUsers = ({users_per_page, users_page_index, search_text, search_option, sort_name, sort_type}) => async dispatch => {
+export const getUsers = ({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         dispatch({
             type: SET_USERS_REQUEST,
@@ -144,7 +146,7 @@ export const getUserDetails = (id) => async dispatch => {
             dispatch({
                 type: SET_USER_DETAILS,
                 payload: data[0] || null
-            }) 
+            })
         }, 500);
     } catch (error) {
         dispatch({ type: SET_USER_DETAILS_REQUEST, payload: false });
@@ -181,7 +183,7 @@ export const addUser = (data) => async dispatch => {
             "RoleId": data?.access_role.value || "",
             "AccessGroups": data?.access_group || [],
             "ImageModel": data?.selected_image || "",
-            "Status":data?.status
+            "Status": data?.status
         };
         dispatch({ type: SET_USER_ADD_REQUEST, payload: true });
         let response = await instance({
@@ -204,7 +206,7 @@ export const setUserPage = (pageIndex) => async dispatch => {
 
 
 
-export const getActions = () => async dispatch => { 
+export const getActions = () => async dispatch => {
     let response = await instance.get(`api/Actions`);
     dispatch({
         type: SET_ACTIONS,
@@ -213,7 +215,7 @@ export const getActions = () => async dispatch => {
 }
 
 
-export const getModulesActions = () => async dispatch => { 
+export const getModulesActions = () => async dispatch => {
     let response = await instance.get(`api/ModuleActions`);
     dispatch({
         type: SET_MODULES_ACTIONS,
@@ -221,3 +223,26 @@ export const getModulesActions = () => async dispatch => {
     });
 }
 
+
+
+
+export const getAccessGroupDetails = (id) => async dispatch => {
+    try {
+        dispatch({ type: SET_ACCESS_GROUP_DETAILS_REQUEST, payload: true });
+        let actions = await instance.get(`api/AccessGroupModuleActions/${id}`);
+        let modules = await instance.get(`api/Modules/${id}`);
+        let group_details = await instance.get(`/api/AccessGroups/${id}`);
+
+
+        setTimeout(() => {
+            dispatch({
+                type: SET_ACCESS_GROUP_DETAILS,
+                payload: { actions: actions.data, modules: modules.data, group_details:group_details.data[0] } || null
+            });
+        }, 500);
+
+    } catch (error) {
+        dispatch({ type: SET_ACCESS_GROUP_DETAILS_REQUEST, payload: false });
+        console.log("err", error)
+    }
+}
