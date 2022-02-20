@@ -15,8 +15,9 @@ import {
     SET_USER_DELETE_REQUEST,
     SET_USERS_REQUEST,
     SET_USER_ADD_REQUEST,
-    SET_USER_PAGE_INDEX
-
+    SET_USER_PAGE_INDEX,
+    SET_ACTIONS,
+    SET_MODULES_ACTIONS
 } from '../../types/users'
 
 
@@ -199,5 +200,24 @@ export const addUser = (data) => async dispatch => {
 
 export const setUserPage = (pageIndex) => async dispatch => {
     dispatch({ type: SET_USER_PAGE_INDEX, payload: pageIndex });
+}
+
+
+
+export const getActions = () => async dispatch => { 
+    let response = await instance.get(`api/Actions`);
+    dispatch({
+        type: SET_ACTIONS,
+        payload: response?.data || []
+    });
+}
+
+
+export const getModulesActions = () => async dispatch => { 
+    let response = await instance.get(`api/ModuleActions`);
+    dispatch({
+        type: SET_MODULES_ACTIONS,
+        payload: response?.data || []
+    });
 }
 

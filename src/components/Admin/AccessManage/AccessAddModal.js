@@ -19,7 +19,7 @@ import { ErrorMessage } from "@hookform/error-message";
 
 const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     const dispatch = useDispatch();
-    const { accessValues, modules_access_groups, actions, access_groups } = useSelector(state => state.usersScreenReducer);
+    const { accessValues, modules_access_groups, modules_actions, access_groups, actions } = useSelector(state => state.usersScreenReducer);
     const { access_group, name, modules, module, } = accessValues;
     const { register, handleSubmit, formState: { errors }, control } = useForm(
         { mode: "onChange" }
@@ -32,11 +32,19 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     };
 
 
+
+    const _getActionName = (actionId) => {
+        return actions.find(act=>act.Id === actionId)?.ActionName || "";
+    }
+
+
     const _handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
         dispatch(handleInputValue({ name, value, compnnt: "access_group" }));
     }
+
+
     const _handleSelect = (value, name) => {
         if (name === "access_group") {
             let access_group_id = parseInt(value?.value || 0);
@@ -169,7 +177,6 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                         components={{ MultiValueLabel: _multiValueLabel }}
                                                         onChange={(event) => _handleSelect(event, "modules")}
                                                         options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
-                                                        d
                                                     />
                                                 )}
                                             />
@@ -188,8 +195,8 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <div className="col-lg-12">
                                                 <h4>{module?.label || ""}</h4>
                                                 <div className="ltn__checkbox-radio-group inline mt-30">
-                                                    {actions.filter(act => act.module_id === module.value).map((act) => (
-                                                        <label className="ltn__switch-2"><input type="checkbox" onChange={_handleChange} name="actions" disabled={act.disabled} value={act.id} checked={act.status} /> <i className="lever"></i> <span className="text">{act.name}</span></label>
+                                                    {modules_actions.filter(act => act.ModuleId === module.value).map((act) => (
+                                                        <label className="ltn__switch-2"><input type="checkbox" onChange={_handleChange} name="actions"  value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>
                                                     ))}
                                                 </div>
                                             </div>

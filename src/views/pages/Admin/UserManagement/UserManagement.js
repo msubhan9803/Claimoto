@@ -8,7 +8,7 @@ import AccessAddModal from 'components/Admin/AccessManage/AccessAddModal';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useSearchParams } from "react-router-dom";
-import { getAccessRoles, getRoles, handleInputValue } from 'store/actions/users/users_screen';
+import { getAccessRoles, getRoles, handleInputValue, getActions, getModulesActions } from 'store/actions/users/users_screen';
 import { getUsers } from 'store/actions/users/users_screen';
 
 
@@ -39,6 +39,8 @@ function UserManagement() {
 
     //Actions
     const _handleComActions = () => {
+        dispatch(getModulesActions());
+        dispatch(getActions());
         dispatch(getRoles());
         dispatch(getAccessRoles());
         // dispatch(getModules());

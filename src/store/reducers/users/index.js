@@ -1,4 +1,16 @@
-import { CHANGE_TAB, CLEAR_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_USER_SCREEN, SET_INPUT_VALUES_ACCESS_GROUP_SCREEN, SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES, SET_USERS, SET_USER_DETAILS, SET_USER_DETAILS_REQUEST, SET_USER_DELETE_REQUEST, SET_USERS_REQUEST, SET_USER_PAGE_INDEX } from '../../types/users';
+import {
+CHANGE_TAB,
+CLEAR_INPUT_VALUES_USER_SCREEN,
+SET_INPUT_VALUES_USER_SCREEN,
+SET_INPUT_VALUES_ACCESS_GROUP_SCREEN,
+SET_ROLES, SET_ACCESS_GROUPS, SET_MODULES,
+SET_USERS, SET_USER_DETAILS,
+SET_USER_DETAILS_REQUEST,
+SET_USER_DELETE_REQUEST, SET_USERS_REQUEST,
+SET_USER_PAGE_INDEX,
+SET_ACTIONS,
+SET_MODULES_ACTIONS
+} from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
 import AccessGroupList from 'components/Admin/AccessManage/AccessGroupList';
@@ -61,12 +73,12 @@ const initialState = {
         email: "",
         access_role: "",
         access_group: [],
-        status:2,
+        status: 2,
         selected_image: {
-            Base64:"",
-            file:null,
-            ImageName:"",
-            ImageType:"",
+            Base64: "",
+            file: null,
+            ImageName: "",
+            ImageType: "",
         },
         password: "",
         confirm_password: "",
@@ -84,85 +96,14 @@ const initialState = {
         module: ""
     },
     modules: [],
-    actions: [
-        {
-            name: "Add Product",
-            status: true,
-            module_id: 1,
-            id: 1,
-            disabled: false
-        },
-        {
-            name: "Edit Product",
-            status: false,
-            module_id: 1,
-            id: 2,
-            disabled: true
-        },
-        {
-            name: "Delete Product",
-            status: false,
-            module_id: 1,
-            id: 3,
-            disabled: true
-        },
-        {
-            name: "View Product",
-            status: true,
-            module_id: 1,
-            id: 4,
-            disabled: false
-        },
-        {
-            name: "View Details",
-            status: true,
-            module_id: 1,
-            id: 5,
-            disabled: false
-        },
-        {
-            name: "Add Policy",
-            status: true,
-            module_id: 2,
-            id: 6,
-            disabled: false
-        },
-        {
-            name: "Edit Policy",
-            status: false,
-            module_id: 2,
-            id: 7,
-            disabled: true
-        },
-        {
-            name: "Delete Policy",
-            status: false,
-            module_id: 2,
-            id: 8,
-            disabled: true
-        },
-        {
-            name: "View Policy",
-            status: true,
-            module_id: 2,
-            id: 9,
-            disabled: false
-        },
-        {
-            name: "View Details",
-            status: true,
-            module_id: 2,
-            id: 10,
-            disabled: false
-        }
-
-    ],
+    actions: [],
     users: [],
     roles: [],
     access_groups: [],
     modules_access_groups: [],
     modules_actions: [],
-    users_per_page: 50,
+    actions: [],
+    users_per_page: 10,
     users_page_index: 1,
     users_count: 0
 };
@@ -209,12 +150,9 @@ const usersScreenReducer = (state = initialState, action) => {
             else {
                 return {
                     ...state,
-                    modules_actions: name === "module" ? state.actions.filter(act => act.module_id === parseInt(value.value)) : state.modules_actions,
                     accessValues: {
                         ...state.accessValues,
                         [name]: value,
-                        modules: name === "access_group" ? initialState.accessValues.modules : name === "modules" ? value : state.accessValues.modules,
-                        // module: name === "access_group" ? initialState.accessValues.module : name === "module" ? value : state.accessValues.module
                     }
                 }
             }
@@ -309,7 +247,23 @@ const usersScreenReducer = (state = initialState, action) => {
                 users_page_index: action.payload
             }
         }
-            break;
+
+        case SET_ACTIONS: {
+            return {
+                ...state,
+                actions: action.payload
+            }
+        }
+        break;
+
+        case SET_MODULES_ACTIONS: {
+            return {
+                ...state,
+                modules_actions: action.payload
+            }
+        }
+        break;
+
         default:
             return { ...state };
     }
