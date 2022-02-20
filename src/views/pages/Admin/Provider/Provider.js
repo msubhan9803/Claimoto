@@ -1,8 +1,86 @@
-import React from 'react'
-import ProviderList from '../../../../components/Admin/ProviderList/ProviderList'
-function Provider() {
+import React, { useState, useEffect } from 'react'
+import TabsWrapper from 'components/Tabs/TabsWrapper';
+import TabContent from 'components/Tabs/TabsContent';
+import TabsHeader from 'components/Tabs/TabsHeader';
+import { useSelector, useDispatch } from 'react-redux';
+import { useSearchParams } from "react-router-dom";
+import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
+import ProviderAddModal from 'components/Admin/Providers/ProviderAddModal';
+
+
+function UserManagement() {
+    let dispatch = useDispatch();
+    let [searchParams, setSearchParams] = useSearchParams();
+
+    //Redux State
+    const { tabs, search_options } = useSelector(state => state.providersScreenReducer);
+
+    //Component State
+    let initialState = {
+        openModal: false,
+    }
+    const [comState, setComState] = useState(initialState);
+
+
+
+    //Actions
+    const _handleComActions = () => {
+        dispatch(getRoles());
+        dispatch(getAccessRoles());
+        // dispatch(getModules());
+        let action = searchParams.get("action");
+        let activeTab = searchParams.get("tab");
+        switch (action) {
+            case "add":
+                setComState((comState) => ({
+                    ...initialState,
+                    openModal: true,
+                }));
+                break;
+            default:
+                setComState(initialState);
+                break;
+        }
+        if (!activeTab) {
+            searchParams.set("tab", 0);
+            setSearchParams(searchParams);
+        }
+
+        if(action){
+            document.body.style.overflow = 'hidden';
+        }
+        else{
+            setTimeout(() => {
+                document.body.style.overflow = 'scroll';
+            }, 700);
+        }
+    }
+
+
+
+    //toggleModal
+    const _toggleModal = (action) => {
+        if (searchParams.has("action")) {
+            searchParams.delete("action");
+            setSearchParams(searchParams)
+        }
+        else {
+            searchParams.set("action", action);
+            setSearchParams(searchParams)
+        };
+    }
+
+
+    useEffect(() => {
+        _handleComActions();
+    }, [searchParams]);
+
+
+
+
     return (
         <React.Fragment>
+            <ProviderAddModal  toggleModal={() => _toggleModal("add")} openModal={comState.openModal} />
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -48,13 +126,20 @@ function Provider() {
                                         <input
                                             type="text"
                                             name="search"
-                                            placeholder="Search product..."
+                                            placeholder="Search ..."
                                             className=""
                                         />
                                         <button type="submit">
                                             <i className="fas fa-search" />
-                                        </button>
+                                        </button> 
+                                        {/* <select className='select search-options'>
+                                        {search_options.map((op)=>(
+                                            <option key={op.value} value={op.vlaue}>{op.label}</option>
+
+                                        ))}
+                                        </select> */}
                                     </form>
+                                    
                                 </div>
                             </div>
                             <div className="col-lg-7">
@@ -63,21 +148,16 @@ function Provider() {
                                         <li>
                                             <div className="short-by text-center">
                                                 <select className="nice-select">
-                                                    <option>Download</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
                                                 </select>
                                             </div>
                                         </li>
                                         <li>
-                                            <div className="short-by text-center">
-                                                <select className="nice-select">
-                                                    <option>Import</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
-                                                </select>
+                                            <div className="btn-wrapper text-center mt-0">
+                                                <a
+                                                    onClick={() => _toggleModal("add")}
+                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                    Add
+                                                </a>
                                             </div>
                                         </li>
                                     </ul>
@@ -92,12 +172,26 @@ function Provider() {
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* ltnd__policies-table start */}
-                                <ProviderList />
+                                <div className="select-availability-area pb-120">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <TabsWrapper>
+                                                <TabsHeader tabs={tabs} />
+                                                <TabContent>
+                                                    {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                                    {/* {tabs.map((tab, index) => (
+                                                        <Tab key={tab.id} tab={tab} index={index}>
+                                                            {tab.component}
+                                                        </Tab>
+                                                    ))} */}
+                                                </TabContent>
+                                            </TabsWrapper>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -105,4 +199,4 @@ function Provider() {
     )
 }
 
-export default Provider
+export default UserManagement

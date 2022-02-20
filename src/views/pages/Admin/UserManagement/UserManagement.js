@@ -8,7 +8,8 @@ import AccessAddModal from 'components/Admin/AccessManage/AccessAddModal';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useSearchParams } from "react-router-dom";
-import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
+import { getAccessRoles, getRoles, handleInputValue } from 'store/actions/users/users_screen';
+import { getUsers } from 'store/actions/users/users_screen';
 
 
 function UserManagement() {
@@ -16,8 +17,8 @@ function UserManagement() {
     let [searchParams, setSearchParams] = useSearchParams();
 
     //Redux State
-    const { tabs } = useSelector(state => state.usersScreenReducer);
-
+    const { tabs, search_options, userValues, users_per_page, users_page_index, users_count } = useSelector(state => state.usersScreenReducer);
+    const { search_option, search_text, sort_name, sort_type } = userValues;
     //Component State
     let initialState = {
         openUserModal: false,
@@ -26,6 +27,13 @@ function UserManagement() {
         id: null
     }
     const [comState, setComState] = useState(initialState);
+
+
+    const _handleChange = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        dispatch(handleInputValue({ name, value, compnnt: "user" }));
+    }
 
 
 
@@ -75,13 +83,13 @@ function UserManagement() {
             setSearchParams(searchParams);
         }
 
-        if(action){
+        if (action) {
             document.body.style.overflow = 'hidden';
         }
-        else{
+        else {
             setTimeout(() => {
                 document.body.style.overflow = 'scroll';
-            }, 700);
+            }, 300);
         }
     }
 
@@ -89,6 +97,11 @@ function UserManagement() {
 
     //toggleModal
     const _toggleModal = (action) => {
+
+        // dispatch(clearInputValues());
+
+
+
         if (searchParams.has("action")) {
             searchParams.delete("action");
             searchParams.delete("id");
@@ -106,13 +119,16 @@ function UserManagement() {
         _handleComActions();
     }, [searchParams]);
 
+    useEffect(() => {
+        dispatch(getUsers({ users_per_page, users_page_index: 0, search_text, search_option, sort_name, sort_type }));
+    }, [search_text, search_option, sort_name, sort_type])
 
 
 
     return (
         <React.Fragment>
-            <UserAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />
-            <AccessAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />
+            {comState.openUserModal && <UserAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
+            {comState.openAccessModal && <AccessAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -157,14 +173,23 @@ function UserManagement() {
                                     <form action="#" _lpchecked={1}>
                                         <input
                                             type="text"
-                                            name="search"
+                                            name="search_text"
                                             placeholder="Search ..."
+                                            onChange={_handleChange}
                                             className=""
+                                            value={search_text}
                                         />
                                         <button type="submit">
                                             <i className="fas fa-search" />
                                         </button>
+                                        <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
+                                            {search_options.map((op) => (
+                                                <option key={op.value} value={op.value}>{op.label}</option>
+
+                                            ))}
+                                        </select>
                                     </form>
+
                                 </div>
                             </div>
                             <div className="col-lg-7">
@@ -172,10 +197,22 @@ function UserManagement() {
                                     <ul>
                                         <li>
                                             <div className="short-by text-center">
-                                                <select className="nice-select">
+                                                <select onChange={_handleChange} name="sort_name" value="sort_name" className="form-control-sm border-0 px-1">
+                                                    <option value="name">Name</option>
+                                                    <option value="date">Date</option>
                                                 </select>
                                             </div>
                                         </li>
+
+                                        <li>
+                                            <div className="short-by text-center">
+                                                <select onChange={_handleChange} name="sort_type" value="sort_type" className="form-control-sm border-0 px-1 ">
+                                                    <option value="asc">ASC</option>
+                                                    <option value="dse">DSE</option>
+                                                </select>
+                                            </div>
+                                        </li>
+
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
                                                 <a

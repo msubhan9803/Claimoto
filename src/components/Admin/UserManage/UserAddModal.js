@@ -4,8 +4,7 @@ import Modal from 'react-modal';
 import { Animated } from "react-animated-css";
 import { modalStyle } from 'variables/modalCSS';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleInputValue } from 'store/actions/users/users_screen';
-import { clearInputValues } from 'store/actions/users/users_screen';
+import { handleInputValue, deleteUser, clearInputValues, getUsers } from 'store/actions/users/users_screen';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useForm, Controller } from "react-hook-form";
@@ -14,6 +13,8 @@ import * as Yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
 import { getUserDetails } from 'store/actions/users/users_screen';
 import { msgAlert } from 'functions';
+import { confirmAlert } from 'functions';
+import { addUser } from 'store/actions/users/users_screen';
 
 
 const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
@@ -28,8 +29,8 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             .required('Last Name is mendatory')
             .min(3, 'Last Name must be at 3 char long'),
         password: Yup.string().optional()
-            // .required('Password is mendatory')
-            ,
+        // .required('Password is mendatory')
+        ,
         confirm_password: Yup.string()
             // .required('Password is mendatory')
             .oneOf([Yup.ref('password')], 'Passwords does not match'),
@@ -51,7 +52,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
     const { register, handleSubmit, formState: { errors }, control } = useForm({ mode: "all", resolver: yupResolver(formSchema) });
     const imageRef = createRef();
-    const { roles, userValues, access_groups } = useSelector(state => state.usersScreenReducer);
+    const { roles, userValues, access_groups, users_per_page, users_page_index, users_count } = useSelector(state => state.usersScreenReducer);
     const dispatch = useDispatch();
     const {
         first_name,
@@ -63,22 +64,59 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         selected_image,
         password,
         confirm_password,
-        loading
+        loading,
+        deletingUser,
+        status,
+        search_text,
+        search_option,
+        sort_name,
+        sort_type
     } = userValues;
 
 
     const animatedComponents = makeAnimated();
 
     const _onSubmit = data => {
-        alert(JSON.stringify(data));
-
+        if (id) {
+            //Update User
+            dispatch(addUser({ UserId: id, ...userValues }))
+        } else {
+            //Add User
+            dispatch(addUser(userValues));
+        }
+        toggleModal();
+        setTimeout(() => {
+            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+        }, 500);
     };
+
+
+    const _deleteAction = () => {
+        dispatch(deleteUser(id));
+        toggleModal();
+        setTimeout(() => {
+            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+        }, 500);
+    }
+
+
+    const _deleteUser = () => {
+        if (id) {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Delete it",
+                action: _deleteAction
+            });
+        }
+    }
 
     const _handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
         dispatch(handleInputValue({ name, value, compnnt: "user" }));
     }
+
     const _handleSelect = (name, value) => {
         dispatch(handleInputValue({ name, value, compnnt: "user" }));
     }
@@ -95,14 +133,15 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             msgAlert({ title: "Invalid Image Type", text: "Only Png and Jpeg images are allowed" });
             imageRef.current.value = "";
         }
-        else if (s_file.size > 20000) {
+        else if (s_file.size < 20000) {
             msgAlert({ title: "Invalid Image Size", text: "Only > 2 MB are allowed" });
             imageRef.current.value = "";
         }
         else {
             const reader = new FileReader();
             reader.onloadend = () => {
-                dispatch(handleInputValue({ name: "selected_image", value: {base64: reader.result, file:s_file}, compnnt: "user" }))
+                let image_type = s_file.type.split('/')[1];
+                dispatch(handleInputValue({ name: "selected_image", value: { Base64: reader.result, Type: image_type, ImageName: s_file.name, file: s_file }, compnnt: "user" }))
             }
             reader.readAsDataURL(s_file);
         }
@@ -150,10 +189,10 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="ltnd__edit-table-item">
-                                        <form onSubmit={handleSubmit(_onSubmit)} className="ltnd__form-1">
+                                        <form onSubmit={handleSubmit(_onSubmit)} className="ltnd__form-1" enctype="multipart/form-data">
                                             <div className="ltnd__edit-table-logo-title mb-20">
                                                 <div className="ltnd__edit-table-logo">
-                                                    <img src={selected_image?.base64 || selected_image?.file || Img} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" />
+                                                    <img src={selected_image?.Base64 || selected_image || Img} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" />
                                                     <input type="file" ref={imageRef} style={{ display: "none" }} onChange={_onImageChange} name="attachment" />
                                                 </div>
                                                 <div className="ltnd__edit-table-title">
@@ -283,11 +322,30 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
                                                             <div className="ltnd__left btn-normal">
-                                                                <a className="ltn__color-1"><i className="ti-trash"></i> Delete</a>
+                                                                {edit ? deletingUser ?
+                                                                    <div className="spinner-grow" role="status">
+                                                                        <span className="sr-only">Loading...</span>
+                                                                    </div>
+                                                                    :
+                                                                    <div className="ltn__table-active-status clearfix">
+                                                                        <div className="ltn__checkbox-radio-group inline">
+                                                                            <label className="ltn__switch-2">
+                                                                                <input type="checkbox" role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
+                                                                                <i className="lever" />
+                                                                            </label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    : ""}
+                                                                {/* <a onClick={_deleteUser} className="ltn__color-1" role="button">
+                                                                    <i className="ti-trash"></i>
+                                                                    Toggle Status</a> */}
+
                                                             </div>
+
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
-                                                                    <a onClick={_clearState} className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a>
+                                                                    <a onClick={_clearState} className="ltn__color-1" role=""><i className="ti-angle-left"></i> Cancel</a>
                                                                     <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
                                                                 </div>
                                                             </div>
@@ -302,8 +360,8 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                 </div>
                             </div>
                             :
-                            <div class="spinner-grow" role="status">
-                                <span class="sr-only">Loading...</span>
+                            <div className="spinner-grow" role="status">
+                                <span className="sr-only">Loading...</span>
                             </div>
                         }
                     </div>

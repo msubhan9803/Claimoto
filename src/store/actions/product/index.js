@@ -187,7 +187,6 @@ export const GetProducType = () => async dispatch => {
 
 // Get Products 
 export const GetProduct = () => async dispatch => {
-    debugger
     try {
         
         let res = await instance.get('api/product')

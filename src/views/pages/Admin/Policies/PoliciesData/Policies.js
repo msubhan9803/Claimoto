@@ -86,7 +86,7 @@ function Policies() {
                                                 <Link to="/admin/create_policy" className="btn theme-btn-1 btn-round-12">
                                                     Add +
                                                 </Link>
-                                                {/* <button type="submit" class="btn theme-btn-1 btn-round">Add +</button> */}
+                                                {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
                                             </div>
                                         </li>
                                     </ul>

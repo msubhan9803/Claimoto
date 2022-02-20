@@ -127,7 +127,7 @@ function TermsCondition() {
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner bg-white">
                                         <div className="ltnd__left btn-normal">
-                                            {/* <a href="#"><i class="ti-trash"></i> Delete</a> */}
+                                            {/* <a href="#"><i className="ti-trash"></i> Delete</a> */}
                                         </div>
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">

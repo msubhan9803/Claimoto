@@ -1,5 +1,6 @@
 //ACTION TYPES
 import instance from 'config/axios/instance'
+import { successAlert } from 'functions'
 import {
     CHANGE_TAB,
     SET_INPUT_VALUES_USER_SCREEN,
@@ -10,7 +11,12 @@ import {
     SET_MODULES,
     SET_USERS,
     SET_USER_DETAILS,
-    SET_USER_DETAILS_REQUEST
+    SET_USER_DETAILS_REQUEST,
+    SET_USER_DELETE_REQUEST,
+    SET_USERS_REQUEST,
+    SET_USER_ADD_REQUEST,
+    SET_USER_PAGE_INDEX
+
 } from '../../types/users'
 
 
@@ -93,7 +99,7 @@ export const getAccessRoles = () => async dispatch => {
 export const getModules = (id) => async dispatch => {
     try {
         //Id === Access Group ID
-        let { data } =  await instance.get(id ?  `api/Modules/${id}` : `api/Modules`);  
+        let { data } = await instance.get(id ? `api/Modules/${id}` : `api/Modules`);
         dispatch({
             type: SET_MODULES,
             payload: data
@@ -107,14 +113,22 @@ export const getModules = (id) => async dispatch => {
 
 
 
-export const getUsers = () => async dispatch => {
-    try{
-    let { data } =  await instance.get(`api/UserProfile`);  
+export const getUsers = ({users_per_page, users_page_index, search_text, search_option, sort_name, sort_type}) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_USERS_REQUEST,
+            payload: true
+        })
+        let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
         dispatch({
             type: SET_USERS,
             payload: data
         })
     } catch (error) {
+        dispatch({
+            type: SET_USERS_REQUEST,
+            payload: false
+        })
         console.log("err", error)
     }
 }
@@ -122,18 +136,68 @@ export const getUsers = () => async dispatch => {
 
 
 export const getUserDetails = (id) => async dispatch => {
-    try{
-    dispatch({type: SET_USER_DETAILS_REQUEST});
-    let { data } =  await instance.get(`api/UserProfile/${id}`);  
-        dispatch({
-            type: SET_USER_DETAILS,
-            payload: data[0] || null
-        })
+    try {
+        dispatch({ type: SET_USER_DETAILS_REQUEST, payload: true });
+        let { data } = await instance.get(`api/UserProfile/${id}`);
+        setTimeout(() => {
+            dispatch({
+                type: SET_USER_DETAILS,
+                payload: data[0] || null
+            }) 
+        }, 500);
     } catch (error) {
+        dispatch({ type: SET_USER_DETAILS_REQUEST, payload: false });
         console.log("err", error)
     }
 }
 
 
 
+export const deleteUser = (id) => async dispatch => {
+    try {
+        dispatch({ type: SET_USER_DELETE_REQUEST, payload: true });
+        let response = await instance.delete(`api/UserProfile/Del?Id=${id}`);
+        dispatch({
+            type: SET_USER_DELETE_REQUEST,
+            payload: response?.data || "Success"
+        });
+        successAlert({ title: "Success", text: response?.data || "Success" })
+    } catch (error) {
+        dispatch({ type: SET_USER_DELETE_REQUEST, payload: false })
+        console.log("err", error)
+    }
+}
+
+export const addUser = (data) => async dispatch => {
+    try {
+        let payload = {
+            "UserId": parseInt(data?.UserId) || "",
+            "FirstName": data?.first_name || "",
+            "LastName": data?.last_name || "",
+            "MobileNo": data?.phone || "",
+            "Email": data?.email || "",
+            "Password": data?.password || "",
+            "RoleId": data?.access_role.value || "",
+            "AccessGroups": data?.access_group || [],
+            "ImageModel": data?.selected_image || "",
+            "Status":data?.status
+        };
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: true });
+        let response = await instance({
+            method: data.UserId ? "put" : "post",
+            url: `api/UserProfile`,
+            data: payload,
+            // headers: { cooljwt: Token },
+        })
+        successAlert({ title: "Success", text: response?.data || "Success" })
+    } catch (error) {
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: false });
+        console.log("err", error)
+    }
+}
+
+
+export const setUserPage = (pageIndex) => async dispatch => {
+    dispatch({ type: SET_USER_PAGE_INDEX, payload: pageIndex });
+}
 

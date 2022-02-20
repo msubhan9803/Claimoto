@@ -10,6 +10,7 @@ import Setting from 'views/pages/Admin/Setting/Setting'
 import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail'
 import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
+import AddProvider from 'components/Admin/Providers/AddProvider'
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -40,9 +41,23 @@ export const adminRoutes = () => {
         {
             name: "Providers",
             path: "/provider",
-            component: <Provider />,
             icon: "ti-server",
             layout: "admin",
+            collapse:true,
+            views:[
+                {
+                    name: "Providers",
+                    path: "/provider",
+                    component: <Provider />,
+                    layout: "admin",
+                },
+                {
+                    name: "Add Provider",
+                    path: "/add_provder",
+                    component: <AddProvider />,
+                    layout: "admin",
+                },
+            ]
         },
         {
             name: "Vehicle parts",

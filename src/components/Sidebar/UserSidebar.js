@@ -17,13 +17,15 @@ export default function Sidebar(props) {
             <div className="site-logo site-logo-text">
               {/* <a href="index.html">
                   <img src="img/logo/logo-icon-1.png" alt="Icon"> 
-                  <span class="logo-text"><img src="img/logo/logo-text-1.png" alt="Text"></span>
+                  <span className="logo-text"><img src="img/logo/logo-text-1.png" alt="Text"></span>
               </a> */}
               <a href="index.html">
                 <img src={logo} alt="Icon" />
+                {!logo && 
                 <span className="logo-text">
                   Motor claims<sup>®</sup>
                 </span>
+                }
               </a>
             </div>
             <button className="ltn__utilize-close d-xl-none">×</button>

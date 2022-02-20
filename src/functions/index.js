@@ -19,23 +19,27 @@ export const msgAlert = ({title , text , icon }) => {
     });
 };
 
-
-export const confirmAlert = ({}) => {
+export const successAlert = ({title , text }) => {
   Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
+      title: title,
+      text: text,
+      icon:"success"
+    });
+};
+
+
+export const confirmAlert = ({title, text, buttonText, action}) => {
+  Swal.fire({
+    title: title,
+    text: text,
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#205bf5',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: buttonText
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
+      action();
     }
   })
 }

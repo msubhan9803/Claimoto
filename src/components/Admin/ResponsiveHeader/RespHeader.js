@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../../../assets/img/logo/logo-icon-1.png'
+import logo from 'assets/img/logo/logo-icon-1.png'
 
 function RespHeader() {
     return (

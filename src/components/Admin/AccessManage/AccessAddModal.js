@@ -117,7 +117,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <h6 className="ltnd__title-3">Access Group Name <span className={errors.name && "errorMsg"}>*</span></h6>
                                             <input type="text"
                                                 aria-invalid={errors.name ? "true" : "false"}
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 {...register("name", {
                                                     required: "Access Group Name is required.",
                                                     minLength: {
@@ -134,7 +134,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
                                         </div>
                                         <div className="input-item my-3">
-                                            <h6 className="ltnd__title-3 ">Replica From <span className={errors.access_group && "errorMsg"}>*</span></h6>
+                                            <h6 className="ltnd__title-3 ">Inherited From <span className={errors.access_group && "errorMsg"}>*</span></h6>
                                             <Controller
                                                 control={control}
                                                 name="access_group"

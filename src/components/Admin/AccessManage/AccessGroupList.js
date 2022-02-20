@@ -80,10 +80,10 @@ import { useSearchParams } from 'react-router-dom';
 
 
 
-                        <div class="ltn__select-availability-table-responsive d-md-none">
+                        <div className="ltn__select-availability-table-responsive d-md-none">
                         {access_groups.map((ag) => (
-                                <ul class="ltn__select-availability-table-row-responsive-item">
-                                    <li><span>Name</span> <span class="tower-name"><strong>{ag.GroupName}</strong></span></li>
+                                <ul className="ltn__select-availability-table-row-responsive-item">
+                                    <li><span>Name</span> <span className="tower-name"><strong>{ag.GroupName}</strong></span></li>
                                     <li><span>ID</span> <span>{ag.Id}</span></li>
                                     <li><span>Role</span> <span>{roles.find(role=>role.RoleId === ag.RoleId)?.RoleName}</span></li>
                                     <li><span>Status</span> <span><div className="ltn__table-active-status clearfix">

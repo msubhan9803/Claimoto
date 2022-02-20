@@ -15,7 +15,7 @@ function Counter() {
                             <div className="ltnd__top-report-info">
                                 <h2>
                                     <span className="counter animated fadeInDownBig">312</span>
-                                    {/* <span class="counterUp-icon">+</span> */}
+                                    {/* <span className="counterUp-icon">+</span> */}
                                 </h2>
                                 <p>Number of policies</p>
                             </div>
@@ -30,7 +30,7 @@ function Counter() {
                             <div className="ltnd__top-report-info">
                                 <h2>
                                     <span className="counter animated fadeInDownBig">78</span>
-                                    {/* <span class="counterUp-icon">+</span> */}
+                                    {/* <span className="counterUp-icon">+</span> */}
                                 </h2>
                                 <p>Active claims</p>
                             </div>
@@ -45,7 +45,7 @@ function Counter() {
                             <div className="ltnd__top-report-info">
                                 <h2>
                                     <span className="counter animated fadeInDownBig">15</span>
-                                    {/* <span class="counterUp-icon">+</span> */}
+                                    {/* <span className="counterUp-icon">+</span> */}
                                 </h2>
                                 <p>Registered garages</p>
                             </div>
@@ -60,7 +60,7 @@ function Counter() {
                             <div className="ltnd__top-report-info">
                                 <h2>
                                     <span className="counter animated fadeInDownBig">50</span>
-                                    {/* <span class="counterUp-icon">+</span> */}
+                                    {/* <span className="counterUp-icon">+</span> */}
                                 </h2>
                                 <p>Registered agencies</p>
                             </div>
