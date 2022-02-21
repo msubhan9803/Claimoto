@@ -26,24 +26,20 @@ import Img from 'assets/img/testimonial/1.jpg';
 const initialState = {
     search_options: [
         {
+            label: "User Id",
+            value: "UserId",
+        },
+        {
             label: "Name",
-            value: "name",
+            value: "FirstName",
         },
         {
             label: "Email",
-            value: "email",
+            value: "Email",
         },
         {
-            label: "Mobile",
-            value: "mobile",
-        },
-        {
-            label: "Role",
-            value: "role",
-        },
-        {
-            label: "Status",
-            value: "status",
+            label: "Mobile Number",
+            value: "MobileNo",
         },
     ],
     tabs: [

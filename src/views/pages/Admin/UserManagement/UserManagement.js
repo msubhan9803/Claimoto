@@ -210,7 +210,7 @@ function UserManagement() {
                                             <div className="short-by text-center">
                                                 <select onChange={_handleChange} name="sort_type" value="sort_type" className="form-control-sm border-0 px-1 ">
                                                     <option value="asc">ASC</option>
-                                                    <option value="dse">DSE</option>
+                                                    <option value="desc">DESC</option>
                                                 </select>
                                             </div>
                                         </li> */}
