@@ -48,12 +48,11 @@ function UserList() {
                             <div className="ltn__select-availability-table  d-none d-md-block">
                                 <ul className="ltn__select-availability-table-head">
                                     <li className="table-data-6">Name</li>
-                                    <li className="table-data-7 ltn__color-1">ID</li>
                                     <li className="table-data-5">Email</li>
                                     <li className="table-data-5">Mobile number</li>
                                     <li className="table-data-6">Role</li>
                                     <li className="table-data-5">Status</li>
-                                    <li className="table-data-7">Edit </li>
+                                    <li className="table-data-7"> </li>
                                 </ul>
                                 {users.map((user) => (
                                     <ul key={user.UserId} className="ltn__select-availability-table-row">
@@ -63,7 +62,6 @@ function UserList() {
                                                 {`${user.FirstName} ${user.LastName}`}
                                             </strong>
                                         </li>
-                                        <li className="table-data-7 ltn__color-1">{user.UserId}</li>
                                         <li className="table-data-5">{user.Email}</li>
                                         <li className="table-data-3">{user.MobileNo}</li>
                                         <li className="table-data-12">
