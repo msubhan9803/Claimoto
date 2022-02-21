@@ -71,10 +71,10 @@ const initialState = {
         access_group: [],
         status: 2,
         selected_image: {
-            Base64: "",
+            Base64: null,
             file: null,
-            ImageName: "",
-            ImageType: "",
+            ImageName: null,
+            ImageType: null,
         },
         password: "",
         confirm_password: "",
@@ -83,7 +83,7 @@ const initialState = {
         search_option: "",
         search_text: "",
         sort_type: "asc",
-        sort_name: "name"
+        sort_name: ""
     },
     accessValues: {
         access_group: "",
@@ -215,6 +215,7 @@ const usersScreenReducer = (state = initialState, action) => {
                         phone: user_details.MobileNo,
                         email: user_details.Email,
                         access_role: { label: role.RoleName, value: role.RoleId },
+                        selected_image:user_details.ImageUrl,
                         access_group: [],
                         status: user_details.Status,
                         loading: false

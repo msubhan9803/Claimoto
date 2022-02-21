@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import carImg from 'assets/img/icons/mc/png/10.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { getUsers } from "store/actions/users/users_screen";
@@ -58,7 +57,7 @@ function UserList() {
                                     <ul key={user.UserId} className="ltn__select-availability-table-row">
                                         <li className="table-data-6">
                                             <strong>
-                                                <img src={carImg || user.ImageUrl} alt="user_pic" />
+                                                <img src={user.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${user.ImageUrl}`} alt="" />
                                                 {`${user.FirstName} ${user.LastName}`}
                                             </strong>
                                         </li>

@@ -192,7 +192,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                         <form onSubmit={handleSubmit(_onSubmit)} className="ltnd__form-1" enctype="multipart/form-data">
                                             <div className="ltnd__edit-table-logo-title mb-20">
                                                 <div className="ltnd__edit-table-logo">
-                                                    <img src={selected_image?.Base64 || selected_image || Img} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" />
+                                                    <img src={selected_image?.Base64 || typeof selected_image === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${selected_image}` || Img} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" />
                                                     <input type="file" ref={imageRef} style={{ display: "none" }} onChange={_onImageChange} name="attachment" />
                                                 </div>
                                                 <div className="ltnd__edit-table-title">
