@@ -122,8 +122,8 @@ function UserManagement() {
     }, [searchParams]);
 
     useEffect(() => {
-        dispatch(getUsers({ users_per_page, users_page_index: 0, search_text, search_option, sort_name, sort_type }));
-    }, [search_text, search_option, sort_name, sort_type])
+        dispatch(getUsers({ users_per_page, users_page_index: 1, search_text, search_option, sort_name, sort_type }));
+    }, [search_option, sort_name, sort_type])
 
 
 
@@ -185,6 +185,7 @@ function UserManagement() {
                                             <i className="fas fa-search" />
                                         </button>
                                         <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
+                                        <option value={""}>Options</option>
                                             {search_options.map((op) => (
                                                 <option key={op.value} value={op.value}>{op.label}</option>
 
@@ -199,9 +200,12 @@ function UserManagement() {
                                     <ul>
                                         <li>
                                             <div className="short-by text-center">
-                                                <select onChange={_handleChange} name="sort_name" value="sort_name" className="form-control-sm border-0 px-1">
-                                                    <option value="name">Name</option>
-                                                    <option value="date">Date</option>
+                                                <select onChange={_handleChange} name="sort_name" value="sort_name" className="nice-select">
+                                                    <option value={""}>Sort</option>
+                                                    {search_options.map((op) => (
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+
+                                                    ))}
                                                 </select>
                                             </div>
                                         </li>

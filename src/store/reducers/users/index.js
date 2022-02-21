@@ -26,10 +26,6 @@ import Img from 'assets/img/testimonial/1.jpg';
 const initialState = {
     search_options: [
         {
-            label: "User Id",
-            value: "UserId",
-        },
-        {
             label: "Name",
             value: "FirstName",
         },
@@ -38,7 +34,7 @@ const initialState = {
             value: "Email",
         },
         {
-            label: "Mobile Number",
+            label: "Mobile",
             value: "MobileNo",
         },
     ],

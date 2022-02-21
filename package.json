@@ -18,6 +18,8 @@
     "formik": "^2.2.9",
     "history": "^5.2.0",
     "immer": "^9.0.12",
+    "jquery": "^3.6.0",
+    "jquery-nice-select": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",

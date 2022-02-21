@@ -9,6 +9,12 @@ import { store, persistor } from "store/store";
 import { PersistGate } from 'redux-persist/integration/react'
 import NotFound from "views/pages/404/404";
 
+//Jquery 
+import $ from "jquery";
+window.jQuery = window.$ = $;
+require("jquery-nice-select");
+
+
 const hist = createBrowserHistory();
 ReactDOM.render(
   <Provider store={store}>
