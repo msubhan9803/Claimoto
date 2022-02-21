@@ -35,16 +35,14 @@ export const GetInputs = (name, value) => dispatch => {
 
 export const RegisterPolicies = (data) => async dispatch => {
     try {
-        let res = await instance.post('api/Product/PostProduct', data)
+        let res = await instance.post('api/Policy', data)
         if (res.status == 200) {
             dispatch({
                 type: REGISTER_POLICIES,
                 payload: data
             })
-
             SweetAlert({
-                title: "Success Job!",
-                text: "Product are successfully register",
+                text: "Policy are successfully register",
                 icon: "Success"
             })
         }
@@ -123,7 +121,7 @@ export const GetProductNames = (type) => async dispatch =>{
 // Get product Names according to product type 
 
 export const GetProductBeniftCov = (type) => async dispatch =>{
-    debugger
+    debugger  
     try{
         let res = await instance.get(`api/Policy/GetProductDetails/${type}`)
         console.log("res", res)

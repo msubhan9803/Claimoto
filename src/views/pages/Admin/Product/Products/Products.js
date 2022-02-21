@@ -202,7 +202,7 @@ function Products() {
                                             </h6>
                                             <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
                                                 <p className="ltnd__product-availability">{Number(item.AnnualPremium).toFixed(3)} KDW</p>
-                                                <p className="ltnd__product-availability">{moment(new Date()).format('MMMM Do YYYY, h:mm')}</p>
+                                                <p className="ltnd__product-availability">{moment(item.CreatedDate).format('MMMM Do YYYY, h:mm')}</p>
 
                                             </div>
                                             <div className="ltnd__product-brief">
@@ -217,7 +217,7 @@ function Products() {
                                                 <div style={{display:'flex' , flexDirection:'column' , textAlign:'left'}}>
 
                                                         <strong>Last Modify</strong>
-                                                        <small style={{fontSize:'10px'}}>{moment(new Date()).format('MMMM Do YYYY, h:mm')}</small>
+                                                        <small style={{fontSize:'10px'}}>{moment(item.UpdatedDate).format('MMMM Do YYYY, h:mm')}</small>
                                                 </div>
                                                
                                                 <div>
