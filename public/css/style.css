@@ -17713,6 +17713,7 @@ form .ltnd__title-3 {
 /* policies */
 .policies-details-single-info {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   margin-bottom: 30px;
 }
 
@@ -17721,6 +17722,8 @@ form .ltnd__title-3 {
   font-weight: 600;
 }
 =======
+=======
+>>>>>>> Stashed changes
   /* margin-bottom: 30px; */
   padding-top: 40px;;
  }
@@ -17761,10 +17764,13 @@ form .ltnd__title-3 {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .ltnd__img-gallery img {
   border-radius: 12px;
 }
 =======
+=======
+>>>>>>> Stashed changes
   .ltnd__img-gallery{
     border-radius: 12px;
   }
@@ -17773,6 +17779,9 @@ form .ltnd__title-3 {
 
 /* .ltnd__img-gallery img {
   /* border-radius: 12px;  */
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 /* Login */
@@ -19953,5 +19962,9 @@ form .ltnd__title-3 {
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s;
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
