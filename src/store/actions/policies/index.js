@@ -56,6 +56,11 @@ export const RegisterPolicies = (data) => async dispatch => {
             Deductibles: data.Deductibles,
             IsAgencyRepair: data.IsAgencyRepair,
             ProductId: data.ProductId,
+            PlateNumber :data.PlateNumber,
+            Year : data.Year,
+            ColourId : data.Year,
+            Capacity : data.Capacity,
+            ChassisNumber : data.ChassisNumber,
             Benefits: check === 1 ? data.Benefit : null
         }
 

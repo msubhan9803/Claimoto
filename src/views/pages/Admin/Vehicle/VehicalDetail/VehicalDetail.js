@@ -186,7 +186,7 @@ function VehicalDetail() {
 
                                                     <div className="policies-details-single-info">
                                                         <h6 className="ltnd__title-4">Capacity</h6>
-                                                        <input type="number" {...register('Capacity')} onChange={changeValue} name="Capacity" value={Capacity} placeholder='Capacity' />
+                                                        <input type="number" min={0} {...register('Capacity')} onChange={changeValue} name="Capacity" value={Capacity} placeholder='Capacity' />
                                                         <ErrorMessage
                                                             errors={errors}
                                                             name="Capacity"
@@ -232,7 +232,7 @@ function VehicalDetail() {
                                                 <div className="col-lg-3 col-md-6">
                                                     <div className="policies-details-single-info">
                                                         <h6 className="ltnd__title-4">Year</h6>
-                                                        <input type="number" name="Year" {...register('Year')} onChange={changeValue} value={Year} placeholder='Year' />
+                                                        <input type="number" min={0} name="Year" {...register('Year')} onChange={changeValue} value={Year} placeholder='Year' />
                                                         <ErrorMessage
                                                             errors={errors}
                                                             name="Year"

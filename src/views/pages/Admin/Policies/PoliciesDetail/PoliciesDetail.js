@@ -164,9 +164,7 @@ function PoliciesDetail() {
 
     function onSubmit() {
 
-        return params
-            ? updatProduct()
-            : SendForm();
+        
     }
 
     const delPolicy = (id) => {
