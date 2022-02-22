@@ -14,11 +14,9 @@ import {
 } from 'store/actions/product'
 import { msgAlert } from 'functions';
 import * as Yup from 'yup';
-import DatePicker from "react-datepicker";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import "react-datepicker/dist/react-datepicker.css";
 
 
 function PoliciesDetail() {
@@ -408,14 +406,14 @@ function PoliciesDetail() {
 
                                                 <div className="policies-details-single-info ">
                                                     <h6 className="ltnd__title-4">Date of birth</h6>
-                                                    <DatePicker
+                                                    {/* <DatePicker
                                                         selected={DOB}
                                                         name="DOB"
                                                         placeholder="DD-MM-YYYY"
                                                         onChange={(date) => changeValue(date)}
                                                         {...register('DOB')}
                                                         dateFormat="dd/mm/yy"
-                                                    />
+                                                    /> */}
                                                     {/* <div className="input-group date " data-provide="datepicker">
                                                         <input
                                                             type="text"
