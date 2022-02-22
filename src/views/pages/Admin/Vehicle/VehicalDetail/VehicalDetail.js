@@ -46,9 +46,6 @@ function VehicalDetail() {
 
     })
 
-
-
-
     const _onImageChange = (event) => {
         let s_file = event.target.files[0];
         let name = event.target.name
@@ -57,13 +54,11 @@ function VehicalDetail() {
             msgAlert({ title: "Invalid Image Type", text: "Only Png and Jpeg images are allowed" });
             // imageRef.current.value = "";
         }
-
+        else if (s_file.size < 10000) {
+            msgAlert({ title: "Invalid Image Size", text: "Only < 1 MB are allowed" });
+        }
         else {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                dispatch(GetInputs(name, reader.result,))
-            }
-            reader.readAsDataURL(s_file);
+            dispatch(GetInputs(name, s_file))
         }
     }
 
@@ -79,10 +74,8 @@ function VehicalDetail() {
     const car_colors = useSelector(state => state.policyReducer.color)
     const policy = useSelector(state => state.policyReducer.policy)
 
-
-
     const {
-
+        
         PlateNumber,
         Year,
         ColourId,
@@ -93,16 +86,16 @@ function VehicalDetail() {
         Image3,
         Image4,
         Image5,
+        
 
-
-    } = policy
+    } = policy 
 
 
 
     // Send Form data 
 
     const SendForm = () => {
-        // dispatch(RegisterPolicies(policy))
+        dispatch(RegisterPolicies(policy))
     }
 
     // update form data 
@@ -112,10 +105,10 @@ function VehicalDetail() {
     }
 
     const onSubmit = () => {
-        let checkImg = Image1 || Image2 || Image3 || Image4 || Image5 
+        // let checkImg = Image1 || Image2 || Image3 || Image4 || Image5
         return params
             ? updatProduct()
-            : checkImg.length > 0 ? SendForm() : SweetAlert({text :'Required minimum 1 picture' , icon:'warning'});
+            :  SendForm() 
 
     }
 
@@ -261,26 +254,29 @@ function VehicalDetail() {
                             <div className="row ltn__custom-gutter">
                                 <div className="col-lg-5">
                                     <div className="ltnd__img-gallery mt-15" >
-                                        <div className="Neon Neon-theme-dragdropboxs" >
-                                            <input
-                                                name="files[]"
-                                                id="filer_input2"
-                                                multiple="multiple"
-                                                type="file"
-                                            />
-                                            <div className="Neon-input-dragDrop" style={{ height: '100%' }} >
-                                                <div className="Neon-input-inner" style={{ paddingTop: '6rem' }}>
-                                                    <div className="Neon-input-icon">
-                                                        <i className="fas fa-file-image" />
+                                        {Image1 ?
+                                            <img src={URL.createObjectURL(Image1)} alt="Image" />
+                                            :
+                                            <div className="Neon Neon-theme-dragdropboxs" >
+                                                <input
+                                                    type="file"
+                                                    name="Image1"
+                                                    onChange={_onImageChange}
+                                                />
+                                                <div className="Neon-input-dragDrop" style={{ height: '100%' }} >
+                                                    <div className="Neon-input-inner" style={{ paddingTop: '6rem' }}>
+                                                        <div className="Neon-input-icon">
+                                                            <i className="fas fa-file-image" />
+                                                        </div>
+                                                        <div className="Neon-input-text">
+                                                            {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
+                                                            {/* <span >or</span> */}
+                                                        </div>
+                                                        {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                     </div>
-                                                    <div className="Neon-input-text">
-                                                        {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
-                                                        {/* <span >or</span> */}
-                                                    </div>
-                                                    {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
 
                                         {/* <span data-img-src={carImg} data-rel="lightcase:myCollection">
                                         <label htmlFor='first'>
@@ -305,26 +301,29 @@ function VehicalDetail() {
                                             </label>
                                             <input type="file" id="second" name="Image2" onChange={_onImageChange} style={{ display: 'none' }} /> */}
                                                 {/* </button> */}
-                                                <div className="Neon Neon-theme-dragdropbox">
-                                                    <input
-                                                        name="files[]"
-                                                        id="filer_input2"
-                                                        multiple="multiple"
-                                                        type="file"
-                                                    />
-                                                    <div className="Neon-input-dragDrop">
-                                                        <div className="Neon-input-inner">
-                                                            <div className="Neon-input-icon">
-                                                                <i className="fas fa-file-image" />
+                                                {Image2 ?
+                                                    <img src={URL.createObjectURL(Image2)} alt="Image" />
+                                                    :
+                                                    <div className="Neon Neon-theme-dragdropbox">
+                                                        <input
+                                                            type="file"
+                                                            name="Image2"
+                                                            onChange={_onImageChange}
+                                                        />
+                                                        <div className="Neon-input-dragDrop">
+                                                            <div className="Neon-input-inner">
+                                                                <div className="Neon-input-icon">
+                                                                    <i className="fas fa-file-image" />
+                                                                </div>
+                                                                <div className="Neon-input-text">
+                                                                    {/* <h3>Drag&amp;Drop files here</h3> */}
+                                                                    {/* <span >or</span> */}
+                                                                </div>
+                                                                {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                             </div>
-                                                            <div className="Neon-input-text">
-                                                                {/* <h3>Drag&amp;Drop files here</h3> */}
-                                                                {/* <span >or</span> */}
-                                                            </div>
-                                                            {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
 
                                             </div>
                                         </div>
@@ -340,27 +339,29 @@ function VehicalDetail() {
                                             </label>
                                             <input type="file" id="third" name="Image3" onChange={_onImageChange} style={{ display: 'none' }} /> */}
                                                 {/* </button> */}
-                                                <div className="Neon Neon-theme-dragdropbox">
-                                                    <input
-
-                                                        name="files[]"
-                                                        id="filer_input2"
-                                                        multiple="multiple"
-                                                        type="file"
-                                                    />
-                                                    <div className="Neon-input-dragDrop">
-                                                        <div className="Neon-input-inner">
-                                                            <div className="Neon-input-icon">
-                                                                <i className="fas fa-file-image" />
+                                                {Image3 ?
+                                                    <img src={URL.createObjectURL(Image3)} alt="Image" />
+                                                    :
+                                                    <div className="Neon Neon-theme-dragdropbox">
+                                                        <input
+                                                            type="file"
+                                                            name="Image3"
+                                                            onChange={_onImageChange}
+                                                        />
+                                                        <div className="Neon-input-dragDrop">
+                                                            <div className="Neon-input-inner">
+                                                                <div className="Neon-input-icon">
+                                                                    <i className="fas fa-file-image" />
+                                                                </div>
+                                                                <div className="Neon-input-text">
+                                                                    {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
+                                                                    {/* <span >or</span> */}
+                                                                </div>
+                                                                {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                             </div>
-                                                            <div className="Neon-input-text">
-                                                                {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
-                                                                {/* <span >or</span> */}
-                                                            </div>
-                                                            {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
@@ -377,27 +378,29 @@ function VehicalDetail() {
                                             </label>
                                             <input type="file" id="forth" name="Image4" onChange={_onImageChange} style={{ display: 'none' }} /> */}
                                                 {/* </button> */}
-                                                <div className="Neon Neon-theme-dragdropbox">
-                                                    <input
-
-                                                        name="files[]"
-                                                        id="filer_input2"
-                                                        multiple="multiple"
-                                                        type="file"
-                                                    />
-                                                    <div className="Neon-input-dragDrop">
-                                                        <div className="Neon-input-inner">
-                                                            <div className="Neon-input-icon">
-                                                                <i className="fas fa-file-image" />
+                                                {Image4 ?
+                                                    <img src={URL.createObjectURL(Image4)} alt="Image" />
+                                                    :
+                                                    <div className="Neon Neon-theme-dragdropbox">
+                                                        <input
+                                                            type="file"
+                                                            name="Image4"
+                                                            onChange={_onImageChange}
+                                                        />
+                                                        <div className="Neon-input-dragDrop">
+                                                            <div className="Neon-input-inner">
+                                                                <div className="Neon-input-icon">
+                                                                    <i className="fas fa-file-image" />
+                                                                </div>
+                                                                <div className="Neon-input-text">
+                                                                    {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
+                                                                    {/* <span >or</span> */}
+                                                                </div>
+                                                                {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                             </div>
-                                                            <div className="Neon-input-text">
-                                                                {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
-                                                                {/* <span >or</span> */}
-                                                            </div>
-                                                            {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
@@ -408,15 +411,13 @@ function VehicalDetail() {
                                             > */}
 
                                                 {Image5 ?
-                                                    <img src={Image5 || carImg4} alt="Image" />
+                                                    <img src={URL.createObjectURL(Image5)} alt="Image" />
                                                     :
                                                     <div className="Neon Neon-theme-dragdropbox">
                                                         <input
-                                                            id="filer_input2"
-                                                            multiple="multiple"
                                                             type="file"
                                                             name="Image5"
-                                                             onChange={_onImageChange}
+                                                            onChange={_onImageChange}
                                                         />
                                                         <div className="Neon-input-dragDrop">
                                                             <div className="Neon-input-inner">

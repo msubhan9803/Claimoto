@@ -126,7 +126,7 @@ function Products() {
                                                     <p>Status</p>
                                                 </div>
                                                 <div className="short-by-menu">
-                                                    <select className="nice-select"
+                                                    <select className="form-control"
                                                         onChange={changeValue}
                                                         value={inputValue.status}
                                                         name="status">
@@ -145,7 +145,7 @@ function Products() {
                                                 </div>
                                                 <div className="short-by-menu">
                                                     <select
-                                                        className="nice-select"
+                                                        className="form-control"
                                                         name="sort"
                                                         value={inputValue.sort}
                                                         onChange={changeValue}
@@ -161,7 +161,7 @@ function Products() {
                                         </li>
                                         <li>
                                             <div className="short-by text-center">
-                                                <select className="nice-select">
+                                                <select className="form-control">
                                                     <option>Download</option>
                                                     <option>Sort by </option>
                                                     <option>Sort by new </option>
@@ -171,7 +171,7 @@ function Products() {
                                         </li>
                                         <li>
                                             <div className="short-by text-center">
-                                                <select className="nice-select">
+                                                <select className="form-control">
                                                     <option>Import</option>
                                                     <option>Sort by </option>
                                                     <option>Sort by new </option>

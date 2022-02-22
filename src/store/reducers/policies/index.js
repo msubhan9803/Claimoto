@@ -57,6 +57,7 @@ const initialState = {
     allPolicies: [],
     color: [],
     make: [],
+    model: [],
     prouctNames: [],
     Editproduct: {},
     EidtDat: '',
@@ -90,7 +91,7 @@ const policyReducer = (state = initialState, action) => {
 
 
         case GET_POLICIES_INPUTS: {
-            debugger
+            
             return {
                 ...state,
                 policy: {
@@ -118,10 +119,20 @@ const policyReducer = (state = initialState, action) => {
             };
         }
 
+        
+        
         case GET_POLICY_MAKE: {
             return {
                 ...state,
                 make: action.payload
+            };
+        }
+
+          
+        case "GET_POLICY_MAKE_MODEL": {
+            return {
+                ...state,
+                model: action.payload
             };
         }
 
