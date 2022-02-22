@@ -106,9 +106,10 @@ export const RegisterProduct = (data) => async dispatch => {
             Benefit
         } = data
         let check = Array.isArray(Benefit) && Benefit.length
-        let annual = Number(AnnualPremium).toFixed(2)
-        let copay = Number(CoPayPercentage).toFixed(2)
-        let deduc = Number(Deductibles).toFixed(2)
+        let annual = Number(AnnualPremium)
+        let copay = Number(CoPayPercentage)
+        let deduc = Number(Deductibles)
+        let agency = Number(IsAgencyRepair)
 
         let value = {
             ProductName,
@@ -116,24 +117,24 @@ export const RegisterProduct = (data) => async dispatch => {
             ProductDetails,
             Status,
             AnnualPremium: annual,
-            TenantId: 12345,
+            TenantId: 2,
             Coverage: {
                 CoPayPercentage: copay,
                 Deductibles: deduc,
-                IsAgencyRepair,
+                IsAgencyRepair: agency,
             },
             Benefit: check === 1 ? Benefit : null
 
         }
-
-        console.log("benefit" , value)
-
+        console.log("value", value)
         let res = await instance.post('api/product', value)
+
         if (res.data?.includes('Already')) {
             SweetAlert({
                 text: res.data,
                 icon: "warning"
             })
+            dispatch({ type: 'ALERT_ALREADY_EXIT', payload: res.data })
         }
         else {
             dispatch({
@@ -188,7 +189,7 @@ export const GetProducType = () => async dispatch => {
 // Get Products 
 export const GetProduct = () => async dispatch => {
     try {
-        
+
         let res = await instance.get('api/product')
         dispatch({ type: GET_PRODUCTS, payload: res.data })
     }
@@ -201,7 +202,6 @@ export const GetProduct = () => async dispatch => {
 // Get Single Products 
 export const GetSingleProduct = (ID) => async dispatch => {
     try {
-        debugger
         let res = await instance.get(`api/Product/${ID}`)
         dispatch({ type: GET_SINGLE_PRODUCT, payload: res.data })
     }
@@ -249,9 +249,9 @@ export const DeleteProduct = (ID) => async (dispatch) => {
     try {
 
         let res = await instance.delete(`api/product/${ID}`)
-        console.log("res" ,res )
+        console.log("res", res)
         SweetAlert({
-            text: res.data.Message,
+            text: res.data,
             icon: "success"
         })
 
@@ -290,6 +290,7 @@ export const UpdateProduct = (data) => async dispatch => {
 
         let BenefitId = Benefit.map(obj => ({ ...obj, ProductId: Id, }))
         let Copy = Number(CoPayPercentage)
+        let agency = Number(IsAgencyRepair)
         let value = {
             Id,
             ProductName,
@@ -298,18 +299,20 @@ export const UpdateProduct = (data) => async dispatch => {
             Status,
             TenantId,
             AnnualPremium,
+            // UpdatedDate : Date.now(),
             Coverage: {
                 ProductId: Id,
                 CoPayPercentage: Copy,
                 Deductibles,
-                IsAgencyRepair,
+                IsAgencyRepair: agency,
             },
             Benefit: BenefitId,
         }
 
         let res = await instance.put('api/Product/PutProduct', value)
+        console.log("res", res)
         SweetAlert({
-            text: res.data.Message,
+            text: res.data,
             icon: "success"
         })
         dispatch({ type: UPDATE_PRODUCT, payload: value })

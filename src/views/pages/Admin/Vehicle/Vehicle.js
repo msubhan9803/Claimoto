@@ -1,5 +1,5 @@
 import React from 'react'
-import VehicleList from '../../../../components/Admin/VehicleList/VehicleList'
+import VehicleList from 'components/Admin/VehicleList/VehicleList'
 function Vehicle() {
     return (
         <React.Fragment>

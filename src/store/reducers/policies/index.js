@@ -9,42 +9,56 @@ import {
     GET_CAR_COLORS,
     GET_POLICY_MAKE,
     GET_PRODUCT_NAMES,
+    GET_PRODUCT_BENEFIT_COV,
 } from 'store/types/types'
 const initialState = {
     policy: {
         Id: '',
         TenantId: '',
-        carNumber: "",
+        CarNumber: "",
         insuranceComp: "",
         policyType: "",
-        productName:"",
-        policyHolder: '',
-        make: '',
-        icon: "",
+        productName: "",
+        PolicyHolderName: '',
+        MakeId: '',
+        ModelId: '',
+        selected_image: "",
         policyNumber: "",
-        annualPremium: "",
-        dateofBirth: '',
-        model: '',
-        startDate: '',
-        endDate: '',
-        drivingLic: '',
-        vehicalImg: [],
-        address: '',
-        rsgNumber :'',
-        lisenceNumber:'',
-        drivingLicValid:'',
-        idCardNumber:'',
-        year:'',
-        color:'',
-        capacity:''
+        AnnualPremium: "",
+        DOB: '',
+        ModelName: '',
+        StartDate: '',
+        EndDate: '',
+        DrivingLicenseValidityExpiryDate: '',
+        Address: '',
+        RegistrationNumber: '',
+        ChassisNumber: '',
+        DrivingLicenseValidity: '',
+        IdentificationNumber: '',
+        PlateNumber: '',
+        Year: '',
+        ColourId: '',
+        Capacity: '',
+        CoPayPercentage: '',
+        Deductibles: '',
+        IsAgencyRepair: '',
+        ProductId: '',
+        Benefits: '',
+        Image1: '',
+        Image2: '',
+        Image3: '',
+        Image4: '',
+        Image5: ''
+
 
 
     },
-    findType: {},
+    productBenft: {},
     allPolicies: [],
-    color:[],
-    make:[],
-    prouctNames:[],
+    color: [],
+    make: [],
+    model: [],
+    prouctNames: [],
     Editproduct: {},
     EidtDat: '',
 
@@ -58,7 +72,8 @@ const policyReducer = (state = initialState, action) => {
         case REGISTER_POLICIES: {
             return {
                 ...state,
-                allProducts: [action.payload]
+                allProducts: [action.payload],
+                policy : initialState.policy
             }
         }
 
@@ -73,9 +88,10 @@ const policyReducer = (state = initialState, action) => {
             };
         }
 
-        
+
 
         case GET_POLICIES_INPUTS: {
+            
             return {
                 ...state,
                 policy: {
@@ -86,6 +102,7 @@ const policyReducer = (state = initialState, action) => {
             }
         }
         case GET_SINGLE_POLICIES: {
+            debugger
             return {
                 ...state,
                 policy: {
@@ -98,32 +115,52 @@ const policyReducer = (state = initialState, action) => {
         case GET_CAR_COLORS: {
             return {
                 ...state,
-                color: action.payload 
+                color: action.payload
             };
         }
 
+        
+        
         case GET_POLICY_MAKE: {
             return {
                 ...state,
-                make:action.payload 
+                make: action.payload
+            };
+        }
+
+          
+        case "GET_POLICY_MAKE_MODEL": {
+            return {
+                ...state,
+                model: action.payload
             };
         }
 
         case GET_PRODUCT_NAMES: {
             return {
                 ...state,
-                prouctNames:action.payload 
+                prouctNames: action.payload
             };
         }
 
-       
+        case GET_PRODUCT_BENEFIT_COV: {
+            debugger
+            return {
+                ...state,
+                policy: {
+                    ...state.policy,
+                    ...action.payload
+                }
+            };
+        }
+
         case DELETE_POLICIES: {
             return {
                 ...state,
                 allPolicies: state.allPolicies.filter((data, index) => index !== action.payload)
             }
         }
-        
+
         case UPDATE_POLICIES: {
             return Object.assign({}, state, {
                 ...state.allPolicies = state.allPolicies.map((item) => {
@@ -134,7 +171,7 @@ const policyReducer = (state = initialState, action) => {
             })
         }
 
-        
+
 
         default:
             return { ...state };

@@ -555,6 +555,7 @@ ol li {
 .section-bg-3 input[type="text"],
 .section-bg-3 input[type="email"],
 .section-bg-3 input[type="password"],
+.section-bg-3 input[type="number"],
 .section-bg-3 input[type="submit"] {
   border-color: var(--white);
   color: var(--white);
@@ -1014,11 +1015,11 @@ fieldset legend {
 ---------------------------------------------------- */
 input[type="text"]:focus,
 input[type="email"]:focus,
+input[type="number"]:focus,
 input[type="url"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
-input[type="number"]:focus,
 textarea:focus,
 input[type="button"]:focus,
 input[type="reset"]:focus,
@@ -1039,6 +1040,7 @@ code {
 ---------------------------------------------------- */
 input[type="text"],
 input[type="email"],
+input[type="number"],
 input[type="password"],
 input[type="submit"],
 textarea {
@@ -1053,13 +1055,14 @@ textarea {
   font-size: 14px;
   color: var(--ltn__paragraph-color);
   width: 100%;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   border-radius: 0;
   padding-right: 40px;
 }
 
 input[type="text"]::-webkit-input-placeholder,
 input[type="email"]::-webkit-input-placeholder,
+input[type="number"]::-webkit-input-placeholder,
 input[type="password"]::-webkit-input-placeholder,
 input[type="submit"]::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
@@ -1070,6 +1073,7 @@ textarea::-webkit-input-placeholder {
 
 input[type="text"]:focus,
 input[type="email"]:focus,
+input[type="number"]:focus,
 input[type="password"]:focus,
 textarea:focus {
   border: 0;
@@ -10208,6 +10212,35 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 /* ----------------------------------------------------
     Product Options
 ---------------------------------------------------- */
+.nice-select {
+  -webkit-tap-highlight-color: transparent;
+  background-color: #fff;
+  border-radius: 5px;
+  border: solid 1px #e8e8e8;
+  box-sizing: border-box;
+  clear: both;
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  height: 42px;
+  line-height: 40px;
+  outline: 0;
+  padding-left: 18px;
+  padding-right: 30px;
+  position: relative;
+  text-align: left!important;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
 .nice-select .option {
   margin-top: 0;
   white-space: normal;
@@ -10247,7 +10280,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   list-style: none;
   margin-top: 0;
   line-height: 40px;
-  margin-right: 20px;
+  margin-left: 10px;
 }
 
 .ltn__shop-options ul li:last-child {
@@ -12506,6 +12539,7 @@ blockquote::before {
 
 .ltn__comment-reply-area form input[type="text"],
 .ltn__comment-reply-area form input[type="email"],
+.ltn__comment-reply-area form input[type="number"],
 .ltn__comment-reply-area form input[type="password"],
 .ltn__comment-reply-area form input[type="submit"],
 .ltn__comment-reply-area form textarea {
@@ -14136,6 +14170,7 @@ input.cart-plus-minus-box {
 }
 
 .coming-soon-inner .ltn__form-box input[type="text"]::-webkit-input-placeholder,
+.coming-soon-inner .ltn__form-box input[type="number"]::-webkit-input-placeholder,
 .coming-soon-inner .ltn__form-box input[type="email"]::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: var(--white);
@@ -17433,51 +17468,39 @@ form .ltnd__title-3 {
   background-color: var(--white);
   border: 1px solid var(--border-color-1);
   border-radius: 20px;
-  margin-bottom: 30px;
-}
+  margin-bottom: 30px; }
+  .ltnd__product-item .ltnd__product-title {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0; }
+    .ltnd__product-item .ltnd__product-title::after {
+      position: absolute;
+      content: "";
+      height: 5px;
+      width: 5px;
+      border-radius: 100%;
+      background-color: var(--green);
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      right: -10px; }
+    .ltnd__product-item .ltnd__product-title:hover::after {
+      background-color: var(--ltn__secondary-color); }
+  .ltnd__product-item .ltnd__product-availability {
+    font-size: 12px;
+    margin-bottom: 12px;
+    width:100% 
+  }
+  .ltnd__product-item .ltnd__product-brief p {
+    font-size: 12px;
+    margin-bottom: 10px; }
+  .ltnd__product-item .ltnd__product-btn {
+    text-align: right; }
+    .ltnd__product-item .ltnd__product-btn a {
+      font-size: 14px;
+      color: var(--ltn__secondary-color); }
 
-.ltnd__product-item .ltnd__product-title {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 0;
-}
-
-.ltnd__product-item .ltnd__product-title::after {
-  position: absolute;
-  content: "";
-  height: 5px;
-  width: 5px;
-  border-radius: 100%;
-  background-color: var(--green);
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  right: -10px;
-}
-
-.ltnd__product-item .ltnd__product-title:hover::after {
-  background-color: var(--ltn__secondary-color);
-}
-
-.ltnd__product-item .ltnd__product-availability {
-  font-size: 12px;
-  margin-bottom: 12px;
-}
-
-.ltnd__product-item .ltnd__product-brief p {
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
-.ltnd__product-item .ltnd__product-btn {
-  text-align: right;
-}
-
-.ltnd__product-item .ltnd__product-btn a {
-  font-size: 14px;
-  color: var(--ltn__secondary-color);
-}
 
 /* Product Details Page */
 .ltnd__form-1 {
@@ -17651,13 +17674,26 @@ form .ltnd__title-3 {
 
 /* policies */
 .policies-details-single-info {
-  margin-bottom: 30px;
+  
+  padding-top: 40px;;
+  /* margin-bottom: 30px; */
 }
+
 
 .policies-details-single-info h6,
 .policies-details-single-info strong {
   font-weight: 600;
 }
+
+
+ .policies-details-single {
+  /* margin-bottom: 30px; */
+  padding-top: 17%
+ }
+  .policies-details-single-info h6,
+  .policies-details-single-info strong {
+    font-weight: 600; }
+
 
 .ltn__divider-border-1 {
   margin-top: 0;
@@ -17689,6 +17725,15 @@ form .ltnd__title-3 {
 .ltnd__img-gallery img {
   border-radius: 12px;
 }
+  .ltnd__img-gallery{
+    border-radius: 12px;
+  }
+
+  
+
+/* .ltnd__img-gallery img {
+  /* border-radius: 12px;  */
+
 
 /* Login */
 .ltn__login-area-img {
@@ -19740,4 +19785,233 @@ form .ltnd__title-3 {
 /*# sourceMappingURL=style.css.map */
 
 
+@keyframes float {
+	100% {
+    transform: translateY(20px);
+  }
+}
+@media (max-width: 450px) {
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -190px;
+  }
+  .message-box {
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -190px;
+    text-align: center;
+  }
+}
 
+/* custom buttons */
+
+.add_btn{
+   padding-left: 10px;
+   cursor: pointer;
+}
+
+.cancel_btn{
+  cursor: pointer;
+}
+
+
+/* custom error style */
+
+
+.error_show{
+  color: red;
+}
+
+
+/* custom modal */
+
+.modals-confirm {		
+	color: #636363;
+}
+.modals-confirm .modals-content {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	font-size: 14px;
+}
+.modals-confirm .modals-header {
+	border-bottom: none;   
+	position: relative;
+}
+.modals-confirm h4 {
+	text-align: center;
+	font-size: 26px;
+	margin: 30px 0 -10px;
+}
+.modals-confirm .close {
+	position: absolute;
+	top: -5px;
+	right: -2px;
+}
+.modals-confirm .modals-body {
+	color: #999;
+}
+.modals-confirm .modals-footer {
+	border: none;
+	text-align: center;		
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 10px 15px 25px;
+}
+.modals-confirm .modals-footer a {
+	color: #999;
+}		
+.modals-confirm .icon-box {
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	border-radius: 50%;
+	z-index: 9;
+	text-align: center;
+	border: 3px solid #f15e5e;
+}
+.modals-confirm .icon-box i {
+	color: #f15e5e;
+	font-size: 46px;
+	display: inline-block;
+	margin-top: 13px;
+}
+.modals-confirm .btn, .modals-confirm .btn:active {
+	color: #fff;
+	border-radius: 4px;
+	background: #60c7c1;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	min-width: 120px;
+	border: none;
+	min-height: 40px;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.modals-confirm .btn-secondary {
+	background: #c1c1c1;
+}
+.modals-confirm .btn-secondary:hover, .modals-confirm .btn-secondary:focus {
+	background: #a8a8a8;
+}
+.modals-confirm .btn-danger {
+	background: #f15e5e;
+}
+.modals-confirm .btn-danger:hover, .modals-confirm .btn-danger:focus {
+	background: #ee3535;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
+}
+
+
+
+/* /* drag image  */
+.Neon {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #494949;
+  position: relative;
+  
+
+}
+
+.ltnd__img-gallery{
+  height:100%;
+}
+
+.Neon * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.Neon-theme-dragdropbox{
+  height: 100%;
+}
+.Neon-theme-dragdropbox input{
+  z-index: 999;
+  opacity: 0;
+  width: 320px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  cursor: pointer;
+}
+.Neon-theme-dragdropboxs{
+  height: 97%;
+}
+.Neon-theme-dragdropboxs input{
+  z-index: 999;
+  opacity: 0;
+  width: 320px;
+  height: 200px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  cursor: pointer;
+
+}
+.Neon-input-dragDrop {
+  display: block;
+  width: 100%;
+  padding: 25px;
+  color: #8d9499;
+  color: #97A1A8;
+  background: #fff;
+  border: 2px dashed #C8CBCE;
+  text-align: center;
+  -webkit-transition: box-shadow 0.3s, border-color 0.3s;
+  -moz-transition: box-shadow 0.3s, border-color 0.3s;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.Neon-input-dragDrop .Neon-input-icon {
+  font-size: 48px;
+  margin-top: -10px;
+  height: 100%;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.Neon-input-text h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.Neon-input-text span {
+  font-size: 12px;
+}
+.Neon-input-choose-btn.blue {
+  color: #008BFF;
+  border: 1px solid #008BFF;
+}
+.Neon-input-choose-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: bold;
+  color: #8d9496;
+  border-radius: 3px;
+  border: 1px solid #c6c6c6;
+  vertical-align: middle;
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0,0,0,0.05);
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
