@@ -1,19 +1,22 @@
 import {
-CHANGE_TAB,
-CLEAR_INPUT_VALUES_USER_SCREEN,
-SET_INPUT_VALUES_USER_SCREEN,
-SET_INPUT_VALUES_ACCESS_GROUP_SCREEN,
-SET_ROLES, SET_ACCESS_GROUPS,
-SET_MODULES,
-SET_USERS, SET_USER_DETAILS,
-SET_USER_DETAILS_REQUEST,
-SET_USER_DELETE_REQUEST,
-SET_USERS_REQUEST,
-SET_USER_PAGE_INDEX,
-SET_ACTIONS,
-SET_MODULES_ACTIONS,
-SET_ACCESS_GROUP_DETAILS_REQUEST,
-SET_ACCESS_GROUP_DETAILS
+    CHANGE_TAB,
+    CLEAR_INPUT_VALUES_USER_SCREEN,
+    SET_INPUT_VALUES_USER_SCREEN,
+    SET_INPUT_VALUES_ACCESS_GROUP_SCREEN,
+    SET_ROLES, SET_ACCESS_GROUPS,
+    SET_MODULES,
+    SET_USERS, SET_USER_DETAILS,
+    SET_USER_DETAILS_REQUEST,
+    SET_USER_DELETE_REQUEST,
+    SET_USERS_REQUEST,
+    SET_USER_PAGE_INDEX,
+    SET_ACTIONS,
+    SET_MODULES_ACTIONS,
+    SET_ACCESS_GROUP_DETAILS_REQUEST,
+    SET_ACCESS_GROUP_DETAILS,
+    SET_GROUP_ADD_REQUEST,
+    SET_GROUP_ADD,
+    SET_GROUP_DELETE_REQUEST
 } from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
@@ -83,7 +86,7 @@ const initialState = {
         search_option: "",
         search_text: "",
         sort_type: "asc",
-        sort_name: ""
+        sort_name: "FirstName"
     },
     accessValues: {
         access_group: "",
@@ -128,10 +131,11 @@ const usersScreenReducer = (state = initialState, action) => {
         case CLEAR_INPUT_VALUES_USER_SCREEN: {
             return {
                 ...state,
-                userValues: initialState.userValues
+                userValues: initialState.userValues,
+                accessValues: initialState.accessValues
             }
         }
-        break;
+            break;
         case SET_INPUT_VALUES_ACCESS_GROUP_SCREEN: {
             const { name, value } = action.payload;
             if (name === "actions") {
@@ -140,7 +144,7 @@ const usersScreenReducer = (state = initialState, action) => {
                 actions[indexOfAction].status = actions[indexOfAction].status ? false : true;
                 return {
                     ...state,
-                    modules_actions:actions
+                    modules_actions: actions
                 }
             }
             else {
@@ -183,12 +187,11 @@ const usersScreenReducer = (state = initialState, action) => {
         }
             break;
         case SET_USERS: {
-            let counts = parseInt(action.payload[0]?.TotalRecord) || 0;
             return {
                 ...state,
-                users: action.payload,
+                users: action.payload.users,
                 loadingUsers: false,
-                users_count: counts
+                users_count: action.payload.counts
 
             }
         }
@@ -215,8 +218,8 @@ const usersScreenReducer = (state = initialState, action) => {
                         phone: user_details.MobileNo,
                         email: user_details.Email,
                         access_role: { label: role.RoleName, value: role.RoleId },
-                        selected_image:user_details.ImageUrl,
-                        access_group: [],
+                        selected_image: user_details.ImageUrl,
+                        access_group: user_details.AccessGroupIds?.map(ag=> {return  { label: ag.AccessGroupName, value: ag.AccessGroupId } }) || [] ,
                         status: user_details.Status,
                         loading: false
                     }
@@ -251,7 +254,7 @@ const usersScreenReducer = (state = initialState, action) => {
                 actions: action.payload
             }
         }
-        break;
+            break;
 
         case SET_MODULES_ACTIONS: {
             return {
@@ -259,39 +262,77 @@ const usersScreenReducer = (state = initialState, action) => {
                 modules_actions: action.payload
             }
         }
-        break;
+            break;
 
 
-        case SET_ACCESS_GROUP_DETAILS_REQUEST:{
+        case SET_ACCESS_GROUP_DETAILS_REQUEST: {
             return {
                 ...state,
-                accessValues:{
+                accessValues: {
                     ...initialState.accessValues,
-                    loading:action.payload
+                    loading: action.payload
                 }
             }
         }
 
-        case SET_ACCESS_GROUP_DETAILS:{
-            let { modules , group_details, actions  } = action.payload;
-            let modified_actions = state.modules_actions.map((act)=>{
+        case SET_ACCESS_GROUP_DETAILS: {
+            let { modules, group_details, actions } = action.payload;
+            let InheritAccessGroup = state.access_groups.find(ag=>ag.Id === group_details?.InheritAccessGroupId) || null;
+            let modified_actions = state.modules_actions.map((act) => {
                 return {
                     ...act,
-                    status:actions.find(acti=> acti.ModuleId === act.ModuleId && acti.ActionId === act.ActionId) ? true : false
+                    status: actions.find(acti => acti.ModuleId === act.ModuleId && acti.ActionId === act.ActionId) ? true : false
                 }
             })
             return {
                 ...state,
-                modules_actions:modified_actions,
-                accessValues:{
+                modules_actions: modified_actions,
+                accessValues: {
                     ...state.accessValues,
-                    name:group_details.GroupName,
-                    access_group:  {label:group_details.GroupName,value:group_details.Id},
-                    modules:modules.map((mod)=>{ return {label:mod.ModuleMenuName, value:mod.Id}}),
-                    loading:false
+                    name: group_details?.GroupName || "",
+                    access_group: group_details ? { label: InheritAccessGroup.GroupName, value: InheritAccessGroup.Id } : "",
+                    modules: modules.map((mod) => { return { label: mod.ModuleMenuName, value: mod.Id } }),
+                    loading: false
                 },
             }
         }
+
+
+
+        case SET_GROUP_ADD_REQUEST: {
+            return {
+                ...state,
+                accessValues: {
+                    ...state.accessValues,
+                    loading: action.payload
+                }
+            }
+        }
+            break;
+
+
+        case SET_GROUP_ADD: {
+            return {
+                ...state,
+                accessValues: {
+                    ...initialState.accessValues,
+                    loading: false
+                }
+            }
+        }
+            break;
+
+        case SET_GROUP_DELETE_REQUEST: {
+            return {
+                ...state,
+                accessValues: {
+                    ...state.accessValues,
+                    deletingGroup: action.payload
+                }
+            }
+        }
+
+
 
         default:
             return { ...state };

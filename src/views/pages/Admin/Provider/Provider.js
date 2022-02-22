@@ -46,14 +46,14 @@ function UserManagement() {
             setSearchParams(searchParams);
         }
 
-        if(action){
-            document.body.style.overflow = 'hidden';
-        }
-        else{
-            setTimeout(() => {
-                document.body.style.overflow = 'scroll';
-            }, 700);
-        }
+        // if(action){
+        //     document.body.style.overflow = 'hidden';
+        // }
+        // else{
+        //     setTimeout(() => {
+        //         document.body.style.overflow = 'scroll';
+        //     }, 700);
+        // }
     }
 
 

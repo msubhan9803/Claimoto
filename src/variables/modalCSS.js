@@ -46,10 +46,12 @@ export const modalStyleCenter = {
         borderRadius: '4px',
         outline: 'none',
         left: "50%",
-        top: "40%",
+        top: "50%",
         transform: "translate(-50%, -50%)",
         padding: '20px',
-        zIndex: 1
+        zIndex: 1,
+        minWidth:900,
+        minHeight:500
     },
 
 }

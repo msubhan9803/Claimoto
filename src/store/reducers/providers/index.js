@@ -2,6 +2,9 @@ import { CHANGE_TAB } from '../../types/providers';
 import GaragesList from 'components/Admin/Garages/GaragesList';
 import AgenciesList from 'components/Admin/Agencies/AgenciesList';
 import CarAgenciesList from 'components/Admin/CarAgencies/CarAgenciesList';
+import AddProviderTab1 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab1';
+import AddProviderTab2 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab2';
+import AddProviderTab3 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab3';
 
 const initialState = {
 
@@ -28,7 +31,23 @@ const initialState = {
             short: "Car Agn"
         }
     ],
-    selectedTab: 0
+    selectedTab: 0,
+
+    addTabs:[
+        {
+            id: "ltn__tab_4_1",
+            component: <AddProviderTab1 />,
+        },
+        {
+            id: "ltn__tab_4_2",
+            component: <AddProviderTab2 />,
+        },
+        {
+            id: "ltn__tab_4_3",
+            component: <AddProviderTab3 />,
+        }  
+    ],
+    selectedAddTab:0
 };
 
 

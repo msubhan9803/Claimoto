@@ -17,8 +17,15 @@ function TabsHeader({ tabs }) {
     }
 
     return (
+
+        
+
+
+
+
+
         <div className="ltn__shop-details-tab-menu mb-20">
-            <div className="nav" ref={tabNav}>
+            <div className="nav ltn__tab-active-hold" ref={tabNav}>
                 {tabs.map((tab, index) => (
                     <div key={tab.id}>
                         <a
