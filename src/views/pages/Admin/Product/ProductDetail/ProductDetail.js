@@ -37,6 +37,33 @@ function ProductDetail(props) {
     //  Get id from Url  
     let params = useParams();
 
+
+    const formSchema = Yup.object().shape({
+        ProductName: Yup.string()
+            .required('Product Name is required'),
+        ProductType: Yup.string()
+            .required('Product Type is required'),
+        ProductDetails: Yup.string()
+            .required('Product Details is required'),
+        AnnualPremium: Yup.string()
+            .required('Annual Premium is required')
+            .min(4, "Minimum 4 digit is required"),
+        CoPayPercentage: Yup.string()
+            .required('CoPay Percentage is required')
+            .min(4, "Minimum 4 digit is required"),
+
+        Deductibles: Yup.string()
+            .required('Deductibles is required')
+            .min(4, "Minimum 4 digit is required"),
+
+        IsAgencyRepair: Yup.string()
+            .required('Grage and Agency is required')
+
+    });
+
+
+
+
     // Routing navigate Hook
 
     const navigate = useNavigate()
@@ -58,7 +85,7 @@ function ProductDetail(props) {
 
     const product = useSelector(state => state.productReducer.product)
     const productTyps = useSelector(state => state.productReducer.product_Types)
-    const { isSuccess } = useSelector(state => state.productReducer)
+    const { isSuccess, messages  } = useSelector(state => state.productReducer)
 
     // destructre  input value from reducer 
     const {
@@ -74,9 +101,11 @@ function ProductDetail(props) {
         IsAgencyRepair,
         Benefit,
         BenefitDetails,
+        isLoading
     } = product
 
-
+    const formOptions = { resolver: yupResolver(formSchema), mode: "onChange", }
+    const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
 
     // Get ProductTypes from Server
     useEffect(() => {
@@ -92,9 +121,7 @@ function ProductDetail(props) {
     useEffect(() => {
         if (isSuccess) {
             navigate('/admin/products')
-
         }
-
     }, [isSuccess])
 
 
@@ -107,7 +134,6 @@ function ProductDetail(props) {
     function closeModal() {
         setIsOpen(false);
     }
-
 
 
 
@@ -156,11 +182,7 @@ function ProductDetail(props) {
 
     }
 
-
-
     // Send Form data 
-
-
     const SendForm = (e) => {
         dispatch(RegisterProduct(product))
         setScrol(true)
@@ -169,7 +191,6 @@ function ProductDetail(props) {
 
 
     // Edit Benefit
-
     const EditBnft = (id) => {
         setEditBenifit(id)
         dispatch(EditProductBenifit(id))
@@ -177,14 +198,12 @@ function ProductDetail(props) {
     }
 
     // Update Banefit
-
     const UpdateBenift = (id) => {
         setEditBenifit(null)
         dispatch(UpdateProductBenifit(id))
     }
 
     // Delete banefits
-
     const DelBenifits = () => {
         dispatch(DeleteProductBenifit(delBenifit.id))
         closeModal()
@@ -194,7 +213,6 @@ function ProductDetail(props) {
 
 
     // delete Product
-
     const delProduct = () => {
         dispatch(DeleteProduct(params.id))
         closeModal()
@@ -202,7 +220,6 @@ function ProductDetail(props) {
     }
 
     // update Product 
-
     const updateProduct = () => {
         dispatch(UpdateProduct(product))
     }
@@ -216,436 +233,420 @@ function ProductDetail(props) {
 
 
 
-    const formSchema = Yup.object().shape({
-        ProductName: Yup.string()
-            .required('Product Name is required'),
-        ProductType: Yup.string()
-            .required('Product Type is required'),
-        ProductDetails: Yup.string()
-            .required('Product Details is required'),
-        AnnualPremium: Yup.string()
-            .required('Annual Premium is required')
-            .min(4, "Minimum 4 digit is required"),
-        CoPayPercentage: Yup.string()
-            .required('CoPay Percentage is required')
-            .min(4, "Minimum 4 digit is required"),
-
-        Deductibles: Yup.string()
-            .required('Deductibles is required')
-            .min(4, "Minimum 4 digit is required"),
-
-        IsAgencyRepair: Yup.string()
-            .required('Grage and Agency is required')
-
-    });
 
 
     // validetion useform
-    const formOptions = { resolver: yupResolver(formSchema), mode:"onChange" }
-    const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
 
+
+    
     function onSubmit() {
         return params.id
             ? updateProduct()
             : SendForm();
     }
-    return (
-        <React.Fragment>
-            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
 
-                {/* header-middle-area start */}
-                <div className="ltnd__header-middle-area ">
-                    <div className="row">
-                        <div className="col-lg-9">
-                            <div className="ltnd__page-title-area">
-                                <p className="page-back-btn">
-                                    <Link to="/admin/products">
-                                        <i className="icon-left-arrow-1" /> Back
-                                    </Link>
-                                </p>
-                                <h2>{params.id ? ProductName : "Create Product"}</h2>
+    if( params.id ? isLoading : null ){
+        return "hellow"
+    }
+    else    
+     return (
+            <React.Fragment>
+                <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+
+                    {/* header-middle-area start */}
+                    <div className="ltnd__header-middle-area ">
+                        <div className="row">
+                            <div className="col-lg-9">
+                                <div className="ltnd__page-title-area">
+                                    <p className="page-back-btn">
+                                        <Link to="/admin/products">
+                                            <i className="icon-left-arrow-1" /> Back
+                                        </Link>
+                                    </p>
+                                    <h2>{params.id ? ProductName : "Create Product"}</h2>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-lg-3 align-self-center text-end">
-                            <div className="ltnd__date-area d-none">
-                                <div className="ltn__datepicker">
-                                    <div className="ltn_datepicker-title">
-                                        <span>Date</span>
-                                    </div>
-                                    <div className="input-group date" data-provide="datepicker">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Select Date"
-                                        />
-                                        <div className="input-group-addon">
-                                            <i className="far fa-calendar-alt" />
+                            <div className="col-lg-3 align-self-center text-end">
+                                <div className="ltnd__date-area d-none">
+                                    <div className="ltn__datepicker">
+                                        <div className="ltn_datepicker-title">
+                                            <span>Date</span>
+                                        </div>
+                                        <div className="input-group date" data-provide="datepicker">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Select Date"
+                                            />
+                                            <div className="input-group-addon">
+                                                <i className="far fa-calendar-alt" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {/* header-middle-area end */}
                 </div>
-                {/* header-middle-area end */}
-            </div>
 
-            {/* Body Content Area Inner Start */}
-            <form className="ltnd__form-1" onSubmit={handleSubmit(onSubmit)}>
-                <div className="body-content-area-inner">
-                    {/* BLOCK AREA START ( Product Details section - 1 ) */}
-                    <div className="ltnd__block-area">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="ltnd__block-item mt-30">
-                                    <div className="ltnd__title ltnd__title-2">
-                                        <h4>Product information</h4>
-                                    </div>
-                                    <div className="ltn__block-item-info">
-                                        {/* form */}
-                                        {/* <form className="ltnd__form-1"> */}
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Product name</h6>
-                                                    <input
-                                                        type="text"
-                                                        name="ProductName"
-                                                        value={ProductName}
-                                                        {...register('ProductName')}
-                                                        onChange={changeValue}
-                                                        placeholder="Product Name"
-
-                                                    />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="ProductName"
-                                                        render={({ message }) => <p style={{ color: 'red' , paddingTop:'20px'}}>{message}</p>}
-                                                    />
-
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Product type</h6>
-                                                    <select className="nice-select"
-                                                        value={ProductType}
-                                                        name="ProductType"
-                                                        {...register('ProductType')}
-                                                        onChange={changeValue}
-                                                    >
-                                                        <option value="">--- Please Select ---</option>
-                                                        {productTyps.map((i) => (
-                                                            <option value={i.Id} key={i.Id}>{i.ProductTypeName}</option>
-                                                        ))}
-                                                    </select>
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="ProductType"
-                                                        render={({ message }) => <p style={{ color: 'red' , }}>{message}</p>}
-                                                    />
-
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Annual premium</h6>
-                                                    <input type="number"
-                                                        name="AnnualPremium"
-                                                        value={AnnualPremium}
-                                                        {...register('AnnualPremium')}
-
-                                                        onChange={changeValue} placeholder="0.000 KWD" />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="AnnualPremium"
-                                                        render={({ message }) => <p style={{ color: 'red', paddingTop:'20px' }}>{message}</p>}
-                                                    />
-                                                    {/* <div className="error_show"> {errors.AnnualPremium?.message } </div> */}
-
-
-                                                </div>
-                                            </div>
+                {/* Body Content Area Inner Start */}
+                <form className="ltnd__form-1" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="body-content-area-inner">
+                        {/* BLOCK AREA START ( Product Details section - 1 ) */}
+                        <div className="ltnd__block-area">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="ltnd__block-item mt-30">
+                                        <div className="ltnd__title ltnd__title-2">
+                                            <h4>Product information</h4>
                                         </div>
-                                        {/* </form> */}
-                                        {/* excerpt */}
-                                        <div className="ltnd__product-details-excerpt">
-                                            <h6 className="ltnd__title-3"> Product information</h6>
+                                        <div className="ltn__block-item-info">
+                                            {/* form */}
+                                            {/* <form className="ltnd__form-1"> */}
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Product name</h6>
+                                                        <input
+                                                            type="text"
+                                                            name="ProductName"
+                                                            value={ProductName}
+                                                            {...register('ProductName')}
+                                                            onChange={changeValue}
+                                                            placeholder="Product Name"
 
-                                            <div className="benifits-brief" style={{ width: '100%' }}>
-                                                <input type="text"
-                                                    style={{ borderBottom: 'none' }}
-                                                    className='form-control'
-                                                    {...register('ProductDetails')}
-                                                    onChange={changeValue}
-                                                    value={ProductDetails}
-                                                    placeholder='Type Here....'
-                                                    name="ProductDetails" />
-                                                <ErrorMessage
-                                                    errors={errors}
-                                                    name="ProductDetails"
-                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                />
+                                                        />
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name="ProductName"
+                                                            render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                        />
+                                                        {messages && <div className="error_show" style={{ marginTop: '20px' }}>{messages}</div>}
 
-                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Product type</h6>
+                                                        <select className="nice-select"
+                                                            value={ProductType}
+                                                            name="ProductType"
+                                                            {...register('ProductType')}
+                                                            onChange={changeValue}
+                                                        >
+                                                            <option value="">--- Please Select ---</option>
+                                                            {productTyps.map((i) => (
+                                                                <option value={i.Id} key={i.Id}>{i.ProductTypeName}</option>
+                                                            ))}
+                                                        </select>
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name="ProductType"
+                                                            render={({ message }) => <p style={{ color: 'red', }}>{message}</p>}
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Annual premium</h6>
+                                                        <input type="number"
+                                                            name="AnnualPremium"
+                                                            value={AnnualPremium}
+                                                            {...register('AnnualPremium')}
+
+                                                            onChange={changeValue} placeholder="0.000 KWD" />
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name="AnnualPremium"
+                                                            render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                        />
+                                                        {/* <div className="error_show"> {errors.AnnualPremium?.message } </div> */}
 
 
-                                        </div>
-                                        <hr />
-                                        {/* status */}
-                                        <div className="ltnd__product-status mt-30">
-                                            <h6 className="ltnd__title-3 ">Status</h6>
-                                            <div className="ltn__checkbox-radio-group inline" style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <label className="ltn__switch-2">
-                                                    <input type="checkbox"
-                                                        name="Status"
-                                                        // {...register('Status', { required: true })}
-                                                        checked={Status}
-                                                        onChange={changeValue} />
-
-                                                    <i className="lever" /> <span className="text">{Status === true ? "active" : "Inactive"}</span>
-                                                </label>
-                                                {/* <div className="error_show"> {errors.Status && "Status is required"} </div> */}
-                                            </div>
-                                        </div>
-                                        {/*  */}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* BLOCK AREA END */}
-                    {/* BLOCK AREA START ( Product Details section - 2 ) */}
-                    <div className="ltnd__block-area">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="ltnd__block-item mt-30">
-                                    <div className="ltnd__title ltnd__title-2">
-                                        <h4>Coverage</h4>
-                                    </div>
-                                    <div className="ltn__block-item-info">
-                                        {/* form */}
-                                        {/* <form className="ltnd__form-1"> */}
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Copay</h6>
-                                                    <input
-                                                        type="number"
-                                                        name="CoPayPercentage"
-                                                        value={CoPayPercentage}
-                                                        {...register('CoPayPercentage')}
-
-                                                        onChange={changeValue}
-                                                        placeholder="Amount"
-                                                    />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="CoPayPercentage"
-                                                        render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
-                                                    />
-
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Deductibles</h6>
-                                                    <input type="number"
-                                                        value={Deductibles}
-                                                        {...register('Deductibles')}
+                                            {/* </form> */}
+                                            {/* excerpt */}
+                                            <div className="ltnd__product-details-excerpt">
+                                                <h6 className="ltnd__title-3"> Product information</h6>
 
+                                                <div className="benifits-brief" style={{ width: '100%' }}>
+                                                    <input type="text"
+                                                        style={{ borderBottom: 'none' }}
+                                                        className='form-control'
+                                                        {...register('ProductDetails')}
                                                         onChange={changeValue}
-                                                        name="Deductibles" placeholder="Amount" />
+                                                        value={ProductDetails}
+                                                        placeholder='Type Here....'
+                                                        name="ProductDetails" />
                                                     <ErrorMessage
                                                         errors={errors}
-
-                                                        name="Deductibles"
-                                                        render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
-                                                    />
-
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="input-item">
-                                                    <h6 className="ltnd__title-3">Gragage/ Agency repair</h6>
-                                                    <select className="nice-select"
-                                                        value={IsAgencyRepair}
-                                                        name="IsAgencyRepair"
-                                                        {...register('IsAgencyRepair')}
-                                                        onChange={changeValue}>
-                                                        <option value="" >--- Please Select ---</option>
-                                                        <option defaultValue={1} >Repair By Agency </option>
-                                                        <option value={2}>Repair By Garage </option>
-                                                        <option value={3}>Repair By Agency/Garage </option>
-                                                    </select>
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="IsAgencyRepair"
+                                                        name="ProductDetails"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
 
+                                                </div>
 
+
+                                            </div>
+                                            <hr />
+                                            {/* status */}
+                                            <div className="ltnd__product-status mt-30">
+                                                <h6 className="ltnd__title-3 ">Status</h6>
+                                                <div className="ltn__checkbox-radio-group inline" style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <label className="ltn__switch-2">
+                                                        <input type="checkbox"
+                                                            name="Status"
+                                                            // {...register('Status', { required: true })}
+                                                            checked={Status}
+                                                            onChange={changeValue} />
+
+                                                        <i className="lever" /> <span className="text">{Status === true ? "active" : "Inactive"}</span>
+                                                    </label>
+                                                    {/* <div className="error_show"> {errors.Status && "Status is required"} </div> */}
                                                 </div>
                                             </div>
+                                            {/*  */}
                                         </div>
-                                        {/* </form> */}
-                                        {/*  */}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* BLOCK AREA END */}
-                    {/* BLOCK AREA START ( Benefits ) */}
-                    <div className="ltnd__block-area pb-60">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="benifits-header mt-30">
-                                    <h4>Benefits ({Benefit?.length})</h4>
-                                    <div className="btn-normal">
-                                        <span style={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setBenifit(true)} className="ltn__secondary-color">
-                                            Add benefit +
-                                        </span>
+                        {/* BLOCK AREA END */}
+                        {/* BLOCK AREA START ( Product Details section - 2 ) */}
+                        <div className="ltnd__block-area">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="ltnd__block-item mt-30">
+                                        <div className="ltnd__title ltnd__title-2">
+                                            <h4>Coverage</h4>
+                                        </div>
+                                        <div className="ltn__block-item-info">
+                                            {/* form */}
+                                            {/* <form className="ltnd__form-1"> */}
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Copay</h6>
+                                                        <input
+                                                            type="number"
+                                                            name="CoPayPercentage"
+                                                            value={CoPayPercentage}
+                                                            {...register('CoPayPercentage')}
+
+                                                            onChange={changeValue}
+                                                            placeholder="Amount"
+                                                        />
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name="CoPayPercentage"
+                                                            render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Deductibles</h6>
+                                                        <input type="number"
+                                                            value={Deductibles}
+                                                            {...register('Deductibles')}
+
+                                                            onChange={changeValue}
+                                                            name="Deductibles" placeholder="Amount" />
+                                                        <ErrorMessage
+                                                            errors={errors}
+
+                                                            name="Deductibles"
+                                                            render={({ message }) => <p style={{ color: 'red', paddingTop: '20px' }}>{message}</p>}
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-item">
+                                                        <h6 className="ltnd__title-3">Gragage/ Agency repair</h6>
+                                                        <select className="nice-select"
+                                                            value={IsAgencyRepair}
+                                                            name="IsAgencyRepair"
+                                                            {...register('IsAgencyRepair')}
+                                                            onChange={changeValue}>
+                                                            <option value="">--- Please Select ---</option>
+                                                            <option value={1} >Repair By Agency </option>
+                                                            <option value={2}>Repair By Garage </option>
+                                                            <option value={3}>Repair By Agency/Garage </option>
+                                                        </select>
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name="IsAgencyRepair"
+                                                            render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                        />
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* </form> */}
+                                            {/*  */}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="benifits-list">
+                            </div>
+                        </div>
+                        {/* BLOCK AREA END */}
+                        {/* BLOCK AREA START ( Benefits ) */}
+                        <div className="ltnd__block-area pb-60">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="benifits-header mt-30">
+                                        <h4>Benefits ({Benefit.map((i) => i != null ? Benefit.length : 0)})</h4>
+                                        <div className="btn-normal">
+                                            <span style={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setBenifit(true)} className="ltn__secondary-color">
+                                                Add benefit +
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="benifits-list">
 
-                                    {/* benifits-list-item */}
-                                    {Benefit ? Benefit.map((item, index) => {
-                                        if (item != null)
-                                            return (
+                                        {/* benifits-list-item */}
+                                        {Benefit ? Benefit.map((item, index) => {
+                                            if (item != null)
+                                                return (
 
-                                                <div className="benifits-list-item" key={index}>
-                                                    {editbenifit === index ?
+                                                    <div className="benifits-list-item" key={index}>
+                                                        {editbenifit === index ?
 
-                                                        <>
-                                                            <div className="benifits-brief" style={{ width: '70%' }}>
-                                                                <input type="text" className='form-control' onChange={changeValue} value={BenefitDetails} placeholder='Type Here....' name="BenefitDetails" />
+                                                            <>
+                                                                <div className="benifits-brief" style={{ width: '70%' }}>
+                                                                    <input type="text" className='form-control' onChange={changeValue} value={BenefitDetails} placeholder='Type Here....' name="BenefitDetails" />
+                                                                </div>
+                                                            </>
+                                                            :
+                                                            <div className="benifits-brief">
+                                                                <i className="fas fa-circle" />
+                                                                <span>
+                                                                    {item?.BenefitDetails}
+                                                                </span>
                                                             </div>
-                                                        </>
-                                                        :
-                                                        <div className="benifits-brief">
-                                                            <i className="fas fa-circle" />
-                                                            <span>
-                                                                {item?.BenefitDetails}
+                                                        }
+                                                        <div className="benifits-btn btn-normal" style={editbenifit === index ? { marginTop: '20px' } : null}>
+                                                            <span className="ltn__color-1 cancel_btn">
+                                                                {editbenifit === index ? <div onClick={() => CancelBenift()}>Cancel</div> : <div onClick={() => handleClick(index)}>Delete</div>}
+                                                            </span>
+                                                            <span className="ltn__secondary-color add_btn">
+                                                                {editbenifit === index ? <div onClick={() => UpdateBenift(index)}>Save</div> : <div onClick={() => EditBnft(index)}>Edit</div>}
+
                                                             </span>
                                                         </div>
-                                                    }
-                                                    <div className="benifits-btn btn-normal" style={editbenifit === index ? { marginTop: '20px' } : null}>
-                                                        <span className="ltn__color-1 cancel_btn">
-                                                            {editbenifit === index ? <div onClick={() => CancelBenift()}>Cancel</div> : <div onClick={() => handleClick(index)}>Delete</div>}
-                                                        </span>
-                                                        <span className="ltn__secondary-color add_btn">
-                                                            {editbenifit === index ? <div onClick={() => UpdateBenift(index)}>Save</div> : <div onClick={() => EditBnft(index)}>Edit</div>}
+                                                    </div>
+                                                )
+                                        }
+                                        )
 
+                                            : null
+                                        }
+                                        {benifit &&
+                                            (
+                                                <div div className="benifits-list-item">
+                                                    <div className="benifits-brief" style={{ width: '70%' }}>
+                                                        <input type="text" value={BenefitDetails} className='form-control' onChange={changeValue} name="BenefitDetails" placeholder='Enter benifits here...' />
+                                                        {field && <div className='error_show mt-1'>Benefit Field is Required</div>}
+                                                    </div>
+                                                    <div className="benifits-btn btn-normal mt-3 ">
+                                                        <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
+                                                            Cancel
+                                                        </span>
+                                                        <span onClick={() => SaveBenift()} className="ltn__secondary-color add_btn">
+                                                            Add
                                                         </span>
                                                     </div>
                                                 </div>
+
                                             )
-                                    }
-                                    )
+                                        }
 
-                                        : null
-                                    }
-                                    {benifit &&
-                                        (
-                                            <div div className="benifits-list-item">
-                                                <div className="benifits-brief" style={{ width: '70%' }}>
-                                                    <input type="text" value={BenefitDetails} className='form-control' onChange={changeValue} name="BenefitDetails" placeholder='Enter benifits here...' />
-                                                    {field && <div className='error_show mt-1'>Benefit Field is Required</div>}
-                                                </div>
-                                                <div className="benifits-btn btn-normal mt-3 ">
-                                                    <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
-                                                        Cancel
-                                                    </span>
-                                                    <span onClick={() => SaveBenift()} className="ltn__secondary-color add_btn">
-                                                        Add
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        )
-                                    }
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {/* BLOCK AREA END */}
+
+
+
                     </div>
-                    {/* BLOCK AREA END */}
+                    {/* Body Content Area Inner End */}
+                    <footer className="ltnd__footer-1 fixed-footer-1">
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="ltnd__footer-1-inner bg-white">
 
+                                        <div className="ltnd__left btn-normal" >
+                                            {params.id &&
+                                                <span onClick={() => openModal()}
+                                                    style={{ fontWeight: '600', cursor: 'pointer' }}
+                                                >
+                                                    <i className="ti-trash" /> Delete
+                                                </span>
+                                            }
+                                        </div>
 
-
-                </div>
-                {/* Body Content Area Inner End */}
-                <footer className="ltnd__footer-1 fixed-footer-1">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="ltnd__footer-1-inner bg-white">
-
-                                    <div className="ltnd__left btn-normal" >
-                                        {params.id &&
-                                            <span onClick={() => openModal()}
-                                                style={{ fontWeight: '600', cursor: 'pointer' }}
-                                            >
-                                                <i className="ti-trash" /> Delete
-                                            </span>
-                                        }
-                                    </div>
-
-                                    <div className="ltnd__right btn-normal">
-                                        <div className="btn-wrapper">
-                                            <Link to="/products">
-                                                <i className="ti-angle-left" /> Back
-                                            </Link>
-                                            <button type="submit" className="btn theme-btn-1 btn-round-12">
-                                                Save
-                                            </button>
+                                        <div className="ltnd__right btn-normal">
+                                            <div className="btn-wrapper">
+                                                <Link to="/products">
+                                                    <i className="ti-angle-left" /> Back
+                                                </Link>
+                                                <button type="submit" className="btn theme-btn-1 btn-round-12">
+                                                    Save
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
-                {/* Body Content Area End */}
+                    </footer>
+                    {/* Body Content Area End */}
 
-            </form>
+                </form>
 
-            <Modal
-                isOpen={modalIsOpen}
-                // onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <div className="modal-dialog modal-confirm">
-                    <div className="modal-content">
-                        <div className="modal-header flex-column">
-                            <div className="icon-box">
-                                <i className="fa fa-close" style={{ marginLeft: '20px' }}></i>
+                <Modal
+                    isOpen={modalIsOpen}
+                    // onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    <div className="modal-dialog modal-confirm">
+                        <div className="modal-content">
+                            <div className="modal-header flex-column">
+                                <div className="icon-box">
+                                    <i className="fa fa-close" style={{ marginLeft: '20px' }}></i>
+                                </div>
+                                <h4 className="modal-title w-100">Are you sure?</h4>
+
                             </div>
-                            <h4 className="modal-title w-100">Are you sure?</h4>
 
-                        </div>
-
-                        <div className="modal-footer justify-content-center mt-20">
-                            <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modal">
-                                Cancel
-                            </button>
-                            <button onClick={delBenifit.show ? DelBenifits : delProduct} type="button" className="btn btn-danger">
-                                Delete
-                            </button>
+                            <div className="modal-footer justify-content-center mt-20">
+                                <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button onClick={delBenifit.show ? DelBenifits : delProduct} type="button" className="btn btn-danger">
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-            </Modal>
+                </Modal>
 
 
-        </React.Fragment >
-    )
+            </React.Fragment >
+        )
 }
 
 export default ProductDetail

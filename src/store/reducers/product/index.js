@@ -38,6 +38,7 @@ const initialState = {
         editBenft: '',
         sort: '',
         active: '',
+        isLoading : true  , 
 
 
     },
@@ -48,6 +49,7 @@ const initialState = {
     dummy: [],
     Editproduct: {},
     EidtDat: '',
+    messages:'',
 
 
 };
@@ -94,7 +96,8 @@ const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 allProducts: [...state.allProducts, action.payload],
-                product: initialState.product
+                product: initialState.product,
+                messages : ""
             }
         }
 
@@ -106,7 +109,24 @@ const productReducer = (state = initialState, action) => {
                 isSuccess: false,
                 checkType: null,
                 allProducts: activeFilter,
-                dummy: action.payload,
+                dummy: action.payload.data,
+                messages : action.payload.message
+            };
+        }
+
+        case "LOADING":{
+            return {
+                ...state , 
+                isLoading : action.payload
+            }
+        }
+
+        case "ALERT_ALREADY_EXIT":{
+            debugger
+            return {
+                ...state,
+                messages : action.payload,
+
             };
         }
        
@@ -133,11 +153,14 @@ const productReducer = (state = initialState, action) => {
 
         case GET_SINGLE_PRODUCT: {
             debugger
+            // let filup = state.allProducts.find((item , index) => index == action.payload)
             return {
                 ...state,
                 product: {
                     ...state.product,
+                    // ...filup
                     ...action.payload,
+                    isLoading : false
                 }
             };
         }

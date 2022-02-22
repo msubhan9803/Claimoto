@@ -19,6 +19,7 @@ function PoliciesList() {
                                     <li className="table-data-6">Address</li>
                                     <li className="table-data-7">Vehicle </li>
                                     <li className="table-data-8">Details</li>
+                                    <li className="table-data-8">Edit</li>
                                 </ul>
                                 <ul className="ltn__select-availability-table-row">
                                     <li className="table-data-1">
@@ -42,8 +43,16 @@ function PoliciesList() {
                                             <strong>Details</strong>
                                         </Link>{" "}
                                     </li>
+                                    <li className="table-data-8">
+                                        <Link
+                                            className="ltn__secondary-color"
+                                            to={`/admin/policy_detail/${1}`}
+                                        >
+                                            <strong>Edit</strong>
+                                        </Link>{" "}
+                                    </li>
                                 </ul>
-                                
+
                             </div>
                         </div>
                     </div>
