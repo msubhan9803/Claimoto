@@ -17597,9 +17597,12 @@ form .ltnd__title-3 {
 }
 
 .fixed-footer-1 {
-  position: -webkit-sticky;
+  /* position: -webkit-sticky;
   position: sticky;
-  bottom: 0;
+  bottom: 0; */
+  position: fixed;
+    bottom: 0;
+    width: 80%;
 }
 
 .ltnd__footer-btn-dropdown-menu {
@@ -17969,7 +17972,7 @@ form .ltnd__title-3 {
   right: 0;
   top: 0;
   width: 40%;
-  z-index: -1;
+  /* z-index: -1; */
   height: calc(100vh - 80px);
 }
 
@@ -17977,6 +17980,7 @@ form .ltnd__title-3 {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
+  margin-top:40px;
   object-fit: cover;
   -o-object-position: center center;
   object-position: center center;
@@ -17999,7 +18003,7 @@ form .ltnd__title-3 {
 }
 
 .ltn__tab-active-hold-inner .ltn__shop-details-tab-menu .nav a::before {
-  bottom: -10px;
+  bottom: -5px;
 }
 
 .ltn__tab-active-hold-inner .ltn__shop-details-tab-menu .nav a.active::before {
