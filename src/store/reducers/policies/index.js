@@ -16,24 +16,23 @@ const initialState = {
         Id: '',
         TenantId: '',
         CarNumber: "",
-        insuranceComp: "",
-        policyType: "",
+        // insuranceComp: "",
+        PolicyType: "",
         productName: "",
         PolicyHolderName: '',
         MakeId: '',
         ModelId: '',
-        selected_image: "",
-        policyNumber: "",
+        // selected_image: "",
+        PolicyNo: "",
         AnnualPremium: "",
-        DOB: '',
+        // DOB: '',
         ModelName: '',
-        StartDate: '',
-        EndDate: '',
-        DrivingLicenseValidityExpiryDate: '',
+        // StartDate: '',
+        // EndDate: '',
         Address: '',
         RegistrationNumber: '',
         ChassisNumber: '',
-        DrivingLicenseValidity: '',
+        // DrivingLicenseValidity: '',
         IdentificationNumber: '',
         PlateNumber: '',
         Year: '',
@@ -144,7 +143,7 @@ const policyReducer = (state = initialState, action) => {
         }
 
         case GET_PRODUCT_BENEFIT_COV: {
-            debugger
+            
             return {
                 ...state,
                 policy: {

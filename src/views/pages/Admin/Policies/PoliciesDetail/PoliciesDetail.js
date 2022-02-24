@@ -31,14 +31,7 @@ function PoliciesDetail() {
     const [pname, setPname] = useState(false)
 
 
-    useEffect(() => {
-
-          if(params){
-              dispatch(GetSinglePolicy(params))
-          }
-        dispatch(GetProducType())
-        dispatch(GetMake());
-    }, [])
+  
 
     // const imageRef = createRef();
 
@@ -123,7 +116,7 @@ function PoliciesDetail() {
         TenantId,
         CarNumber,
         insuranceComp,
-        policyType,
+        PolicyType,
         productName,
         IdentificationNumber,
         PolicyHolderName,
@@ -144,6 +137,22 @@ function PoliciesDetail() {
         Benefit,
 
     } = policy
+
+
+    useEffect(() => {
+
+        if(params){
+            dispatch(GetSinglePolicy(params))
+            dispatch(GetProductNames(PolicyType))
+            dispatch(GetMakeModel(MakeId))
+
+        }
+      dispatch(GetProducType())
+      dispatch(GetMake());
+  }, [])
+
+
+  console.log("policy type" , PolicyType)
 
 
 
@@ -245,7 +254,7 @@ function PoliciesDetail() {
                                                     </div>
                                                     <div className="policies-details-single-info" >
                                                         <h6 className="ltnd__title-4">Policy type</h6>
-                                                        <select className="form-control" name="policyType" {...register('policyType')} value={policyType} onChange={changeValue}>
+                                                        <select className="form-control" name="policyType" {...register('policyType')} value={PolicyType} onChange={changeValue}>
                                                             <option value="">--- Please Select --- </option>
                                                             {productTyps.map((item, index) => {
                                                                 return (
@@ -284,7 +293,7 @@ function PoliciesDetail() {
                                                                 {policy_make.map((item, index) => {
                                                                     return (
                                                                         <option value={item.Id} key={index}>
-                                                                    <img src={`http://103.173.62.74:70/${item.Image}`}/>  
+                                                                    <img src={`http://103.173.62.74:70/Uploads/Honda.png`}/>  
 
                                                                             {item.MakeName}
                                                                             </option>
@@ -395,7 +404,7 @@ function PoliciesDetail() {
                                                                 dateFormat="dd/MM/yyyy"
                                                                 onChangeRaw={handleDateChangeRaw}
                                                                 onChange={(date) => { return field.onChange(date) , dispatch(GetInputs('StartDate' , date))}}
-                                                                selected={StartDate}
+                                                                // selected={StartDate}
 
                                                             />
                                                         )}
@@ -447,7 +456,7 @@ function PoliciesDetail() {
                                                                 dateFormat="dd/MM/yyyy"
                                                                 onChangeRaw={handleDateChangeRaw}
                                                                 onChange={(date) => { return field.onChange(date) , dispatch(GetInputs('DOB' , date))}}
-                                                                selected={DOB}
+                                                                // selected={DOB}
                                                             />
                                                         )}
                                                     />
@@ -473,7 +482,7 @@ function PoliciesDetail() {
                                                                 dateFormat="dd/MM/yyyy"
                                                                 onChangeRaw={handleDateChangeRaw}
                                                                 onChange={(date) => { return field.onChange(date) , dispatch(GetInputs('EndDate' , date))}}
-                                                                selected={EndDate}
+                                                                // selected={EndDate}
                                                             />
                                                         )}
                                                     />
@@ -500,7 +509,7 @@ function PoliciesDetail() {
                                                                 dateFormat="dd/MM/yyyy"
                                                                 onChangeRaw={handleDateChangeRaw}
                                                                 onChange={(date) => { return field.onChange(date) , dispatch(GetInputs('DrivingLicenseValidity' , date))}}
-                                                                selected={DrivingLicenseValidity}
+                                                                // selected={DrivingLicenseValidity}
                                                             />
                                                         )}
                                                     />
