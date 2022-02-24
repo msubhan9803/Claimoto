@@ -85,18 +85,12 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             dispatch(addUser(userValues));
         }
         toggleModal();
-        setTimeout(() => {
-            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-        }, 1000);
     };
 
 
     const _deleteAction = () => {
         dispatch(deleteUser(id));
         toggleModal();
-        setTimeout(() => {
-            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-        }, 500);
     }
 
 
