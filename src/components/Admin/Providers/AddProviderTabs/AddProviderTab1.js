@@ -1,8 +1,12 @@
 import React from 'react';
 import Garage_Icon from "assets/img/motor/garage-logo.png";
-import Side_Image from 'assets/img/motor/login-bg-1.png';
-
+import { useParams } from "react-router-dom";
+import { capitalizeFirstLetter } from 'functions';
 const AddProviderTab1 = () => {
+
+    const { type } = useParams();
+
+
     return (
         <React.Fragment>
 
@@ -10,9 +14,9 @@ const AddProviderTab1 = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section-title-area ">
-                                <h1 className="section-title">Garage details</h1>
+                                <h1 className="section-title">{capitalizeFirstLetter(type) || ""} details</h1>
                             </div>
-                            <p><strong>Garage logo</strong></p>
+                            <p><strong>{capitalizeFirstLetter(type) || ""} logo</strong></p>
                             <div className="garage-logo mb-30">
                                 <img className="border-radius-12" src={Garage_Icon} alt="#" />
                             </div>

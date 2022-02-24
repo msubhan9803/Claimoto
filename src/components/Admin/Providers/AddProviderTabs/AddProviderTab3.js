@@ -3,9 +3,11 @@ import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
 import { useSelector } from 'react-redux';
+import { capitalizeFirstLetter } from 'functions';
+import { useParams } from "react-router-dom";
 
 const AddProviderTab3 = () => {
-
+    const {type} = useParams();
     const { addTabs } = useSelector(state => state.providersScreenReducer);
 
 
@@ -17,7 +19,7 @@ const AddProviderTab3 = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section-title-area ">
-                                <h1 className="section-title">Garage location</h1>
+                                <h1 className="section-title">{capitalizeFirstLetter(type)} location</h1>
                             </div>
                             <div className="ltnd__adding-method">
                                 <div className="adding-method-title">

@@ -125,11 +125,12 @@ export const getUsers = ({ users_per_page, users_page_index, search_text, search
             type: SET_USERS_REQUEST,
             payload: true
         })
-        let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
-        // let { data } = await instance.get(`api/UserProfile`);
+        // let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        let { data } = await instance.get(`api/UserProfile`);
         dispatch({
             type: SET_USERS,
-            payload: {users:data?.ModelUserProfileWithTotalRecords || [], counts:data?.TotalRecord || 0}
+            // payload: {users:data?.ModelUserProfileWithTotalRecords || [], counts:data?.TotalRecord || 0}
+            payload: { users: data || [], counts: data?.lenght || 0 }
         })
     } catch (error) {
         dispatch({
