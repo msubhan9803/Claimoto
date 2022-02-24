@@ -38,7 +38,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                             <h1 className="section-title">What are you adding?</h1>
                         </div>
                         <div className="row">
-                            <div className="col-lg-4">
+                            <div className="col-lg-3">
                                 <div className="ltnd__single-adding-item text-center">
                                     <div className="ltnd__adding-icon">
                                         <i className="ti-home"></i>
@@ -51,7 +51,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-lg-3">
                                 <div className="ltnd__single-adding-item text-center">
                                     <div className="ltnd__adding-icon">
                                         <i className="ti-pencil-alt"></i>
@@ -63,7 +63,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-lg-3">
                                 <div className="ltnd__single-adding-item text-center">
                                     <div className="ltnd__adding-icon">
                                         <i className="ti-car"></i>
@@ -72,6 +72,18 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
                                         <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/car_agency" > Add +</Link>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-3">
+                                <div className="ltnd__single-adding-item text-center">
+                                    <div className="ltnd__adding-icon">
+                                        <i className="ti-pencil-alt"></i>
+                                    </div>
+                                    <h4>Surveyor</h4>
+                                    <p>Lorem ipsum, or lipsum as it is sometimes known</p>
+                                    <div className="btn-wrapper text-center mt-0">
+                                        <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/surveyor" > Add +</Link>
                                     </div>
                                 </div>
                             </div>

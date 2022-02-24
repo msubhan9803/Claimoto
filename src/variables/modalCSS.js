@@ -50,7 +50,7 @@ export const modalStyleCenter = {
         transform: "translate(-50%, -50%)",
         padding: '20px',
         zIndex: 1,
-        minWidth:900,
+        minWidth:1200,
         minHeight:500
     },
 
