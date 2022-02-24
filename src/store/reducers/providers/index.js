@@ -39,7 +39,23 @@ const initialState = {
             short: "surveyor"
         }
     ],
-    selectedTab: 0
+    selectedTab: 0,
+
+    addTabs:[
+        {
+            id: "ltn__tab_4_1",
+            component: <AddProviderTab1 />,
+        },
+        {
+            id: "ltn__tab_4_2",
+            component: <AddProviderTab2 />,
+        },
+        {
+            id: "ltn__tab_4_3",
+            component: <AddProviderTab3 />,
+        }  
+    ],
+    selectedAddTab:0
 };
 
 

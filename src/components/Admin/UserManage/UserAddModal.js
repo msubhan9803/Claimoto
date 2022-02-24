@@ -85,18 +85,12 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             dispatch(addUser(userValues));
         }
         toggleModal();
-        setTimeout(() => {
-            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-        }, 500);
     };
 
 
     const _deleteAction = () => {
         dispatch(deleteUser(id));
         toggleModal();
-        setTimeout(() => {
-            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-        }, 500);
     }
 
 
@@ -105,7 +99,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             confirmAlert({
                 title: "Are you sure?",
                 text: "",
-                buttonText: "Yes, Delete it",
+                buttonText: "Yes, Deactivate it",
                 action: _deleteAction
             });
         }
@@ -149,7 +143,6 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
     const _clearState = () => {
         dispatch(clearInputValues());
-        toggleModal();
     }
 
 
@@ -158,7 +151,10 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         if (edit && id) {
             dispatch(getUserDetails(parseInt(id)));
         }
-    }, [edit, id]);
+        return () => {
+            _clearState()
+        }
+    }, []);
 
 
     return (
@@ -305,7 +301,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     onChange={_handleMultipleSelect}
                                                     components={animatedComponents}
                                                     isMulti
-                                                    options={access_groups.filter(ag => ag.RoleId === parseInt(access_role.value) && ag.IsDefault).map((option => { return { label: option.GroupName, value: option.Id } }))}
+                                                    options={access_groups.filter(ag => ag.RoleId === parseInt(access_role.value)).map((option => { return { label: option.GroupName, value: option.Id } }))}
                                                 />
                                                 <ErrorMessage
                                                     errors={errors}
@@ -345,7 +341,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
-                                                                    <a onClick={_clearState} className="ltn__color-1" role=""><i className="ti-angle-left"></i> Cancel</a>
+                                                                    <a onClick={toggleModal} className="ltn__color-1" role=""><i className="ti-angle-left"></i> Cancel</a>
                                                                     <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
                                                                 </div>
                                                             </div>

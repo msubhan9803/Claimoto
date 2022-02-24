@@ -46,7 +46,8 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Garage</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                        <a href="add-garage.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
+                                    <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/garage" > Add +</Link>
+
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +59,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Agency</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                        <a href="add-agency.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
+                                    <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/agency" > Add +</Link>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +71,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Car agency</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                        <a href="add-car-agency.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
+                                        <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/car_agency" > Add +</Link>
                                     </div>
                                 </div>
                             </div>

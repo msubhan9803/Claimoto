@@ -46,16 +46,11 @@ function ProductDetail(props) {
         ProductDetails: Yup.string()
             .required('Product Details is required'),
         AnnualPremium: Yup.string()
-            .required('Annual Premium is required')
-            .min(4, "Minimum 4 digit is required"),
+            .required('Annual Premium is required'),
         CoPayPercentage: Yup.string()
-            .required('CoPay Percentage is required')
-            .min(4, "Minimum 4 digit is required"),
-
+            .required('CoPay Percentage is required'),
         Deductibles: Yup.string()
-            .required('Deductibles is required')
-            .min(4, "Minimum 4 digit is required"),
-
+            .required('Deductibles is required'),
         IsAgencyRepair: Yup.string()
             .required('Grage and Agency is required')
 
@@ -85,7 +80,7 @@ function ProductDetail(props) {
 
     const product = useSelector(state => state.productReducer.product)
     const productTyps = useSelector(state => state.productReducer.product_Types)
-    const { isSuccess, messages  } = useSelector(state => state.productReducer)
+    const { isSuccess, messages } = useSelector(state => state.productReducer)
 
     // destructre  input value from reducer 
     const {
@@ -138,7 +133,6 @@ function ProductDetail(props) {
 
 
     // Change value 
-
     const changeValue = (e) => {
         e.persist();
         if (e.target.name === "Status") {
@@ -155,7 +149,6 @@ function ProductDetail(props) {
     }
 
     // save benefit in redux array
-
     const SaveBenift = () => {
         if (BenefitDetails !== "") {
             dispatch(RegisterBenft(addBenfit))
@@ -225,72 +218,68 @@ function ProductDetail(props) {
     }
 
 
-
+    // Close modal
     const handleClick = (index) => {
         openModal();
         setDelBenifit({ id: index, show: true });
     }
 
 
-
-
-
     // validetion useform
-
-
-    
     function onSubmit() {
         return params.id
             ? updateProduct()
             : SendForm();
     }
 
-    if( params.id ? isLoading : null ){
-        return "hellow"
-    }
-    else    
-     return (
-            <React.Fragment>
-                <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
 
-                    {/* header-middle-area start */}
-                    <div className="ltnd__header-middle-area ">
-                        <div className="row">
-                            <div className="col-lg-9">
-                                <div className="ltnd__page-title-area">
-                                    <p className="page-back-btn">
-                                        <Link to="/admin/products">
-                                            <i className="icon-left-arrow-1" /> Back
-                                        </Link>
-                                    </p>
-                                    <h2>{params.id ? ProductName : "Create Product"}</h2>
-                                </div>
+    return (
+        <React.Fragment>
+            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+
+                {/* header-middle-area start */}
+                <div className="ltnd__header-middle-area ">
+                    <div className="row">
+                        <div className="col-lg-9">
+                            <div className="ltnd__page-title-area">
+                                <p className="page-back-btn">
+                                    <Link to="/admin/products">
+                                        <i className="icon-left-arrow-1" /> Back
+                                    </Link>
+                                </p>
+                                <h2>{params.id ? ProductName : "Create Product"}</h2>
                             </div>
-                            <div className="col-lg-3 align-self-center text-end">
-                                <div className="ltnd__date-area d-none">
-                                    <div className="ltn__datepicker">
-                                        <div className="ltn_datepicker-title">
-                                            <span>Date</span>
-                                        </div>
-                                        <div className="input-group date" data-provide="datepicker">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Select Date"
-                                            />
-                                            <div className="input-group-addon">
-                                                <i className="far fa-calendar-alt" />
-                                            </div>
+                        </div>
+                        <div className="col-lg-3 align-self-center text-end">
+                            <div className="ltnd__date-area d-none">
+                                <div className="ltn__datepicker">
+                                    <div className="ltn_datepicker-title">
+                                        <span>Date</span>
+                                    </div>
+                                    <div className="input-group date" data-provide="datepicker">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Select Date"
+                                        />
+                                        <div className="input-group-addon">
+                                            <i className="far fa-calendar-alt" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {/* header-middle-area end */}
                 </div>
+                {/* header-middle-area end */}
+            </div>
 
-                {/* Body Content Area Inner Start */}
+            {/* Body Content Area Inner Start */}
+            {params.id && isLoading ?
+                <div className="spinner-grow" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                :
                 <form className="ltnd__form-1" onSubmit={handleSubmit(onSubmit)}>
                     <div className="body-content-area-inner">
                         {/* BLOCK AREA START ( Product Details section - 1 ) */}
@@ -314,7 +303,7 @@ function ProductDetail(props) {
                                                             value={ProductName}
                                                             {...register('ProductName')}
                                                             onChange={changeValue}
-                                                            placeholder="Product Name"
+                                                            placeholder="Product name"
 
                                                         />
                                                         <ErrorMessage
@@ -352,6 +341,7 @@ function ProductDetail(props) {
                                                     <div className="input-item">
                                                         <h6 className="ltnd__title-3">Annual premium</h6>
                                                         <input type="number"
+                                                            min={0}
                                                             name="AnnualPremium"
                                                             value={AnnualPremium}
                                                             {...register('AnnualPremium')}
@@ -433,6 +423,7 @@ function ProductDetail(props) {
                                                         <h6 className="ltnd__title-3">Copay</h6>
                                                         <input
                                                             type="number"
+                                                            min={0}
                                                             name="CoPayPercentage"
                                                             value={CoPayPercentage}
                                                             {...register('CoPayPercentage')}
@@ -452,6 +443,7 @@ function ProductDetail(props) {
                                                     <div className="input-item">
                                                         <h6 className="ltnd__title-3">Deductibles</h6>
                                                         <input type="number"
+                                                            min={0}
                                                             value={Deductibles}
                                                             {...register('Deductibles')}
 
@@ -559,7 +551,7 @@ function ProductDetail(props) {
                                                         <span className="ltn__color-1 cancel_btn" onClick={() => setBenifit(false)}>
                                                             Cancel
                                                         </span>
-                                                        <span onClick={() => SaveBenift()} className="ltn__secondary-color add_btn">
+                                                        <span onClick={() => SaveBenift()} className="ltn__secondary-color add_btn" >
                                                             Add
                                                         </span>
                                                     </div>
@@ -612,41 +604,42 @@ function ProductDetail(props) {
                     {/* Body Content Area End */}
 
                 </form>
+            }
 
-                <Modal
-                    isOpen={modalIsOpen}
-                    // onAfterOpen={afterOpenModal}
-                    onRequestClose={closeModal}
-                    style={customStyles}
-                    contentLabel="Example Modal"
-                >
-                    <div className="modal-dialog modal-confirm">
-                        <div className="modal-content">
-                            <div className="modal-header flex-column">
-                                <div className="icon-box">
-                                    <i className="fa fa-close" style={{ marginLeft: '20px' }}></i>
-                                </div>
-                                <h4 className="modal-title w-100">Are you sure?</h4>
-
+            <Modal
+                isOpen={modalIsOpen}
+                // onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <div className="modals-dialog modals-confirm">
+                    <div className="modals-content">
+                        <div className="modals-header flex-column">
+                            <div className="icon-box">
+                                <i className="fa fa-close" style={{ marginLeft: '20px' }}></i>
                             </div>
+                            <h4 className="modals-title w-100">Are you sure?</h4>
 
-                            <div className="modal-footer justify-content-center mt-20">
-                                <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modal">
-                                    Cancel
-                                </button>
-                                <button onClick={delBenifit.show ? DelBenifits : delProduct} type="button" className="btn btn-danger">
-                                    Delete
-                                </button>
-                            </div>
+                        </div>
+
+                        <div className="modals-footer justify-content-center mt-20">
+                            <button type="button" onClick={() => closeModal()} className="btn btn-secondary" data-dismiss="modals">
+                                Cancel
+                            </button>
+                            <button onClick={delBenifit.show ? DelBenifits : delProduct} type="button" className="btn btn-danger">
+                                Confirm
+                            </button>
                         </div>
                     </div>
+                </div>
 
 
-                </Modal>
+            </Modal>
 
 
-            </React.Fragment >
-        )
+        </React.Fragment >
+    )
 }
 
 export default ProductDetail

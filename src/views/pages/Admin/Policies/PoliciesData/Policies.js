@@ -1,7 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import PoliciesList from 'components/Admin/PoliciesList/PoliciesList'
 import { Link } from 'react-router-dom'
 function Policies() {
+
+ 
     return (
         <React.Fragment>
             <div className="body-wrapper">

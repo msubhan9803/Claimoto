@@ -8,7 +8,9 @@ import { setUserPage } from 'store/actions/users/users_screen';
 function UserList() {
     let [searchParams, setSearchParams] = useSearchParams();
     let dispatch = useDispatch();
-    const { users, roles, loadingUsers,
+    const { users,
+        roles,
+        loadingUsers,
         users_per_page,
         users_page_index,
         users_count,
