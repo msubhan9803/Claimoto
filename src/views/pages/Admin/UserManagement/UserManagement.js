@@ -39,6 +39,10 @@ function UserManagement() {
 
     //Actions
     const _handleComActions = () => {
+        dispatch(getModulesActions());
+        dispatch(getActions());
+        dispatch(getRoles());
+        dispatch(getAccessRoles());
         // dispatch(getModules());
         let action = searchParams.get("action");
         let activeTab = searchParams.get("tab");
@@ -96,7 +100,9 @@ function UserManagement() {
     //toggleModal
     const _toggleModal = (action) => {
 
-        // dispatch(clearInputValues())
+        // dispatch(clearInputValues());
+
+
 
         if (searchParams.has("action")) {
             searchParams.delete("action");
@@ -111,29 +117,13 @@ function UserManagement() {
     }
 
 
-    const _loadData = () => {
-        dispatch(getModulesActions());
-        dispatch(getActions());
-        dispatch(getRoles());
-        dispatch(getAccessRoles());
-    }
-
-
-
-
     useEffect(() => {
         _handleComActions();
     }, [searchParams]);
 
     useEffect(() => {
-        _loadData();
-    }, []);
-
-    useEffect(() => {
-        if(search_text?.length > 2 && search_option !== "" || search_text === ""){
-            dispatch(getUsers({ users_per_page, users_page_index: 1, search_text, search_option, sort_name, sort_type }));
-        }
-    }, [search_text ,search_option, sort_name])
+        dispatch(getUsers({ users_per_page, users_page_index: 1, search_text, search_option, sort_name, sort_type }));
+    }, [search_option, sort_name, sort_type])
 
 
 

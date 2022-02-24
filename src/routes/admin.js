@@ -53,7 +53,7 @@ export const adminRoutes = () => {
                 },
                 {
                     name: "Add Provider",
-                    path: "/add_provider/:type",
+                    path: "/add_provder",
                     component: <AddProvider />,
                     layout: "admin",
                 },

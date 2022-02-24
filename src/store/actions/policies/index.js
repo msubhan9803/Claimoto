@@ -35,70 +35,17 @@ export const GetInputs = (name, value) => dispatch => {
 
 export const RegisterPolicies = (data) => async dispatch => {
     try {
-        let check = Array.isArray(data.Benefit) && data.Benefit.length
-
-        let policyDetail = {
-            TenantId: 2,
-            CarNumber: data.CarNumber,
-            PolicyNo : data.policyNumber,
-            PolicyType: data.policyType,
-            IdentificationNumber: data.IdentificationNumber,
-            PolicyHolderName: data.PolicyHolderName,
-            MakeId: data.MakeId,
-            ModelId: data.ModelId,
-            AnnualPremium: data.AnnualPremium,
-            DOB: data.DOB,
-            StartDate: data.StartDate,
-            EndDate: data.EndDate,
-            Address: data.Address,
-            DrivingLicenseValidity: data.DrivingLicenseValidity,
-            CoPayPercentage: data.CoPayPercentage,
-            Deductibles: data.Deductibles,
-            IsAgencyRepair: data.IsAgencyRepair,
-            ProductId: data.ProductId,
-            PlateNumber: data.PlateNumber,
-            Year: data.Year,
-            ColourId: data.Year,
-            Capacity: data.Capacity,
-            ChassisNumber: data.ChassisNumber,
-            Benefits: check == 1 ? data.Benefit : null
-
-
-               }
-                      
-               
-            let Imgdata = {
-            Image1: data.Image1,
-            Image2: data.Image2,
-            Image3: data.Image3,
-            Image4: data.Image4,
-            Image5: data.Image5,
-        }
-
-        console.log("Daa", policyDetail)
-
-        let ress = await instance.post('api/Policy', policyDetail)
-            .then((res) => {
-                let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
-                    formData.append(key, value);
-                }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
-
-
+        let res = await instance.post('api/Policy', data)
+        if (res.status == 200) {
+            dispatch({
+                type: REGISTER_POLICIES,
+                payload: data
             })
-        console.log("ress", ress)
-        // if (res.status == 200) {
-        //     dispatch({
-        //         type: REGISTER_POLICIES,
-        //         payload: data
-        //     })
-        // SweetAlert({
-        //     text: "Policy are successfully register",
-        //     icon: "Success"
-        // })
-        // }
+            SweetAlert({
+                text: "Policy are successfully register",
+                icon: "Success"
+            })
+        }
 
     }
     catch (err) {
@@ -109,9 +56,8 @@ export const RegisterPolicies = (data) => async dispatch => {
 
 // Get Policies 
 export const GetPolicies = () => async dispatch => {
-    debugger
     try {
-        let res = await instance.get('api/Policy/Policies')
+        let res = await instance.get('api/product')
         console.log("res", res)
         dispatch({ type: GET_POLICIES, payload: res.data })
     }
@@ -122,10 +68,10 @@ export const GetPolicies = () => async dispatch => {
 
 
 // Get Single Policies 
-export const GetSinglePolicy = (id) => async dispatch => {
+export const GetSinglePolicies = (ProductID) => async dispatch => {
     debugger
     try {
-        let res = await instance.get(`api/Policy/PolicyById?id=${id}`)
+        let res = await instance.get(`Product/${ProductID}`)
         console.log("res", res)
         dispatch({ type: GET_SINGLE_POLICIES, payload: res.data })
     }
@@ -158,44 +104,30 @@ export const GetMake = () => async dispatch => {
     }
 }
 
-// Get make model 
-
-export const GetMakeModel = (Id) => async dispatch => {
-    try {
-        debugger
-        let res = await instance.get(`api/Policy/PolicyModel/?Id=${Id}`)
-        dispatch({ type: "GET_POLICY_MAKE_MODEL", payload: res.data })
-    }
-    catch (err) {
-        console.log("err", err)
-
-    }
-}
-
 // Get product Names according to product type 
 
-export const GetProductNames = (type) => async dispatch => {
+export const GetProductNames = (type) => async dispatch =>{
     debugger
-    try {
+    try{
         let res = await instance.get(`api/Policy/GetPolicyType/${type}`)
         console.log("res", res)
-        dispatch({ type: GET_PRODUCT_NAMES, payload: res.data })
+        dispatch({ type: GET_PRODUCT_NAMES, payload: res.data })  
     }
-    catch (err) {
+    catch(err){
 
     }
 }
 
 // Get product Names according to product type 
 
-export const GetProductBeniftCov = (type) => async dispatch => {
-  debugger
-    try {
+export const GetProductBeniftCov = (type) => async dispatch =>{
+    debugger  
+    try{
         let res = await instance.get(`api/Policy/GetProductDetails/${type}`)
         console.log("res", res)
-        dispatch({ type: GET_PRODUCT_BENEFIT_COV, payload: res.data })
+        dispatch({ type: GET_PRODUCT_BENEFIT_COV, payload: res.data })  
     }
-    catch (err) {
+    catch(err){
 
     }
 }
@@ -203,9 +135,10 @@ export const GetProductBeniftCov = (type) => async dispatch => {
 
 
 // Delete Policies
-export const DeletePolicies = (id) => async dispatch => {
+export const DeletePolicies = (ProductID) => async dispatch => {
     try {
-        let res = await instance.delete(`api/Policy/PolicyDel?id=${id}`)
+        let res = await instance.delete(`Product/${ProductID}`)
+        console.log("res", res)
         dispatch({ type: DELETE_POLICIES, payload: "res.data" })
 
     }
@@ -220,71 +153,8 @@ export const DeletePolicies = (id) => async dispatch => {
 export const UpdatePolicies = (data) => async dispatch => {
     debugger
     try {
-        let check = Array.isArray(data.Benefit) && data.Benefit.length
-
-        let policyDetail = {
-            // TenantId: 2,
-            // CarNumber: data.CarNumber,
-            // policyType: data.policyType,
-            // IdentificationNumber: data.IdentificationNumber,
-            // PolicyHolderName: data.PolicyHolderName,
-            // MakeId: data.MakeId,
-            // ModelId: data.ModelId,
-            // policyNumber: data.policyNumber,
-            // AnnualPremium: data.AnnualPremium,
-            // DOB: data.DOB,
-            // StartDate: data.StartDate,
-            // EndDate: data.EndDate,
-            // Address: data.Address,
-            // DrivingLicenseValidity: data.DrivingLicenseValidity,
-            // CoPayPercentage: data.CoPayPercentage,
-            // Deductibles: data.Deductibles,
-            // IsAgencyRepair: data.IsAgencyRepair,
-            // ProductId: data.ProductId,
-            // PlateNumber: data.PlateNumber,
-            // Year: data.Year,
-            // ColourId: data.Year,
-            // Capacity: data.Capacity,
-            // ChassisNumber: data.ChassisNumber,
-            Benefits: check === 1 ? data.Benefit : null
-        }
-
-        let Imgdata = {
-            Image1: data.Image1,
-            Image2: data.Image2,
-            Image3: data.Image3,
-            Image4: data.Image4,
-            Image5: data.Image5,
-        }
-
-        console.log("Daa", check)
-
-        let ress = await instance.post('api/Policy', policyDetail)
-        console.log("data", ress)
-            .then((res) => {
-                let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
-                    formData.append(key, value);
-                }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
-
-
-            })
-        console.log("ress", ress)
-        // if (res.status == 200) {
-        //     dispatch({
-        //         type: REGISTER_POLICIES,
-        //         payload: data
-        //     })
-        // SweetAlert({
-        //     text: "Policy are successfully register",
-        //     icon: "Success"
-        // })
-        // }
-
-        // let res = await instance.post('api/Product', data)
-        // dispatch({ type: UPDATE_POLICIES, payload: data })
+        let res = await instance.post('api/Product', data)
+        dispatch({ type: UPDATE_POLICIES, payload: data })
 
     }
     catch (err) {

@@ -3,7 +3,7 @@ import motorImg from '../../../../assets/img/motor/login-bg-1.png'
 import { loginUser } from '../../../../store/actions/auth/user'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 function Login() {
@@ -60,7 +60,7 @@ function Login() {
                                     <p>Enter your details below</p>
                                 </div>
                                 {/* Form with Formik start */}
-                                {/* <Formik
+                                <Formik
                                     initialValues={{
                                         email: '',
                                         password: ''
@@ -71,16 +71,16 @@ function Login() {
                                         dispatch(loginUser(values))
 
                                     }}
-                                > */}
-                                    <form className="ltn__form-box">
-                                        <input type="text" name="email" className="input_field" placeholder="Email*" />
-                                        {/* <ErrorMessage name="email" /> */}
-                                        <input type={showPass ? "text" : "password"} placeholder="Password*" name="password" />
+                                >
+                                    <Form className="ltn__form-box">
+                                        <Field type="text" name="email" className="input_field" placeholder="Email*" />
+                                        <ErrorMessage name="email" />
+                                        <Field type={showPass ? "text" : "password"} placeholder="Password*" name="password" />
                                         <i className={showPass ? "far fa-eye" : "far fa-eye-slash"}
                                             id="togglePassword"
                                             style={{ marginLeft: '-30px', cursor: 'pointer' }}
                                             onClick={() => setShowPass(!showPass)}></i>
-                                        {/* <ErrorMessage name="password" /> */}
+                                        <ErrorMessage name="password" />
 
                                         <div className="btn-normal">
                                             <Link to="/reset_password" className="ltn__secondary-color">
@@ -103,8 +103,8 @@ function Login() {
                                                </Link>
                                             </span>
                                         </div>
-                                    </form>
-                                {/* </Formik> */}
+                                    </Form>
+                                </Formik>
                             </div>
                         </div>
                     </div>

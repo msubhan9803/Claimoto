@@ -6,14 +6,12 @@ import { CSSTransition } from 'react-transition-group';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalStyle } from 'variables/modalCSS';
-import { handleInputValue, clearInputValues, getModules, getAccessGroupDetails, addUpdateAccessGroup, deleteGroup } from 'store/actions/users/users_screen';
+import { handleInputValue, clearInputValues, getModules, getAccessGroupDetails } from 'store/actions/users/users_screen';
 import Select, { components } from 'react-select';
 import { Animated } from 'react-animated-css';
 import ClickAwayListener from 'react-click-away-listener';
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { getAccessRoles } from 'store/actions/users/users_screen';
-import { confirmAlert } from 'functions';
 
 
 
@@ -51,19 +49,21 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     const _handleSelect = (value, name) => {
         if (name === "access_group") {
             let access_group_id = parseInt(value?.value || 0);
+            dispatch(getModules(access_group_id));
         }
         dispatch(handleInputValue({ name, value, compnnt: "access_group" }));
     }
 
     const _clearState = () => {
         dispatch(clearInputValues());
+        toggleModal();
     }
 
     const _multiValueLabel = props => {
         return (
             <div style={{ cursor: "pointer" }}
                 onClick={(e) => _handleMultiValueClick(e, props)}>
-                <components.MultiValueLabel  {...props} />
+                <components.MultiValueLabel {...props} />
             </div>
         );
     };
@@ -78,39 +78,13 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     }
 
 
+
     useEffect(() => {
         if (edit && id) {
             dispatch(getAccessGroupDetails(id));
         }
-        return () => {
-            _clearState()
-        }
     }, []);
 
-
-    useEffect(() => {
-        dispatch(getModules(access_group?.value));  
-    }, [access_group]);
-
-    const _deleteAction = () => {
-        dispatch(deleteGroup(id));
-        toggleModal();
-        setTimeout(() => {
-            dispatch(getAccessRoles());
-        }, 1000);
-    }
-
-
-    const _deleteGroup = () => {
-        if (id) {
-            confirmAlert({
-                title: "Are you sure?",
-                text: "",
-                buttonText: "Yes, Deactivate it",
-                action: _deleteAction
-            });
-        }
-    }
 
 
     const _addUpdateAccessGroup = () => {
@@ -121,27 +95,12 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                 ModuleId: module_id,
                 Actions: selectedActions
             }
-        });
-
-
+        })
         const payload = {
-            Edit:edit,
-            AccessGroupId: id,
-            GroupName: name,
-            GroupDetails: "",
-            GroupType: "",
-            InheritAccessGroupId: access_group.value,
+            AccessGroupId: access_group.value,
             Modules: selected_modules
         }
-
-
-        dispatch(addUpdateAccessGroup(payload));
-        
-        setTimeout(() => {
-            dispatch(getAccessRoles());
-            toggleModal();
-        }, 1000);
-
+        console.log(payload);
     }
 
 
@@ -172,18 +131,15 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                     </button>
                 </div>
                 <div className="modal-body">
-
-                    <div className="ltnd__adding-modal-inner">
-
-                        <div className="section-title-area mb-30---">
-                            <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
+                    {loading ?
+                        <div className="spinner-grow" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
-                        {loading ?
-                            <div className="spinner-grow" role="status">
-                                <span className="sr-only">Loading...</span>
+                        :
+                        <div className="ltnd__adding-modal-inner">
+                            <div className="section-title-area mb-30---">
+                                <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
                             </div>
-                            :
-
                             <div className="row">
                                 <form onSubmit={handleSubmit(_onSubmit)}>
                                     <div className="col-lg-12">
@@ -220,7 +176,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     name="access_group"
                                                     value={access_group}
                                                     onChange={(event) => _handleSelect(event, "access_group")}
-                                                    options={access_groups.map((option => { return { label: option?.GroupName, value: option.Id } }))}
+                                                    options={access_groups.map((option => { return { label: option.GroupName, value: option.Id } }))}
                                                     closeMenuOnSelect={true}
                                                 />
                                                 {/* )}
@@ -233,9 +189,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             </div>
                                             <div className="input-item my-3">
                                                 <h6 className="ltnd__title-3 mb-2">Modules <span className={errors.modules && "errorMsg"}>*</span></h6>
-                                                <span>Click module to manage its actions</span>
-                                                <br />
-                                                <span>Atleast one action should be selected</span>
+                                                <span>click module to manage its actions</span>
                                                 {/* <Controller
                                                     control={control}
                                                     value={modules}
@@ -247,8 +201,6 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     name="modules"
                                                     closeMenuOnSelect={true}
                                                     isMulti
-                                                    menuPlacement="top"
-                                                    blurInputOnSelect={true}
                                                     components={{ MultiValueLabel: _multiValueLabel }}
                                                     onChange={(event) => _handleSelect(event, "modules")}
                                                     options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
@@ -285,7 +237,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
                                                             <div className="ltnd__left btn-normal">
-                                                                <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>
+                                                                <a className="ltn__color-1"><i className="ti-trash"></i> Delete</a>
                                                             </div>
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
@@ -302,8 +254,8 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                     </div>
                                 </form>
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
 
 

@@ -3,7 +3,7 @@ import motorImg from '../../../../assets/img/motor/login-bg-1.png'
 import { Link } from 'react-router-dom'
 import { RegisterUser } from '../../../../store/actions/auth/user'
 import { useDispatch, useSelector } from 'react-redux'
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 function Register() {
 
@@ -45,7 +45,7 @@ function Register() {
                                     <h1 className="section-title">Create an account</h1>
                                     <p>Enter your details below</p>
                                 </div>
-                                {/* <Formik
+                                <Formik
                                     initialValues={{
                                         name: '',
                                         email: '',
@@ -58,14 +58,14 @@ function Register() {
                                         // dispatch(loginUser(values))
 
                                     }}
-                                > */}
-                                    <from className="ltn__form-box">
-                                        <input type="text" value={userValue ?.name || ""} onChange={ChangeValue} name="name" placeholder="Full name" />
-                                        {/* <ErrorMessage name="name" /> */}
-                                        <input type="text" value={userValue ?.email || ""} onChange={ChangeValue} name="email" placeholder="Email*" />
-                                        {/* <ErrorMessage name="email" /> */}
-                                        <input type="password" value={userValue ?.password || ""} onChange={ChangeValue} name="password" placeholder="Password*" />
-                                        {/* <ErrorMessage name="password" /> */}
+                                >
+                                    <Form className="ltn__form-box">
+                                        <Field type="text" value={userValue ?.name || ""} onChange={ChangeValue} name="name" placeholder="Full name" />
+                                        <ErrorMessage name="name" />
+                                        <Field type="text" value={userValue ?.email || ""} onChange={ChangeValue} name="email" placeholder="Email*" />
+                                        <ErrorMessage name="email" />
+                                        <Field type="password" value={userValue ?.password || ""} onChange={ChangeValue} name="password" placeholder="Password*" />
+                                        <ErrorMessage name="password" />
 
                                         <div className="btn-wrapper mt-20">
                                             <button
@@ -83,8 +83,8 @@ function Register() {
                   </Link>
                                             </span>
                                         </div>
-                                    </from>
-                                {/* </Formik> */}
+                                    </Form>
+                                </Formik>
                             </div>
                         </div>
                     </div>

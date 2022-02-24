@@ -16,23 +16,24 @@ const initialState = {
         Id: '',
         TenantId: '',
         CarNumber: "",
-        // insuranceComp: "",
-        PolicyType: "",
+        insuranceComp: "",
+        policyType: "",
         productName: "",
         PolicyHolderName: '',
         MakeId: '',
         ModelId: '',
-        // selected_image: "",
-        PolicyNo: "",
+        selected_image: "",
+        policyNumber: "",
         AnnualPremium: "",
-        // DOB: '',
+        DOB: '',
         ModelName: '',
-        // StartDate: '',
-        // EndDate: '',
+        StartDate: '',
+        EndDate: '',
+        DrivingLicenseValidityExpiryDate: '',
         Address: '',
         RegistrationNumber: '',
         ChassisNumber: '',
-        // DrivingLicenseValidity: '',
+        DrivingLicenseValidity: '',
         IdentificationNumber: '',
         PlateNumber: '',
         Year: '',
@@ -56,7 +57,6 @@ const initialState = {
     allPolicies: [],
     color: [],
     make: [],
-    model: [],
     prouctNames: [],
     Editproduct: {},
     EidtDat: '',
@@ -90,7 +90,7 @@ const policyReducer = (state = initialState, action) => {
 
 
         case GET_POLICIES_INPUTS: {
-            
+            debugger
             return {
                 ...state,
                 policy: {
@@ -118,20 +118,10 @@ const policyReducer = (state = initialState, action) => {
             };
         }
 
-        
-        
         case GET_POLICY_MAKE: {
             return {
                 ...state,
                 make: action.payload
-            };
-        }
-
-          
-        case "GET_POLICY_MAKE_MODEL": {
-            return {
-                ...state,
-                model: action.payload
             };
         }
 
@@ -143,7 +133,7 @@ const policyReducer = (state = initialState, action) => {
         }
 
         case GET_PRODUCT_BENEFIT_COV: {
-            
+            debugger
             return {
                 ...state,
                 policy: {

@@ -19,10 +19,7 @@ import {
     SET_ACTIONS,
     SET_MODULES_ACTIONS,
     SET_ACCESS_GROUP_DETAILS_REQUEST,
-    SET_ACCESS_GROUP_DETAILS,
-    SET_GROUP_ADD_REQUEST,
-    SET_GROUP_ADD,
-    SET_GROUP_DELETE_REQUEST,
+    SET_ACCESS_GROUP_DETAILS
 } from '../../types/users'
 
 
@@ -125,12 +122,11 @@ export const getUsers = ({ users_per_page, users_page_index, search_text, search
             type: SET_USERS_REQUEST,
             payload: true
         })
-        let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
-        // let { data } = await instance.get(`api/UserProfile`);
+        // let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        let { data } = await instance.get(`api/UserProfile`);
         dispatch({
             type: SET_USERS,
-            payload: {users:data?.ModelUserProfileWithTotalRecords || [], counts:data?.TotalRecord || 0}
-            // payload: { users: data || [], counts: data?.lenght || 0 }
+            payload: data
         })
     } catch (error) {
         dispatch({
@@ -167,7 +163,7 @@ export const deleteUser = (id) => async dispatch => {
         let response = await instance.delete(`api/UserProfile/Del?Id=${id}`);
         dispatch({
             type: SET_USER_DELETE_REQUEST,
-            payload: false
+            payload: response?.data || "Success"
         });
         successAlert({ title: "Success", text: response?.data || "Success" })
     } catch (error) {
@@ -186,7 +182,7 @@ export const addUser = (data) => async dispatch => {
             "Email": data?.email || "",
             "Password": data?.password || "",
             "RoleId": data?.access_role.value || "",
-            "AccessGroupIds": data?.access_group.map(ag => { return { AccessGroupId: ag.value, AccessGroupName: ag.label } }) || [],
+            "AccessGroups": data?.access_group || [],
             "ImageModel": data?.selected_image || "",
             "Status": data?.status
         };
@@ -212,45 +208,23 @@ export const setUserPage = (pageIndex) => async dispatch => {
 
 
 export const getActions = () => async dispatch => {
-    try {
-        let response = await instance.get(`api/Actions`);
-        dispatch({
-            type: SET_ACTIONS,
-            payload: response?.data || []
-        });
-    } catch (error) {
-        console.log("err", error)
-    }
+    let response = await instance.get(`api/Actions`);
+    dispatch({
+        type: SET_ACTIONS,
+        payload: response?.data || []
+    });
 }
 
 
 export const getModulesActions = () => async dispatch => {
-    try {
-        let response = await instance.get(`api/ModuleActions`);
-        dispatch({
-            type: SET_MODULES_ACTIONS,
-            payload: response?.data || []
-        });
-    } catch (error) {
-        console.log("err", error)
-    }
+    let response = await instance.get(`api/ModuleActions`);
+    dispatch({
+        type: SET_MODULES_ACTIONS,
+        payload: response?.data || []
+    });
 }
 
-export const addUpdateAccessGroup = (data) => async dispatch => {
-    try {
-        dispatch({ type: SET_GROUP_ADD_REQUEST, payload: true });
 
-        let response = data?.Edit ? await instance.put(`api/AccessGroupModuleActions/${data?.AccessGroupId}`, data) : await instance.post(`api/AccessGroupModuleActions`, data);
-        dispatch({
-            type: SET_GROUP_ADD,
-        });
-
-        successAlert({ title: response?.data || "Group Created Successfully" });
-    } catch (error) {
-        dispatch({ type: SET_GROUP_ADD_REQUEST, payload: false });
-        console.log("err", error)
-    }
-}
 
 
 export const getAccessGroupDetails = (id) => async dispatch => {
@@ -264,28 +238,12 @@ export const getAccessGroupDetails = (id) => async dispatch => {
         setTimeout(() => {
             dispatch({
                 type: SET_ACCESS_GROUP_DETAILS,
-                payload: { actions: actions.data, modules: modules.data, group_details: group_details.data[0] } || null
+                payload: { actions: actions.data, modules: modules.data, group_details:group_details.data[0] } || null
             });
         }, 500);
 
     } catch (error) {
         dispatch({ type: SET_ACCESS_GROUP_DETAILS_REQUEST, payload: false });
-        console.log("err", error)
-    }
-}
-
-
-export const deleteGroup = (id) => async dispatch => {
-    try {
-        dispatch({ type: SET_GROUP_DELETE_REQUEST, payload: true });
-        let response = await instance.delete(`api/AccessGroupModuleActions/${id}`);
-        dispatch({
-            type: SET_GROUP_DELETE_REQUEST,
-            payload: false
-        });
-        successAlert({ title: "Success", text: response?.data || "Success" })
-    } catch (error) {
-        dispatch({ type: SET_GROUP_DELETE_REQUEST, payload: false })
         console.log("err", error)
     }
 }

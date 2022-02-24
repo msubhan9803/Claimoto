@@ -106,9 +106,9 @@ export const RegisterProduct = (data) => async dispatch => {
             Benefit
         } = data
         let check = Array.isArray(Benefit) && Benefit.length
-        let annual = Number(AnnualPremium)
-        let copay = Number(CoPayPercentage)
-        let deduc = Number(Deductibles)
+        let annual = Number(AnnualPremium).toFixed(2)
+        let copay = Number(CoPayPercentage).toFixed(2)
+        let deduc = Number(Deductibles).toFixed(2)
         let agency = Number(IsAgencyRepair)
 
         let value = {
@@ -117,7 +117,7 @@ export const RegisterProduct = (data) => async dispatch => {
             ProductDetails,
             Status,
             AnnualPremium: annual,
-            TenantId: 2,
+            TenantId: 12,
             Coverage: {
                 CoPayPercentage: copay,
                 Deductibles: deduc,
@@ -127,26 +127,26 @@ export const RegisterProduct = (data) => async dispatch => {
 
         }
         console.log("value", value)
-        let res = await instance.post('api/product', value)
+        // let res = await instance.post('api/product', value)
 
-        if (res.data?.includes('Already')) {
-            SweetAlert({
-                text: res.data,
-                icon: "warning"
-            })
-            dispatch({ type: 'ALERT_ALREADY_EXIT', payload: res.data })
-        }
-        else {
-            dispatch({
-                type: REGISTER_PRODUCT,
-                payload: data
-            })
-            SweetAlert({
-                text: res.data,
-                icon: "success"
-            })
+        // if (res.data?.includes('Already')) {
+        //     SweetAlert({
+        //         text: res.data,
+        //         icon: "warning"
+        //     })
+        //     dispatch({ type: 'ALERT_ALREADY_EXIT', payload: res.data })
+        // }
+        // else {
+        //     dispatch({
+        //         type: REGISTER_PRODUCT,
+        //         payload: data
+        //     })
+        //     SweetAlert({
+        //         text: res.data,
+        //         icon: "success"
+        //     })
 
-        }
+        // }
 
 
 
