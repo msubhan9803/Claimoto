@@ -20,7 +20,7 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
                             </li>
                         }
                         {[...Array(pagesCount)].map((elementInArray, index) => (
-                            <li key={index} className={pageIndex === index + 1 && "active"}>
+                            <li className={pageIndex === index + 1 && "active"}>
                                 <a onClick={() => handler(index + 1)} role="button">{index + 1}</a>
                             </li>
                         )
@@ -35,7 +35,7 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
 
                     </ul>
                 </div>
-                : ""}
+                : "No Record "}
         </div>)
 }
 

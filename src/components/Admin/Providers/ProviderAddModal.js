@@ -4,7 +4,6 @@ import { Animated } from "react-animated-css";
 import { modalStyleCenter } from 'variables/modalCSS';
 import { useDispatch } from 'react-redux';
 import makeAnimated from 'react-select/animated';
-import { Link } from 'react-router-dom';
 
 
 const ProviderAddModal = ({ openModal, toggleModal }) => {
@@ -46,8 +45,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Garage</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                    <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/garage" > Add +</Link>
-
+                                        <a href="add-garage.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +57,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Agency</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                    <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/agency" > Add +</Link>
+                                        <a href="add-agency.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +69,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                     <h4>Car agency</h4>
                                     <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                     <div className="btn-wrapper text-center mt-0">
-                                        <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/car_agency" > Add +</Link>
+                                        <a href="add-car-agency.html" className="btn theme-btn-1 btn-round-12"> Add + </a>
                                     </div>
                                 </div>
                             </div>

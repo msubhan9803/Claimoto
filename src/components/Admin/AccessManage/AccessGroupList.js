@@ -62,11 +62,11 @@ function AccessGroupList() {
                                     <li className="table-data-7">
                                         {!ag.IsDefault &&
                                             <strong>
-                                                <a role="button" onClick={() => _handleEdit(ag.Id)} className="" title="Edit">
+                                                <a onClick={() => _handleEdit(ag.Id)} className="" title="Edit">
                                                     Edit
                                                 </a>
                                             </strong>
-                                        } 
+                                        }
                                     </li>
                                 </ul>
                             ))}
