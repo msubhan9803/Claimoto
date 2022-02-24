@@ -17620,12 +17620,16 @@ form .ltnd__title-3 {
 }
 
 .fixed-footer-1 {
-  /* position: -webkit-sticky;
+  position: -webkit-sticky;
   position: sticky;
-  bottom: 0; */
-  position: fixed;
+  bottom: 0;
+  /* position: fixed;
     bottom: 0;
+<<<<<<< Updated upstream
     width: 81%;
+=======
+    width: 80%; */
+>>>>>>> Stashed changes
 }
 
 .ltnd__footer-btn-dropdown-menu {
@@ -19936,7 +19940,6 @@ form .ltnd__title-3 {
   height: 100%;
 }
 .Neon-theme-dragdropbox input{
-  z-index: 999;
   opacity: 0;
   width: 320px;
   height: 100%;
@@ -20014,4 +20017,53 @@ form .ltnd__title-3 {
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s;
+}
+
+/* carasoul style */
+
+.containers {
+  height: calc(100vh - 130px);
+  background-color: #64605f;
+  overflow: hidden;
+  position: relative;
+}
+
+.arrowContainer {
+  position: absolute;
+  width: 5%;
+  height: 10%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+  color: black;
+  z-index: 2;
+}
+
+/* .arrowContainer img{
+  width: 50px;
+  height: 50px;
+} */
+
+.wrapper {
+  width: 300vw;
+  height: 100%;
+  display: flex;
+  transition: all 1.5s ease-in-out ;
+}
+
+.imgContainer {
+  width: 100vw;
+  height: 100%;
+  margin-top: 5rem;
+  text-align: center;
+  position: relative;
+}
+
+/* .imgContainer img{} */
+
+@media screen and (max-width: 480px) {
+  .containers{
+    height: 50vh;
+  }
 }
