@@ -109,7 +109,6 @@ export const RegisterPolicies = (data) => async dispatch => {
 
 // Get Policies 
 export const GetPolicies = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get('api/Policy/Policies')
         console.log("res", res)
@@ -136,7 +135,6 @@ export const GetSinglePolicy = (id) => async dispatch => {
 
 // Get car colors  
 export const GetColor = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get(`api/Policy/Colour`)
         dispatch({ type: GET_CAR_COLORS, payload: res.data })
@@ -148,7 +146,6 @@ export const GetColor = () => async dispatch => {
 
 // Get policy make  
 export const GetMake = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get('api/Policy/PolicyMake')
         dispatch({ type: GET_POLICY_MAKE, payload: res.data })

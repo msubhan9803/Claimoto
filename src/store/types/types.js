@@ -1,5 +1,5 @@
 // Auth
-export const SET_TOKEN = 'SET_TOKEN';
+export const SET_AUTH = 'SET_AUTH';
 export const REGISTER_USER = 'REGISTER_USER';
 
 // Product

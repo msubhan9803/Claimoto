@@ -11,7 +11,7 @@ function Register() {
     const dispatch = useDispatch()
 
     //   Selector function hooks
-    const userValue = useSelector(state => state.userReducer.user)
+    const userValue = useSelector(state => state.authReducer.user)
 
     // Onchange Input Value
 

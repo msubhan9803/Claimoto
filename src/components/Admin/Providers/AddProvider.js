@@ -8,7 +8,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
-    const { addTabs } = useSelector(state => state.providersScreenReducer);
+    const { addTabs } = useSelector(state => state.addProviderScreenReducer);
 
 
     //Actions
