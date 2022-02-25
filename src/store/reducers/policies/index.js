@@ -12,28 +12,28 @@ import {
     GET_PRODUCT_BENEFIT_COV,
 } from 'store/types/types'
 const initialState = {
+    isSuccess: false,
+
     policy: {
         Id: '',
         TenantId: '',
         CarNumber: "",
-        // insuranceComp: "",
         PolicyType: "",
         productName: "",
         PolicyHolderName: '',
         MakeId: '',
         ModelId: '',
-        // selected_image: "",
         PolicyNo: "",
         AnnualPremium: "",
-        // DOB: '',
+        DOB: '',
         ModelName: '',
-        // StartDate: '',
-        // EndDate: '',
+        StartDate: '',
+        EndDate: '',
         Address: '',
         RegistrationNumber: '',
         ChassisNumber: '',
-        // DrivingLicenseValidity: '',
-        IdentificationNumber: '',
+        DrivingLicenseValidity: '',
+        IdentityNo: '',
         PlateNumber: '',
         Year: '',
         ColourId: '',
@@ -47,7 +47,8 @@ const initialState = {
         Image2: '',
         Image3: '',
         Image4: '',
-        Image5: ''
+        Image5: '',
+        isLoading : true  ,
 
 
 
@@ -60,6 +61,7 @@ const initialState = {
     prouctNames: [],
     Editproduct: {},
     EidtDat: '',
+
 
 
 };
@@ -79,14 +81,18 @@ const policyReducer = (state = initialState, action) => {
         case GET_POLICIES: {
             return {
                 ...state,
-                policy: {
-                    ...state.policy = null,
-                    vehicalImg: []
-                },
+                policy: initialState.policy,
+                isSuccess: false,
                 allPolicies: action.payload,
             };
         }
 
+        case "LOADING":{
+            return {
+                ...state , 
+                isLoading : action.payload
+            }
+        }
 
 
         case GET_POLICIES_INPUTS: {
@@ -101,12 +107,13 @@ const policyReducer = (state = initialState, action) => {
             }
         }
         case GET_SINGLE_POLICIES: {
-            debugger
             return {
                 ...state,
                 policy: {
                     ...state.policy,
-                    ...action.payload
+                    ...action.payload,
+                    isLoading : false
+
                 }
             };
         }
@@ -156,6 +163,7 @@ const policyReducer = (state = initialState, action) => {
         case DELETE_POLICIES: {
             return {
                 ...state,
+              ...state.isSuccess = true ,
                 allPolicies: state.allPolicies.filter((data, index) => index !== action.payload)
             }
         }
@@ -166,7 +174,9 @@ const policyReducer = (state = initialState, action) => {
                     if (item.id === action.payload.Id)
                         item = action.payload
                     return item
-                })
+                }),
+              ...state.isSuccess = true 
+                
             })
         }
 

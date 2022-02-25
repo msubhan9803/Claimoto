@@ -40,9 +40,9 @@ export const RegisterPolicies = (data) => async dispatch => {
         let policyDetail = {
             TenantId: 2,
             CarNumber: data.CarNumber,
-            PolicyNo : data.policyNumber,
-            PolicyType: data.policyType,
-            IdentificationNumber: data.IdentificationNumber,
+            PolicyNo : data.PolicyNo,
+            PolicyType: data.PolicyType,
+            IdentityNo: data.IdentityNo,
             PolicyHolderName: data.PolicyHolderName,
             MakeId: data.MakeId,
             ModelId: data.ModelId,
@@ -51,14 +51,14 @@ export const RegisterPolicies = (data) => async dispatch => {
             StartDate: data.StartDate,
             EndDate: data.EndDate,
             Address: data.Address,
-            DrivingLicenseValidity: data.DrivingLicenseValidity,
+            DrivingLicenseValidityExpiryDate: data.DrivingLicenseValidityExpiryDate,
             CoPayPercentage: data.CoPayPercentage,
             Deductibles: data.Deductibles,
             IsAgencyRepair: data.IsAgencyRepair,
             ProductId: data.ProductId,
             PlateNumber: data.PlateNumber,
             Year: data.Year,
-            ColourId: data.Year,
+            ColourId: data.ColourId,
             Capacity: data.Capacity,
             ChassisNumber: data.ChassisNumber,
             Benefits: check == 1 ? data.Benefit : null
@@ -77,18 +77,19 @@ export const RegisterPolicies = (data) => async dispatch => {
 
         console.log("Daa", policyDetail)
 
-        let ress = await instance.post('api/Policy', policyDetail)
-            .then((res) => {
+         await instance.post('api/Policy', policyDetail)
+            .then(async (res) => {
+                console.log("res policy" , res )
                 let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
+                for (let [key, value] of Object.entries(Imgdata)) {
                     formData.append(key, value);
                 }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
+                formData.append('Id', 31)
+               let resd =  await instance.post('api/FileUpload', formData)
+                 console.log("data" , resd)
 
 
             })
-        console.log("ress", ress)
         // if (res.status == 200) {
         //     dispatch({
         //         type: REGISTER_POLICIES,
@@ -122,7 +123,6 @@ export const GetPolicies = () => async dispatch => {
 
 // Get Single Policies 
 export const GetSinglePolicy = (id) => async dispatch => {
-    debugger
     try {
         let res = await instance.get(`api/Policy/PolicyById?id=${id}`)
         console.log("res", res)
@@ -159,7 +159,6 @@ export const GetMake = () => async dispatch => {
 
 export const GetMakeModel = (Id) => async dispatch => {
     try {
-        debugger
         let res = await instance.get(`api/Policy/PolicyModel/?Id=${Id}`)
         dispatch({ type: "GET_POLICY_MAKE_MODEL", payload: res.data })
     }
@@ -172,7 +171,6 @@ export const GetMakeModel = (Id) => async dispatch => {
 // Get product Names according to product type 
 
 export const GetProductNames = (type) => async dispatch => {
-    debugger
     try {
         let res = await instance.get(`api/Policy/GetPolicyType/${type}`)
         console.log("res", res)
@@ -186,7 +184,6 @@ export const GetProductNames = (type) => async dispatch => {
 // Get product Names according to product type 
 
 export const GetProductBeniftCov = (type) => async dispatch => {
-  debugger
     try {
         let res = await instance.get(`api/Policy/GetProductDetails/${type}`)
         console.log("res", res)
@@ -214,60 +211,62 @@ export const DeletePolicies = (id) => async dispatch => {
 
 
 // Update Policies
-export const UpdatePolicies = (data) => async dispatch => {
-    debugger
+export const UpdatePolicies = (data , params) => async dispatch => {
     try {
         let check = Array.isArray(data.Benefit) && data.Benefit.length
 
         let policyDetail = {
-            // TenantId: 2,
-            // CarNumber: data.CarNumber,
-            // policyType: data.policyType,
-            // IdentificationNumber: data.IdentificationNumber,
-            // PolicyHolderName: data.PolicyHolderName,
-            // MakeId: data.MakeId,
-            // ModelId: data.ModelId,
-            // policyNumber: data.policyNumber,
-            // AnnualPremium: data.AnnualPremium,
-            // DOB: data.DOB,
-            // StartDate: data.StartDate,
-            // EndDate: data.EndDate,
-            // Address: data.Address,
-            // DrivingLicenseValidity: data.DrivingLicenseValidity,
-            // CoPayPercentage: data.CoPayPercentage,
-            // Deductibles: data.Deductibles,
-            // IsAgencyRepair: data.IsAgencyRepair,
-            // ProductId: data.ProductId,
-            // PlateNumber: data.PlateNumber,
-            // Year: data.Year,
-            // ColourId: data.Year,
-            // Capacity: data.Capacity,
-            // ChassisNumber: data.ChassisNumber,
-            Benefits: check === 1 ? data.Benefit : null
-        }
+            TenantId: 2,
+            Id : params,
+            CarNumber: data.CarNumber,
+            PolicyNo : data.PolicyNo,
+            PolicyType: data.PolicyType,
+            IdentityNo: data.IdentityNo,
+            PolicyHolderName: data.PolicyHolderName,
+            MakeId: data.MakeId,
+            ModelId: data.ModelId,
+            AnnualPremium: data.AnnualPremium,
+            DOB: data.DOB,
+            StartDate: data.StartDate,
+            EndDate: data.EndDate,
+            Address: data.Address,
+            DrivingLicenseValidityExpiryDate: data.DrivingLicenseValidityExpiryDate,
+            CoPayPercentage: data.CoPayPercentage,
+            Deductibles: data.Deductibles,
+            IsAgencyRepair: data.IsAgencyRepair,
+            ProductId: data.ProductId,
+            PlateNumber: data.PlateNumber,
+            Year: data.Year,
+            ColourId: data.ColourId,
+            Capacity: data.Capacity,
+            ChassisNumber: data.ChassisNumber,
+            Benefits: check == 1 ? data.Benefit : null
 
-        let Imgdata = {
+
+               }
+        
+
+                let Imgdata = {
             Image1: data.Image1,
             Image2: data.Image2,
             Image3: data.Image3,
             Image4: data.Image4,
             Image5: data.Image5,
         }
+   console.log("data" , policyDetail )
 
-        console.log("Daa", check)
-
-        let ress = await instance.post('api/Policy', policyDetail)
+        let ress = await instance.put('api/Policy', policyDetail)
         console.log("data", ress)
-            .then((res) => {
-                let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
-                    formData.append(key, value);
-                }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
+            // .then((res) => {
+            //     let formData = new FormData();
+            //     for (let [key, value] of Object.entries(Imgdata)) {
+            //         formData.append(key, value);
+            //     }
+            //     formData.append('Id', res.data)
+            //     instance.post('api/FileUpload', formData)
 
 
-            })
+            // })
         console.log("ress", ress)
         // if (res.status == 200) {
         //     dispatch({

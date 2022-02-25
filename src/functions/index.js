@@ -45,6 +45,16 @@ export const confirmAlert = ({title, text, buttonText, action}) => {
 }
 
 
+export const _productDetailDotDot = (string, limit) => {
+  var dots = "...";
+  if (string.length > limit) {
+      // you can also use substr instead of substring
+      string = string.substring(0, limit) + dots;
+  }
+
+  return string;
+}
+
 
 
 export const formatDateTime = (given_date) => {
