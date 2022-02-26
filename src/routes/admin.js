@@ -11,6 +11,9 @@ import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail
 import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import AddProvider from 'components/Admin/Providers/AddProvider'
+import VehicleParts from 'views/pages/Admin/VehicleParts'
+import VehiclePartDetails from 'views/pages/Admin/VehicleParts/VehiclePartDetails'
+import AddVehiclePart from 'views/pages/Admin/VehicleParts/AddVehiclePart'
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -62,10 +65,31 @@ export const adminRoutes = () => {
         {
             name: "Vehicle parts",
             path: "/vehicle_parts",
-            component: <Vehicle />,
-            icon: "ti-envelope",
+            icon: "ti-server",
             layout: "admin",
-        }, {
+            collapse:true,
+            views:[
+                {
+                    name: "Vehical Parts",
+                    path: "/vehicle_parts",
+                    component: <VehicleParts />,
+                    layout: "admin",
+                },
+                {
+                    name: "Vehical Detail",
+                    path: "/vehicle_parts/vehical_detail/:vehicleId",
+                    component: <VehiclePartDetails />,
+                    layout: "admin",
+                },
+                {
+                    name: "Add Vehical Detail",
+                    path: "/vehicle_parts/add_vehical_detail",
+                    component: <AddVehiclePart />,
+                    layout: "admin",
+                },
+            ]
+        },
+        {
             name: "User management",
             path: "/user_management",
             component: <UserManagement />,
