@@ -32,18 +32,18 @@ const VehicleParts = () => {
     dispatch(setUserPage(pageIndex));
   };
 
-  useEffect(() => {
-    dispatch(
-      LoadVehiclePartsList({
-        parts_per_page,
-        parts_page_index,
-        search_text,
-        search_option,
-        sort_name,
-        sort_type,
-      })
-    );
-  }, [parts_per_page, parts_page_index]);
+  // useEffect(() => {
+  //   dispatch(
+  //     LoadVehiclePartsList({
+  //       parts_per_page,
+  //       parts_page_index,
+  //       search_text,
+  //       search_option,
+  //       sort_name,
+  //       sort_type,
+  //     })
+  //   );
+  // }, [parts_per_page, parts_page_index]);
 
   return (
     <>
