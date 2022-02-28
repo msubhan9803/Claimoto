@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 function VehicleList() {
     return (
         <React.Fragment>
@@ -8,23 +8,7 @@ function VehicleList() {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
-                            <div className="ltn__shop-details-tab-menu mb-20 d-none">
-                                <div className="nav">
-                                    <a
-                                        className="active show"
-                                        data-bs-toggle="tab"
-                                        href="#ltn__tab_3_1"
-                                    >
-                                        Garages
-              </a>
-                                    <a data-bs-toggle="tab" href="#ltn__tab_3_2">
-                                        Agencies
-              </a>
-                                    <a data-bs-toggle="tab" href="#ltn__tab_3_3" className="">
-                                        Car agencies
-              </a>
-                                </div>
-                            </div>
+                            
                             <div className="tab-content">
                                 {/* ltnd__garage-table-wrap  */}
                                 <div className="tab-pane fade active show" id="ltn__tab_3_1">
@@ -56,12 +40,12 @@ function VehicleList() {
                                                             <li className="table-data-4">E00912</li>
                                                             <li className="table-data-4">A276-0192</li>
                                                             <li className="table-data-8">
-                                                                <a
+                                                                <Link
                                                                     className="ltn__secondary-color"
-                                                                    href="vehicle-parts-details.html"
+                                                                    to="/admin/vehicle_parts_details"
                                                                 >
                                                                     <strong>Details</strong>
-                                                                </a>{" "}
+                                                                </Link>{" "}
                                                             </li>
                                                         </ul>
                                                     </div>

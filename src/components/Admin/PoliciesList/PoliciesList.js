@@ -46,7 +46,7 @@ function PoliciesList() {
                                                 <li className="table-data-2">{p.PolicyHolderName}</li>
                                                 <li className="table-data-3 ltn__color-1">{p.IdentityNo}</li>
                                                 <li className="table-data-4">{moment(p.DOB).format("LL")}</li>
-                                                <li className="table-data-5">{moment(p.DrivingLicenseValidityExpiryDate).format("LL")}</li>
+                                                <li className="table-data-5">{moment(p.DrivingLicenseValidity).format("LL")}</li>
                                                 <li className="table-data-6">{_productDetailDotDot(p.Address, 26)}</li>
                                                 <li className="table-data-7">
                                                     <strong>
@@ -64,7 +64,7 @@ function PoliciesList() {
                                                 <li className="table-data-8">
                                                     <Link
                                                         className="ltn__secondary-color"
-                                                        to={`/admin/policy_detail/${1}`}
+                                                        to={`/admin/policy_detail_edit/${p.Id}`}
                                                     >
                                                         <strong>Edit</strong>
                                                     </Link>

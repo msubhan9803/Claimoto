@@ -1,24 +1,34 @@
 import React ,{ useState} from 'react'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import carImg from 'assets/img/motor/vehicle/1.png'
-import carImg2 from 'assets/img/motor/vehicle/12.png'
-import carImg3 from 'assets/img/motor/vehicle/14.png'
-import carImg4 from 'assets/img/motor/vehicle/11.png'
+// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+// import { Carousel } from 'react-responsive-carousel';
+// import carImg from 'assets/img/motor/vehicle/1.png'
+// import carImg2 from 'assets/img/motor/vehicle/12.png'
+// import carImg3 from 'assets/img/motor/vehicle/14.png'
+// import carImg4 from 'assets/img/motor/vehicle/11.png'
 import IconR from 'assets/img/arrowr.png'
 import IconL from 'assets/img/arrowl.png'
 import Modal from 'react-modal';
-import { Animated } from "react-animated-css";
-import { customStyles } from 'variables/modalCSS';
-// import { useDispatch } from 'react-redux';
-import makeAnimated from 'react-select/animated';
+// import { Animated } from "react-animated-css";
+// import { customStyles } from 'variables/modalCSS';
+import {  useSelector } from 'react-redux'
+
+// import makeAnimated from 'react-select/animated';
 
 const Carasole = ({ openModal , closeModel}) => {
     const [index, setIndex] = useState(0);
+
+    const policy = useSelector(state => state.policyReducer.policy)
+
+    
+
+
     const images = [
-      carImg,
-      carImg2,
-      carImg3,
+      policy.Image1,
+      policy.Image2,
+      policy.Image3,
+      policy.Image4,
+      policy.Image5,
+     
     ];
   
     const handleArrow = (direction) =>{
@@ -48,11 +58,15 @@ const Carasole = ({ openModal , closeModel}) => {
           <img src={IconL} alt="" layout="fill" objectFit="contain"/>
         </div>
         <div className='wrapper' style={{transform:`translateX(${-100*index}vw)`}}>
-          {images.map((img, i) => (
+          {images.map((img, i) => {
+            if(img !== null)
+            return(
+
             <div className='imgContainer' key={i}>
-              <img src={img} alt="" layout="fill" objectFit="contain" />
+
+              <img src={`${process.env.REACT_APP_API_ENVIROMENT}/${img}`} alt="" layout="fill" objectFit="contain" />
             </div>
-          ))}
+          )})}
         </div>
         <div className='arrowContainer' style={{ right: 0 }} onClick={()=>handleArrow("r")}>
           <img src={IconR} layout="fill" alt="" objectFit="contain"/>
@@ -82,7 +96,7 @@ const Carasole = ({ openModal , closeModel}) => {
 //         },
 //     };
 
-//     const animatedComponents = makeAnimated();
+    // const animatedComponents = makeAnimated();
 //     return (
 //         <React.Fragment>
 

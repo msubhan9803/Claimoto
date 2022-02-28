@@ -11,8 +11,12 @@ import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail
 import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import AddProvider from 'components/Admin/Providers/AddProvider'
+<<<<<<< Updated upstream
 import VehicleParts from 'views/pages/Admin/VehicleParts'
 import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
+=======
+import VehicalParts from 'views/pages/Admin/VehicalParts/VehicalParts'
+>>>>>>> Stashed changes
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -127,6 +131,12 @@ export const adminRoutes = () => {
         },
         {
             name:"",
+            path:"/policy_detail_edit/:id",
+            component: <PoliciesDetail />,
+            layout: "admin"
+        },
+        {
+            name:"",
             path:"/create_vehical",
             component: <VehicalDetail />,
             layout: "admin"
@@ -137,7 +147,18 @@ export const adminRoutes = () => {
             component: <VehicalDetail />,
             layout: "admin"
         },
-       
+        {
+            name:"",
+            path:"/vehical_detail_edit/:id",
+            component: <VehicalDetail />,
+            layout: "admin"
+        },
+       {
+           name:"",
+           path:'/vehicle_parts_details',
+           component:<VehicalParts/>,
+           layout:'admin'
+       }
     ];
 };
 
