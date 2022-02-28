@@ -1,15 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { GetVehiclePartById, LoadVehiclePartsList } from "../../../../store/actions/vehicleParts";
+import { useSearchParams } from "react-router-dom";
+import {
+  GetVehiclePartById,
+  LoadVehiclePartsList,
+} from "../../../../store/actions/vehicleParts";
+import Pagination from "components/Pagination/Pagination";
 import VehiclePartList from "../../../../components/Admin/VehiclePart/VehiclePartList";
+import { setUserPage } from "store/actions/users/users_screen";
 
 const VehicleParts = () => {
-  const dispatch = useDispatch();
-  const { vehiclePartList } = useSelector((state) => state.vehiclePartsReducer);
-  // useEffect(() => {
-  //   dispatch(LoadVehiclePartsList());
-  // }, []);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let dispatch = useDispatch();
+  const {
+    vehiclePartList,
+    parts_per_page,
+    parts_page_index,
+    parts_count,
+    vehiclePartListTableData,
+  } = useSelector((state) => state.vehiclePartsReducer);
+  const { search_text, search_option, sort_name, sort_type } =
+    vehiclePartListTableData;
+  const _handleEdit = (id) => {
+    searchParams.set("action", "edit_user");
+    searchParams.set("id", id);
+    setSearchParams(searchParams);
+  };
+
+  const _paginationHandler = (pageIndex) => {
+    dispatch(setUserPage(pageIndex));
+  };
+
+  useEffect(() => {
+    dispatch(
+      LoadVehiclePartsList({
+        parts_per_page,
+        parts_page_index,
+        search_text,
+        search_option,
+        sort_name,
+        sort_type,
+      })
+    );
+  }, [parts_per_page, parts_page_index]);
 
   return (
     <>
@@ -169,37 +203,13 @@ const VehicleParts = () => {
                 </div>
 
                 {/* <!-- pagination --> */}
-                <div class="ltn__pagination-area text-center">
-                  <div class="ltn__pagination">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fas fa-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">1</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">2</a>
-                      </li>
-                      <li>
-                        <a href="#">3</a>
-                      </li>
-                      <li>
-                        <a href="#">...</a>
-                      </li>
-                      <li>
-                        <a href="#">10</a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fas fa-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <Pagination
+                  recordsCount={parts_count}
+                  pageIndex={parts_page_index}
+                  recordsPerPage={parts_per_page}
+                  handler={_paginationHandler}
+                  className="mt-3"
+                />
                 {/* <!--  --> */}
               </div>
             </div>

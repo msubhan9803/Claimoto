@@ -8,6 +8,7 @@ import {
   HANDLE_VEHICLE_PART_VALUES_CHANGE,
   CLEAR_VEHICLE_PART_VALUES_CHANGE,
   ADD_VEHICLE_PART,
+  VEHICLE_PARTS_LIST_LOADING
 } from "../../types/vehicleParts.js";
 
 let vehiclePartListDummy = [
@@ -65,16 +66,41 @@ let vehiclePartListDummy = [
   },
 ];
 
-export const LoadVehiclePartsList = () => (dispatch) => {
-  try {
-    dispatch({
-      type: LOAD_VEHICLE_PARTS_LIST,
-      payload: vehiclePartListDummy,
-    });
-  } catch (err) {
-    console.log("err", err);
-  }
-};
+export const LoadVehiclePartsList =
+  ({
+    parts_per_page,
+    parts_page_index,
+    search_text,
+    search_option,
+    sort_name,
+    sort_type,
+  }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: LOAD_VEHICLE_PARTS_LIST,
+        payload: vehiclePartListDummy,
+      });
+      // dispatch({
+      //   type: VEHICLE_PARTS_LIST_LOADING,
+      //   payload: true,
+      // });
+      // let { data } = await instance.get(
+      //   `api/UserProfile/Paging?PageIndex=${parts_page_index}&PageSize=${parts_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`
+      // );
+      // // let { data } = await instance.get(`api/UserProfile`);
+      // dispatch({
+      //   type: LOAD_VEHICLE_PARTS_LIST,
+      //   payload: {
+      //     users: data?.ModelUserProfileWithTotalRecords || [],
+      //     counts: data?.TotalRecord || 0,
+      //   },
+      //   // payload: { users: data || [], counts: data?.lenght || 0 }
+      // });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
 export const AddVehiclePartValues = (vehicleObj) => (dispatch) => {
   try {
