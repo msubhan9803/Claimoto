@@ -12,8 +12,7 @@ import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import AddProvider from 'components/Admin/Providers/AddProvider'
 import VehicleParts from 'views/pages/Admin/VehicleParts'
-import VehiclePartDetails from 'views/pages/Admin/VehicleParts/VehiclePartDetails'
-import AddVehiclePart from 'views/pages/Admin/VehicleParts/AddVehiclePart'
+import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -65,7 +64,7 @@ export const adminRoutes = () => {
         {
             name: "Vehicle parts",
             path: "/vehicle_parts",
-            icon: "ti-server",
+            icon: "ti-envelope",
             layout: "admin",
             collapse:true,
             views:[
@@ -78,13 +77,13 @@ export const adminRoutes = () => {
                 {
                     name: "Vehical Detail",
                     path: "/vehicle_parts/vehical_detail/:vehicleId",
-                    component: <VehiclePartDetails />,
+                    component: <VehiclePartManage />,
                     layout: "admin",
                 },
                 {
                     name: "Add Vehical Detail",
                     path: "/vehicle_parts/add_vehical_detail",
-                    component: <AddVehiclePart />,
+                    component: <VehiclePartManage />,
                     layout: "admin",
                 },
             ]

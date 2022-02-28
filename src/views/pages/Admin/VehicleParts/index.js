@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { GetVehiclePartById } from '../../../../store/actions/vehicleParts';
+import { GetVehiclePartById, LoadVehiclePartsList } from "../../../../store/actions/vehicleParts";
 import VehiclePartList from "../../../../components/Admin/VehiclePart/VehiclePartList";
 
-const Index = () => {
+const VehicleParts = () => {
+  const dispatch = useDispatch();
   const { vehiclePartList } = useSelector((state) => state.vehiclePartsReducer);
+  // useEffect(() => {
+  //   dispatch(LoadVehiclePartsList());
+  // }, []);
 
   return (
     <>
@@ -207,4 +211,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default VehicleParts;
