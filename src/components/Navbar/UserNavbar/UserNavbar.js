@@ -1,12 +1,27 @@
 import React from 'react'
 import RespHeader from "components/Admin/ResponsiveHeader/RespHeader";
-import userImg from 'assets/img/icons/mc/png/10.png'
+import { useDispatch } from "react-redux";
+import userImg from 'assets/img/icons/mc/png/10.png';
+import { handleLogout } from 'store/actions/auth/user';
+
+
+
 function ProductNavbar() {
+    const dispatch = useDispatch();
+
+    const _handleLogout = () => {
+        dispatch(handleLogout());
+    }
+
+
+
+
+
     return (
         <React.Fragment>
             <RespHeader />
             {/* HEADER AREA START */}
-            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2--- " style={{paddingTop:'30px'}} >
+            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2--- " style={{ padding: '40px' }} >
                 {/* ltn__header-top-area start */}
                 <div className="ltn__header-top-area top-area-color-white--- ltnd__header-top-area">
                     <div className="row">
@@ -81,8 +96,8 @@ function ProductNavbar() {
                                         {/*User Account*/}
                                         <li className="ltnd-dropdown ltnd__user-img">
                                             <a className="toggle" href="#">
-                                            <img src={userImg} alt="User" />
-                                                
+                                                <img src={userImg} alt="User" />
+
                                             </a>
                                             <div className="ltnd-dropdown-menu dropdown-menu-user">
                                                 <div className="head">
@@ -93,7 +108,7 @@ function ProductNavbar() {
                                                         <h6>Yasmin Ali</h6>
                                                         <p className="dropdown-menu-user-mail">
                                                             yasminali@gmail.com
-                        </p>
+                                                        </p>
                                                         <p className="dropdown-menu-user-title">
                                                             <strong>Account</strong>
                                                         </p>
@@ -109,10 +124,10 @@ function ProductNavbar() {
                                                                 <div className="btn-wrapper btn-normal mt-0">
                                                                     <a href="#" className="btn-active">
                                                                         English
-                              </a>
+                                                                    </a>
                                                                     <a href="#" className="btn-inactive">
                                                                         ةيبرعلا
-                              </a>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -121,16 +136,22 @@ function ProductNavbar() {
                                                                 <p>
                                                                     <a href="terms-conditions.html">
                                                                         Terms and conditions
-                              </a>
+                                                                    </a>
                                                                 </p>
                                                                 <p>
                                                                     <a href="login.html">Logout</a>
                                                                 </p>
                                                             </div>
                                                         </li>
+
                                                     </ul>
                                                 </div>
                                             </div>
+                                        </li>
+                                        <li className="ltnd-dropdown ltnd__user-img">
+                                            <a role="button" onClick={_handleLogout} className="toggle" href="#">
+                                            <i class="far fa-power-off"></i>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -139,7 +160,7 @@ function ProductNavbar() {
                     </div>
                 </div>
                 {/* ltn__header-top-area end */}
-                
+
             </div>
             {/* HEADER AREA END */}
         </React.Fragment>

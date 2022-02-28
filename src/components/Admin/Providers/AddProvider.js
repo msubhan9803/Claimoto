@@ -8,7 +8,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
-    const { addTabs } = useSelector(state => state.providersScreenReducer);
+    const { addTabs } = useSelector(state => state.addProviderScreenReducer);
 
 
     //Actions
@@ -23,9 +23,19 @@ const AddProvider = () => {
     }
 
 
+    const _saveProvider = () => {
+
+    }
+
 
     const _moveNext = () => {
         let nextTab = parseInt(searchParams.get("tab"))+1;
+        searchParams.set("tab", nextTab);
+        setSearchParams(searchParams);
+    }
+
+    const _movePrev = () => {
+        let nextTab = parseInt(searchParams.get("tab"))-1;
         searchParams.set("tab", nextTab);
         setSearchParams(searchParams);
     }
@@ -74,7 +84,11 @@ const AddProvider = () => {
                                         <div className="btn-wrapper">
                                             <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
                                             {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
-                                            <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">Next</a>
+                                            {searchParams.get("tab") > 0 &&
+                                            <a role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</a>}
+                                            {searchParams.get("tab") < 2 ?
+                                            <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">Next</a>:
+                                            <a role="button" onClick={_saveProvider} className="btn theme-btn-1 btn-round-12">Save</a>}
                                         </div>
                                     </div>
                                 </div>

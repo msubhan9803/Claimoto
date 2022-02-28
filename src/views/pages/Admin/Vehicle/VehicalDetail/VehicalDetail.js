@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react'
-
-import carIcon from 'assets/img/icons/mc/png/2.png'
-import imgUpload from 'assets/img/upload.png'
+// import carIcon from 'assets/img/icons/mc/png/2.png'
+// import imgUpload from 'assets/img/upload.png'
 import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { msgAlert } from 'functions'
 import { useDispatch, useSelector } from 'react-redux'
-import { RegisterPolicies, GetInputs, GetColor } from 'store/actions/policies'
+import { RegisterPolicies, GetInputs, UpdatePolicies, GetSinglePolicy, GetColor , DeletePolicies} from 'store/actions/policies'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { SweetAlert } from 'functions'
+import { confirmAlert } from 'functions'
 import Carasole from 'components/Admin/Carasole/Carasole'
 function VehicalDetail() {
-
+    // state hook 
     const [isEdit, setIsEdit] = useState(false)
 
-    const params = useParams().id
+    // params hook
+    const params = useParams()
 
+    const navigate = useNavigate()
+    let location = useLocation()
+    let path = location.pathname
+    const checkUrl = path.split('/')[2];
+    const Url = checkUrl === 'vehical_detail'
 
+    // dispatch hook
     const dispatch = useDispatch()
 
+    // handle input 
     const changeValue = (e) => {
         e.persist();
         const { name, value } = e.target;
@@ -30,7 +37,7 @@ function VehicalDetail() {
 
 
     }
-
+    // form validation 
     const formSchema = Yup.object().shape({
         PlateNumber: Yup.string()
             .required('Plate Number  is required'),
@@ -46,8 +53,10 @@ function VehicalDetail() {
 
     })
 
+    // handle image 
     const _onImageChange = (event) => {
         let s_file = event.target.files[0];
+        console.log("s_file", s_file)
         let name = event.target.name
         let selectedTypes = ["image/png", "image/jpg", "image/jpeg"]
         if (!selectedTypes.includes(s_file.type)) {
@@ -62,20 +71,34 @@ function VehicalDetail() {
         }
     }
 
+    // get single policy
+    useEffect(() => {
+        // if (params.id) {
+        //     dispatch(GetSinglePolicy(params.id))
+        // }
+        dispatch(GetColor())
 
+    }, [params.id])
+
+
+
+    // use selector hook
+    const car_colors = useSelector(state => state.policyReducer.color)
+    const policy = useSelector(state => state.policyReducer.policy)
+    const policy_make = useSelector(state => state.policyReducer.make)
+    const { isSuccess } = useSelector(state => state.policyReducer)
 
 
     useEffect(() => {
-        dispatch(GetColor())
-    }, [])
+        if (isSuccess) {
+            navigate('/admin/policies')
+        }
+    }, [isSuccess])
 
 
 
-    const car_colors = useSelector(state => state.policyReducer.color)
-    const policy = useSelector(state => state.policyReducer.policy)
-
+    // destrute policy values 
     const {
-
         PlateNumber,
         Year,
         ColourId,
@@ -86,8 +109,8 @@ function VehicalDetail() {
         Image3,
         Image4,
         Image5,
-
-
+        isLoading,
+        MakeId,
     } = policy
 
 
@@ -95,80 +118,109 @@ function VehicalDetail() {
     // Send Form data 
 
     const SendForm = () => {
+
         dispatch(RegisterPolicies(policy))
     }
 
     // update form data 
 
     const updatProduct = () => {
-        // dispatch(UpdateProduct(product))
+        dispatch(UpdatePolicies(policy, params.id))
+
+
+    }
+
+    const delPolicy = (id) => {
+        const dative = ()=>{
+            dispatch(DeletePolicies(id))
+        }
+        if (id) {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Deactivate it",
+                action: dative,
+            });
+        }
     }
 
     const onSubmit = () => {
         // let checkImg = Image1 || Image2 || Image3 || Image4 || Image5
-        return params
-            ? updatProduct()
+        return params.id ?
+            updatProduct()
             : SendForm()
 
     }
 
 
 
+    // initialize react hook form 
     const formOptions = { resolver: yupResolver(formSchema), mode: "onChange", }
-    const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
+    const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
 
-    
-    
+
+    let makeName = policy_make.find((i) => i.Id === MakeId)
+
     return (
         <React.Fragment>
-                <Carasole  openModal={isEdit} />
-                <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-                    <div className="ltnd__header-middle-area mt-30">
-                        <div className="row">
-                            <div className="col-lg-9">
-                                <div className="ltnd__page-title-area">
-                                    <p className="page-back-btn">
-                                        <Link to="/admin/create_policy">
-                                            <i className="icon-left-arrow-1" /> Back
-                                        </Link>
-                                    </p>
-                                    <h2>Vehicle details</h2>
+            <Carasole openModal={isEdit} closeModel={(value) => setIsEdit(value)} />
+            {params.id && isLoading ?
+                <div className="spinner-grow" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                :
+                <>
+                    <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+                        <div className="ltnd__header-middle-area mt-30">
+                            <div className="row">
+                                <div className="col-lg-9">
+                                    <div className="ltnd__page-title-area">
+                                        <p className="page-back-btn">
+                                            <Link to={params.id ? `/admin/policy_detail/${params.id}` : "/admin/create_policy"}>
+                                                <i className="icon-left-arrow-1" /> Back
+                                            </Link>
+                                        </p>
+                                        <h2>Vehicle details</h2>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-lg-3 align-self-center text-end">
-                                <div className="ltnd__date-area d-none">
-                                    <div className="ltn__datepicker">
-                                        <div className="ltn_datepicker-title">
-                                            <span>Date</span>
-                                        </div>
-                                        <div className="input-group date" data-provide="datepicker">
-                                            <input
-                                                type="text" placeholder=''
-                                                className="form-control"
-                                                placeholder="Select Date"
-                                            />
-                                            <div className="input-group-addon">
-                                                <i className="far fa-calendar-alt" />
+                                <div className="col-lg-3 align-self-center text-end">
+                                    <div className="ltnd__date-area d-none">
+                                        <div className="ltn__datepicker">
+                                            <div className="ltn_datepicker-title">
+                                                <span>Date</span>
+                                            </div>
+                                            <div className="input-group date" data-provide="datepicker">
+                                                <input
+                                                    type="text" placeholder=''
+                                                    className="form-control"
+                                                    placeholder="Select Date"
+                                                />
+                                                <div className="input-group-addon">
+                                                    <i className="far fa-calendar-alt" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {/* header-middle-area end */}
+                        {/* HEADER AREA END */}
                     </div>
-                    {/* header-middle-area end */}
-                    {/* HEADER AREA END */}
+
                     {/* Body Content Area Inner Start */}
+
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="body-content-area-inner">
                             {/* BLOCK AREA START ( Vehicle Details section - 1 ) */}
+
                             <div className="ltnd__block-area">
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="ltnd__block-item mt-30">
                                             <div className="ltnd__title ltnd__title-2---">
                                                 <h1>
-                                                    <img src={carIcon} alt="vehical_img" /> {"Honda"}
+                                                {policy_make.filter((i) => i.Id == MakeId).map((p) => ( <div><img src={`http://103.173.62.74:70${p.Image}`} height="50px" width="50px"  />{p.MakeName} </div> ))}
                                                 </h1>
                                             </div>
                                             <div className="ltn__block-item-info ltnd__policies-details-info">
@@ -176,7 +228,7 @@ function VehicalDetail() {
                                                     <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Plate number</h6>
-                                                            <input type="text" {...register('PlateNumber')} onChange={changeValue} name="PlateNumber" value={PlateNumber} placeholder='Plate number' />
+                                                            <input disabled={Url ? true : false} type="text" {...register('PlateNumber')} onChange={changeValue} name="PlateNumber" value={PlateNumber} placeholder='Plate number' />
                                                             <ErrorMessage
                                                                 errors={errors}
                                                                 name="PlateNumber"
@@ -187,7 +239,7 @@ function VehicalDetail() {
 
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Capacity</h6>
-                                                            <input type="number" min={0} {...register('Capacity')} onChange={changeValue} name="Capacity" value={Capacity} placeholder='Capacity' />
+                                                            <input disabled={Url ? true : false} type="number" min={0} {...register('Capacity')} onChange={changeValue} name="Capacity" value={Capacity} placeholder='Capacity' />
                                                             <ErrorMessage
                                                                 errors={errors}
                                                                 name="Capacity"
@@ -200,7 +252,7 @@ function VehicalDetail() {
                                                     <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Chassis number</h6>
-                                                            <input type="text" {...register('ChassisNumber')} onChange={changeValue} name="ChassisNumber" value={ChassisNumber} placeholder='Chassis number' />
+                                                            <input disabled={Url ? true : false} type="text" {...register('ChassisNumber')} onChange={changeValue} name="ChassisNumber" value={ChassisNumber} placeholder='Chassis number' />
                                                             <ErrorMessage
                                                                 errors={errors}
                                                                 name="ChassisNumber"
@@ -213,7 +265,7 @@ function VehicalDetail() {
                                                     <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Color</h6>
-                                                            <select className='nice-select' {...register('ColourId')} onChange={changeValue} name="ColourId" value={ColourId}>
+                                                            <select disabled={Url ? true : false} className='nice-select' {...register('ColourId')} onChange={changeValue} name="ColourId" value={ColourId}>
                                                                 <option value="">--- Please Select ---</option>
                                                                 {car_colors.map((colr) => {
                                                                     return (
@@ -233,7 +285,7 @@ function VehicalDetail() {
                                                     <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Year</h6>
-                                                            <input type="number" min={0} name="Year" {...register('Year')} onChange={changeValue} value={Year} placeholder='Year' />
+                                                            <input disabled={Url ? true : false} type="number" min={0} name="Year" {...register('Year')} onChange={changeValue} value={Year} placeholder='Year' />
                                                             <ErrorMessage
                                                                 errors={errors}
                                                                 name="Year"
@@ -254,60 +306,76 @@ function VehicalDetail() {
                             <div className="ltnd__block-area mt-15">
                                 <div className="row ltn__custom-gutter">
                                     <div className="col-lg-5">
-                                        <div className="ltnd__img-gallery mt-15" >
+                                        <div className="ltnd__img-gallery mt-15"  >
+
                                             {Image1 ?
-                                                <img onClick={() => setIsEdit(true)} src={URL.createObjectURL(Image1)} alt="Image" />
+                                                <>
+                                                    <label htmlFor="file_2">
+                                                        <img onClick={() => setIsEdit(Url ? true : false)} src={Image1?.Base64 || typeof Image1 === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}` || URL.createObjectURL(Image1)} alt="Image" />
+                                                    </label>
+                                                    <input
+                                                        type="file"
+                                                        id="file_2"
+                                                        disabled={Url ? true : false}
+                                                        name="Image1"
+                                                        style={{ display: 'none' }}
+                                                        onChange={_onImageChange}
+                                                    />
+                                                </>
                                                 :
                                                 <div className="Neon Neon-theme-dragdropboxs" >
                                                     <input
                                                         type="file"
+                                                        id="file_1"
+                                                        disabled={Url ? true : false}
+
                                                         name="Image1"
                                                         onChange={_onImageChange}
                                                     />
-                                                    <div className="Neon-input-dragDrop" style={{ height: '100%' }} >
+                                                    <div className="Neon-input-dragDrop" style={{ height: '98%' }} >
                                                         <div className="Neon-input-inner" style={{ paddingTop: '6rem' }}>
                                                             <div className="Neon-input-icon">
                                                                 <i className="fas fa-file-image" />
                                                             </div>
-                                                            <div className="Neon-input-text">
-                                                                {/* <h3>Drag&amp;Drop files here</h3>{" "} */}
-                                                                {/* <span >or</span> */}
-                                                            </div>
-                                                            {/* <button className="Neon-input-choose-btn blue">Browse Files</button> */}
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             }
 
-                                            {/* <span data-img-src={carImg} data-rel="lightcase:myCollection">
-                                        <label htmlFor='first'>
-                                            <img src={Image1 || imgUpload} alt="Image" />
-                                        </label>
-                                        <input type="file" id="first" name="Image1" onChange={_onImageChange} style={{ display: 'none' }} />
 
-                                    </span> */}
                                         </div>
                                     </div>
                                     <div className="col-lg-7">
                                         <div className="row ltn__custom-gutter">
                                             <div className="col-lg-6">
                                                 <div className="ltnd__img-gallery mt-15">
-                                                    {/* <a
-                                                href={carImg2}
-                                                data-rel="lightcase:myCollection"
-                                            > */}
-                                                    {/* <label htmlFor='second'>
-                                                <img src={Image2 || carImg2} alt="Image" />
 
-                                            </label>
-                                            <input type="file" id="second" name="Image2" onChange={_onImageChange} style={{ display: 'none' }} /> */}
-                                                    {/* </button> */}
                                                     {Image2 ?
-                                                        <img src={URL.createObjectURL(Image2)} alt="Image" />
+                                                        <>
+                                                            <label htmlFor='files'>
+                                                                <img onClick={() => setIsEdit(Url ? true : false)} src={Image2?.Base64 || typeof Image2 === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}` || URL.createObjectURL(Image2)} alt="Image" />
+
+                                                            </label>
+                                                            <input
+                                                                type="file"
+                                                                disabled={Url ? true : false}
+
+                                                                id="files"
+                                                                name="Image2"
+                                                                style={{ display: 'none' }}
+                                                                onChange={_onImageChange}
+                                                            />
+
+
+                                                        </>
+
                                                         :
                                                         <div className="Neon Neon-theme-dragdropbox">
                                                             <input
                                                                 type="file"
+                                                                disabled={Url ? true : false}
+
                                                                 name="Image2"
                                                                 onChange={_onImageChange}
                                                             />
@@ -330,22 +398,28 @@ function VehicalDetail() {
                                             </div>
                                             <div className="col-lg-6">
                                                 <div className="ltnd__img-gallery mt-15">
-                                                    {/* <button
-                                                href={carImg3}
-                                                data-rel="lightcase:myCollection"
-                                            > */}
-                                                    {/* <label htmlFor='third'>
-                                                <img src={Image3 || carImg3} alt="Image" />
 
-                                            </label>
-                                            <input type="file" id="third" name="Image3" onChange={_onImageChange} style={{ display: 'none' }} /> */}
-                                                    {/* </button> */}
                                                     {Image3 ?
-                                                        <img src={URL.createObjectURL(Image3)} alt="Image" />
+                                                        <>
+                                                            <label htmlFor="file_s">
+                                                                <img onClick={() => setIsEdit(Url ? true : false)} src={Image3?.Base64 || typeof Image3 === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}` || URL.createObjectURL(Image3)} alt="Image" />
+                                                            </label>
+                                                            <input
+                                                                type="file"
+                                                                disabled={Url ? true : false}
+
+                                                                id="file_s"
+                                                                name="Image3"
+                                                                style={{ display: 'none' }}
+                                                                onChange={_onImageChange}
+                                                            />
+                                                        </>
                                                         :
                                                         <div className="Neon Neon-theme-dragdropbox">
                                                             <input
                                                                 type="file"
+                                                                disabled={Url ? true : false}
+
                                                                 name="Image3"
                                                                 onChange={_onImageChange}
                                                             />
@@ -367,24 +441,29 @@ function VehicalDetail() {
                                             </div>
                                             <div className="col-lg-6">
                                                 <div className="ltnd__img-gallery mt-15">
-                                                    {/* <button
-                                                href={carImg4}
-                                                data-rel="lightcase:myCollection"
-                                            > */}
-                                                    {/* <img src={carImg4} alt="Image" /> */}
 
-                                                    {/* <label htmlFor='forth'>
-                                                <img src={Image4 || carImg4} alt="Image" />
-
-                                            </label>
-                                            <input type="file" id="forth" name="Image4" onChange={_onImageChange} style={{ display: 'none' }} /> */}
-                                                    {/* </button> */}
                                                     {Image4 ?
-                                                        <img src={URL.createObjectURL(Image4)} alt="Image" />
+                                                        <>
+                                                            <label htmlFor="file_4">
+                                                                <img onClick={() => setIsEdit(Url ? true : false)} src={Image4?.Base64 || typeof Image4 === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}` || URL.createObjectURL(Image4)} alt="Image" />
+
+                                                            </label>
+                                                            <input
+                                                                type="file"
+                                                                disabled={Url ? true : false}
+
+                                                                id="file_4"
+                                                                name="Image4"
+                                                                style={{ display: 'none' }}
+                                                                onChange={_onImageChange}
+                                                            />
+                                                        </>
+
                                                         :
                                                         <div className="Neon Neon-theme-dragdropbox">
                                                             <input
                                                                 type="file"
+                                                                disabled={Url ? true : false}
                                                                 name="Image4"
                                                                 onChange={_onImageChange}
                                                             />
@@ -406,17 +485,30 @@ function VehicalDetail() {
                                             </div>
                                             <div className="col-lg-6">
                                                 <div className="ltnd__img-gallery mt-15">
-                                                    {/* <button
-                                                href={carImg4}
-                                                data-rel="lightcase:myCollection"
-                                            > */}
+
 
                                                     {Image5 ?
-                                                        <img src={URL.createObjectURL(Image5)} alt="Image" />
+                                                        <>
+                                                            <label htmlFor="file_5">
+                                                                <img onClick={() => setIsEdit(Url ? true : false)} src={Image5?.Base64 || typeof Image5 === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}` || URL.createObjectURL(Image5)} alt="Image" />
+
+                                                            </label>
+                                                            <input
+                                                                type="file"
+                                                                disabled={Url ? true : false}
+
+                                                                id="file_5"
+                                                                name="Image5"
+                                                                style={{ display: 'none' }}
+                                                                onChange={_onImageChange}
+                                                            />
+                                                        </>
                                                         :
                                                         <div className="Neon Neon-theme-dragdropbox">
                                                             <input
                                                                 type="file"
+                                                                disabled={Url ? true : false}
+
                                                                 name="Image5"
                                                                 onChange={_onImageChange}
                                                             />
@@ -441,10 +533,12 @@ function VehicalDetail() {
                                 </div>
                             </div>
                             {/* BLOCK AREA END */}
+
+
                         </div>
                         {/* Body Content Area Inner End */}
 
-                        <footer className="ltnd__footer-1 fixed-footer-1 mt-4">
+                        <footer className="ltnd__footer-1 fixed-footer-1 mt-4"  >
                             <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-lg-12">
@@ -453,6 +547,7 @@ function VehicalDetail() {
                                             <div className="ltnd__left btn-normal" >
                                                 {params?.id &&
                                                     <span
+                                                    onClick={()=> delPolicy(params.id)}
                                                         style={{ fontWeight: '600', cursor: 'pointer' }}
                                                     >
                                                         <i className="ti-trash" /> Delete
@@ -475,13 +570,15 @@ function VehicalDetail() {
                                 </div>
                             </div>
                         </footer>
+
+
                     </form>
+                </>
+            }
 
+        </React.Fragment>
 
-                </div>
-            </React.Fragment>
-
-        )
+    )
 }
 
 export default VehicalDetail

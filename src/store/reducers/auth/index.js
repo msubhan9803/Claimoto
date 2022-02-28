@@ -1,27 +1,53 @@
-import { REGISTER_USER , SET_TOKEN } from '../../types/types'
+import { SET_LOGIN_VALUES, SET_LOGOUT , SET_AUTH } from 'store/types/auth';
+import { localStorageVarible } from 'variables';
+import jwt_decode from "jwt-decode";
+
+
+
 const initialState = {
     token: null,
+    login_user: {
+        values: {
+            username: "",
+            password: ""
+        }
+    },
     user: {
         name: "",
         email: "",
         password: ''
     },
+    user_details: {
+
+    }
 };
 
 
-const userReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REGISTER_USER: {
+        case SET_LOGIN_VALUES: {
             return {
                 ...state,
-             user: {
-                    ...state.user,
+                login_user: {
+                    ...state.login_user,
                     [action.payload.name]: action.payload.value
                 }
             }
         }
-        case SET_TOKEN: {
-            return { ...state , token : action.payload };
+        break;
+        case SET_AUTH: {
+            localStorage.setItem(localStorageVarible, action.payload);
+            let user_details = jwt_decode(action.payload);
+            return { ...state, token: action.payload, user_details };
+
+        }
+        break;
+
+        case SET_LOGOUT: {
+            localStorage.setItem(localStorageVarible, null);
+            localStorage.clear();
+            let user_details = null
+            return { ...state, token: null, user_details };
 
         }
         default:
@@ -29,4 +55,4 @@ const userReducer = (state = initialState, action) => {
     }
 }
 
-export default userReducer;
+export default authReducer;

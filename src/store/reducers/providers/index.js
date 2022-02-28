@@ -41,21 +41,6 @@ const initialState = {
     ],
     selectedTab: 0,
 
-    addTabs:[
-        {
-            id: "ltn__tab_4_1",
-            component: <AddProviderTab1 />,
-        },
-        {
-            id: "ltn__tab_4_2",
-            component: <AddProviderTab2 />,
-        },
-        {
-            id: "ltn__tab_4_3",
-            component: <AddProviderTab3 />,
-        }  
-    ],
-    selectedAddTab:0
 };
 
 
@@ -66,6 +51,8 @@ const providersScreenReducer = (state = initialState, action) => {
             return { ...state, selectedTab: action.payload }
         }
         break;
+
+        
         default:
             return { ...state };
     }

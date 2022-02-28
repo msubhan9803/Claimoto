@@ -1,5 +1,5 @@
 import instance from 'config/axios/instance'
-import { SweetAlert } from 'functions'
+import { SweetAlert, successAlert } from 'functions'
 import {
     REGISTER_POLICIES,
     GET_POLICIES,
@@ -13,6 +13,7 @@ import {
     GET_PRODUCT_BENEFIT_COV
 } from 'store/types/types'
 // import instance from 'config/axios/instance'
+import moment from 'moment'
 
 
 
@@ -40,34 +41,30 @@ export const RegisterPolicies = (data) => async dispatch => {
         let policyDetail = {
             TenantId: 2,
             CarNumber: data.CarNumber,
-            PolicyNo : data.policyNumber,
-            PolicyType: data.policyType,
-            IdentificationNumber: data.IdentificationNumber,
+            PolicyNo: data.PolicyNo,
+            PolicyType: Number(data.PolicyType),
+            IdentificationNumber: data.IdentityNo,
             PolicyHolderName: data.PolicyHolderName,
-            MakeId: data.MakeId,
-            ModelId: data.ModelId,
-            AnnualPremium: data.AnnualPremium,
-            DOB: data.DOB,
-            StartDate: data.StartDate,
-            EndDate: data.EndDate,
+            MakeId: Number(data.MakeId),
+            ModelId: Number(data.ModelId),
+            DOB: moment(data.DOB).format('L'),
+            StartDate: moment(data.StartDate).format('L'),
+            EndDate: moment(data.EndDate).format('L'),
+            DrivingLicenseValidity: "12/01/2022",
             Address: data.Address,
-            DrivingLicenseValidity: data.DrivingLicenseValidity,
             CoPayPercentage: data.CoPayPercentage,
             Deductibles: data.Deductibles,
             IsAgencyRepair: data.IsAgencyRepair,
-            ProductId: data.ProductId,
+            ProductId: Number(data.ProductId),
             PlateNumber: data.PlateNumber,
             Year: data.Year,
-            ColourId: data.Year,
-            Capacity: data.Capacity,
+            ColourId: Number(data.ColourId),
+            Capacity: Number(data.Capacity),
             ChassisNumber: data.ChassisNumber,
             Benefits: check == 1 ? data.Benefit : null
+        }
 
-
-               }
-                      
-               
-            let Imgdata = {
+        let Imgdata = {
             Image1: data.Image1,
             Image2: data.Image2,
             Image3: data.Image3,
@@ -76,19 +73,29 @@ export const RegisterPolicies = (data) => async dispatch => {
         }
 
         console.log("Daa", policyDetail)
+        console.log("Images", Imgdata)
 
-        let ress = await instance.post('api/Policy', policyDetail)
-            .then((res) => {
+        await instance.post('api/Policy', policyDetail)
+            .then(async (res) => {
                 let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
+                formData.append('Id', )
+                for (let [key, value] of Object.entries(Imgdata)) {
                     formData.append(key, value);
                 }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
+                let resd = await instance.post('api/FileUpload', formData)
+                console.log("data", resd)
+
+                dispatch({
+                    type: REGISTER_POLICIES,
+                    payload: data
+                })
+                SweetAlert({
+                    text: "Policy are successfully register",
+                    icon: "Success"
+                })
 
 
             })
-        console.log("ress", ress)
         // if (res.status == 200) {
         //     dispatch({
         //         type: REGISTER_POLICIES,
@@ -109,7 +116,6 @@ export const RegisterPolicies = (data) => async dispatch => {
 
 // Get Policies 
 export const GetPolicies = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get('api/Policy/Policies')
         console.log("res", res)
@@ -123,11 +129,21 @@ export const GetPolicies = () => async dispatch => {
 
 // Get Single Policies 
 export const GetSinglePolicy = (id) => async dispatch => {
-    debugger
+    // debugger
     try {
         let res = await instance.get(`api/Policy/PolicyById?id=${id}`)
-        console.log("res", res)
+        if (res.data) {
+            let names = await instance.get(`api/Policy/GetPolicyType/${res.data.PolicyType}`)
+            dispatch({ type: GET_PRODUCT_NAMES, payload: names.data })
+
+            let types = await instance.get(`api/Policy/PolicyModel/?Id=${res.data.MakeId}`)
+            dispatch({ type: "GET_POLICY_MAKE_MODEL", payload: types.data })
+
+        }
         dispatch({ type: GET_SINGLE_POLICIES, payload: res.data })
+
+        let color = await instance.get(`api/Policy/Colour`)
+        dispatch({ type: GET_CAR_COLORS, payload: color.data })
     }
     catch (err) {
         console.log("err", err)
@@ -136,7 +152,6 @@ export const GetSinglePolicy = (id) => async dispatch => {
 
 // Get car colors  
 export const GetColor = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get(`api/Policy/Colour`)
         dispatch({ type: GET_CAR_COLORS, payload: res.data })
@@ -148,7 +163,6 @@ export const GetColor = () => async dispatch => {
 
 // Get policy make  
 export const GetMake = () => async dispatch => {
-    debugger
     try {
         let res = await instance.get('api/Policy/PolicyMake')
         dispatch({ type: GET_POLICY_MAKE, payload: res.data })
@@ -162,7 +176,6 @@ export const GetMake = () => async dispatch => {
 
 export const GetMakeModel = (Id) => async dispatch => {
     try {
-        debugger
         let res = await instance.get(`api/Policy/PolicyModel/?Id=${Id}`)
         dispatch({ type: "GET_POLICY_MAKE_MODEL", payload: res.data })
     }
@@ -175,7 +188,6 @@ export const GetMakeModel = (Id) => async dispatch => {
 // Get product Names according to product type 
 
 export const GetProductNames = (type) => async dispatch => {
-    debugger
     try {
         let res = await instance.get(`api/Policy/GetPolicyType/${type}`)
         console.log("res", res)
@@ -189,7 +201,6 @@ export const GetProductNames = (type) => async dispatch => {
 // Get product Names according to product type 
 
 export const GetProductBeniftCov = (type) => async dispatch => {
-  debugger
     try {
         let res = await instance.get(`api/Policy/GetProductDetails/${type}`)
         console.log("res", res)
@@ -204,9 +215,15 @@ export const GetProductBeniftCov = (type) => async dispatch => {
 
 // Delete Policies
 export const DeletePolicies = (id) => async dispatch => {
+    debugger
     try {
         let res = await instance.delete(`api/Policy/PolicyDel?id=${id}`)
-        dispatch({ type: DELETE_POLICIES, payload: "res.data" })
+        dispatch({ type: DELETE_POLICIES, payload: res.data })
+        successAlert({
+            text: "Policy are succefully Deactive",
+            icon: "success"
+        })
+
 
     }
     catch (err) {
@@ -217,36 +234,41 @@ export const DeletePolicies = (id) => async dispatch => {
 
 
 // Update Policies
-export const UpdatePolicies = (data) => async dispatch => {
+export const UpdatePolicies = (data, params) => async dispatch => {
     debugger
     try {
-        let check = Array.isArray(data.Benefit) && data.Benefit.length
+        let check = Array.isArray(data.Benefits) && data.Benefits.length
+
 
         let policyDetail = {
-            // TenantId: 2,
-            // CarNumber: data.CarNumber,
-            // policyType: data.policyType,
-            // IdentificationNumber: data.IdentificationNumber,
-            // PolicyHolderName: data.PolicyHolderName,
-            // MakeId: data.MakeId,
-            // ModelId: data.ModelId,
-            // policyNumber: data.policyNumber,
+            TenantId: data.TenantId,
+            Id: Number(params),
+            PolicyId: Number(params),
+            CarNumber: data.CarNumber,
+            PolicyNo: data.PolicyNo,
+            PolicyType: data.PolicyType,
+            IdentificationNumber: data.IdentityNo,
+            IdentityNo: data.IdentityNo,
+            PolicyHolderName: data.PolicyHolderName,
+            MakeId: data.MakeId,
+            ModelId: data.ModelId,
             // AnnualPremium: data.AnnualPremium,
-            // DOB: data.DOB,
-            // StartDate: data.StartDate,
-            // EndDate: data.EndDate,
-            // Address: data.Address,
-            // DrivingLicenseValidity: data.DrivingLicenseValidity,
-            // CoPayPercentage: data.CoPayPercentage,
-            // Deductibles: data.Deductibles,
-            // IsAgencyRepair: data.IsAgencyRepair,
-            // ProductId: data.ProductId,
-            // PlateNumber: data.PlateNumber,
-            // Year: data.Year,
-            // ColourId: data.Year,
-            // Capacity: data.Capacity,
-            // ChassisNumber: data.ChassisNumber,
-            Benefits: check === 1 ? data.Benefit : null
+            DOB: moment(data.DOB).format('L'),
+            StartDate: moment(data.StartDate).format('L'),
+            EndDate: moment(data.EndDate).format('L'),
+            Address: data.Address,
+            DrivingLicenseValidity: moment(data.DrivingLicenseValidity).format('L'),
+            CoPayPercentage: data.CoPayPercentage,
+            Deductibles: data.Deductibles,
+            IsAgencyRepair: data.IsAgencyRepair,
+            ProductId: data.ProductId,
+            PlateNumber: data.PlateNumber,
+            Year: data.Year,
+            ColourId: data.ColourId,
+            Capacity: data.Capacity,
+            ChassisNumber: data.ChassisNumber,
+            Benefits: check == 1 ? data.Benefits : null
+
         }
 
         let Imgdata = {
@@ -256,35 +278,56 @@ export const UpdatePolicies = (data) => async dispatch => {
             Image4: data.Image4,
             Image5: data.Image5,
         }
+        console.log("policy detail update", policyDetail)
+        // await instance.put('api/Policy', policyDetail)
+        // .then(async (res) => {
+        // if (Object.keys(Imgdata).length > 0) {
+        let values
+        const func = async (url) => {
+            console.log("url" , url )
+            const response = await fetch(url);
+            const data = await response.blob();
+            const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+            const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
+            const metadata = { type: `image/${ext}` };
+            return new File([data], filename, metadata);
+        }
+        
+        for (let [key, value] of Object.entries(Imgdata)) {
+            if (typeof value === "string") {
+                values = await func(value)
+                Imgdata[key] = values
 
-        console.log("Daa", check)
+            }
+        }
+        let formData = new FormData();
+        formData.append('Id', Number(params))
+        for (let [key, value] of Object.entries(Imgdata)) {
+            formData.append(key, value);
+            let ig = await instance.post('api/FileUpload', formData)
+        }
+        // formData.append(key, value);
+        // let ig = await instance.post('api/FileUpload', formData)
+        dispatch({ type: UPDATE_POLICIES, payload: data })
+        SweetAlert({
+            text: "Policy are successfully update",
+            icon: "success"
+        })
 
-        let ress = await instance.post('api/Policy', policyDetail)
-        console.log("data", ress)
-            .then((res) => {
-                let formData = new FormData();
-                for (let [key, value] of Imgdata.entries()) {
-                    formData.append(key, value);
-                }
-                formData.append('Id', res.data)
-                instance.post('api/FileUpload', formData)
+        // console.log("imagDta", ig)
 
-
-            })
-        console.log("ress", ress)
-        // if (res.status == 200) {
-        //     dispatch({
-        //         type: REGISTER_POLICIES,
-        //         payload: data
-        //     })
-        // SweetAlert({
-        //     text: "Policy are successfully register",
-        //     icon: "Success"
-        // })
+        // await instance.post('api/FileUpload', formData)
         // }
-
-        // let res = await instance.post('api/Product', data)
         // dispatch({ type: UPDATE_POLICIES, payload: data })
+        // SweetAlert({
+        //     text: "Policy are successfully update",
+        //     icon: "success"
+        // })
+
+
+
+        // })
+
 
     }
     catch (err) {

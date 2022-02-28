@@ -8,7 +8,7 @@ import { handleInputValue, deleteUser, clearInputValues, getUsers } from 'store/
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
 import { getUserDetails } from 'store/actions/users/users_screen';
@@ -35,6 +35,9 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             // .required('Password is mendatory')
             .oneOf([Yup.ref('password')], 'Passwords does not match'),
         email: Yup.string().email().required("Email is mendatory"),
+        user_name: Yup.string()
+            .required('Username is mendatory')
+            .min(3, 'Username must be at 3 char long'),
         phone: Yup.string().required("Phone is mendatory"),
         // attachment: Yup.mixed()
         //     .test('fileType', 'Unsupported File Format', function (value) {
@@ -48,7 +51,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         //         return value.size <= sizeInBytes;
         //     })
 
-    })
+    });
 
     const { register, handleSubmit, formState: { errors }, control } = useForm({ mode: "all", resolver: yupResolver(formSchema) });
     const imageRef = createRef();
@@ -59,6 +62,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         last_name,
         phone,
         email,
+        user_name,
         access_role,
         access_group,
         selected_image,
@@ -70,7 +74,9 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         search_text,
         search_option,
         sort_name,
-        sort_type
+        sort_type,
+        loading_action,
+        success
     } = userValues;
 
 
@@ -84,7 +90,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             //Add User
             dispatch(addUser(userValues));
         }
-        toggleModal();
+        // toggleModal();
     };
 
 
@@ -152,10 +158,17 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
             dispatch(getUserDetails(parseInt(id)));
         }
         return () => {
-            _clearState()
+            _clearState();
         }
     }, []);
 
+
+    useEffect(() => {
+        if(success){
+            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+            toggleModal();
+        }
+    }, [success]);
 
     return (
         <Modal
@@ -201,7 +214,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             name="attachment"
                                             render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                         /> */}
-                                            <h6 className="ltnd__title-3">Personal information</h6>
+                                            <h6 className="ltnd__title-3 mt-2">Personal information</h6>
                                             <div className="row">
                                                 <div className="col-lg-6">
                                                     <input type="text"
@@ -232,7 +245,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     />
                                                 </div>
                                             </div>
-                                            <h6 className="ltnd__title-3">Contact information</h6>
+                                            <h6 className="ltnd__title-3 mt-2">Contact information</h6>
                                             <input
                                                 {...register("phone")}
                                                 type="text" onChange={_handleChange} name="phone" placeholder="079 079 1189" value={phone} />
@@ -242,17 +255,28 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                             />
                                             <input
+                                                {...register("user_name")}
+                                                className="mt-2"
+                                                type="text" onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
+                                            <ErrorMessage
+                                                errors={errors}
+                                                name="user_name"
+                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                            />
+                                            <input
                                                 {...register("email")}
+                                                className="mt-2"
                                                 type="email" onChange={_handleChange} name="email" placeholder="Email" value={email} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="email"
                                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                             />
-                                            <h6 className="ltnd__title-3">Password Management</h6>
+                                            <h6 className="ltnd__title-3 mt-2">Password Management</h6>
 
                                             <input
                                                 {...register("password")}
+                                                className="mt-2"
                                                 type="password" onChange={_handleChange} name="password" placeholder="Password" value={password} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -262,6 +286,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
                                             <input
                                                 {...register("confirm_password")}
+                                                className="mt-2"
                                                 type="password" onChange={_handleChange} name="confirm_password" placeholder="Confirm Password" value={confirm_password} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -274,7 +299,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
                                             <div className="input-item">
-                                                <h6 className="ltnd__title-3">Access role *</h6>
+                                                <h6 className="ltnd__title-3 mt-2">Access role *</h6>
                                                 <Select
                                                     closeMenuOnSelect={true}
                                                     {...register("access_role")}
@@ -292,7 +317,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                 />
                                             </div>
-                                            <div className="input-item mt-3">
+                                            <div className="input-item mt-2">
                                                 <h6 className="ltnd__title-3 mb-2">Access Group *</h6>
                                                 <Select
                                                     value={access_group}
@@ -341,8 +366,8 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
-                                                                    <a onClick={toggleModal} className="ltn__color-1" role=""><i className="ti-angle-left"></i> Cancel</a>
-                                                                    <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
+                                                                    <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
+                                                                    <button disabled={loading_action}  type="submit" className="btn theme-btn-1 btn-round-12">{loading_action  ? "loading" : "Save"}</button>
                                                                 </div>
                                                             </div>
                                                         </div>

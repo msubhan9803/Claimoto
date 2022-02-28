@@ -3,11 +3,12 @@ import Sidebar from "components/Sidebar/UserSidebar";
 import UserNavbar from "components/Navbar/UserNavbar/UserNavbar";
 import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
 import { adminRoutes } from "../routes/admin";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
 import NotFound from "views/pages/404/404";
 
 export default function Layout() {
-
+  const { token } = useSelector(state => state.authReducer);
   let routes = adminRoutes();
   let location = useLocation();
 
@@ -18,7 +19,7 @@ export default function Layout() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "admin" ) {
+      if (prop.layout === "admin") {
 
         return (
           <Route
@@ -41,30 +42,36 @@ export default function Layout() {
 
 
   return (
-    <div className="body-wrapper">
-      <Sidebar
-        routes={routes}
-        activeRoute={location.pathname}
-      />
-      <div className="ltn__utilize-overlay" />
+    <>
+      {!token ? (<Navigate to="/" />) :
 
-      <div className="body-content-area body-bg-1 pb-80---">
-        {location.pathname === '/admin/' ?
-          <DashboardNavbar />
-          :
-            <UserNavbar />
-        }
 
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<NotFound />} />
-          
-          
-        </Routes>
+        <div className="body-wrapper">
+          <Sidebar
+            routes={routes}
+            activeRoute={location.pathname}
+          />
+          <div className="ltn__utilize-overlay" />
 
-        {/* <Footer /> */}
-      </div>
+          <div className="body-content-area body-bg-1 pb-80---">
+            {location.pathname === '/admin/' ?
+              <DashboardNavbar />
+              :
+              <UserNavbar />
+            }
 
-    </div>
+            <Routes>
+              {getRoutes(routes)}
+              <Route path="*" element={<NotFound />} />
+
+
+            </Routes>
+
+            {/* <Footer /> */}
+          </div>
+
+        </div>
+      }
+    </>
   );
 }

@@ -1,8 +1,19 @@
 
-import { REGISTER_USER, SET_TOKEN } from '../../types/types'
-import { SweetAlert } from '../../../functions'
-// import instance from '../../../config/axios/instance'
+import { REGISTER_USER } from '../../types/types'
+import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH } from 'store/types/auth'
+import instance from 'config/axios/instance'
 
+
+
+
+
+// login User 
+export const setLoginValues = (name, value) => async dispatch => {
+    dispatch({
+        type: SET_LOGIN_VALUES,
+        payload: { name, value }
+    });
+}
 
 // Register User 
 export const RegisterUser = (name, value) => async dispatch => {
@@ -20,43 +31,40 @@ export const RegisterUser = (name, value) => async dispatch => {
 // Login User 
 
 
-export const loginUser = (data) => async dispatch => {
+export const loginUser = (payload) => async dispatch => {
     try {
-        let dummy = {
-            email: "admin@admin.com",
-            pass: "admin"
+        let _payload = {
+            "UserName": payload.user_name,
+            "Password": payload.password
         }
 
-        // api fetch
-
-        // instance.get('/')
-
-        if (data.email === dummy.email && data.password === dummy.pass) {
-            const token = Math.random().toString().slice(2)
+        let { data } = await instance.post('/api/Token', _payload);
+        
+        if (data) {
             dispatch({
-                type: SET_TOKEN,
-                payload: token
+                type: SET_AUTH,
+                payload: data
             })
-            
         }
-        else if (data.email !== dummy.email || data.password === dummy.pass) {
-            SweetAlert({ title: "Bad Job!", text: "Email not found", icon: "warning" })
-
-        }
-        else if (data.email === dummy.email || data.password !== dummy.pass) {
-            SweetAlert({ title: "Bad Job!", text: "Password not correct", icon: "warning" })
-
-        }
-        else {
-            SweetAlert({ title: "Bad Job!", text: "Please use correct credentials", icon: "warning" })
-        }
-
-
 
     }
     catch (err) {
 
     }
+}
+
+
+export const handleLogout  = () => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOGOUT,
+            payload: {}
+        })
+    }
+    catch (err) {
+
+    }
+
 }
 
 

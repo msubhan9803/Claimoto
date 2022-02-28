@@ -12,28 +12,32 @@ import {
     GET_PRODUCT_BENEFIT_COV,
 } from 'store/types/types'
 const initialState = {
+    isSuccess: false,
+    productBenft: {},
+    allPolicies: [],
+    color: [],
+    make: [],
+    model: [],
     policy: {
         Id: '',
-        TenantId: '',
+        TenantId: 2,
         CarNumber: "",
-        // insuranceComp: "",
         PolicyType: "",
         productName: "",
         PolicyHolderName: '',
         MakeId: '',
         ModelId: '',
-        // selected_image: "",
         PolicyNo: "",
-        AnnualPremium: "",
-        // DOB: '',
+        // AnnualPremium: "",
+        DOB: '',
         ModelName: '',
-        // StartDate: '',
-        // EndDate: '',
+        StartDate: '',
+        EndDate: '',
         Address: '',
         RegistrationNumber: '',
         ChassisNumber: '',
-        // DrivingLicenseValidity: '',
-        IdentificationNumber: '',
+        DrivingLicenseValidity: '',
+        IdentityNo: '',
         PlateNumber: '',
         Year: '',
         ColourId: '',
@@ -47,19 +51,16 @@ const initialState = {
         Image2: '',
         Image3: '',
         Image4: '',
-        Image5: ''
+        Image5: '',
+        isLoading : true  ,
 
 
 
     },
-    productBenft: {},
-    allPolicies: [],
-    color: [],
-    make: [],
-    model: [],
     prouctNames: [],
     Editproduct: {},
     EidtDat: '',
+
 
 
 };
@@ -71,6 +72,7 @@ const policyReducer = (state = initialState, action) => {
         case REGISTER_POLICIES: {
             return {
                 ...state,
+                ...state.isSuccess= true ,
                 allProducts: [action.payload],
                 policy : initialState.policy
             }
@@ -79,18 +81,25 @@ const policyReducer = (state = initialState, action) => {
         case GET_POLICIES: {
             return {
                 ...state,
-                policy: {
-                    ...state.policy = null,
-                    vehicalImg: []
-                },
+                policy: initialState.policy,
+                model: [],
+                prouctNames : [] , 
+                isSuccess: false,
+                isLoading : false,
                 allPolicies: action.payload,
             };
         }
 
+        case "LOADING":{
+            return {
+                ...state , 
+                isLoading : action.payload
+            }
+        }
 
 
         case GET_POLICIES_INPUTS: {
-            
+            // debugger
             return {
                 ...state,
                 policy: {
@@ -101,12 +110,13 @@ const policyReducer = (state = initialState, action) => {
             }
         }
         case GET_SINGLE_POLICIES: {
-            debugger
             return {
                 ...state,
                 policy: {
                     ...state.policy,
-                    ...action.payload
+                    ...action.payload,
+                    isLoading : false
+
                 }
             };
         }
@@ -114,7 +124,8 @@ const policyReducer = (state = initialState, action) => {
         case GET_CAR_COLORS: {
             return {
                 ...state,
-                color: action.payload
+                color: action.payload,
+
             };
         }
 
@@ -123,7 +134,8 @@ const policyReducer = (state = initialState, action) => {
         case GET_POLICY_MAKE: {
             return {
                 ...state,
-                make: action.payload
+                make: action.payload,
+
             };
         }
 
@@ -131,14 +143,16 @@ const policyReducer = (state = initialState, action) => {
         case "GET_POLICY_MAKE_MODEL": {
             return {
                 ...state,
-                model: action.payload
+                model: action.payload,
+
             };
         }
 
         case GET_PRODUCT_NAMES: {
             return {
                 ...state,
-                prouctNames: action.payload
+                prouctNames: action.payload,
+
             };
         }
 
@@ -156,17 +170,22 @@ const policyReducer = (state = initialState, action) => {
         case DELETE_POLICIES: {
             return {
                 ...state,
-                allPolicies: state.allPolicies.filter((data, index) => index !== action.payload)
+                isSuccess: true,
+
+                allPolicies: state.allPolicies.filter((data, index) => index !== action.payload),
             }
         }
 
         case UPDATE_POLICIES: {
+            debugger
             return Object.assign({}, state, {
                 ...state.allPolicies = state.allPolicies.map((item) => {
                     if (item.id === action.payload.Id)
                         item = action.payload
                     return item
-                })
+                }),
+              ...state.isSuccess = true 
+                
             })
         }
 

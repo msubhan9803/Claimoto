@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GetProduct, SortProducts, ProductStatus, GetInputs , GetProducts } from 'store/actions/product'
 import { useSelector, useDispatch } from 'react-redux'
-import { formatDateTime } from 'functions'
+import {  _productDetailDotDot } from 'functions'
 import moment from 'moment'
 function Products() {
 
@@ -47,15 +47,7 @@ function Products() {
         }
     }
 
-    const _productDetail = (string, limit) => {
-        var dots = "...";
-        if (string.length > limit) {
-            // you can also use substr instead of substring
-            string = string.substring(0, limit) + dots;
-        }
-
-        return string;
-    }
+   
 
 
     return (
@@ -198,7 +190,7 @@ function Products() {
                                     <div className="col-lg-3 col-md-6" key={item.id}>
                                         <div className="ltnd__product-item">
                                             <h6 className="ltnd__product-title">
-                                                <Link to={`/admin/product_detail/${item.id}`}>{_productDetail(item.ProductName, 20)}</Link>
+                                                <Link to={`/admin/product_detail/${item.id}`}>{_productDetailDotDot(item.ProductName, 20)}</Link>
                                             </h6>
                                             <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
                                                 <p className="ltnd__product-availability">{Number(item.AnnualPremium).toFixed(3)} KDW</p>
@@ -208,7 +200,7 @@ function Products() {
                                             <div className="ltnd__product-brief">
                                                 <p>
                                                     {
-                                                        _productDetail(item.ProductDetails, 120)
+                                                        _productDetailDotDot(item.ProductDetails, 120)
                                                     }
 
                                                 </p>

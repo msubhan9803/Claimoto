@@ -179,6 +179,7 @@ export const deleteUser = (id) => async dispatch => {
 export const addUser = (data) => async dispatch => {
     try {
         let payload = {
+            "UserName":data?.user_name || "",
             "UserId": parseInt(data?.UserId) || "",
             "FirstName": data?.first_name || "",
             "LastName": data?.last_name || "",
@@ -190,15 +191,17 @@ export const addUser = (data) => async dispatch => {
             "ImageModel": data?.selected_image || "",
             "Status": data?.status
         };
-        dispatch({ type: SET_USER_ADD_REQUEST, payload: true });
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: {loading_action:true, success:false, error:""} });
         let response = await instance({
             method: data.UserId ? "put" : "post",
             url: `api/UserProfile`,
             data: payload,
             // headers: { cooljwt: Token },
-        })
+        });
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: {loading_action:false, success:true, error:""} });
         successAlert({ title: "Success", text: response?.data || "Success" })
     } catch (error) {
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: {loading_action:false, success:false, error:""} });
         dispatch({ type: SET_USER_ADD_REQUEST, payload: false });
         console.log("err", error)
     }

@@ -5,7 +5,8 @@ import {
     SET_INPUT_VALUES_ACCESS_GROUP_SCREEN,
     SET_ROLES, SET_ACCESS_GROUPS,
     SET_MODULES,
-    SET_USERS, SET_USER_DETAILS,
+    SET_USERS,
+    SET_USER_DETAILS,
     SET_USER_DETAILS_REQUEST,
     SET_USER_DELETE_REQUEST,
     SET_USERS_REQUEST,
@@ -16,7 +17,8 @@ import {
     SET_ACCESS_GROUP_DETAILS,
     SET_GROUP_ADD_REQUEST,
     SET_GROUP_ADD,
-    SET_GROUP_DELETE_REQUEST
+    SET_GROUP_DELETE_REQUEST,
+    SET_USER_ADD_REQUEST
 } from '../../types/users';
 import RoleList from 'components/Admin/RoleManage/RoleList';
 import UserList from 'components/Admin/UserManage/UserList';
@@ -66,6 +68,7 @@ const initialState = {
     ],
     selectedTab: 0,
     userValues: {
+        user_name: "",
         first_name: "",
         last_name: "",
         phone: "",
@@ -82,11 +85,14 @@ const initialState = {
         password: "",
         confirm_password: "",
         loading: false,
+        success: false,
+        error: "",
         deletingUser: false,
         search_option: "",
         search_text: "",
         sort_type: "asc",
-        sort_name: "FirstName"
+        sort_name: "FirstName",
+        loading_action:false
     },
     accessValues: {
         access_group: "",
@@ -213,13 +219,14 @@ const usersScreenReducer = (state = initialState, action) => {
                 return {
                     ...state,
                     userValues: {
+                        user_name: user_details.UserName,
                         first_name: user_details.FirstName,
                         last_name: user_details.LastName,
                         phone: user_details.MobileNo,
                         email: user_details.Email,
                         access_role: { label: role.RoleName, value: role.RoleId },
                         selected_image: user_details.ImageUrl,
-                        access_group: user_details.AccessGroupIds?.map(ag=> {return  { label: ag.AccessGroupName, value: ag.AccessGroupId } }) || [] ,
+                        access_group: user_details.AccessGroupIds?.map(ag => { return { label: ag.AccessGroupName, value: ag.AccessGroupId } }) || [],
                         status: user_details.Status,
                         loading: false
                     }
@@ -227,6 +234,17 @@ const usersScreenReducer = (state = initialState, action) => {
             } else {
                 return {
                     ...state
+                }
+            }
+        }
+            break;
+
+        case SET_USER_ADD_REQUEST: {
+            return {
+                ...state,
+                userValues: {
+                    ...state.userValues,
+                    ...action.payload
                 }
             }
         }
@@ -277,7 +295,7 @@ const usersScreenReducer = (state = initialState, action) => {
 
         case SET_ACCESS_GROUP_DETAILS: {
             let { modules, group_details, actions } = action.payload;
-            let InheritAccessGroup = state.access_groups.find(ag=>ag.Id === group_details?.InheritAccessGroupId) || null;
+            let InheritAccessGroup = state.access_groups.find(ag => ag.Id === group_details?.InheritAccessGroupId) || null;
             let modified_actions = state.modules_actions.map((act) => {
                 return {
                     ...act,
