@@ -135,7 +135,8 @@ const productReducer = (state = initialState, action) => {
         case GET_PRODUCT_TYPE: {
             return {
                 ...state,
-                product_Types: action.payload
+                product_Types: action.payload,
+                
             }
         }
 

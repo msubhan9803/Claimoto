@@ -8,7 +8,7 @@ import { handleInputValue, deleteUser, clearInputValues, getUsers } from 'store/
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
 import { getUserDetails } from 'store/actions/users/users_screen';
@@ -51,7 +51,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
         //         return value.size <= sizeInBytes;
         //     })
 
-    })
+    });
 
     const { register, handleSubmit, formState: { errors }, control } = useForm({ mode: "all", resolver: yupResolver(formSchema) });
     const imageRef = createRef();

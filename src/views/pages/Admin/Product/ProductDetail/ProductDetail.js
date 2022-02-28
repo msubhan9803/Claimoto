@@ -99,7 +99,7 @@ function ProductDetail(props) {
         isLoading
     } = product
 
-    const formOptions = { resolver: yupResolver(formSchema), mode: "onChange", }
+    const formOptions = { resolver: yupResolver(formSchema), mode: "all", }
     const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
 
     // Get ProductTypes from Server

@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
-import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TabContent from 'components/Tabs/TabsContent';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
+import { msgAlert } from 'functions';
+import { successAlert } from 'functions';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
-    const { addTabs } = useSelector(state => state.addProviderScreenReducer);
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { addTabs, tab1, tab2, tab3 } = useSelector(state => state.addProviderScreenReducer);
+    const { name, contacts } = tab1;
+    const { selected_service_types } = tab2;
+    const { selected_locations } = tab3;
+
 
 
     //Actions
@@ -23,12 +31,64 @@ const AddProvider = () => {
     }
 
 
+    const _saveProvider = () => {
+
+    }
+
 
     const _moveNext = () => {
-        let nextTab = parseInt(searchParams.get("tab"))+1;
+
+        let active_tab = parseInt(searchParams.get("tab"));
+        let error = false;
+        switch (active_tab) {
+            case 0:
+                if (name === "" || contacts.length < 1) {
+                    error = true;
+                    return msgAlert({title:"Required Fields", text:"Name and Minimum Contact is Required"});
+                }
+                break;
+            case 1:
+                if (selected_service_types.length < 1) {
+                    error = true;
+                    return msgAlert({title:"Required Fields", text:"Minimum one Service is Required"});
+                }
+                break;
+            case 2:
+                if (selected_locations.length < 1) {
+                    error = true;
+                    return msgAlert({title:"Required Fields", text:"Minimum one Location is Required"});
+                }
+                break;
+            default:
+                break;
+        }
+        if (!error && active_tab < 2) {
+            let nextTab = active_tab + 1;
+            searchParams.set("tab", nextTab);
+            setSearchParams(searchParams);
+        }else if(!error && active_tab === 2){
+            successAlert({title:"Added Successfully"});
+            return navigate("/admin/provider");
+            
+        }
+    }
+
+    const _movePrev = () => {
+        let nextTab = parseInt(searchParams.get("tab")) - 1;
         searchParams.set("tab", nextTab);
         setSearchParams(searchParams);
     }
+
+
+
+
+
+
+    useEffect(() => {
+        dispatch(getServices());
+        dispatch(getCountries());
+        dispatch(clearAddProviderState())
+    }, []);
 
 
 
@@ -74,7 +134,9 @@ const AddProvider = () => {
                                         <div className="btn-wrapper">
                                             <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
                                             {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
-                                            <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">Next</a>
+                                            {searchParams.get("tab") > 0 &&
+                                                <a role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</a>}
+                                                <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ?  "Next" : "Save" }</a>
                                         </div>
                                     </div>
                                 </div>

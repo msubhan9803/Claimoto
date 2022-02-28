@@ -12,7 +12,6 @@ function GaragesList() {
                             <div className="ltn__select-availability-table  d-none d-md-block">
                                 <ul className="ltn__select-availability-table-head">
                                     <li className="table-data-1">Garage name</li>
-                                    <li className="table-data-2 ltn__color-1">ID</li>
                                     <li className="table-data-3">POC name</li>
                                     <li className="table-data-4">Contact number</li>
                                     <li className="table-data-5">Expiry</li>
@@ -27,7 +26,6 @@ function GaragesList() {
                                             and body shop{" "}
                                         </strong>
                                     </li>
-                                    <li className="table-data-2 ltn__color-1">15869</li>
                                     <li className="table-data-3">Yasmin Ali</li>
                                     <li className="table-data-4">079 079 1189</li>
                                     <li className="table-data-5">Dec 31, 2021</li>

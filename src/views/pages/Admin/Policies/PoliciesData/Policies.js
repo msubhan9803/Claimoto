@@ -10,11 +10,11 @@ function Policies() {
 
     return (
         <React.Fragment>
-            {isLoading ?
+            {/* {isLoading ?
                 <div className="spinner-grow" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
-                :
+                : */}
                 <div className="body-wrapper">
                     <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                         <div className="ltnd__header-middle-area mt-30">
@@ -120,7 +120,7 @@ function Policies() {
 
                     </div>
                 </div>
-            }
+            {/* } */}
 
         </React.Fragment>
     )
