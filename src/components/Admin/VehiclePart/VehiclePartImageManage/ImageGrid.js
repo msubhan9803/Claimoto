@@ -42,31 +42,11 @@ const ImageGrid = ({ imagesListLength, imagesList }) => {
           closeOnClickOutside={true}
         />
       )}
-
-      {imagesListLength == 1 && (
-        <Layout1
-          imagesList={imagesList}
-          _handleImageViewer={_handleImageViewer}
-        />
-      )}
-      {imagesListLength == 2 && (
-        <Layout2
-          imagesList={imagesList}
-          _handleImageViewer={_handleImageViewer}
-        />
-      )}
-      {imagesListLength == 3 && (
-        <Layout3
-          imagesList={imagesList}
-          _handleImageViewer={_handleImageViewer}
-        />
-      )}
-      {imagesListLength > 3 && (
-        <LayoutGreaterThanThree
-          imagesList={imagesList}
-          _handleImageViewer={_handleImageViewer}
-        />
-      )}
+      <Layout
+        imagesList={imagesList}
+        _handleImageViewer={_handleImageViewer}
+        length={imagesListLength}
+      />
       {!imagesListLength || (imagesListLength == 0 && <LayoutNull />)}
     </>
   );
@@ -83,130 +63,73 @@ function LayoutNull() {
   );
 }
 
-function Layout1({ imagesList, _handleImageViewer }) {
+function Layout({ imagesList, _handleImageViewer, length }) {
   return (
-    <div className="row ltn__custom-gutter h-100">
-      <div className="col-12">
-        <Image
-          img={imagesList[0]}
-          index={0}
-          _handleImageViewer={_handleImageViewer}
-        />
-      </div>
-    </div>
-  );
-}
-
-function Layout2({ imagesList, _handleImageViewer }) {
-  return (
-    <div className="row ltn__custom-gutter h-100">
-      <div className="" style={{ width: "70%" }}>
-        <Image
-          img={imagesList[0]}
-          index={0}
-          _handleImageViewer={_handleImageViewer}
-        />
-      </div>
-      <div className="" style={{ width: "30%" }}>
-        <div className="row ltn__custom-gutter h-50">
-          <div className="col-lg-12">
+    <>
+      <div className="image-grid-layout-web h-100">
+        <div className="row ltn__custom-gutter h-100">
+          <div className="col-md-12 col-lg-8">
             <Image
-              img={imagesList[1]}
-              index={1}
+              img={imagesList[0]}
+              index={0}
               _handleImageViewer={_handleImageViewer}
             />
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Layout3({ imagesList, _handleImageViewer }) {
-  return (
-    <div className="row ltn__custom-gutter h-100">
-      <div className="" style={{ width: "70%" }}>
-        <Image
-          img={imagesList[0]}
-          index={0}
-          _handleImageViewer={_handleImageViewer}
-        />
-      </div>
-      <div className="" style={{ width: "30%" }}>
-        <div className="row ltn__custom-gutter image-grid-image-side pb-1">
-          <Image
-            img={imagesList[1]}
-            index={1}
-            _handleImageViewer={_handleImageViewer}
-          />
-        </div>
-        <div className="row align-items-center text-center ltn__custom-gutter image-grid-image-side pt-1">
-          <Image
-            img={imagesList[2]}
-            index={2}
-            _handleImageViewer={_handleImageViewer}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LayoutGreaterThanThree({ imagesList, _handleImageViewer }) {
-  return (
-    <div className="row ltn__custom-gutter h-100">
-      <div className="col-md-12 col-lg-8">
-        <Image
-          img={imagesList[0]}
-          index={0}
-          _handleImageViewer={_handleImageViewer}
-        />
-      </div>
-      <div className="image-grid-layout-web col-md-12 col-lg-4">
-        <div className="row ltn__custom-gutter image-grid-image-side pb-1">
-          <div className="col-12">
-            <Image
-              img={imagesList[1]}
-              index={1}
-              _handleImageViewer={_handleImageViewer}
-            />
-          </div>
-        </div>
-        <div className="row align-items-center text-center ltn__custom-gutter image-grid-image-side pt-1">
-          <div className="col-12 h-100 w-100">
-            <div className="ltnd__img-gallery image-gallery-left-side-image-wrapper h-100 w-100">
-              <div
-                className="d-flex flex-row justify-content-center cursor-pointer more-than-three text-center"
-                onClick={() => _handleImageViewer(0)}
-              >
-                <h2 className="text-white text-center fw-normal m-0">
-                  +{imagesList.length - 2}
-                </h2>
+          {length > 1 && (
+            <div className="col-md-12 col-lg-4">
+              <div className="row ltn__custom-gutter image-grid-image-side pb-1">
+                <div className="col-12">
+                  <Image
+                    img={imagesList[1]}
+                    index={1}
+                    _handleImageViewer={_handleImageViewer}
+                  />
+                </div>
               </div>
+
+              {length > 2 && (
+                <div className="row align-items-center text-center ltn__custom-gutter image-grid-image-side pt-1">
+                  {length > 3 ? (
+                    <div className="col-12 h-100 w-100">
+                      <div className="ltnd__img-gallery image-gallery-left-side-image-wrapper h-100 w-100">
+                        <div
+                          className="d-flex flex-row justify-content-center cursor-pointer more-than-three text-center"
+                          onClick={() => _handleImageViewer(0)}
+                        >
+                          <h2 className="text-white text-center fw-normal m-0">
+                            +{imagesList.length - 2}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-12 h-100 w-100">
+                      <div className="ltnd__img-gallery image-gallery-left-side-image-wrapper h-100 w-100">
+                        <Image
+                          img={imagesList[2]}
+                          index={2}
+                          _handleImageViewer={_handleImageViewer}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
-      <div className="col-12 image-grid-layout-mobile">
-        <Image
-          img={imagesList[1]}
-          index={1}
-          _handleImageViewer={_handleImageViewer}
-        />
-      </div>
-      <div className="col-12 h-100 w-100 image-grid-layout-mobile">
-        <div className="ltnd__img-gallery image-gallery-left-side-image-wrapper h-100 w-100">
-          <div
-            className="d-flex flex-row justify-content-center cursor-pointer more-than-three text-center"
-            onClick={() => _handleImageViewer(0)}
-          >
-            <h2 className="text-white text-center fw-normal m-0">
-              +{imagesList.length - 2}
-            </h2>
-          </div>
+      <div className="row ltn__custom-gutter h-100 image-grid-layout-mobile">
+        <div className="col-12 h-100">
+          <Image
+            img={imagesList[0]}
+            index={0}
+            _handleImageViewer={_handleImageViewer}
+          />
+          <a onClick={() => _handleImageViewer(0)}>Click here to view more</a>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
