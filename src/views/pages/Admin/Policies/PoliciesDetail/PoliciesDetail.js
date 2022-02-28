@@ -6,45 +6,53 @@ import {
     GetMake,
     GetProductNames,
     GetProductBeniftCov,
-    RegisterPolicies,
     GetMakeModel,
     GetSinglePolicy,
     DeletePolicies
 } from 'store/actions/policies'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { GetProducType } from 'store/actions/product'
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import Select from 'react-select'
+import { confirmAlert } from 'functions'
 import DatePicker from 'react-datepicker';
+import Select from 'react-select'
+import ReactSelect from 'react-select'
 import 'react-datepicker/dist/react-datepicker.css';
 function PoliciesDetail() {
 
-    let params = useParams().id;
+    // params hook 
+    let params = useParams();
+    let location = useLocation()
+    let path = location.pathname
+    const checkUrl = path.split('/')[2];
+    const Url = checkUrl === 'policy_detail'
+    const UrlVehical = checkUrl === 'create_vehical'
 
 
+
+    // state hook 
     const [show, setShow] = useState(false)
     const [pname, setPname] = useState(false)
 
+    // navigate hook
     const navigate = useNavigate()
 
     // dipatch hook
-
     const dispatch = useDispatch()
 
     // slector hook
-
-    const policy = useSelector(state => state.policyReducer.policy)
     const productTyps = useSelector(state => state.productReducer.product_Types)
     const policy_make = useSelector(state => state.policyReducer.make)
     const policy_model = useSelector(state => state.policyReducer.model)
     const product_names = useSelector(state => state.policyReducer.prouctNames)
     const { isSuccess } = useSelector(state => state.policyReducer)
+    const policy = useSelector(state => state.policyReducer.policy)
 
 
-
+    //    form validation schema 
     const formSchema = Yup.object().shape({
         CarNumber: Yup.string()
             .required('Car Number is required'),
@@ -58,19 +66,20 @@ function PoliciesDetail() {
             .required('Model is required'),
         PolicyNo: Yup.string()
             .required('Policy Number is required'),
-        AnnualPremium: Yup.string()
-            .required('Annual Premium is required'),
+        // AnnualPremium: Yup.string()
+        //     .required('Annual Premium is required'),
         DOB: Yup.string()
             .required('Date of birth  is required'),
         StartDate: Yup.string()
             .required('Start Date is required'),
         EndDate: Yup.string()
             .required('End Date is required'),
-        DrivingLicenseValidityExpiryDate: Yup.string()
+        DrivingLicenseValidity: Yup.string()
             .required('Driving License Date is required'),
         IdentityNo: Yup.string()
             .required('ID Number is required')
-            .max(12, 'Enter 12 digits '),
+            .max(12, 'Enter 12 digits ')
+            .min(12, "Please Enter 12 digit"),
         ProductId: Yup.string()
             .required('Product Name is required'),
         Address: Yup.string()
@@ -78,25 +87,27 @@ function PoliciesDetail() {
 
     });
 
-
+    // handele inputs 
     const changeValue = (e) => {
         e.persist();
-
+        // get product names base on policy Type
         if (e.target.name === "PolicyType") {
             dispatch(GetProductNames(e.target.value))
             setShow(true)
             setPname(false)
         }
+        // get product benifit base on product 
         else if (e.target.name === "ProductId") {
-            debugger
+            // debugger
             dispatch(GetProductBeniftCov(e.target.value))
             setPname(true)
         }
         else if (e.target.name === "MakeId") {
             dispatch(GetMakeModel(e.target.value))
         }
+        
 
-
+        // dispatch input name and value
         const { name, value } = e.target;
         dispatch(GetInputs(name, value))
 
@@ -108,8 +119,16 @@ function PoliciesDetail() {
         e.preventDefault();
     };
 
+
+    const handleSelect = (name , value ) => {
+        if(name === "MakeId"){
+            dispatch(GetMakeModel(value))
+        }
+         dispatch(GetInputs(name , value ))
+    }
+
+    // desture policy input and set value
     const {
-        TenantId,
         CarNumber,
         PolicyType,
         IdentityNo,
@@ -122,7 +141,7 @@ function PoliciesDetail() {
         StartDate,
         EndDate,
         Address,
-        DrivingLicenseValidityExpiryDate,
+        DrivingLicenseValidity,
         CoPayPercentage,
         Deductibles,
         IsAgencyRepair,
@@ -133,17 +152,16 @@ function PoliciesDetail() {
 
 
     useEffect(() => {
-
-        if (params) {
-            dispatch(GetSinglePolicy(params))
-            dispatch(GetProductNames(PolicyType))
-            dispatch(GetMakeModel(MakeId))
+        //   get single policy 
+        if (params.id) {
+            dispatch(GetSinglePolicy(params.id))
         }
+        //   get product type and make 
         dispatch(GetProducType())
         dispatch(GetMake());
     }, [])
 
-
+    //    useEffect hook naviagate after some action 
     useEffect(() => {
         if (isSuccess) {
             navigate('/admin/policies')
@@ -152,9 +170,14 @@ function PoliciesDetail() {
 
 
 
+    // react hook form initialization and set datepicker values 
+    const formOptions = { resolver: yupResolver(formSchema), mode: "all" }
+    const { register, handleSubmit, formState: { errors }, control, setValue } = useForm(formOptions);
+    setValue('DOB', params.id ? DOB : DOB);
+    setValue('StartDate', params.id ? StartDate : StartDate);
+    setValue('EndDate', params.id ? EndDate : EndDate);
+    setValue('DrivingLicenseValidity', params.id ? DrivingLicenseValidity : DrivingLicenseValidity);
 
-    const formOptions = { resolver: yupResolver(formSchema), mode: "onChange", }
-    const { register, handleSubmit, formState: { errors }, control } = useForm(formOptions);
 
     // // Send Form data 
 
@@ -168,21 +191,53 @@ function PoliciesDetail() {
     //     // dispatch(UpdateProduct(product))
     // }
 
+    // onsubmit form
     function onSubmit() {
-        return navigate(params ? `/admin/vehical_detail/${params}` : "/admin/create_vehical")
+        console.log("hellow onsubmit")
+        return navigate(params.id ? `/admin/vehical_detail/${params.id}` : "/admin/create_vehical")
 
 
     }
 
+    function moveNext() {
+        console.log("hellow next")
+
+        return navigate(Url ? `/admin/vehical_detail/${params.id}` : `/admin/vehical_detail_edit/${params.id}`)
+
+    }
+
+    const _deleteAction = ( ) =>{
+     
+    }
+
+
+    // delete policy
     const delPolicy = (id) => {
-        dispatch(DeletePolicies(id))
+        const dative = ()=>{
+            dispatch(DeletePolicies(id))
+        }
+        if (id) {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Deactivate it",
+                action: dative,
+            });
+        }
     }
 
-
+    // change formate after fetch data from database 
     const StartD = (new Date(StartDate));
     const EndD = (new Date(EndDate));
     const DateB = (new Date(DOB));
-    const DrivL = (new Date(DrivingLicenseValidityExpiryDate));
+    const DrivL = (new Date(DrivingLicenseValidity));
+
+
+    // Find make value and icon 
+
+    // let findMake = policy_make.find((m) => m.Id === MakeId)
+    let checkBenefit = Array.isArray(Benefit) && Benefit.length
+
 
     return (
         <React.Fragment>
@@ -238,7 +293,7 @@ function PoliciesDetail() {
                         <span className="sr-only">Loading...</span>
                     </div>
                     :
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={ path === "/admin/create_policy" ?  handleSubmit(onSubmit) :  moveNext}>
                         <div className="body-content-area-inner">
                             {/* BLOCK AREA START ( Policy Details section - 1 ) */}
 
@@ -253,81 +308,28 @@ function PoliciesDetail() {
                                             <div className="ltn__block-item-info ltnd__policies-details-info">
                                                 <div className="row">
                                                     <div className="col-lg-3 col-md-6">
-                                                        <div className="column-data">
-                                                            <div className="policies-details-single-info">
-                                                                <h6 className="ltnd__title-4">Policy number</h6>
-                                                                <input type="text" {...register('PolicyNo')} name="PolicyNo" value={PolicyNo} onChange={changeValue} placeholder='Policy number' />
-                                                                <ErrorMessage
-                                                                    errors={errors}
-                                                                    name="PolicyNo"
-                                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                                />
-                                                            </div>
-                                                            <div className="policies-details-single-info" >
-                                                                <h6 className="ltnd__title-4">Policy type</h6>
-                                                                <select className="form-control" name="PolicyType" {...register('PolicyType')} value={PolicyType} onChange={changeValue}>
-                                                                    <option value="">--- Please Select --- </option>
-                                                                    {productTyps.map((item, index) => {
-                                                                        return (
-                                                                            <option value={item.Id} key={index}>{item.ProductTypeName}</option>
-
-                                                                        )
-                                                                    })}
-                                                                </select>
-                                                                <ErrorMessage
-                                                                    errors={errors}
-                                                                    name="PolicyType"
-                                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                                />
-                                                            </div>
-
-                                                            <div className="policies-details-single">
-                                                                <h6 className="ltnd__title-4">Make</h6>
-                                                                <div className=''>
-                                                                    {/* <Select
-                                                                    style={{ width: '100%' }}
-                                                                    name="MakeId"
-                                                                    value={MakeId}
-                                                                    onChange={(value) => GetInputs("MakeId", value)}
-                                                                    options={policy_make.map((option => { return { label: <div><img src={`http://103.173.62.74:70${option.Image}`} height="30px" width="30px" />{option.MakeName} </div>, value: option.Id } }))}
-                                                                    closeMenuOnSelect={true}
-                                                                /> */}
-                                                                    <select className="form-control "
-                                                                        name="MakeId"
-                                                                        {...register('MakeId')}
-                                                                        value={MakeId}
-                                                                        onChange={changeValue}
-
-                                                                    >
-                                                                        <option value="">--- Please Select --- </option>
-                                                                        {policy_make.map((item, index) => {
-                                                                            console.log("Image", item.Image)
-                                                                            return (
-                                                                                <option value={item.Id} key={index} >
-                                                                                    {item.MakeName}
-                                                                                </option>
-                                                                            )
-                                                                        })}
-                                                                    </select>
-
-                                                                </div>
-                                                                <ErrorMessage
-                                                                    errors={errors}
-                                                                    name="MakeId"
-                                                                    render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                                />
-
-
-                                                            </div>
+                                                        <div className="policies-details-single-info">
+                                                            <h6 className="ltnd__title-4">Policy number</h6>
+                                                            <input disabled={Url ? true : false} type="text"
+                                                                autoComplete='off'
+                                                                {...register('PolicyNo')} name="PolicyNo" value={PolicyNo} onChange={changeValue} placeholder='Policy number' />
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="PolicyNo"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
                                                         </div>
-
-
-
                                                     </div>
-                                                    <div className="col-lg-3 col-md-6 ">
+                                                    <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Policy holder</h6>
-                                                            <input type="text" name="PolicyHolderName" {...register('PolicyHolderName')} value={PolicyHolderName} onChange={changeValue} placeholder='Policy holder' />
+                                                            <input disabled={Url ? true : false} type="text"
+                                                                autoComplete='off'
+                                                                name="PolicyHolderName"
+                                                                {...register('PolicyHolderName')}
+                                                                value={PolicyHolderName}
+                                                                onChange={changeValue}
+                                                                placeholder='Policy holder' />
                                                             <ErrorMessage
                                                                 errors={errors}
                                                                 name="PolicyHolderName"
@@ -338,10 +340,81 @@ function PoliciesDetail() {
 
 
 
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info">
+                                                            <h6 className="ltnd__title-4">Identification number</h6>
+                                                            <input disabled={Url ? true : false} type="number"
+                                                                min={0}
+                                                                {...register('IdentityNo')}
+                                                                onChange={changeValue}
+                                                                name="IdentityNo"
+                                                                value={IdentityNo}
+                                                                placeholder='ID Card' />
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="IdentityNo"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info ">
+                                                            <h6 className="ltnd__title-4">Date of birth</h6>
 
+                                                            {/* <input disabled={Url ? true : false} type="date" name="DOB" dateFormat="dd/MM/yyyy" value={DOB} onChange={changeValue} placeholder="dd-mm-yyyy"/> */}
+
+                                                            <Controller
+                                                                control={control}
+                                                                name='DOB'
+                                                                value={DOB}
+                                                                render={({ field }) => (
+                                                                    <DatePicker
+                                                                        readOnly={Url ? true : false}
+                                                                        placeholderText='DD-MM-YYYY'
+                                                                        dateFormat="dd/MM/yyyy"
+                                                                        onChangeRaw={handleDateChangeRaw}
+                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('DOB', date)) }}
+                                                                        selected={params.id ? DateB : DOB}
+                                                                    />
+                                                                )}
+                                                            />
+
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="DOB"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                {/* row end  */}
+
+                                                <div className="row">
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info" >
+                                                            <h6 className="ltnd__title-4">Policy type</h6>
+                                                            <select disabled={Url ? true : false} className="form-control" name="PolicyType" {...register('PolicyType')} value={PolicyType} onChange={changeValue}>
+                                                                <option value="">--- Please Select --- </option>
+                                                                {productTyps.map((item, index) => {
+                                                                    return (
+                                                                        <option value={item.Id} key={index}>{item.ProductTypeName}</option>
+
+                                                                    )
+                                                                })}
+                                                            </select>
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="PolicyType"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Product name</h6>
-                                                            <select className="form-control" {...register('ProductId')} name="ProductId" value={ProductId} onChange={changeValue}>
+                                                            <select disabled={Url ? true : false} className="form-control" {...register('ProductId')} name="ProductId" value={ProductId} onChange={changeValue}>
                                                                 <option value="">{product_names.length > 0 ? "--- Please Select ---" : "No Record"} </option>
                                                                 {product_names.map((item, index) => {
                                                                     return (
@@ -359,49 +432,8 @@ function PoliciesDetail() {
                                                             />
 
                                                         </div>
-
-                                                        <div className="policies-details-single">
-                                                            <h6 className="ltnd__title-4">Model</h6>
-
-                                                            <select className='form-control'
-                                                                value={ModelId}
-                                                                {...register('ModelId')}
-                                                                onChange={changeValue}
-                                                                name="ModelId" >
-                                                                <option value="">{policy_model.length > 0 ? "--- Please Select ---" : "No Record"} </option>
-                                                                {policy_model.map((item, index) => {
-                                                                    return (
-                                                                        <option value={item.Id} key={index}>
-
-                                                                            {item.ModelName}</option>
-
-                                                                    )
-                                                                })}
-                                                            </select>
-                                                            <ErrorMessage
-                                                                errors={errors}
-                                                                name="ModelId"
-                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                            />
-                                                        </div>
-
                                                     </div>
                                                     <div className="col-lg-3 col-md-6">
-
-                                                        <div className="policies-details-single-info">
-                                                            <h6 className="ltnd__title-4">Identification number</h6>
-                                                            <input type="number"
-                                                                min="0"
-                                                                {...register('IdentityNo')}
-                                                                onChange={changeValue}
-                                                                name="IdentityNo"
-                                                                value={IdentityNo} placeholder='ID Card' />
-                                                            <ErrorMessage
-                                                                errors={errors}
-                                                                name="IdentityNo"
-                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                            />
-                                                        </div>
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Start date</h6>
                                                             <Controller
@@ -409,11 +441,12 @@ function PoliciesDetail() {
                                                                 name='StartDate'
                                                                 render={({ field }) => (
                                                                     <DatePicker
+                                                                        readOnly={Url ? true : false}
                                                                         placeholderText='DD-MM-YYYY'
                                                                         dateFormat="dd/MM/yyyy"
                                                                         onChangeRaw={handleDateChangeRaw}
                                                                         onChange={(date) => { return field.onChange(date), dispatch(GetInputs('StartDate', date)) }}
-                                                                        selected={params ? StartD : StartDate}
+                                                                        selected={params.id ? StartD : StartDate}
 
                                                                     />
                                                                 )}
@@ -424,8 +457,133 @@ function PoliciesDetail() {
                                                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                             />
                                                         </div>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info"  >
+                                                            <h6 className="ltnd__title-4">End date</h6>
+
+                                                            <Controller
+                                                                control={control}
+                                                                name='EndDate'
+                                                                render={({ field }) => (
+                                                                    <DatePicker
+                                                                        readOnly={Url ? true : false}
+                                                                        placeholderText='DD-MM-YYYY'
+                                                                        dateFormat="dd/MM/yyyy"
+                                                                        onChangeRaw={handleDateChangeRaw}
+                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('EndDate', date)) }}
+                                                                        selected={params.id ? EndD : EndDate}
+                                                                    />
+                                                                )}
+                                                            />
+
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="EndDate"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+
+                                                        </div>
 
 
+                                                    </div>
+                                                </div>
+                                                {/* row end  */}
+                                                <div className="row">
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info">
+                                                            <h6 className="ltnd__title-4">Make</h6>
+                                                            <div className=''>
+                                                                {/* <Controller
+                                                                    control={control}
+                                                                    name="MakeId"
+                                                                    render={({ field }) => (
+                                                                        <ReactSelect
+                                                                            {...field}
+                                                                            isSearchable={false}
+                                                                            isDisabled={Url ? true : false}
+                                                                            value={policy_make.filter((i) => i.Id == MakeId).map((p) => ({ label: <div><img src={`http://103.173.62.74:70${p.Image}`} height="30px" width="30px" />{p.MakeName} </div>, value: p.Id }))}
+                                                                            onChange={(value) => dispatch(GetInputs('MakeId', value.value))}
+                                                                            options={policy_make.map((option => { return { label: <div><img src={`http://103.173.62.74:70${option.Image}`} height="30px" width="30px" />{option.MakeName} </div>, value: option.Id } }))}
+
+                                                                        />
+                                                                    )}
+                                                                /> */}
+
+                                                                {/* <Controller
+                                                                    name="MakeId"
+                                                                    control={control}
+                                                                    render={({ field }) => (
+                                                                        <Select
+                                                                            // defaultValue={options[0]}
+                                                                            {...field}
+                                                                            isSearchable={false}
+                                                                            className="react-dropdown"
+                                                                            classNamePrefix="dropdown"
+                                                                            value={policy_make.filter((i) => i.Id == MakeId).map((p) => ({ label: <div><img src={`http://103.173.62.74:70${p.Image}`} height="30px" width="30px" />{p.MakeName} </div>, value: p.Id }))}
+                                                                            onChange={(value) => handleSelect('MakeId', value.value)}
+                                                                            options={policy_make.map((option => { return { label: <div><img src={`http://103.173.62.74:70${option.Image}`} height="30px" width="30px" />{option.MakeName} </div>, value: option.Id } }))}
+
+                                                                        />
+                                                                    )}
+                                                                /> */}
+
+
+
+                                                                <select disabled={Url ? true : false } className="form-control "
+                                                                    name="MakeId"
+                                                                    {...register('MakeId')}
+                                                                    value={MakeId}
+                                                                    onChange={changeValue}
+
+                                                                >
+                                                                    <option value="">--- Please Select --- </option>
+                                                                    {policy_make.map((item, index) => {
+                                                                        return (
+                                                                            <option value={item.Id} key={index} dataImage="https://source.unsplash.com/50x50/?mazda" >
+
+                                                                                {item.MakeName}
+                                                                            </option>
+                                                                        )
+                                                                    })}
+                                                                </select>
+
+                                                            </div>
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="MakeId"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
+                                                        <div className="policies-details-single-info">
+                                                            <h6 className="ltnd__title-4">Model</h6>
+
+                                                            <select disabled={Url ? true : false} className='form-control'
+                                                                value={ModelId}
+                                                                {...register('ModelId')}
+                                                                onChange={changeValue}
+                                                                name="ModelId" >
+                                                                <option value="">{policy_model.length > 0 ? "--- Please Select ---" : "No Record"} </option>
+                                                                {policy_model.map((item, index) => {
+                                                                    return (
+                                                                        <option value={item.Id} key={index}>
+
+                                                                            {item.ModelName}</option>
+                                                                    )
+                                                                })}
+                                                            </select>
+                                                            <ErrorMessage
+                                                                errors={errors}
+                                                                name="ModelId"
+                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info">
                                                             <h6 className="ltnd__title-4">Car number</h6>
                                                             <input
@@ -445,65 +603,6 @@ function PoliciesDetail() {
 
                                                     </div>
                                                     <div className="col-lg-3 col-md-6">
-
-                                                        <div className="policies-details-single-info ">
-                                                            <h6 className="ltnd__title-4">Date of birth</h6>
-                                                            {/* <input
-                                                        type="date"
-                                                        name="DOB"
-                                                        value={DOB}
-                                                        {...register('DOB')}
-                                                        onChange={changeValue} className='form-control'
-                                                    /> */}
-
-                                                            <Controller
-                                                                control={control}
-                                                                name='DOB'
-                                                                render={({ field }) => (
-                                                                    <DatePicker
-                                                                        placeholderText='DD-MM-YYYY'
-                                                                        dateFormat="dd/MM/yyyy"
-                                                                        onChangeRaw={handleDateChangeRaw}
-                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('DOB', date)) }}
-                                                                        selected={params ? DateB : DOB}
-                                                                    />
-                                                                )}
-                                                            />
-
-
-
-                                                            <ErrorMessage
-                                                                errors={errors}
-                                                                name="DOB"
-                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                            />
-                                                        </div>
-
-                                                        <div className="policies-details-single-info"  >
-                                                            <h6 className="ltnd__title-4">End date</h6>
-
-                                                            <Controller
-                                                                control={control}
-                                                                name='EndDate'
-                                                                render={({ field }) => (
-                                                                    <DatePicker
-                                                                        placeholderText='DD-MM-YYYY'
-                                                                        dateFormat="dd/MM/yyyy"
-                                                                        onChangeRaw={handleDateChangeRaw}
-                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('EndDate', date)) }}
-                                                                        selected={params ? EndD : EndDate}
-                                                                    />
-                                                                )}
-                                                            />
-
-                                                            <ErrorMessage
-                                                                errors={errors}
-                                                                name="EndDate"
-                                                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                            />
-
-                                                        </div>
-
                                                         <div className="policies-details-single-info" >
                                                             <h6 className="ltnd__title-4">
                                                                 Driving license validity
@@ -514,29 +613,33 @@ function PoliciesDetail() {
                                                                 name='DrivingLicenseValidityExpiryDate'
                                                                 render={({ field }) => (
                                                                     <DatePicker
+                                                                        readOnly={Url ? true : false}
                                                                         placeholderText='DD-MM-YYYY'
                                                                         dateFormat="dd/MM/yyyy"
                                                                         onChangeRaw={handleDateChangeRaw}
-                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('DrivingLicenseValidityExpiryDate', date)) }}
-                                                                        selected={params ? DrivL : DrivingLicenseValidityExpiryDate}
+                                                                        onChange={(date) => { return field.onChange(date), dispatch(GetInputs('DrivingLicenseValidity', date)) }}
+                                                                        selected={params.id ? DrivL : DrivingLicenseValidity}
                                                                     />
                                                                 )}
                                                             />
 
                                                             <ErrorMessage
                                                                 errors={errors}
-                                                                name="DrivingLicenseValidityExpiryDate"
+                                                                name="DrivingLicenseValidity"
                                                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                             />
                                                         </div>
 
                                                     </div>
-                                                    <div className='col-lg-3'>
+                                                </div>
+                                                {/* row end  */}
+                                                <div className="row">
+                                                    {/* <div className="col-lg-3 col-md-6">
                                                         <div className="policies-details-single-info ">
                                                             <h6 className="ltnd__title-4">Annual Premium</h6>
                                                             <p>
                                                                 <strong>
-                                                                    <input type="text" name="AnnualPremium" value={AnnualPremium} {...register('AnnualPremium')} onChange={changeValue} placeholder='Annual Premium' />
+                                                                    <input disabled={Url ? true : false} type="text" name="AnnualPremium" value={AnnualPremium} {...register('AnnualPremium')} onChange={changeValue} placeholder='Annual Premium' />
                                                                     <ErrorMessage
                                                                         errors={errors}
                                                                         name="AnnualPremium"
@@ -545,14 +648,13 @@ function PoliciesDetail() {
                                                                 </strong>
                                                             </p>
                                                         </div>
-                                                    </div>
-
-                                                    <div className='col-lg-9'>
+                                                    </div> */}
+                                                    <div className="col-md-12">
                                                         <div className="policies-details-single-info ">
                                                             <h6 className="ltnd__title-4">Address</h6>
                                                             <p>
                                                                 <strong>
-                                                                    <input type="text" name="Address" value={Address} {...register('Address')} onChange={changeValue} placeholder='Address' />
+                                                                    <input disabled={Url ? true : false} type="text" name="Address" value={Address} {...register('Address')} onChange={changeValue} placeholder='Address' />
                                                                     <ErrorMessage
                                                                         errors={errors}
                                                                         name="Address"
@@ -562,21 +664,22 @@ function PoliciesDetail() {
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    {/* <div className="col-lg-12 mt-5">
-                                                <div className="btn-wrapper btn-normal mt-0 mt--30">
-                                                    <Link
-                                                        to={params ? `/admin/vehical_detail/${params}` : "/admin/create_vehical"}
-                                                        className="btn btn-2 btn-transparent btn-round-12 btn-border"
-                                                    >
-                                                        Vehicle details
-                                                    </Link>
-                                                    <span className="ltnd__title-4">( Please enter vehical detail before saving )</span>
-                                                </div>
 
-
-                                            </div> */}
                                                 </div>
-                                                {/*  */}
+                                                {/* row end  */}
+                                                <div className='row'>
+                                                    <div className='col-md-12'>
+                                                        <div className="btn-wrapper btn-normal mt-20">
+                                                            <Link
+                                                                to={params ? `/admin/vehical_detail/${params}` : "/admin/create_vehical"}
+                                                                className="btn btn-2 btn-transparent btn-round-12 btn-border"
+                                                            >
+                                                                Vehicle details
+                                                            </Link>
+                                                            <span className="ltnd__title-4">( Please enter vehical detail before saving )</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -603,6 +706,7 @@ function PoliciesDetail() {
                                                                     <h6 className="ltnd__title-3">Copay</h6>
                                                                     <input
                                                                         type="number"
+                                                                        disabled={Url ? true : false}
                                                                         min={0}
                                                                         name="CoPayPercentage"
                                                                         value={CoPayPercentage}
@@ -623,7 +727,7 @@ function PoliciesDetail() {
                                                             <div className="col-md-4">
                                                                 <div className="input-item">
                                                                     <h6 className="ltnd__title-3">Deductibles</h6>
-                                                                    <input type="number"
+                                                                    <input disabled={Url ? true : false} type="number"
                                                                         min="0"
                                                                         value={Deductibles}
                                                                         {...register('Deductibles')}
@@ -642,7 +746,7 @@ function PoliciesDetail() {
                                                             <div className="col-md-4">
                                                                 <div className="input-item">
                                                                     <h6 className="ltnd__title-3">Gragage/ Agency repair</h6>
-                                                                    <select className="form-control mt-2"
+                                                                    <select disabled={Url ? true : false} className="form-control mt-2"
                                                                         value={IsAgencyRepair}
                                                                         name="IsAgencyRepair"
                                                                         {...register('IsAgencyRepair')}
@@ -675,7 +779,7 @@ function PoliciesDetail() {
                                     <div className="ltnd__block-area pb-60 mt-40">
                                         <div className="row">
                                             <div className="col-lg-12">
-                                                <h4>{Benefit?.map((i) => i != null ? "Benefits" : null)} </h4>
+                                                <h4>{Benefit ? "Benefits" : ""} </h4>
 
                                                 <div className="benifits-list">
 
@@ -715,10 +819,10 @@ function PoliciesDetail() {
                                         <div className="ltnd__footer-1-inner bg-white">
 
                                             <div className="ltnd__left btn-normal" >
-                                                {params &&
+                                                {params.id &&
                                                     <span
                                                         style={{ fontWeight: '600', cursor: 'pointer' }}
-                                                        onClick={() => delPolicy(params)}
+                                                        onClick={() => delPolicy(params.id)}
                                                     >
                                                         <i className="ti-trash" /> Delete
                                                     </span>

@@ -17640,7 +17640,13 @@ form .ltnd__title-3 {
 
   position: fixed;
   bottom: 0;
+<<<<<<< Updated upstream
   width: 80%;
+=======
+  /* position: fixed;
+    bottom: 0;
+    width: 80%; */
+>>>>>>> Stashed changes
 }
 
 .ltnd__footer-btn-dropdown-menu {
@@ -17701,6 +17707,7 @@ form .ltnd__title-3 {
   font-weight: 600;
 }
 
+<<<<<<< Updated upstream
 
 .policies-details-single {
   /* margin-bottom: 30px; */
@@ -17711,6 +17718,11 @@ form .ltnd__title-3 {
 .policies-details-single-info strong {
   font-weight: 600;
 }
+=======
+  .policies-details-single-info h6,
+  .policies-details-single-info strong {
+    font-weight: 600; }
+>>>>>>> Stashed changes
 
 
 .ltn__divider-border-1 {
@@ -20105,7 +20117,12 @@ form .ltnd__title-3 {
   position: relative;
 }
 
-/* .imgContainer img{} */
+.imgContainer img{
+  width: 50%;
+  margin-left: 30px;
+  margin-right: 120px;
+  height: 80%;
+}
 
 @media screen and (max-width: 480px) {
   .containers {
