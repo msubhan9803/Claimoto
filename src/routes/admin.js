@@ -11,12 +11,8 @@ import ProductDetail from 'views/pages/Admin/Product/ProductDetail/ProductDetail
 import VehicalDetail from "views/pages/Admin/Vehicle/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import AddProvider from 'components/Admin/Providers/AddProvider'
-<<<<<<< Updated upstream
 import VehicleParts from 'views/pages/Admin/VehicleParts'
 import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
-=======
-import VehicalParts from 'views/pages/Admin/VehicalParts/VehicalParts'
->>>>>>> Stashed changes
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -156,7 +152,7 @@ export const adminRoutes = () => {
        {
            name:"",
            path:'/vehicle_parts_details',
-           component:<VehicalParts/>,
+           component:<VehicleParts/>,
            layout:'admin'
        }
     ];
