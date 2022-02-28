@@ -51,6 +51,8 @@ const providersScreenReducer = (state = initialState, action) => {
             return { ...state, selectedTab: action.payload }
         }
         break;
+
+        
         default:
             return { ...state };
     }

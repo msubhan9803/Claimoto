@@ -17594,9 +17594,11 @@ form .ltnd__title-3 {
 }
 
 .fixed-footer-1 {
-  position: -webkit-sticky;
-  position: sticky;
+  /* position: -webkit-sticky;
+  position: sticky; */
+  position: fixed;
   bottom: 0;
+  width: 80%;
 }
 
 .ltnd__footer-btn-dropdown-menu {
