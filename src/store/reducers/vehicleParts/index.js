@@ -8,6 +8,8 @@ import {
   CLEAR_VEHICLE_PART_VALUES_CHANGE,
   HANDLE_VEHICLE_PART_VALUES_CHANGE,
   ADD_VEHICLE_PART,
+  VEHICLE_PARTS_LIST_TABLE_FILTERING,
+  VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE,
 } from "../../types/vehicleParts.js";
 
 let vehiclePartListDummy = [
@@ -66,11 +68,12 @@ let vehiclePartListDummy = [
 
 const initialState = {
   vehiclePartList: vehiclePartListDummy,
-  vehiclePartListTableData: {
-    search_option: "",
+  filteredVehiclePartList: vehiclePartListDummy,
+  vehiclePartListTableFilterData: {
+    search_option: "partName",
     search_text: "",
     sort_type: "asc",
-    sort_name: "FirstName",
+    sort_name: "partName",
   },
   vehiclePartValues: {
     _id: "",
@@ -87,6 +90,40 @@ const initialState = {
   parts_per_page: 10,
   parts_page_index: 1,
   parts_count: 0,
+  search_options: [
+    {
+      label: "Part Name",
+      value: "partName",
+    },
+    {
+      label: "ID",
+      value: "id",
+    },
+    {
+      label: "Make",
+      value: "make",
+    },
+    {
+      label: "Model",
+      value: "model",
+    },
+    {
+      label: "Brand",
+      value: "brand",
+    },
+    {
+      label: "Year",
+      value: "year",
+    },
+    {
+      label: "OEM number",
+      value: "oemNumber",
+    },
+    {
+      label: "Artificial number",
+      value: "artificialNumber",
+    },
+  ],
 };
 
 const vehiclePartsReducer = (state = initialState, action) => {
@@ -101,6 +138,23 @@ const vehiclePartsReducer = (state = initialState, action) => {
       return {
         ...state,
         vehiclePartList: temp,
+      };
+    }
+
+    case VEHICLE_PARTS_LIST_TABLE_FILTERING: {
+      return {
+        ...state,
+        filteredVehiclePartList: action.payload,
+      };
+    }
+
+    case VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE: {
+      return {
+        ...state,
+        vehiclePartListTableFilterData: {
+          ...state.vehiclePartListTableFilterData,
+          [action.payload.name]: action.payload.value,
+        },
       };
     }
 
@@ -168,7 +222,7 @@ const upadateVehiclePart = (state, vehicleObj) => {
   let index = state.vehiclePartList.findIndex((v) => v._id === vehicleObj._id);
   let list = state.vehiclePartList;
   list[index] = vehicleObj;
-  console.log('list: ', list)
+  console.log("list: ", list);
 
   return list;
 };
