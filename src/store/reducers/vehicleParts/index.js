@@ -23,10 +23,10 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
+      "https://st.depositphotos.com/1637787/2927/i/950/depositphotos_29272913-stock-photo-brake-repair.jpg",
+      "https://st.depositphotos.com/1765561/1966/i/950/depositphotos_19668591-stock-photo-brake-disc.jpg"
     ],
   },
   {
@@ -41,9 +41,8 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg"
     ],
   },
   {
@@ -58,9 +57,9 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
+      "https://st.depositphotos.com/1637787/2927/i/950/depositphotos_29272913-stock-photo-brake-repair.jpg",
     ],
   },
 ];
@@ -157,7 +156,6 @@ const upadateVehiclePart = (state, vehicleObj) => {
   let index =  state.vehiclePartList.findIndex(v => v._id === vehicleObj._id);
   let list = state.vehiclePartList;
   list[index] = vehicleObj;
-  console.log('list: ', list)
 
   return list;
 };

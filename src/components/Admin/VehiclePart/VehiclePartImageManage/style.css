@@ -24,12 +24,16 @@
 .uploaded-image img {
   width: 100%;
 }
+.uploaded-image-font-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .uploaded-image i {
-  margin: auto;
+  /* margin: auto; */
   font-size: 1.25rem;
-  color: rgb(236, 114, 114);
   cursor: pointer;
-  padding: 2px;
+  padding: 6px;
 }
 
 @media screen and (max-width: 767px) {
@@ -56,8 +60,47 @@
 }
 
 .more-than-three {
-  background-color: #205BF5;
+  background-color: #205bf5;
   color: #fff;
   border-radius: 12px;
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.image-grid-image-element img {
+  border-radius: 12px;
+}
+
+.image-gallery-left-side-image-wrapper {
+  /* background: "url(${img})"; */
+  background-position: center;
+  background-size: cover;
+  padding: 20px;
+  position: relative;
+}
+.image-gallery-left-side-image-wrapper img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-grid-layout-mobile {
+  display: none;
+}
+.image-grid-layout-web {
+  display: block;
+}
+
+@media screen and (max-width: 425px) {
+  .image-grid-layout-mobile {
+    display: block;
+  }
+}
+@media screen and (max-width: 425px) {
+  .image-grid-layout-web {
+    display: none;
+  }
 }
