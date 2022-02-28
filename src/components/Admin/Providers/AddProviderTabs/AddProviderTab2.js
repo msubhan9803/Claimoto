@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { handleInputValue2, saveService , editServiceIndex, removeService} from 'store/actions/provider';
 import Select from 'react-select';
 import { getServiceChilds } from 'store/actions/provider';
+import { getServices } from 'store/actions/provider';
 
 
 
@@ -56,6 +57,9 @@ const AddProviderTab2 = () => {
     }
 
     const _editService = (index) => {
+        let selected_service = selected_service_types[index];
+        dispatch(getServices());
+        dispatch(getServiceChilds(selected_service.service));
         reset();
         dispatch(editServiceIndex(index));
     }

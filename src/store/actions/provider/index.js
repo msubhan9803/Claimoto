@@ -1,6 +1,5 @@
 //ACTION TYPES
 import instance from 'config/axios/instance'
-import { successAlert } from 'functions'
 import {
     CHANGE_TAB,
     GET_COUNTRIES,
@@ -14,12 +13,19 @@ import {
     GET_SERVICES_CHILDS,
     SAVE_SERVICE,
     DELETE_SERVICE,
-    EDIT_SERVICE_INDEX
+    EDIT_SERVICE_INDEX,
+    SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN,
+    GET_CITIES,
+    GET_AREAS,
+    SAVE_LOCATION,
+    EDIT_LOCATION_INDEX,
+    DELETE_LOCATION,
+    CLEAR_ADD_PROVIDER_STATE
 } from '../../types/providers';
 
 
 
-
+//Getters
 export const getCountries = () => async dispatch => {
     let { data } = await instance.get(`api/Provider/Country`);
     dispatch({
@@ -47,7 +53,27 @@ export const getServiceChilds = (id) => async dispatch => {
     
 }
 
+export const getCities = (id) => async dispatch => {
+    let { data } = await instance.get(`api/Provider/City?CountryId=${id}`);
+    dispatch({
+        type: GET_CITIES,
+        payload: data
+    })
+    
+}
 
+export const getAreas = (id) => async dispatch => {
+    let { data } = await instance.get(`api/Provider/Area?CityId=${id}`);
+    dispatch({
+        type: GET_AREAS,
+        payload: data
+    })
+    
+}
+
+
+
+//Tab1
 export const handleInputValue = ({ name, value }) =>  dispatch =>  {
     dispatch({
         type: SET_INPUT_VALUES_PROVIDER_TAB1_SCREEN,
@@ -123,3 +149,44 @@ export const removeService = (index) => dispatch => {
     })
 }
 
+
+
+// Tab3
+
+export const handleInputValue3 = ({ name, value, comp }) =>  dispatch =>  {
+    dispatch({
+        type: SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN,
+        payload: {name, value, comp}
+    })
+}
+
+
+export const saveLocation = (loaction) => dispatch => {
+    dispatch({
+        type: SAVE_LOCATION,
+        payload: loaction
+    })
+}
+
+export const editLocationIndex = (index) =>  dispatch =>  {
+    dispatch({
+        type: EDIT_LOCATION_INDEX,
+        payload: index
+    })
+}
+
+
+export const removeLocation = (index) =>  dispatch =>  {
+    dispatch({
+        type: DELETE_LOCATION,
+        payload: index
+    })
+}
+
+
+
+export const clearAddProviderState = () => dispatch => {
+    dispatch({
+        type: CLEAR_ADD_PROVIDER_STATE,
+    })
+}

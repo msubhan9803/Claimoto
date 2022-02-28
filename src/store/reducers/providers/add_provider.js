@@ -10,8 +10,18 @@ import {
     GET_SERVICES_CHILDS,
     SAVE_SERVICE,
     DELETE_SERVICE,
-    EDIT_SERVICE_INDEX
+    EDIT_SERVICE_INDEX,
+    SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN,
+    GET_AREAS,
+    GET_CITIES,
+    SAVE_LOCATION,
+    EDIT_LOCATION_INDEX,
+    DELETE_LOCATION,
+    CLEAR_ADD_PROVIDER_STATE
 } from '../../types/providers';
+
+
+
 import AddProviderTab1 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab1';
 import AddProviderTab2 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab2';
 import AddProviderTab3 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab3';
@@ -67,10 +77,9 @@ const initialState = {
 
     tab3: {
         countries: [],
-        states: [],
+        cities: [],
         areas: [],
-        contacts: [],
-        contact_values: {
+        location_values: {
             country: "",
             city: "",
             area: "",
@@ -96,6 +105,11 @@ const initialState = {
 
 const addProviderScreenReducer = (state = initialState, action) => {
     switch (action.type) {
+
+
+        case CLEAR_ADD_PROVIDER_STATE:{
+            return {...initialState};
+        }
 
         case CHANGE_TAB: {
             return { ...state, selectedTab: action.payload }
@@ -256,7 +270,7 @@ const addProviderScreenReducer = (state = initialState, action) => {
                     selected_service_types: srvs,
                     services_values: initialState.tab2.services_values,
                     edit_index: null,
-                    add_service_modal:false
+                    add_service_modal: false
                 }
             }
         }
@@ -295,7 +309,7 @@ const addProviderScreenReducer = (state = initialState, action) => {
         }
 
 
-
+        //TAB 3
 
 
         case GET_COUNTRIES: {
@@ -311,9 +325,112 @@ const addProviderScreenReducer = (state = initialState, action) => {
         }
             break;
 
+        case GET_CITIES: {
+
+            return {
+                ...state,
+                tab3: {
+                    ...state.tab3,
+                    cities: action.payload
+
+                }
+            }
+        }
+            break;
 
 
+        case GET_AREAS: {
 
+            return {
+                ...state,
+                tab3: {
+                    ...state.tab3,
+                    areas: action.payload
+
+                }
+            }
+        }
+            break;
+
+
+        case SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN: {
+            const { name, value, comp } = action.payload;
+            if (comp === 0) {
+                return {
+                    ...state,
+                    tab3: {
+                        ...state.tab3,
+                        [name]: value
+                    }
+                }
+            }
+            else {
+                return {
+                    ...state,
+                    tab3: {
+                        ...state.tab3,
+                        location_values: {
+                            ...state.tab3.location_values,
+                            [name]: value
+                        }
+
+                    }
+                }
+            }
+        }
+            break;
+
+            case SAVE_LOCATION: {
+                const { edit_index } = action.payload;
+                let locs = state.tab3.selected_locations;
+                if (edit_index !== null) {
+                    locs[edit_index] = { ...action.payload };
+                } else {
+                    locs.push({ ...action.payload });
+                }
+                return {
+                    ...state,
+                    tab3: {
+                        ...state.tab2,
+                        selected_locations: locs,
+                        location_values: initialState.tab3.location_values,
+                        edit_index: null,
+                        add_location_modal: false
+                    }
+                }
+            }
+                break;
+            
+                case EDIT_LOCATION_INDEX: {
+                    let provider_index = action.payload;
+                    let loc = state.tab3.selected_locations[provider_index];
+                    return {
+                        ...state,
+                        tab3: {
+                            ...state.tab3,
+                            location_values: {
+                                ...state.tab3.location_values,
+                                ...loc
+                            },
+                            edit_index: action.payload,
+                            add_location_modal: true
+        
+                        }
+                    }
+                }
+                break;
+                case DELETE_LOCATION: {
+                    let locs = state.tab3.selected_locations;
+                    locs.splice(action.payload, 1);
+                    return {
+                        ...state,
+                        tab1: {
+                            ...state.tab3,
+                            selected_locations: locs
+                        }
+                    }
+                }
+        
 
 
         default:
