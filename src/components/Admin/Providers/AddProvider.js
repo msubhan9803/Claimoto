@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams } from 'react-router-dom';
+import { getServices, getCountries } from 'store/actions/provider';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
+    const dispatch = useDispatch();
     const { addTabs } = useSelector(state => state.addProviderScreenReducer);
 
 
@@ -39,6 +40,17 @@ const AddProvider = () => {
         searchParams.set("tab", nextTab);
         setSearchParams(searchParams);
     }
+
+
+
+
+
+
+    useEffect(() => {
+        dispatch(getServices());
+        dispatch(getCountries());
+        
+    }, []);
 
 
 
