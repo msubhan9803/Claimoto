@@ -8,6 +8,8 @@ import {
   CLEAR_VEHICLE_PART_VALUES_CHANGE,
   HANDLE_VEHICLE_PART_VALUES_CHANGE,
   ADD_VEHICLE_PART,
+  VEHICLE_PARTS_LIST_TABLE_FILTERING,
+  VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE,
 } from "../../types/vehicleParts.js";
 
 let vehiclePartListDummy = [
@@ -26,7 +28,7 @@ let vehiclePartListDummy = [
       "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
       "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
       "https://st.depositphotos.com/1637787/2927/i/950/depositphotos_29272913-stock-photo-brake-repair.jpg",
-      "https://st.depositphotos.com/1765561/1966/i/950/depositphotos_19668591-stock-photo-brake-disc.jpg"
+      "https://st.depositphotos.com/1765561/1966/i/950/depositphotos_19668591-stock-photo-brake-disc.jpg",
     ],
   },
   {
@@ -42,7 +44,7 @@ let vehiclePartListDummy = [
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
       "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
-      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg"
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
     ],
   },
   {
@@ -57,15 +59,22 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
-      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
-      "https://st.depositphotos.com/1637787/2927/i/950/depositphotos_29272913-stock-photo-brake-repair.jpg",
+      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
     ],
   },
 ];
 
 const initialState = {
   vehiclePartList: vehiclePartListDummy,
+  filteredVehiclePartList: vehiclePartListDummy,
+  vehiclePartListTableFilterData: {
+    search_option: "partName",
+    search_text: "",
+    sort_type: "asc",
+    sort_name: "partName",
+  },
   vehiclePartValues: {
     _id: "",
     partName: "",
@@ -78,6 +87,43 @@ const initialState = {
     description: "",
     imagesArray: [],
   },
+  parts_per_page: 10,
+  parts_page_index: 1,
+  parts_count: 0,
+  search_options: [
+    {
+      label: "Part Name",
+      value: "partName",
+    },
+    {
+      label: "ID",
+      value: "id",
+    },
+    {
+      label: "Make",
+      value: "make",
+    },
+    {
+      label: "Model",
+      value: "model",
+    },
+    {
+      label: "Brand",
+      value: "brand",
+    },
+    {
+      label: "Year",
+      value: "year",
+    },
+    {
+      label: "OEM number",
+      value: "oemNumber",
+    },
+    {
+      label: "Artificial number",
+      value: "artificialNumber",
+    },
+  ],
 };
 
 const vehiclePartsReducer = (state = initialState, action) => {
@@ -95,8 +141,28 @@ const vehiclePartsReducer = (state = initialState, action) => {
       };
     }
 
+    case VEHICLE_PARTS_LIST_TABLE_FILTERING: {
+      return {
+        ...state,
+        filteredVehiclePartList: action.payload,
+      };
+    }
+
+    case VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE: {
+      return {
+        ...state,
+        vehiclePartListTableFilterData: {
+          ...state.vehiclePartListTableFilterData,
+          [action.payload.name]: action.payload.value,
+        },
+      };
+    }
+
     case LOAD_VEHICLE_PART: {
-      return { ...state, vehiclePartValues: getVehiclePartById(state, action.payload) };
+      return {
+        ...state,
+        vehiclePartValues: getVehiclePartById(state, action.payload),
+      };
     }
 
     case UPDATE_VEHICLE_PART: {
@@ -153,9 +219,10 @@ const getVehiclePartById = (state, vehicleId) => {
 };
 
 const upadateVehiclePart = (state, vehicleObj) => {
-  let index =  state.vehiclePartList.findIndex(v => v._id === vehicleObj._id);
+  let index = state.vehiclePartList.findIndex((v) => v._id === vehicleObj._id);
   let list = state.vehiclePartList;
   list[index] = vehicleObj;
+  console.log("list: ", list);
 
   return list;
 };

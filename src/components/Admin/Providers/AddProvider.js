@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
@@ -107,7 +108,7 @@ const AddProvider = () => {
     }
 
     const _movePrev = () => {
-        let nextTab = parseInt(searchParams.get("tab")) - 1;
+        let nextTab = parseInt(searchParams.get("tab"))-1;
         searchParams.set("tab", nextTab);
         setSearchParams(searchParams);
     }
