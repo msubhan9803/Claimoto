@@ -96,8 +96,8 @@ const AddProviderTab2 = () => {
                             <h1 className="section-title">{capitalizeFirstLetter(type)} Services</h1>
                         </div>
                         <div className="ltnd__adding-method">
-                            <div onClick={_importServiceTypes} role="button" className="adding-method-title">
-                                <p><strong>Import </strong></p>
+                            <div onClick={_importServiceTypes} disabled role="button" className="adding-method-title">
+                                <p><strong> </strong></p>
                             </div>
                             <div role="button" onClick={()=>_addServiceModal(true)} className="adding-method-icon">
                                 <i className="ti-plus"></i>
@@ -154,7 +154,7 @@ const AddProviderTab2 = () => {
                         }
 
 
-                        {selected_service_types.length > 0 &&
+                        {selected_service_types?.length > 0 &&
                             <div class="list-group mt-3">
                                 <a href="#" class="list-group-item list-group-item-action active disabled">
                                     Services</a>
@@ -165,7 +165,7 @@ const AddProviderTab2 = () => {
                                             <span onClick={() => _deleteService(index)} role="button" className='text-danger'>x</span>
                                         </div>
 
-                                    </div>))}
+                                    </div>)) || []}
                             </div>
                         }
 

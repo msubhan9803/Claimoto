@@ -16,7 +16,7 @@ import { editContactIndex } from 'store/actions/provider';
 
 const AddProviderTab1 = () => {
     const { tab1 } = useSelector(state => state.addProviderScreenReducer);
-    const { logo, full_name, email, phone, contacts, add_contact_modal, edit_index } = tab1;
+    const { logo, name, full_name, email, phone, contacts, add_contact_modal, edit_index } = tab1;
     const imageRef = createRef();
     const { type } = useParams();
     const dispatch = useDispatch();
@@ -113,7 +113,7 @@ const AddProviderTab1 = () => {
 
 
 
-                        <input type="text" onChange={_handleChange} name="name" placeholder={"Name"} />
+                        <input type="text" onChange={_handleChange} name="name" value={name} placeholder={"Name"} />
                         <div className="ltnd__adding-method">
                             <div className="adding-method-title">
                                 <p><strong>Point of contact </strong></p>
@@ -169,7 +169,7 @@ const AddProviderTab1 = () => {
 
                             </form>
                         }
-                        {contacts.length > 0 &&
+                        {contacts?.length > 0 &&
                             <div class="list-group mt-3">
                                 <a href="#" class="list-group-item list-group-item-action active disabled">
                                     Contacts</a>
@@ -180,7 +180,7 @@ const AddProviderTab1 = () => {
                                             <span onClick={() => _deleteContact(index)} role="button" className='text-danger'>x</span>
                                         </div>
 
-                                    </div>))}
+                                    </div>)) || []}
                             </div>
                         }
 

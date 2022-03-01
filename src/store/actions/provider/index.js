@@ -37,6 +37,10 @@ import {
 
 
 
+    //Save Provider Details
+    SET_PROVIDER_DETAILS,
+    SET_PROVIDER_DETAILS_REQUEST,
+
     //Save Provider
     SAVE_PROVIDER_REQUEST,
     SAVE_PROVIDER
@@ -367,4 +371,20 @@ export const clearAddProviderState = () => dispatch => {
     dispatch({
         type: CLEAR_ADD_PROVIDER_STATE,
     })
+}
+
+
+export const setProviderDetails = (id) => async dispatch => {
+    try {
+        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: {user_loading:true}});
+        
+        let { data } = await instance.get(`/api/Provider/ProviderByID?Id=${id}`);
+        dispatch({
+            type: SET_PROVIDER_DETAILS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: {user_loading:false}});
+        console.log(error);
+    }
 }

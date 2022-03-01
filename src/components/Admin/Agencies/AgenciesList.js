@@ -55,7 +55,7 @@ const AgenciesList = () => {
                                             <li className="table-data-6">{record.StreetAddress}</li>
                                             <li className="table-data-7">
                                                     <strong>
-                                                        <Link to={`/admin/edit_provider/agency?tab=0&id=${record.Id}`} >Edit</Link>
+                                                        <Link to={`/admin/edit_provider/agency/${record.Id}?tab=0`} >Edit</Link>
                                                     </strong>
                                             </li>
                                             {/* <li className="table-data-8">

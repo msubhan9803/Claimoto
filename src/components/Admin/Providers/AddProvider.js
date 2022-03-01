@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import { useDispatch ,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
-import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
+import { getServices, getCountries, clearAddProviderState, setProviderDetails } from 'store/actions/provider';
 import { msgAlert } from 'functions';
 import { successAlert } from 'functions';
 import { addProvider } from 'store/actions/provider';
+import Loader from 'components/Loader/Loader';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
-    const { type } = useParams();
+    const { type, id } = useParams();
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const { addTabs, tab1, tab2, tab3, success, loading,  } = useSelector(state => state.addProviderScreenReducer);
+    const { addTabs, tab1, tab2, tab3, success, loading, user_loading } = useSelector(state => state.addProviderScreenReducer);
     const { name, contacts, logo } = tab1;
     const { selected_service_types } = tab2;
     const { selected_locations } = tab3;
@@ -30,6 +31,11 @@ const AddProvider = () => {
             searchParams.set("tab", 0);
             setSearchParams(searchParams);
         }
+    }
+
+
+    const _setProviderDetails = (id) => {
+        dispatch(setProviderDetails(id));
     }
 
 
@@ -101,7 +107,7 @@ const AddProvider = () => {
 
             }
             dispatch(addProvider(action_payload));
-            
+
 
         }
     }
@@ -119,7 +125,7 @@ const AddProvider = () => {
 
 
     useEffect(() => {
-        if(success && !loading){
+        if (success && !loading) {
             return navigate("/admin/provider");
         }
     }, [success]);
@@ -128,8 +134,16 @@ const AddProvider = () => {
     useEffect(() => {
         dispatch(getServices());
         dispatch(getCountries());
-        dispatch(clearAddProviderState())
+        // dispatch(clearAddProviderState());
     }, []);
+
+
+
+    useEffect(() => {
+        if (id) {
+            _setProviderDetails(id);
+        }
+    }, [id]);
 
 
 
@@ -141,52 +155,57 @@ const AddProvider = () => {
 
     return (
         <React.Fragment>
-            <div className="body-content-area ltnd__no-sidebar-menu body-100vh ltn__body-height-800 body-bg-1--- pb-80---">
+            {user_loading ?
+                <Loader />
 
-                <div className="ltnd__block-area pt-40 pb-80">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-6  offset-md-1">
+                :
+                <div className="body-content-area ltnd__no-sidebar-menu body-100vh ltn__body-height-800 body-bg-1--- pb-80---">
 
-                                <div className="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2 ltn__tab-active-hold-inner">
-                                    <TabsHeader tabs={addTabs} />
-                                    <TabContent>
-                                        {addTabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
-                                    </TabContent>
+                    <div className="ltnd__block-area pt-40 pb-80">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-4 col-md-6  offset-md-1">
+
+                                    <div className="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2 ltn__tab-active-hold-inner">
+                                        <TabsHeader tabs={addTabs} />
+                                        <TabContent>
+                                            {addTabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                        </TabContent>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div className="ltnd__right-full-height d-none d-md-block">
+                            <img src={Side_Image} alt="#" />
+                        </div>
                     </div>
 
-                    <div className="ltnd__right-full-height d-none d-md-block">
-                        <img src={Side_Image} alt="#" />
-                    </div>
-                </div>
-
-                <footer className="ltnd__footer-1 fixed-footer-1  bg-white" >
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="ltnd__footer-1-inner">
-                                    <div className="ltnd__left btn-normal">
-                                        <a href="#"><i className="ti-trash"></i> Delete</a>
-                                    </div>
-                                    <div className="ltnd__right btn-normal">
-                                        <div className="btn-wrapper">
-                                            <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
-                                            {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
-                                            {searchParams.get("tab") > 0 &&
-                                                <a role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</a>}
-                                            <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</a>
+                    <footer className="ltnd__footer-1 fixed-footer-1  bg-white" >
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="ltnd__footer-1-inner">
+                                        <div className="ltnd__left btn-normal">
+                                            <a href="#"><i className="ti-trash"></i> Delete</a>
+                                        </div>
+                                        <div className="ltnd__right btn-normal">
+                                            <div className="btn-wrapper">
+                                                <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
+                                                {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
+                                                {searchParams.get("tab") > 0 &&
+                                                    <a role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</a>}
+                                                <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
+                    </footer>
 
-            </div>
+                </div>
+            }
         </React.Fragment>
     )
 }

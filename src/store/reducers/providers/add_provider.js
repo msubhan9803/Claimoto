@@ -22,6 +22,11 @@ import {
     //Save Provider
     SAVE_PROVIDER_REQUEST,
     SAVE_PROVIDER,
+
+    //SET_PROVIDER_DETAILS
+    SET_PROVIDER_DETAILS_REQUEST,
+    SET_PROVIDER_DETAILS
+
 } from '../../types/providers';
 
 
@@ -100,7 +105,10 @@ const initialState = {
 
     success: false,
     loading: false,
-    user_loading:false,
+    user_loading: false,
+
+
+    edit_index: null
 
 
 };
@@ -183,14 +191,11 @@ const addProviderScreenReducer = (state = initialState, action) => {
         case EDIT_CONTACT_INDEX: {
             let provider_index = action.payload;
             let contact = state.tab1.contacts[provider_index];
-            let { full_name, email, phone } = contact;
             return {
                 ...state,
                 tab1: {
                     ...state.tab1,
-                    full_name,
-                    email,
-                    phone,
+                    ...contact,
                     edit_index: action.payload,
                     add_contact_modal: true
 
@@ -294,15 +299,13 @@ const addProviderScreenReducer = (state = initialState, action) => {
         case EDIT_SERVICE_INDEX: {
             let provider_index = action.payload;
             let srvs = state.tab2.selected_service_types[provider_index];
-            let { service_type, service } = srvs;
             return {
                 ...state,
                 tab2: {
                     ...state.tab2,
                     services_values: {
                         ...state.tab2.services_values,
-                        service_type,
-                        service
+                        ...srvs
                     },
                     edit_index: action.payload,
                     add_service_modal: true
@@ -433,26 +436,92 @@ const addProviderScreenReducer = (state = initialState, action) => {
                 }
             }
         }
-        break;
+            break;
 
-        case SAVE_PROVIDER_REQUEST : {
+        case SAVE_PROVIDER_REQUEST: {
             return {
                 ...state,
                 ...action.payload
             }
         }
 
-        case SAVE_PROVIDER : {
+        case SAVE_PROVIDER: {
             return {
                 ...state,
                 ...action.payload
             }
         }
 
+        case SET_PROVIDER_DETAILS_REQUEST: {
+            return {
+                ...state,
+                ...action.payload,
+                edit_index: null
 
+            }
+        }
+
+        case SET_PROVIDER_DETAILS: {
+            let { Image, Name, ProviderContacts, ProviderLocations, ProviderServices, Id } = action.payload;
+            let contacts = ProviderContacts.map((contact) => {
+                return {
+                    Id: contact.Id,
+                    full_name: contact.FullName,
+                    phone: contact.PhoneNumber,
+                    email: contact.Email
+                }
+            });
+
+            let selected_service_types = ProviderServices.map((service) => {
+                return {
+                    Id: service.Id,
+                    service: service.ProviderServiceId,
+                    service_type: service.ProviderServiceId,
+                    service_name: service.Service
+                }
+            });
+
+            let selected_locations = ProviderLocations.map((loc) => {
+                return {
+                    name:loc.BranchName,
+                    Id: loc.Id,
+                    country: loc.CountryId,
+                    city: loc.CityId,
+                    area: loc.AreaId,
+                    lat: loc.latitude,
+                    long:  loc.longitude,
+                    url: loc.Url,
+                    street_address: loc.StreetAddress
+                }
+            })
+
+            return {
+                ...state,
+                user_loading: false,
+                tab1: {
+                    ...state.tab1,
+                    name: Name,
+                    logo: Image,
+                    contacts
+                },
+                tab2: {
+                    ...state.tab2,
+                    selected_service_types
+
+                },
+                tab3: {
+                    ...state.tab3,
+                    selected_locations
+                },
+                edit_index: Id
+            }
+        }
 
         default:
-            return { ...state };
+            return {
+                ...state,
+                user_loading: false
+            };
     }
 }
 

@@ -8,6 +8,7 @@ import {
     GET_REQUEST,
 
 
+
 } from '../../types/providers';
 
 
@@ -161,6 +162,7 @@ const providersScreenReducer = (state = initialState, action) => {
         }
             break;
 
+        
 
         default:
             return { ...state };

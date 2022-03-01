@@ -263,7 +263,7 @@ const AddProviderTab3 = () => {
                             </form>}
 
 
-                        {selected_locations.length > 0 &&
+                        {selected_locations?.length > 0 &&
                             <div class="list-group mt-3">
                                 <a href="#" class="list-group-item list-group-item-action active disabled">
                                     Locations</a>

@@ -56,7 +56,7 @@ const SurveyorList = () => {
                                             </li>
                                             <li className="table-data-7">
                                                 <strong>
-                                                    <Link to={`/admin/edit_provider/surveyor?tab=0&id=${record.Id}`} >Edit</Link>
+                                                    <Link to={`/admin/edit_provider/surveyor/${record.Id}?tab=0`} >Edit</Link>
                                                 </strong>
                                             </li>
                                             {/* <li className="table-data-8">
