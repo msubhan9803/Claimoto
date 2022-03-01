@@ -102,7 +102,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
 
         dispatch({ type: SAVE_PROVIDER_REQUEST, payload: {success:false, error:false, loading: true} });
         let { data } = await instance.post(`api/Provider`, payload);
-        successAlert(data || "Added Successfully");
+        successAlert({title : data || "Added Successfully"});
         dispatch({ type: SAVE_PROVIDER, payload: {success:true, loading: false} });
 
     } catch (error) {
