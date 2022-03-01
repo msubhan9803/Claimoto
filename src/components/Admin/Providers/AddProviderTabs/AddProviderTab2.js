@@ -145,16 +145,8 @@ const AddProviderTab2 = () => {
                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                             />
 
-<<<<<<< HEAD
                             <button className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
                             <button onClick={_closeAddServiceModal} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
-=======
-                            <div className='mt-3'>
-
-                                <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Save</button>
-                                <button onClick={()=>_addServiceModal(false)} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
-                            </div>
->>>>>>> parent of 5939646 (Merge branch 'main' of https://github.com/projectsspl/MotoClaims-UI)
 
 
                             {/* <a className="ltn__secondary-color mt-2" href="#"><strong>Add service +</strong></a> */}
