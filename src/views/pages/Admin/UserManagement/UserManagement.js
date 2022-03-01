@@ -190,6 +190,7 @@ function UserManagement() {
                                             onChange={_handleChange}
                                             className=""
                                             value={search_text}
+                                            autoComplete="off"
                                         />
                                         <button type="submit">
                                             <i className="fas fa-search" />

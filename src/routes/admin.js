@@ -13,6 +13,7 @@ import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDe
 import AddProvider from 'components/Admin/Providers/AddProvider'
 import VehicleParts from 'views/pages/Admin/VehicleParts'
 import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
+import Sample from "views/pages/Admin/sample";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -45,8 +46,8 @@ export const adminRoutes = () => {
             path: "/provider",
             icon: "ti-server",
             layout: "admin",
-            collapse: true,
-            views: [
+            collapse:true,
+            views:[
                 {
                     name: "Providers",
                     path: "/provider",
@@ -59,12 +60,6 @@ export const adminRoutes = () => {
                     component: <AddProvider />,
                     layout: "admin",
                 },
-                {
-                    name: "Edit Provider",
-                    path: "/edit_provider/:type/:id",
-                    component: <AddProvider />,
-                    layout: "admin",
-                },
             ]
         },
         {
@@ -72,8 +67,8 @@ export const adminRoutes = () => {
             path: "/vehicle_parts",
             icon: "ti-envelope",
             layout: "admin",
-            collapse: true,
-            views: [
+            collapse:true,
+            views:[
                 {
                     name: "Vehical Parts",
                     path: "/vehicle_parts",
@@ -114,54 +109,54 @@ export const adminRoutes = () => {
             layout: "admin",
         },
         {
-            name: "",
-            path: "/product_detail/:id",
+            name:"",
+            path:"/product_detail/:id",
             component: <ProductDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/create_policy",
+            name:"",
+            path:"/create_policy",
             component: <PoliciesDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/policy_detail/:id",
+            name:"",
+            path:"/policy_detail/:id",
             component: <PoliciesDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/policy_detail_edit/:id",
+            name:"",
+            path:"/policy_detail_edit/:id",
             component: <PoliciesDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/create_vehical",
+            name:"",
+            path:"/create_vehical",
             component: <VehicalDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/vehical_detail/:id",
+            name:"",
+            path:"/vehical_detail/:id",
             component: <VehicalDetail />,
             layout: "admin"
         },
         {
-            name: "",
-            path: "/vehical_detail_edit/:id",
+            name:"",
+            path:"/vehical_detail_edit/:id",
             component: <VehicalDetail />,
             layout: "admin"
         },
-        {
-            name: "",
-            path: '/vehicle_parts_details',
-            component: <VehicleParts />,
-            layout: 'admin'
-        }
-    ];
+       {
+           name:"",
+           path:'/sample',
+           component:<Sample/>,
+           layout:'admin'
+       }
+     ];
 };
 
 
