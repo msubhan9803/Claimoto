@@ -90,7 +90,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
             "Id": 0,
             "Name": name ,
             "ProviderTypeId": providerId,
-            "Image": logo,
+            "ImageModel": logo,
             "ProviderContacts": provider_contacts,
             "ProviderServices": provider_services,
             "ProviderLocations": provider_locations
