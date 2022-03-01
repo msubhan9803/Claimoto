@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-import { useSelector } from 'react-redux';
+import { useDispatch ,useSelector } from 'react-redux';
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
@@ -15,7 +15,7 @@ const AddProvider = () => {
     const { type } = useParams();
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const { addTabs, tab1, tab2, tab3 } = useSelector(state => state.addProviderScreenReducer);
+    const { addTabs, tab1, tab2, tab3, success, loading,  } = useSelector(state => state.addProviderScreenReducer);
     const { name, contacts, logo } = tab1;
     const { selected_service_types } = tab2;
     const { selected_locations } = tab3;
