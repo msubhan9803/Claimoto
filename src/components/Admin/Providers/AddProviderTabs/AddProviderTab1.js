@@ -162,7 +162,7 @@ const AddProviderTab1 = () => {
                                     name="email"
                                     render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                 />
-                                <button className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Save</button>
+                                <button className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
                                 <button onClick={_closeAddContactModal} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
 
 
