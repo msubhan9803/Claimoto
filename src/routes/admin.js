@@ -155,7 +155,7 @@ export const adminRoutes = () => {
     //        component:<VehicalParts/>,
     //        layout:'admin'
     //    }
-    ];
+     ];
 };
 
 
