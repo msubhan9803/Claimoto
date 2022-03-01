@@ -1,64 +1,82 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import carImg from 'assets/img/icons/mc/png/3.png';
+import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGarages } from 'store/actions/provider';
+import { Link } from 'react-router-dom';
 
-function GaragesList() {
+const  GaragesList = () => {
+    const dispatch = useDispatch();
+    const {
+        list,
+        loading,
+        records_per_page,
+        page_index,
+        count,
+    } = useSelector(state => state.providersScreenReducer.garages);
+
+
+    useEffect(() => {
+        dispatch(getGarages({ records_per_page, page_index }));
+    }, []);
+
+
+
+
     return (
         <React.Fragment>
-            <div className="ltn__apartments-tab-content-inner">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
-                            <div className="ltn__select-availability-table  d-none d-md-block">
-                                <ul className="ltn__select-availability-table-head">
-                                    <li className="table-data-1">Garage name</li>
-                                    <li className="table-data-3">POC name</li>
-                                    <li className="table-data-4">Contact number</li>
-                                    <li className="table-data-5">Expiry</li>
-                                    <li className="table-data-6">Garage address</li>
-                                    <li className="table-data-7">Edit </li>
-                                    <li className="table-data-8">Details</li>
-                                </ul>
-                                <ul className="ltn__select-availability-table-row">
-                                    <li className="table-data-1">
-                                        <strong>
-                                            <img src={carImg} alt="car" /> Car
-                                            and body shop{" "}
-                                        </strong>
-                                    </li>
-                                    <li className="table-data-3">Yasmin Ali</li>
-                                    <li className="table-data-4">079 079 1189</li>
-                                    <li className="table-data-5">Dec 31, 2021</li>
-                                    <li className="table-data-6">
-                                        Prince Nails' bent Asem St...
-                                    </li>
-                                    <li className="table-data-7">
-                                        <strong>
-                                            <a
-                                                href="#"
-                                                className=""
-                                                title="Quick View"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#edit_table_item_modal"
-                                            >
-                                                Edit
-                                            </a>
-                                        </strong>
-                                    </li>
-                                    <li className="table-data-8">
-                                        <a
-                                            className="ltn__secondary-color"
-                                            href="garage-details.html"
-                                        >
-                                            <strong>Details</strong>
-                                        </a>{" "}
-                                    </li>
-                                </ul>
+            {
+                loading ? <Loader /> :
+                    <div className="ltn__apartments-tab-content-inner">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
+                                    <div className="ltn__select-availability-table  d-none d-md-block">
+                                        <ul className="ltn__select-availability-table-head">
+                                            <li className="table-data-1">Garage name</li>
+                                            <li className="table-data-3">POC name</li>
+                                            <li className="table-data-4">Contact number</li>
+                                            <li className="table-data-5">Expiry</li>
+                                            <li className="table-data-6">Garage address</li>
+                                            <li className="table-data-7">Edit </li>
+                                            {/* <li className="table-data-8">Details</li> */}
+                                        </ul>
+                                        {list.map(record => (
+                                            <ul className="ltn__select-availability-table-row">
+                                                <li className="table-data-1">
+                                                    <strong>
+                                                        <img src={carImg} alt="car" />
+                                                        {record.FullName}
+                                                    </strong>
+                                                </li>
+                                                <li className="table-data-3">{record.Name}</li>
+                                                <li className="table-data-4">{record.PhoneNumber}</li>
+                                                <li className="table-data-5">Dec 31, 2021</li>
+                                                <li className="table-data-6">
+                                                    {record.StreetAddress}
+                                                </li>
+                                                <li className="table-data-7">
+                                                    <strong>
+                                                        <Link to={`/admin/edit_provider/agency?tab=0&id=${record.Id}`} >Edit</Link>
+                                                    </strong>
+                                                </li>
+                                                {/* <li className="table-data-8">
+                                                    <a
+                                                        className="ltn__secondary-color"
+                                                        href="garage-details.html"
+                                                    >
+                                                        <strong>Details</strong>
+                                                    </a>{" "}
+                                                </li> */}
+                                            </ul>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+            }
 
 
             {/* <Pagination /> */}

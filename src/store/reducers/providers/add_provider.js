@@ -17,7 +17,11 @@ import {
     SAVE_LOCATION,
     EDIT_LOCATION_INDEX,
     DELETE_LOCATION,
-    CLEAR_ADD_PROVIDER_STATE
+    CLEAR_ADD_PROVIDER_STATE,
+
+    //Save Provider
+    SAVE_PROVIDER_REQUEST,
+    SAVE_PROVIDER,
 } from '../../types/providers';
 
 
@@ -96,8 +100,7 @@ const initialState = {
 
     success: false,
     loading: false,
-    saving: false,
-
+    user_loading:false,
 
 
 };
@@ -107,8 +110,8 @@ const addProviderScreenReducer = (state = initialState, action) => {
     switch (action.type) {
 
 
-        case CLEAR_ADD_PROVIDER_STATE:{
-            return {...initialState};
+        case CLEAR_ADD_PROVIDER_STATE: {
+            return { ...initialState };
         }
 
         case CHANGE_TAB: {
@@ -380,57 +383,72 @@ const addProviderScreenReducer = (state = initialState, action) => {
         }
             break;
 
-            case SAVE_LOCATION: {
-                const { edit_index } = action.payload;
-                let locs = state.tab3.selected_locations;
-                if (edit_index !== null) {
-                    locs[edit_index] = { ...action.payload };
-                } else {
-                    locs.push({ ...action.payload });
-                }
-                return {
-                    ...state,
-                    tab3: {
-                        ...state.tab2,
-                        selected_locations: locs,
-                        location_values: initialState.tab3.location_values,
-                        edit_index: null,
-                        add_location_modal: false
-                    }
+        case SAVE_LOCATION: {
+            const { edit_index } = action.payload;
+            let locs = state.tab3.selected_locations;
+            if (edit_index !== null) {
+                locs[edit_index] = { ...action.payload };
+            } else {
+                locs.push({ ...action.payload });
+            }
+            return {
+                ...state,
+                tab3: {
+                    ...state.tab2,
+                    selected_locations: locs,
+                    location_values: initialState.tab3.location_values,
+                    edit_index: null,
+                    add_location_modal: false
                 }
             }
-                break;
-            
-                case EDIT_LOCATION_INDEX: {
-                    let provider_index = action.payload;
-                    let loc = state.tab3.selected_locations[provider_index];
-                    return {
-                        ...state,
-                        tab3: {
-                            ...state.tab3,
-                            location_values: {
-                                ...state.tab3.location_values,
-                                ...loc
-                            },
-                            edit_index: action.payload,
-                            add_location_modal: true
-        
-                        }
-                    }
+        }
+            break;
+
+        case EDIT_LOCATION_INDEX: {
+            let provider_index = action.payload;
+            let loc = state.tab3.selected_locations[provider_index];
+            return {
+                ...state,
+                tab3: {
+                    ...state.tab3,
+                    location_values: {
+                        ...state.tab3.location_values,
+                        ...loc
+                    },
+                    edit_index: action.payload,
+                    add_location_modal: true
+
                 }
-                break;
-                case DELETE_LOCATION: {
-                    let locs = state.tab3.selected_locations;
-                    locs.splice(action.payload, 1);
-                    return {
-                        ...state,
-                        tab1: {
-                            ...state.tab3,
-                            selected_locations: locs
-                        }
-                    }
+            }
+        }
+            break;
+        case DELETE_LOCATION: {
+            let locs = state.tab3.selected_locations;
+            locs.splice(action.payload, 1);
+            return {
+                ...state,
+                tab1: {
+                    ...state.tab3,
+                    selected_locations: locs
                 }
-        
+            }
+        }
+        break;
+
+        case SAVE_PROVIDER_REQUEST : {
+            return {
+                ...state,
+                ...action.payload
+            }
+        }
+
+        case SAVE_PROVIDER : {
+            return {
+                ...state,
+                ...action.payload
+            }
+        }
+
 
 
         default:

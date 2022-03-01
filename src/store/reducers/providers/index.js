@@ -1,4 +1,16 @@
-import { CHANGE_TAB } from '../../types/providers';
+import {
+    CHANGE_TAB,
+    GET_GARAGES,
+    GET_CAR_AGENCIES,
+    GET_AGENCIES,
+    GET_SURVEYORERS,
+    //Request
+    GET_REQUEST,
+
+
+} from '../../types/providers';
+
+
 import GaragesList from 'components/Admin/Garages/GaragesList';
 import AgenciesList from 'components/Admin/Agencies/AgenciesList';
 import CarAgenciesList from 'components/Admin/CarAgencies/CarAgenciesList';
@@ -35,7 +47,41 @@ const initialState = {
             short: "surveyor"
         }
     ],
+
+
     selectedTab: 0,
+
+
+    surveyorers: {
+        list: [],
+        records_per_page: 10,
+        age_index: 1,
+        count: 0,
+        loading: false
+    },
+    garages: {
+        list: [],
+        records_per_page: 10,
+        age_index: 1,
+        count: 0,
+        loading: false
+    },
+    car_agencies: {
+        list: [],
+        records_per_page: 10,
+        age_index: 1,
+        count: 0,
+        loading: false
+    },
+    agencies: {
+        list: [],
+        records_per_page: 10,
+        age_index: 1,
+        count: 0,
+        loading: false
+    }
+
+
 
 };
 
@@ -46,9 +92,76 @@ const providersScreenReducer = (state = initialState, action) => {
         case CHANGE_TAB: {
             return { ...state, selectedTab: action.payload }
         }
-        break;
+            break;
 
-        
+
+        case GET_REQUEST: {
+            let {modeule, bool, list} = action.payload;
+            return {
+                ...state,
+                [modeule]:
+                {
+                    ...state[modeule],
+                    loading:bool,
+                    list
+                }
+            }
+        }
+            break;
+
+        case GET_GARAGES: {
+            return {
+                ...state,
+                garages:
+                {
+                    ...state.garages,
+                    list: action.payload,
+                    loading:false
+                }
+            }
+        }
+            break;
+
+        case GET_CAR_AGENCIES: {
+            return {
+                ...state,
+                car_agencies:
+                {
+                    ...state.car_agencies,
+                    list: action.payload,
+                    loading:false
+                }
+            }
+        }
+            break;
+
+        case GET_AGENCIES: {
+            return {
+                ...state,
+                agencies:
+                {
+                    ...state.agencies,
+                    list: action.payload,
+                    loading:false
+                }
+            }
+        }
+            break;
+
+        case GET_SURVEYORERS: {
+            return {
+                ...state,
+                surveyorers:
+                {
+                    ...state.surveyorers,
+                    list: action.payload,
+                    loading:false
+                }
+            }
+        }
+            break;
+
+
         default:
             return { ...state };
     }

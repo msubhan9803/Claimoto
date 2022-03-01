@@ -1,4 +1,18 @@
-//Getters
+//Root Getters
+export const GET_GARAGES = "GET_GARAGES";
+export const GET_CAR_AGENCIES = "GET_CAR_AGENCIES";
+export const GET_AGENCIES = "GET_AGENCIES";
+export const GET_SURVEYORERS = "GET_SURVEYORERS";
+
+
+
+//Request
+export const GET_REQUEST = "GET_REQUEST";
+
+
+
+
+// Add Provider Getters
 export const GET_COUNTRIES = 'GET_COUNTRIES';
 export const GET_CITIES = 'GET_CITIES';
 export const GET_AREAS = 'GET_AREAS';
@@ -31,9 +45,14 @@ export const EDIT_SERVICE_INDEX = "EDIT_SERVICE_INDEX";
 export const SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN = "SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN";
 export const SAVE_LOCATION = "SAVE_LOCATION";
 export const EDIT_LOCATION_INDEX = "EDIT_LOCATION_INDEX";
-export const DELETE_LOCATION="DELETE_LOCATION";
+export const DELETE_LOCATION = "DELETE_LOCATION";
 
 
 
 //Clear State
 export const CLEAR_ADD_PROVIDER_STATE = "CLEAR_ADD_PROVIDER_STATE";
+
+
+
+export const SAVE_PROVIDER_REQUEST = "SAVE_PROVIDER_REQUEST";
+export const SAVE_PROVIDER = "SAVE_PROVIDER";
