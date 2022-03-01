@@ -103,7 +103,8 @@ const AddProvider = () => {
                 contacts,
                 services: selected_service_types,
                 locations: selected_locations,
-                providerId: _getProviderId()
+                providerId: _getProviderId(),
+                editId:id || null
 
             }
             dispatch(addProvider(action_payload));
@@ -125,18 +126,19 @@ const AddProvider = () => {
 
 
     useEffect(() => {
-        if (success && !loading) {
-            return navigate("/admin/provider");
-        }
+        // if (success && !loading) {
+        //     return navigate("/admin/provider");
+        // }
     }, [success]);
 
 
     useEffect(() => {
         dispatch(getServices());
         dispatch(getCountries());
-        // dispatch(clearAddProviderState());
+        return () => {
+            dispatch(clearAddProviderState());
+        };
     }, []);
-
 
 
     useEffect(() => {

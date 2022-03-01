@@ -54,12 +54,12 @@ import {
 
 
 
-export const addProvider = ({name, logo, contacts, services, locations, providerId}) => async dispatch => {
+export const addProvider = ({name, logo, contacts, services, locations, providerId, editId}) => async dispatch => {
     try {
         //Restructuring contacts
         let provider_contacts = contacts.map((contact)=>{
             return {
-                "Id": 0,
+                "Id": contact?.Id || 0,
                 "FullName": contact.full_name,
                 "PhoneNumber": contact.phone,
                 "Email": contact.email,
@@ -69,7 +69,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
         //Restructuring services
         let provider_services = services.map((service)=>{
             return {
-                    "Id": 0,
+                    "Id": service?.Id || 0,
                     "ProviderServiceId": service.service_type,
             }
         });
@@ -77,7 +77,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
         //Restructuring locations
         let provider_locations = locations.map((loc)=>{
             return {
-                "Id": 0,
+                "Id": loc?.Id || 0,
                 "BranchName": loc.name,
                 "CountryId": loc.country,
                 "StreetAddress":loc.street_address,
@@ -91,7 +91,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
 
         //Payload
         const payload = {
-            "Id": 0,
+            "Id": editId || 0,
             "Name": name ,
             "ProviderTypeId": providerId,
             "ImageModel": logo,
@@ -101,7 +101,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
         };
 
         dispatch({ type: SAVE_PROVIDER_REQUEST, payload: {success:false, error:false, loading: true} });
-        let { data } = await instance.post(`api/Provider`, payload);
+        let { data } = editId ? await instance.put(`api/Provider`, payload) : await instance.post(`api/Provider`, payload);
         successAlert({title : data || "Added Successfully"});
         dispatch({ type: SAVE_PROVIDER, payload: {success:true, loading: false} });
 
