@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import Garage_Icon from "assets/img/motor/garage-logo.png";
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
+<<<<<<< HEAD
 import { useDispatch ,useSelector } from 'react-redux';
+=======
+import { useDispatch, useSelector } from 'react-redux';
+>>>>>>> parent of 5939646 (Merge branch 'main' of https://github.com/projectsspl/MotoClaims-UI)
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
@@ -108,7 +111,7 @@ const AddProvider = () => {
     }
 
     const _movePrev = () => {
-        let nextTab = parseInt(searchParams.get("tab"))-1;
+        let nextTab = parseInt(searchParams.get("tab")) - 1;
         searchParams.set("tab", nextTab);
         setSearchParams(searchParams);
     }

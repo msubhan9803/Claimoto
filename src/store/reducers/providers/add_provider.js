@@ -1,5 +1,7 @@
 import {
-    CHANGE_TAB, SET_INPUT_VALUES_PROVIDER_TAB1_SCREEN, ADD_CONTACTS, DELETE_CONTACT,
+    CHANGE_TAB,
+    SET_INPUT_VALUES_PROVIDER_TAB1_SCREEN,
+    ADD_CONTACTS, DELETE_CONTACT,
     EDIT_CONTACT,
     EDIT_CONTACT_INDEX,
     SET_INPUT_VALUES_PROVIDER_TAB2_SCREEN,
@@ -21,6 +23,9 @@ import {
     SAVE_PROVIDER_REQUEST,
     SAVE_PROVIDER,
 } from '../../types/providers';
+
+
+
 import AddProviderTab1 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab1';
 import AddProviderTab2 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab2';
 import AddProviderTab3 from 'components/Admin/Providers/AddProviderTabs/AddProviderTab3';
@@ -65,10 +70,10 @@ const initialState = {
         services: [],
         service_types: [],
         services_values: {
-            selected_service: "",
-            selected_service_type: ""
+            service: "",
+            service_type: ""
         },
-        selected_service_types:[],
+        selected_service_types: [],
         add_service_modal: false,
         edit_index: null
     },
@@ -76,10 +81,9 @@ const initialState = {
 
     tab3: {
         countries: [],
-        states: [],
+        cities: [],
         areas: [],
-        contacts: [],
-        contact_values: {
+        location_values: {
             country: "",
             city: "",
             area: "",
@@ -88,7 +92,7 @@ const initialState = {
             url: "",
             street_address: ""
         },
-        selected_locations:[],
+        selected_locations: [],
         add_location_modal: false,
         edit_index: null
     },
