@@ -58,7 +58,7 @@ const  GaragesList = () => {
                                                 </li>
                                                 <li className="table-data-7">
                                                     <strong>
-                                                        <Link to={`/admin/edit_provider/agency?tab=0&id=${record.Id}`} >Edit</Link>
+                                                        <Link to={`/admin/edit_provider/garage?tab=0&id=${record.Id}`} >Edit</Link>
                                                     </strong>
                                                 </li>
                                                 {/* <li className="table-data-8">

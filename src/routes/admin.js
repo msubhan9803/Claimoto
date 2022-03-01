@@ -59,6 +59,12 @@ export const adminRoutes = () => {
                     component: <AddProvider />,
                     layout: "admin",
                 },
+                {
+                    name: "Edit Provider",
+                    path: "/edit_provider/:type",
+                    component: <AddProvider />,
+                    layout: "admin",
+                },
             ]
         },
         {
