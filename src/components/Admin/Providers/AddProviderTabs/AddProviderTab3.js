@@ -60,9 +60,9 @@ const AddProviderTab3 = () => {
     const _editLocation = (index) => {
         reset();
         let selected_loc = selected_locations[index];
-            dispatch(getCountries());
-            dispatch(getCities(selected_loc.country));
-            dispatch(getAreas(selected_loc.city));
+        dispatch(getCountries());
+        dispatch(getCities(selected_loc.country));
+        dispatch(getAreas(selected_loc.city));
 
         dispatch(editLocationIndex(index));
     }
@@ -211,7 +211,10 @@ const AddProviderTab3 = () => {
                                     render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                 />
 
-                                <input type="text" className='mt-3' name="url" placeholder="URL " value={url}
+
+
+                                <p className='mt-3'><strong>Directions</strong></p>
+                                <input type="text" name="url" placeholder="URL " value={url}
                                     {...register("url")}
                                     onChange={_handleChange}
                                 />
@@ -221,8 +224,6 @@ const AddProviderTab3 = () => {
                                     className="errorMsg"
                                     render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                 />
-
-                                <p className='mt-3'><strong>Directions</strong></p>
                                 <div className="row">
                                     <div className="col-lg-6">
                                         <input type="text" name="lat" placeholder="Latitude" value={lat}
@@ -253,7 +254,7 @@ const AddProviderTab3 = () => {
 
                                 <div className='mt-3'>
 
-                                    <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Save</button>
+                                    <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
                                     <button onClick={() => _addLocationModal(false)} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
                                 </div>
 

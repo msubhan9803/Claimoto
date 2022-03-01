@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import Side_Image from 'assets/img/motor/login-bg-1.png';
 import TabsHeader from 'components/Tabs/TabsHeader';
-<<<<<<< HEAD
 import { useDispatch ,useSelector } from 'react-redux';
-=======
-import { useDispatch, useSelector } from 'react-redux';
->>>>>>> parent of 5939646 (Merge branch 'main' of https://github.com/projectsspl/MotoClaims-UI)
 import TabContent from 'components/Tabs/TabsContent';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { getServices, getCountries, clearAddProviderState } from 'store/actions/provider';
