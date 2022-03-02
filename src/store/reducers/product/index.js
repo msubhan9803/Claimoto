@@ -92,7 +92,7 @@ const initialState = {
     },
   ],
   products_per_page: 6,
-  products_page_index: 1,
+  products_page_index: 0,
   products_count: 0
 };
 

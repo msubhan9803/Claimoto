@@ -15,7 +15,7 @@ import { _productDetailDotDot } from "functions";
 import moment from "moment";
 import { GetProducType } from "store/actions/product";
 import SortArray from "sort-array";
-import Pagination from "components/Pagination/Pagination";
+import PaginationFromUI from "components/Pagination/PaginationFromUI";
 import Fuse from "fuse.js";
 import { setProductPage } from "store/actions/product";
 
@@ -97,15 +97,20 @@ function Products() {
       }
       console.log("furtherList: ", furtherList)
       dispatch(HandleTableInputValue({ name: "products_count", value: furtherList.length }));
+      _getPaginatedResults(furtherList)
 
-      let start = products_page_index * products_per_page;
-      let end = (products_page_index + 1) * products_per_page;
-      let paginatedResult = furtherList.slice(start, end);
-      console.log("paginatedResult: ", paginatedResult)
-
-      dispatch(HandleFilterTable(paginatedResult));
+      dispatch(HandleFilterTable(furtherList));
     }
   };
+
+  const _getPaginatedResults = (records) => {
+    let start = products_page_index * products_per_page;
+    let end = (products_page_index + 1) * products_per_page;
+    let paginatedResult = records.slice(start, end);
+    console.log("paginated redults: ", paginatedResult)
+
+    return paginatedResult;
+  }
 
   // sort product
   const changeValue = (e) => {
@@ -325,8 +330,8 @@ function Products() {
             </div>
             <div className="row">
               {/* product-item */}
-              {filteredProducts
-                ? filteredProducts.map((item, index) => {
+              {filteredProducts.length > 0
+                ? _getPaginatedResults(filteredProducts).map((item, index) => {
                     return (
                       <div className="col-lg-4 col-md-6" key={item.id}>
                         <div className="ltnd__product-item row flex-column justify-content-between mx-1">
@@ -403,7 +408,7 @@ function Products() {
 
             {/* <!-- pagination --> */}
             {products_count > 0 && (
-              <Pagination
+              <PaginationFromUI
                 recordsCount={products_count}
                 pageIndex={products_page_index}
                 recordsPerPage={products_per_page}
