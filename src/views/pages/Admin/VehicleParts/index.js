@@ -238,7 +238,7 @@ const VehicleParts = () => {
         {/* PRODUCT AREA END */}
 
         {/* <!-- SELECT AVAILABILITY AREA START --> */}
-        <div class="select-availability-area pb-120">
+        <div class="select-availability-area pb-4">
           <div class="row">
             <div class="col-lg-12">
               <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">

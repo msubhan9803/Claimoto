@@ -9,7 +9,7 @@ function PoliciesList({ policies }) {
     <React.Fragment>
       {/* SELECT AVAILABILITY AREA START */}
 
-      <div className="select-availability-area pb-120">
+      <div className="select-availability-area pb-4">
         <div className="row">
           <div className="col-lg-12">
             {/* ltnd__policies-table start */}
