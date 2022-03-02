@@ -73,6 +73,7 @@ const AddProviderTab2 = () => {
 
 
     const _closeAddServiceModal = () => {
+        reset();
         dispatch(handleInputValue2({ name: "add_service_modal", value: false }));
         dispatch(handleInputValue2({ name: "edit_index", value: null }));
     }
@@ -145,7 +146,7 @@ const AddProviderTab2 = () => {
                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                             />
 
-                            <button className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
+                            <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
                             <button onClick={_closeAddServiceModal} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
 
 
