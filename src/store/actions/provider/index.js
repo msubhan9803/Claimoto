@@ -71,6 +71,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
             return {
                     "Id": service?.Id || 0,
                     "ProviderServiceId": service.service_type,
+                    "ServiceTypeId":service.service
             }
         });
 
