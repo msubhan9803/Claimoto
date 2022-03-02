@@ -21,7 +21,7 @@ function ProductNavbar() {
         <React.Fragment>
             <RespHeader />
             {/* HEADER AREA START */}
-            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2--- " style={{ paddingTop: '30px' }} >
+            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2--- " style={{ padding: '40px' }} >
                 {/* ltn__header-top-area start */}
                 <div className="ltn__header-top-area top-area-color-white--- ltnd__header-top-area">
                     <div className="row">
@@ -33,7 +33,7 @@ function ProductNavbar() {
                                         {/*Notifications*/}
                                         <li className="ltnd-dropdown">
                                             <a className="toggle" href="#">
-                                                <i className="fa fa-bell" />
+                                                <i className="far fa-bell" />
                                             </a>
                                             <div className="ltnd-dropdown-menu dropdown-menu-notifications">
                                                 <div className="head">
@@ -150,7 +150,7 @@ function ProductNavbar() {
                                         </li>
                                         <li className="ltnd-dropdown ltnd__user-img">
                                             <a role="button" onClick={_handleLogout} className="toggle" href="#">
-                                            <i class="fa fa-power-off"></i>
+                                            <i class="far fa-power-off"></i>
                                             </a>
                                         </li>
                                     </ul>
