@@ -95,9 +95,7 @@ function Products() {
           }
         }
       }
-      console.log("furtherList: ", furtherList)
       dispatch(HandleTableInputValue({ name: "products_count", value: furtherList.length }));
-      _getPaginatedResults(furtherList)
 
       dispatch(HandleFilterTable(furtherList));
     }

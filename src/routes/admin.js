@@ -13,7 +13,6 @@ import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDe
 import AddProvider from 'components/Admin/Providers/AddProvider'
 import VehicleParts from 'views/pages/Admin/VehicleParts'
 import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
-import Sample from "views/pages/Admin/sample";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -149,13 +148,7 @@ export const adminRoutes = () => {
             path:"/vehical_detail_edit/:id",
             component: <VehicalDetail />,
             layout: "admin"
-        },
-       {
-           name:"",
-           path:'/sample',
-           component:<Sample/>,
-           layout:'admin'
-       }
+        }
      ];
 };
 

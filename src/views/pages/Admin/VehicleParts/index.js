@@ -109,7 +109,7 @@ const VehicleParts = () => {
         {/* PRODUCT AREA START */}
         <div className="ltn__product-area ltn__product-gutter">
           <div className="row">
-            <div className="col-lg-5">
+            <div className="col-lg-4">
               <div className="ltn__search-widget ltnd__product-search-widget mb-30">
                 <form action="#" _lpchecked={1}>
                   <input
@@ -142,7 +142,7 @@ const VehicleParts = () => {
                 </form>
               </div>
             </div>
-            <div className="col-lg-7">
+            <div className="col-lg-8">
               <div className="ltn__shop-options ltnd__shop-options select-list-right">
                 <ul>
                   <li>
@@ -183,8 +183,43 @@ const VehicleParts = () => {
                         </option>
                       </select>
                     </div>
+                  </li>{" "}
+                  <li>
+                    <div className="short-by text-center">
+                      <div className="short-by-menu">
+                        <select
+                          className="nice-select"
+                          // onChange={changeValue}
+                          // value={download}
+                          name="download"
+                        >
+                          <option selected disabled value={""}>
+                            Download
+                          </option>
+                          <option value="csv">CSV</option>
+                          <option value="pdf">PDF</option>
+                        </select>
+                      </div>
+                    </div>
                   </li>
-
+                  <li>
+                    <div className="short-by text-center">
+                      <div className="short-by-menu">
+                        <select
+                          className="nice-select"
+                          // onChange={changeValue}
+                          // value={importAs}
+                          name="importAs"
+                        >
+                          <option selected disabled value={""}>
+                            Import
+                          </option>
+                          <option value="template">Template</option>
+                          <option value="upload">Upload</option>
+                        </select>
+                      </div>
+                    </div>
+                  </li>
                   <li>
                     <div className="btn-wrapper text-center mt-0">
                       <Link

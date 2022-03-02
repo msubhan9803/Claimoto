@@ -2,7 +2,6 @@ import React from 'react';
 
 function PaginationFromUI({ recordsCount, pageIndex, recordsPerPage, handler }) {
     const pagesCount = Math.ceil(recordsCount / recordsPerPage);
-    console.log("pagination array: ", [...Array(pagesCount)])
 
     return (
         <div className="ltn__pagination-area text-center">

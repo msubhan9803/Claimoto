@@ -17115,11 +17115,11 @@ input.cart-plus-minus-box {
 
 /* Header */
 .ltnd__header-area {
-  padding: 35px 60px 55px;
+  padding: 0px 60px 55px;
 }
 
 .ltnd__header-area-2 {
-  padding-bottom: 15px;
+  padding-bottom: 0px;
 }
 
 .ltnd__header-3 {
@@ -18768,7 +18768,7 @@ form .ltnd__title-3 {
 /* mobile :4800px. */
 @media (max-width: 767px) {
   .ltnd__header-area {
-    padding: 15px 15px 15px;
+    padding: 0px 15px 15px;
   }
 
   .ltnd__header-middle-area {
