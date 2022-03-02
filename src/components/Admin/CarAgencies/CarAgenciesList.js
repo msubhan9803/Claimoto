@@ -45,8 +45,8 @@ function CarAgenciesList() {
                                         {/* <li className="table-data-8">Details</li> */}
                                     </ul>
                                     {list.map(record => {
-                                        let contact = record.ProviderContacts.length > 0 ? record.ProviderContacts[0] : null;
-                                        let location = record.ProviderLocations.length > 0 ? record.ProviderLocations[0] : null;
+                                        let contact = record.ProviderContacts?.length > 0 ? record.ProviderContacts[0] : null;
+                                        let location = record.ProviderLocations?.length > 0 ? record.ProviderLocations[0] : null;
                                         return (
                                             <ul key={record.Id} className="ltn__select-availability-table-row">
                                                 <li className="table-data-1">
