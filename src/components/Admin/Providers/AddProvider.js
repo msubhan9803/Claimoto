@@ -158,8 +158,9 @@ const AddProvider = () => {
     return (
         <React.Fragment>
             {user_loading ?
-                <Loader />
-
+                <div style={{textAlign:"center"}}>
+                    <Loader />
+                </div>
                 :
                 <div className="body-content-area ltnd__no-sidebar-menu body-100vh ltn__body-height-800 body-bg-1--- pb-80---">
 
