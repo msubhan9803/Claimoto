@@ -27,6 +27,14 @@ export const successAlert = ({title , text }) => {
     });
 };
 
+export const successWithoutConfirmAlert = ({title , text }) => {
+  Swal.fire({
+      title: title,
+      text: text,
+      icon:"success",
+      showConfirmButton: false
+    });
+};
 
 export const confirmAlert = ({title, text, buttonText, action}) => {
   Swal.fire({
@@ -74,5 +82,4 @@ export const formatDateTime = (given_date) => {
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
 
