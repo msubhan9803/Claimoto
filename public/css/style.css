@@ -17448,10 +17448,11 @@ form .ltnd__title-3 {
   border: none !important;
   height: 38px !important;
   margin-left: 10px !important;
-  border-radius: 10 !important;
+  border-radius: 10px !important;
   margin-top: 1px !important;
   font-size: 12px !important;
-  color: "#b5b5b5" !important;
+  /* color: #b5b5b5 !important; */
+  background-color: #fff !important;
 }
 
 .ltnd__product-search-widget button {
@@ -17470,6 +17471,7 @@ form .ltnd__title-3 {
   border: 1px solid var(--border-color-1);
   border-radius: 20px;
   margin-bottom: 30px;
+  min-height: 218px;
 }
 
 .ltnd__product-item .ltnd__product-title {
@@ -17701,9 +17703,16 @@ form .ltnd__title-3 {
   font-weight: 600;
 }
 
-  .policies-details-single-info h6,
-  .policies-details-single-info strong {
-    font-weight: 600; }
+
+.policies-details-single {
+  /* margin-bottom: 30px; */
+  padding-top: 17%
+}
+
+.policies-details-single-info h6,
+.policies-details-single-info strong {
+  font-weight: 600;
+}
 
 
 .ltn__divider-border-1 {

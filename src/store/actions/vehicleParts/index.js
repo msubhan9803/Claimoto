@@ -8,7 +8,11 @@ import {
   HANDLE_VEHICLE_PART_VALUES_CHANGE,
   CLEAR_VEHICLE_PART_VALUES_CHANGE,
   ADD_VEHICLE_PART,
+  VEHICLE_PARTS_LIST_LOADING,
+  VEHICLE_PARTS_LIST_TABLE_FILTERING,
+  VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE
 } from "../../types/vehicleParts.js";
+import Fuse from "fuse.js";
 
 let vehiclePartListDummy = [
   {
@@ -23,10 +27,10 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
+      "https://st.depositphotos.com/1637787/2927/i/950/depositphotos_29272913-stock-photo-brake-repair.jpg",
+      "https://st.depositphotos.com/1765561/1966/i/950/depositphotos_19668591-stock-photo-brake-disc.jpg",
     ],
   },
   {
@@ -41,9 +45,8 @@ let vehiclePartListDummy = [
     description:
       "Brake pads are a vital component of every disc brake braking system used on most of today’s cars, commercial vehicles and other modes of transportation. The brake pad is made of a complex compound of materials, bonded to a steel backing plate, designed to stop your vehicle using friction. When you apply pressure to the brake pedal you squeeze the pads against the brake discs to slow your vehicle and ultimately bring it to a complete stop. Read More",
     imagesArray: [
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
-      "https://image.shutterstock.com/image-photo/car-brake-part-garage-260nw-577482634.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Beautiful-landscape.png",
+      "https://w0.peakpx.com/wallpaper/300/1023/HD-wallpaper-starry-sky-dreamscape-night-purple-sky-starry.jpg",
     ],
   },
   {
@@ -65,16 +68,80 @@ let vehiclePartListDummy = [
   },
 ];
 
-export const LoadVehiclePartsList = () => (dispatch) => {
+export const LoadVehiclePartsList =
+  ({
+    parts_per_page,
+    parts_page_index,
+    search_text,
+    search_option,
+    sort_name,
+    sort_type,
+  }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: LOAD_VEHICLE_PARTS_LIST,
+        payload: vehiclePartListDummy,
+      });
+      // dispatch({
+      //   type: VEHICLE_PARTS_LIST_LOADING,
+      //   payload: true,
+      // });
+      // let { data } = await instance.get(
+      //   `api/UserProfile/Paging?PageIndex=${parts_page_index}&PageSize=${parts_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`
+      // );
+      // // let { data } = await instance.get(`api/UserProfile`);
+      // dispatch({
+      //   type: LOAD_VEHICLE_PARTS_LIST,
+      //   payload: {
+      //     users: data?.ModelUserProfileWithTotalRecords || [],
+      //     counts: data?.TotalRecord || 0,
+      //   },
+      //   // payload: { users: data || [], counts: data?.lenght || 0 }
+      // });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+export const HandleFilterTable = (filteredList) => (dispatch) => {
   try {
+    // console.log("stateList: ", stateList)
+    // console.log("search_option: ", search_option)
+    // console.log("search_text: ", search_text)
+    // let searchedData = [];
+    // for (let i = 0; i < stateList.length; i++) {
+    //   let part = stateList[i][search_option]
+    //   if (part.includes(search_text)) searchedData.push(part)
+    // }
+    // console.log('searchedData: ', searchedData)
+
+    // dispatch({
+    //   type: VEHICLE_PARTS_LIST_TABLE_FILTERING,
+    //   payload: { name, value }
+    // });
+
     dispatch({
-      type: LOAD_VEHICLE_PARTS_LIST,
-      payload: vehiclePartListDummy,
+      type: VEHICLE_PARTS_LIST_TABLE_FILTERING,
+      payload: filteredList,
     });
   } catch (err) {
     console.log("err", err);
   }
 };
+
+export const HandleTableInputValue =
+  ({ name, value }) =>
+  (dispatch) => {
+    try {
+      dispatch({
+        type: VEHICLE_PARTS_LIST_TABLE_DATA_CHANGE,
+        payload: { name, value },
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
 export const AddVehiclePartValues = (vehicleObj) => (dispatch) => {
   try {

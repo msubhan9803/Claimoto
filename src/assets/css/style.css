@@ -17403,7 +17403,7 @@ form .ltnd__title-3 {
 
 
 
-
+/* 
  .search-options  {
   position: absolute !important;
   right: 5px !important;
@@ -17412,8 +17412,8 @@ form .ltnd__title-3 {
   height: 38px !important;
   margin-top: 1px !important;
   border : "1px solid lightgrey" !important;
-  width: 70 !important;
-}
+  width: 100% !important;
+} */
 
 .ltnd__product-search-widget button {
   left: 0;
