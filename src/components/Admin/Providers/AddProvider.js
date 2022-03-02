@@ -9,6 +9,7 @@ import { msgAlert } from 'functions';
 import { successAlert } from 'functions';
 import { addProvider } from 'store/actions/provider';
 import Loader from 'components/Loader/Loader';
+import { confirmAlert } from 'functions';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -120,6 +121,35 @@ const AddProvider = () => {
     }
 
 
+    const _cancelAction = () => {
+        navigate('/admin/provider');
+    }
+
+
+    const _handleCancel = () => {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Go Back",
+                action: _cancelAction
+            });
+    }
+
+    const _deleteAction = () => {
+        navigate('/admin/provider');
+    }
+
+
+    const _handleDelete = () => {
+        if(id){
+        confirmAlert({
+            title: "Are you sure?",
+            text: "",
+            buttonText: "Yes, Deactivate it",
+            action: _deleteAction
+        });
+    }
+    }
 
 
 
@@ -190,11 +220,12 @@ const AddProvider = () => {
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner">
                                         <div className="ltnd__left btn-normal">
-                                            <a href="#"><i className="ti-trash"></i> Delete</a>
+                                        <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
                                         </div>
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">
-                                                <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
+                                                {/* <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link> */}
+                                                <button onClick={_handleCancel} className="btn " ><i className="ti-angle-left"></i> Cancel</button>
                                                 {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
                                                 {searchParams.get("tab") > 0 &&
                                                     <button role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</button>}
