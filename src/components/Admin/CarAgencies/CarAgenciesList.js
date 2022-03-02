@@ -39,7 +39,6 @@ function CarAgenciesList() {
                                         <li className="table-data-1">Car Agency Name</li>
                                         <li className="table-data-3">POC name</li>
                                         <li className="table-data-4">Contact number</li>
-                                        <li className="table-data-5">Expiry</li>
                                         <li className="table-data-6">Car Agency address</li>
                                         <li className="table-data-7">Edit </li>
                                         {/* <li className="table-data-8">Details</li> */}
