@@ -1,243 +1,428 @@
 // import SearchBar from 'components/Admin/SearchBar/SearchBar'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { GetProduct, SortProducts, ProductStatus, GetInputs , GetProducts } from 'store/actions/product'
-import { useSelector, useDispatch } from 'react-redux'
-import {  _productDetailDotDot } from 'functions'
-import moment from 'moment'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  GetProduct,
+  SortProducts,
+  ProductStatus,
+  GetInputs,
+  GetProducts,
+  HandleTableInputValue,
+  HandleFilterTable,
+} from "store/actions/product";
+import { useSelector, useDispatch } from "react-redux";
+import { _productDetailDotDot } from "functions";
+import moment from "moment";
+import { GetProducType } from "store/actions/product";
+import SortArray from "sort-array";
+import PaginationFromUI from "components/Pagination/PaginationFromUI";
+import Fuse from "fuse.js";
+import { setProductPage } from "store/actions/product";
+
 function Products() {
+  // State
+  const [search, setSearch] = useState("");
 
-    // State 
-    const [search, setSearch] = useState('')
+  // selector hook
+  const allProductsList = useSelector(
+    (state) => state.productReducer.allProducts
+  );
+  const inputValue = useSelector((state) => state.productReducer.product);
+  const productTyps = useSelector(
+    (state) => state.productReducer.product_Types
+  );
+  const {
+    search_text,
+    search_option,
+    sort_name,
+    sort_type,
+    search_options,
+    filteredProducts,
+    products_per_page,
+    products_page_index,
+    products_count,
+  } = useSelector((state) => state.productReducer);
 
-    // selector hook
-    const products = useSelector(state => state.productReducer.allProducts)
-    const inputValue = useSelector(state => state.productReducer.product)
+  // dipatch hook
 
+  const dispatch = useDispatch();
 
-    // dipatch hook
+  // disptach peoduct action
+  useEffect(() => {
+    dispatch(GetProduct());
+    dispatch(GetProducType());
+  }, []);
 
-    const dispatch = useDispatch()
+  useEffect(() => {
+    _handleSortingFiltering();
+  }, [allProductsList.length, search_text, search_option, inputValue.status, products_page_index]);
 
-    // disptach peoduct action 
-    useEffect(() => {
-        dispatch(GetProduct())
+  const _handleSortingFiltering = () => {
+    if (allProductsList.length > 0) {
+      let searchedList = [];
+      if (search_text && search_option) {
+        const options = {
+          keys: [search_option],
+        };
 
-    }, [])
+        const fuse = new Fuse(allProductsList, options);
+        let result = fuse.search(search_text);
 
-
-    // search filter 
-    const filteredProduct = products.filter(
-        (item) => {
-            return item.ProductName && item.ProductName.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        for (let i = 0; i < result.length; i++) {
+          let item = result[i].item;
+          searchedList.push(item);
         }
-    );
+      } else {
+        searchedList = allProductsList;
+      }
 
-    // sort product 
-    const changeValue = (e) => {
-        if (e.target.name === "status") {
-            const { name, value } = e.target;
-            dispatch(GetInputs(name, value))
-            dispatch(ProductStatus(value))
+      let activeTempList = searchedList;
+      let furtherList = [];
+      if (inputValue.status == "all") {
+        furtherList = activeTempList;
+      } else if (inputValue.status == "active") {
+        for (let i = 0; i < activeTempList.length; i++) {
+          let item = activeTempList[i];
+          if (item.Status) {
+            furtherList.push(item);
+          }
         }
-        else {
-            const { name, value } = e.target;
-            dispatch(GetInputs(name, value))
-            dispatch(SortProducts(value, products))
+      } else {
+        for (let i = 0; i < activeTempList.length; i++) {
+          let item = activeTempList[i];
+          if (!item.Status) {
+            furtherList.push(item);
+          }
         }
+      }
+      dispatch(HandleTableInputValue({ name: "products_count", value: furtherList.length }));
+
+      dispatch(HandleFilterTable(furtherList));
     }
+  };
 
-   
+  const _getPaginatedResults = (records) => {
+    let start = products_page_index * products_per_page;
+    let end = (products_page_index + 1) * products_per_page;
+    let paginatedResult = records.slice(start, end);
+    console.log("paginated redults: ", paginatedResult)
 
+    return paginatedResult;
+  }
 
-    return (
-        <React.Fragment>
-            <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+  // sort product
+  const changeValue = (e) => {
+    if (e.target.name === "status") {
+      const { name, value } = e.target;
+      dispatch(GetInputs(name, value));
+      //   dispatch(ProductStatus(value));
+    } else {
+      const { name, value } = e.target;
+      dispatch(GetInputs(name, value));
+      dispatch(SortProducts(value, allProductsList));
+    }
+  };
 
-                {/* header-middle-area start */}
-                <div className="ltnd__header-middle-area mt-30">
-                    <div className="row">
-                        <div className="col-lg-9">
-                            <div className="ltnd__page-title-area">
+  const _handleChange = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    dispatch(HandleTableInputValue({ name, value }));
+  };
 
-                                <h2>Products</h2>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 align-self-center text-end">
-                            <div className="ltnd__date-area d-none">
-                                <div className="ltn__datepicker">
-                                    <div className="ltn_datepicker-title">
-                                        <span>Date</span>
-                                    </div>
-                                    <div className="input-group date" data-provide="datepicker">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Select Date"
-                                        />
-                                        <div className="input-group-addon">
-                                            <i className="far fa-calendar-alt" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* header-middle-area end */}
+  const _getProductNameFromProductTypes = (productId) => {
+    if (productTyps.length > 0) {
+      return productTyps.find((product) => product.Id == productId)
+        .ProductTypeName;
+    } else {
+      return "";
+    }
+  };
+
+  const _paginatedListHandler = (pageIndex) => {
+    dispatch(HandleTableInputValue({ name: "products_page_index", value: pageIndex }));
+  };
+
+  return (
+    <React.Fragment>
+      <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+        {/* header-middle-area start */}
+        <div className="ltnd__header-middle-area mt-30">
+          <div className="row">
+            <div className="col-lg-9">
+              <div className="ltnd__page-title-area">
+                <h2>Products ({filteredProducts.length})</h2>
+              </div>
             </div>
-            {/* <!-- Body main wrapper start --> */}
-            <div className="body-wrapper">
-                <div className="body-content-area-inner">
-                    {/* PRODUCT AREA START */}
-                    <div className="ltn__product-area ltn__product-gutter mb-120">
-                        <div className="row">
-                            <div className="col-lg-5">
-                                <div className="ltn__search-widget ltnd__product-search-widget mb-30">
-                                    <form _lpchecked={1}>
-                                        <input
-                                            type="text"
-                                            name="search"
-                                            placeholder="Search product..."
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
-                                            className="search"
-                                        />
-                                        <button type="submit">
-                                            <i className="fas fa-search" />
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div className="col-lg-7">
-                                <div className="ltn__shop-options ltnd__shop-options select-list-right">
-                                    <ul>
-                                        <li>
-                                            <div className="short-by text-center">
-                                                <div className="short-by-title">
-                                                    <p>Status</p>
-                                                </div>
-                                                <div className="short-by-menu">
-                                                    <select className="form-control"
-                                                        onChange={changeValue}
-                                                        value={inputValue.status}
-                                                        name="status">
-                                                        <option value="active" >Active </option>
-                                                        <option value="inActive">InActive </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        </li>
-                                        {/* <button onClick={()=> changeValue()}>sort</button> */}
-                                        <li>
-                                            <div className="short-by text-center">
-                                                <div className="short-by-title">
-                                                    <p>Date Added</p>
-                                                </div>
-                                                <div className="short-by-menu">
-                                                    <select
-                                                        className="form-control"
-                                                        name="sort"
-                                                        value={inputValue.sort}
-                                                        onChange={changeValue}
-
-                                                    >
-                                                        <option value="All">All</option>
-                                                        <option value="ProductName">Sort by Name </option>
-                                                        <option value="All" >All </option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="short-by text-center">
-                                                <select className="form-control">
-                                                    <option>Download</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
-                                                </select>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="short-by text-center">
-                                                <select className="form-control">
-                                                    <option>Import</option>
-                                                    <option>Sort by </option>
-                                                    <option>Sort by new </option>
-                                                    <option>Sort by price</option>
-                                                </select>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="btn-wrapper text-center mt-0">
-                                                <Link to="/admin/create_product" className="btn theme-btn-1 btn-round-12">
-                                                    Add +
-                                                </Link>
-                                                {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            {/* product-item */}
-                            {filteredProduct ? filteredProduct.map((item, index) => {
-                                return (
-                                    <div className="col-lg-3 col-md-6" key={item.id}>
-                                        <div className="ltnd__product-item">
-                                            <h6 className="ltnd__product-title">
-                                                <Link to={`/admin/product_detail/${item.id}`}>{_productDetailDotDot(item.ProductName, 20)}</Link>
-                                            </h6>
-                                            <div className='d-flex fd-row' style={{ justifyContent: 'space-between' }}>
-                                                <p className="ltnd__product-availability">{Number(item.AnnualPremium).toFixed(3)} KDW</p>
-                                                <p className="ltnd__product-availability">{moment(item.CreatedDate).format('MMMM Do YYYY, h:mm')}</p>
-
-                                            </div>
-                                            <div className="ltnd__product-brief">
-                                                <p>
-                                                    {
-                                                        _productDetailDotDot(item.ProductDetails, 120)
-                                                    }
-
-                                                </p>
-                                            </div>
-                                            <div className="ltnd__product-btn" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <div style={{display:'flex' , flexDirection:'column' , textAlign:'left'}}>
-
-                                                        <strong>Last Modify</strong>
-                                                        <small style={{fontSize:'10px'}}>{moment(item.UpdatedDate).format('MMMM Do YYYY, h:mm')}</small>
-                                                </div>
-                                               
-                                                <div>
-
-                                                    <Link to={`/admin/product_detail/${item.id}`}>
-                                                        <strong>View details</strong>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                                : null
-                            }
-
-                            {products && !products.length && <h2>Product not available</h2>}
-
-                        </div>
+            <div className="col-lg-3 align-self-center text-end">
+              <div className="ltnd__date-area d-none">
+                <div className="ltn__datepicker">
+                  <div className="ltn_datepicker-title">
+                    <span>Date</span>
+                  </div>
+                  <div className="input-group date" data-provide="datepicker">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Select Date"
+                    />
+                    <div className="input-group-addon">
+                      <i className="far fa-calendar-alt" />
                     </div>
-                    {/* PRODUCT AREA END */}
+                  </div>
                 </div>
-                {/* Body Content Area Inner End */}
+              </div>
             </div>
-            {/* <!-- Body main wrapper end --> */}
+          </div>
+        </div>
+        {/* header-middle-area end */}
+      </div>
+      {/* <!-- Body main wrapper start --> */}
+      <div className="body-wrapper">
+        <div className="body-content-area-inner">
+          {/* PRODUCT AREA START */}
+          <div className="ltn__product-area ltn__product-gutter mb-120">
+            <div className="row">
+              <div className="col-lg-4">
+                <div className="ltn__search-widget ltnd__product-search-widget mb-30">
+                  <form _lpchecked={1}>
+                    <input
+                      type="text"
+                      name="search_text"
+                      placeholder="Search product..."
+                      value={search_text}
+                      onChange={_handleChange}
+                      className="search"
+                      autoComplete="off"
+                    />
+                    <button type="submit">
+                      <i className="fas fa-search" />
+                    </button>
 
-        </React.Fragment>
-    )
+                    <select
+                      name="search_option"
+                      value={search_option}
+                      onChange={_handleChange}
+                      className="select search-options"
+                    >
+                      <option disabled value={""}>
+                        Options
+                      </option>
+                      {search_options.map((op) => (
+                        <option key={op.value} value={op.value}>
+                          {op.label}
+                        </option>
+                      ))}
+                    </select>
+                  </form>
+                </div>
+              </div>
+              <div className="col-lg-8">
+                <div className="ltn__shop-options ltnd__shop-options select-list-right">
+                  <ul>
+                    <li>
+                      <div className="short-by text-center">
+                        <div className="short-by-menu">
+                          <select
+                            className="nice-select"
+                            onChange={changeValue}
+                            value={inputValue.status}
+                            name="status"
+                          >
+                            <option selected value="all">
+                              All
+                            </option>
+                            <option value="active">Active </option>
+                            <option value="inActive">Inactive </option>
+                          </select>
+                        </div>
+                      </div>
+                    </li>
+                    {/* <li>
+                      <div className="short-by text-center">
+                        <select
+                          onChange={_handleChange}
+                          name="sort_name"
+                          value={sort_name}
+                          className="nice-select"
+                        >
+                          <option disabled value={""}>
+                            Sort
+                          </option>
+                          {search_options.map((op) => (
+                            <option key={op.value} value={op.value}>
+                              {op.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="short-by text-center">
+                        <select
+                          onChange={_handleChange}
+                          name="sort_type"
+                          value={sort_type}
+                          className="nice-select"
+                        >
+                          <option disabled value={""}>
+                            Sort By
+                          </option>
+                          <option key={"asc"} value={"asc"}>
+                            Ascending
+                          </option>
+                          <option key={"desc"} value={"desc"}>
+                            Descending
+                          </option>
+                        </select>
+                      </div>
+                    </li> */}
+                    <li>
+                      <div className="short-by text-center">
+                        <div className="short-by-menu">
+                          <select
+                            className="nice-select"
+                            onChange={changeValue}
+                            value={inputValue.download}
+                            name="status"
+                          >
+                            <option disabled value={""}>
+                              Download
+                            </option>
+                            <option value="csv">CSV</option>
+                            <option value="pdf">PDF</option>
+                          </select>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="short-by text-center">
+                        <div className="short-by-menu">
+                          <select
+                            className="nice-select"
+                            onChange={changeValue}
+                            value={inputValue.import}
+                            name="status"
+                          >
+                            <option disabled value={""}>
+                              Import
+                            </option>
+                            <option value="template">Template</option>
+                            <option value="upload">Upload</option>
+                          </select>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="btn-wrapper text-center mt-0">
+                        <Link
+                          to="/admin/create_product"
+                          className="btn theme-btn-1 btn-round-12"
+                        >
+                          Add +
+                        </Link>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              {/* product-item */}
+              {filteredProducts.length > 0
+                ? _getPaginatedResults(filteredProducts).map((item, index) => {
+                    return (
+                      <div className="col-lg-4 col-md-6" key={item.id}>
+                        <div className="ltnd__product-item row flex-column justify-content-between mx-1">
+                          <div>
+                            <h6 className="ltnd__product-title">
+                              <Link to={`/admin/product_detail/${item.id}`}>
+                                {_productDetailDotDot(item.ProductName, 30)}
+                              </Link>
+                            </h6>
+                            <div className="d-flex flex-row justify-content-between">
+                              <span>
+                                {/* {moment(item.CreatedDate).format(
+                                "MMMM Do YYYY, h:mm"
+                              )} */}
+                                {_getProductNameFromProductTypes(
+                                  item.ProductType
+                                )}
+                              </span>
+                              <span>
+                                {Number(item.AnnualPremium).toFixed(3)} KDW
+                              </span>
+                            </div>
+                            <div className="ltnd__product-brief">
+                              <p>
+                                {_productDetailDotDot(item.ProductDetails, 120)}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div
+                              className="ltnd__product-btn"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  textAlign: "left",
+                                }}
+                              >
+                                <strong>Last Modify</strong>
+                                <small style={{ fontSize: "10px" }}>
+                                  {moment(item.UpdatedDate).format(
+                                    "MMMM Do YYYY, h:mm"
+                                  )}
+                                </small>
+                              </div>
+
+                              <div style={{ marginTop: "auto" }}>
+                                <Link to={`/admin/product_detail/${item.id}`}>
+                                  <strong>View details</strong>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+            {filteredProducts && !filteredProducts.length && (
+              <div className="row text-center h-100">
+                <h5>
+                  <i class="fa fa-th" aria-hidden="true"></i> &nbsp; No Data
+                  Found
+                </h5>
+              </div>
+            )}
+
+            {/* <!-- pagination --> */}
+            {products_count > 0 && (
+              <PaginationFromUI
+                recordsCount={products_count}
+                pageIndex={products_page_index}
+                recordsPerPage={products_per_page}
+                handler={_paginatedListHandler}
+                className="mt-3"
+              />
+            )}
+            {/* <!--  --> */}
+          </div>
+          {/* PRODUCT AREA END */}
+        </div>
+        {/* Body Content Area Inner End */}
+      </div>
+      {/* <!-- Body main wrapper end --> */}
+    </React.Fragment>
+  );
 }
 
-export default Products
+export default Products;

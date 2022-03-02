@@ -14,31 +14,147 @@ import {
     UPDATE_PRODUCT_BENEFIT,
     CHECK_PRODUCT_ACTIVE,
     PRODUCT_SORT,
-} from 'store/types/types'
+} from 'store/types/types';
+
+
 const initialState = {
-    product_Types: [],
-    isSuccess: false,
-    product: {
-        Id: '',
-        TenantId: '',
-        ProductName: "",
-        ProductType: "",
-        ProductDetails: "",
-        AnnualPremium: '',
-        Status: true,
-        CreateBy: "",
-        UpdatedBy: "",
-        IsDeleted: "",
-        IsActive: true,
-        CoPayPercentage: '',
-        Deductibles: '',
-        IsAgencyRepair: '',
-        BenefitDetails: '',
-        Benefit: [],
-        editBenft: '',
-        sort: '',
-        active: '',
-        isLoading : true  , 
+  product_Types: [],
+  isSuccess: false,
+  product: {
+    Id: "",
+    TenantId: "",
+    ProductName: "",
+    ProductType: "",
+    ProductDetails: "",
+    AnnualPremium: "",
+    status: "all",
+    CreateBy: "",
+    UpdatedBy: "",
+    IsDeleted: "",
+    IsActive: true,
+    CoPayPercentage: "",
+    Deductibles: "",
+    IsAgencyRepair: "",
+    BenefitDetails: "",
+    Benefit: [],
+    editBenft: "",
+    sort: "",
+    active: "",
+    isLoading: true,
+    download: "",
+    import: "",
+  },
+
+  findType: {},
+  findName: {},
+  allProducts: [],
+  filteredProducts: [],
+  dummy: [],
+  Editproduct: {},
+  EidtDat: "",
+  messages: "",
+  search_option: "",
+  search_text: "",
+  sort_type: "",
+  sort_name: "",
+  search_options: [
+    {
+      label: "Annual Premium",
+      value: "AnnualPremium",
+    },
+    {
+      label: "Created Date",
+      value: "CreatedDate",
+    },
+    {
+      label: "Product Details",
+      value: "ProductDetails",
+    },
+    {
+      label: "Product Name",
+      value: "ProductName",
+    },
+    {
+      label: "Product Type",
+      value: "ProductType",
+    },
+    {
+      label: "Status",
+      value: "Status",
+    },
+    {
+      label: "Updated Date",
+      value: "UpdatedDate",
+    },
+    {
+      label: "id",
+      value: "id",
+    },
+  ],
+  products_per_page: 6,
+  products_page_index: 0,
+  products_count: 0
+};
+
+const productReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REGISTER_BENEFIT: {
+      return {
+        ...state,
+        ...(state.product.Benefit = [
+          ...state.product.Benefit,
+          {
+            BenefitDetails: state.product.BenefitDetails,
+          },
+        ]),
+        ...(state.product.BenefitDetails = ""),
+      };
+    }
+
+    case PRODUCT_SORT: {
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
+    }
+
+    // case CHECK_PRODUCT_ACTIVE: {
+    //   let productActive = state.dummy.filter(
+    //     (item) => item.Status === action.payload
+    //   );
+    //   return {
+    //     ...state,
+    //     allProducts: productActive,
+    //   };
+    // }
+    case REGISTER_PRODUCT: {
+      return {
+        ...state,
+        allProducts: [...state.allProducts, action.payload],
+        product: initialState.product,
+        messages: "",
+      };
+    }
+
+    case GET_PRODUCTS: {
+      //   let activeFilter = action.payload.filter((item) => item.Status === true);
+      return {
+        ...state,
+        product: initialState.product,
+        isSuccess: false,
+        checkType: null,
+        allProducts: action.payload,
+        dummy: action.payload.data,
+        messages: action.payload.message,
+      };
+    }
+
+    case "LOADING": {
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    }
 
 
     },

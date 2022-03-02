@@ -162,8 +162,8 @@ export const adminRoutes = () => {
             layout: 'admin'
         }
     ];
-};
-
+        }
+    
 
 // <Route path="/create_product" element={<ProductDetail/>}/>
 //           <Route path="/product_detail/:id" element={<ProductDetail/>}/>
