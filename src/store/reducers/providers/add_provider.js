@@ -462,7 +462,7 @@ const addProviderScreenReducer = (state = initialState, action) => {
         }
 
         case SET_PROVIDER_DETAILS: {
-            let { Image, Name, ProviderContacts, ProviderLocations, ProviderServices, Id } = action.payload;
+            let { Image, Name, ProviderContacts, ProviderLocations, ProviderServiceMapping, Id } = action.payload;
             let contacts = ProviderContacts.map((contact) => {
                 return {
                     Id: contact.Id,
@@ -472,12 +472,13 @@ const addProviderScreenReducer = (state = initialState, action) => {
                 }
             });
 
-            let selected_service_types = ProviderServices.map((service) => {
+            let selected_service_types = ProviderServiceMapping.map((service) => {
                 return {
                     Id: service.Id,
-                    service: service.ProviderServiceId,
+                    service: service.ServiceTypeId,
                     service_type: service.ProviderServiceId,
-                    service_name: service.Service
+                    service_name: service.Service,
+                    parent_name:service.Name
                 }
             });
 

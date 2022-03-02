@@ -195,7 +195,7 @@ function UserManagement() {
                                             <i className="fas fa-search" />
                                         </button>
                                         <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
-                                        <option disabled value={""}>Options</option>
+                                        <option disabled value={""}>Search By</option>
                                             {search_options.map((op) => (
                                                 <option key={op.value} value={op.value}>{op.label}</option>
 
@@ -211,7 +211,7 @@ function UserManagement() {
                                         <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
-                                                <option disabled value={""}>Sort</option>
+                                                <option disabled value={""}>Sort By</option>
                                                     {search_options.map((op) => (
                                                         <option key={op.value} value={op.value}>{op.label}</option>
 

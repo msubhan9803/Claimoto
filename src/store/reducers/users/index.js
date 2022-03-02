@@ -91,7 +91,7 @@ const initialState = {
         search_option: "",
         search_text: "",
         sort_type: "asc",
-        sort_name: "FirstName",
+        sort_name: "",
         loading_action:false
     },
     accessValues: {
