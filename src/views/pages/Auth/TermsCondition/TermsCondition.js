@@ -15,7 +15,7 @@ function TermsCondition() {
                                             <img src={logo} alt="logo" />
                                         </Link>
                                     </div>
-                                    {/* Mobile Menu Button */}
+                                    {/* Mobile Menu Button */} 
                                     <div className="mobile-menu-toggle d-xl-none">
                                         <a
                                             href="#ltn__utilize-mobile-menu"
