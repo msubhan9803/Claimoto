@@ -50,7 +50,7 @@ const AddProvider = () => {
                 return 2
                 break;
 
-            case "car%20agency":
+            case "car agency":
                 return 3
                 break;
 
