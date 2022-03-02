@@ -4,7 +4,7 @@ function VehicleList() {
     return (
         <React.Fragment>
             {/* SELECT AVAILABILITY AREA START */}
-            <div className="select-availability-area pb-120">
+            <div className="select-availability-area pb-4">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
