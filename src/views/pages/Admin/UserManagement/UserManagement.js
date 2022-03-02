@@ -231,16 +231,16 @@ function UserManagement() {
 
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
-                                                <a
+                                                <button
                                                     onClick={() => _toggleModal("add_user")}
                                                     className="btn theme-btn-1 btn-round-12 zindexNormal">
                                                     Add User +
-                                                </a>
-                                                <a
+                                                </button>
+                                                <button
                                                     onClick={() => _toggleModal("add_access_group")}
                                                     className="btn theme-btn-1 btn-round-12 zindexNormal">
                                                     Add Access Group +
-                                                </a>
+                                                </button>
                                             </div>
                                         </li>
                                     </ul>

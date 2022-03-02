@@ -197,8 +197,8 @@ const AddProvider = () => {
                                                 <Link to="/admin/provider" ><i className="ti-angle-left"></i> Cancel</Link>
                                                 {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
                                                 {searchParams.get("tab") > 0 &&
-                                                    <a role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</a>}
-                                                <a role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</a>
+                                                    <button role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</button>}
+                                                <button role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</button>
                                             </div>
                                         </div>
                                     </div>
