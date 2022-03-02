@@ -44,34 +44,39 @@ function CarAgenciesList() {
                                         <li className="table-data-7">Edit </li>
                                         {/* <li className="table-data-8">Details</li> */}
                                     </ul>
-                                    {list.map(record=>(
-                                        <ul className="ltn__select-availability-table-row">
-                                        <li className="table-data-1">
-                                            <strong>
-                                                <img src={carImg} alt="car" />
-                                                {record.FullName}
-                                            </strong>
-                                        </li>
-                                        <li className="table-data-3">{record.Name}</li>
-                                        <li className="table-data-4">{record.PhoneNumber}</li>
-                                        <li className="table-data-5">Dec 31, 2021</li>
-                                        <li className="table-data-6">{record.StreetAddress}</li>
-                                        <li className="table-data-7">
-                                        <strong>
-                                                    <Link to={`/admin/edit_provider/car%20agency/${record.Id}?tab=0`} >Edit</Link>
-                                                </strong>
-                                        </li>
-                                        {/* <li className="table-data-8">
-                                            <a
-                                                className="ltn__secondary-color"
-                                                href="car-agency-details.html"
-                                            >
-                                                <strong>Details</strong>
-                                            </a>{" "}
-                                        </li> */}
-                                    </ul>
-                                    ))}
-                                    
+                                    {list.map(record => {
+                                        let contact = record.ProviderContacts.length > 0 ? record.ProviderContacts[0] : null;
+                                        let location = record.ProviderLocations.length > 0 ? record.ProviderLocations[0] : null;
+                                        return (
+                                            <ul key={record.Id} className="ltn__select-availability-table-row">
+                                                <li className="table-data-1">
+                                                    <strong>
+                                                        <img src={carImg} alt="car" />
+                                                        {record.Name}
+                                                    </strong>
+                                                </li>
+                                                <li className="table-data-3">{contact?.FullName || ""}</li>
+                                                <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
+                                                <li className="table-data-6">{location?.StreetAddress | ""}</li>
+                                                <li className="table-data-7">
+                                                    <strong>
+                                                        <Link to={`/admin/edit_provider/car%20agency/${record.Id}?tab=0`} >Edit</Link>
+                                                    </strong>
+                                                </li>
+                                                {/* <li className="table-data-8">
+                                                <a
+                                                    className="ltn__secondary-color"
+                                                    href="car-agency-details.html"
+                                                >
+                                                    <strong>Details</strong>
+                                                </a>{" "}
+                                            </li> */}
+                                            </ul>
+                                        )
+                                    }
+
+                                    )}
+
                                 </div>
                             </div>
                         </div>

@@ -36,23 +36,24 @@ const AgenciesList = () => {
                                         <li className="table-data-1">Agency</li>
                                         <li className="table-data-3">POC name</li>
                                         <li className="table-data-4">Contact number</li>
-                                        <li className="table-data-5">Expiry</li>
                                         <li className="table-data-6">Agency address</li>
                                         <li className="table-data-7">Edit </li>
                                         {/* <li className="table-data-8">Details</li> */}
                                     </ul>
-                                    {list.map(record => (
+                                    {list.map(record => {
+                                        let contact = record.ProviderContacts.length  > 0  ?  record.ProviderContacts[0] : null;
+                                        let location = record.ProviderLocations.length  > 0  ?  record.ProviderLocations[0] : null;
+                                        return (
                                         <ul className="ltn__select-availability-table-row">
                                             <li className="table-data-1">
                                                 <strong>
                                                     <img src={carImg} alt="car" />
-                                                    {record.FullName}
+                                                    {record.Name}
                                                 </strong>
                                             </li>
-                                            <li className="table-data-3">{record.Name}</li>
-                                            <li className="table-data-4">{record.PhoneNumber}</li>
-                                            <li className="table-data-5">Dec 31, 2021</li>
-                                            <li className="table-data-6">{record.StreetAddress}</li>
+                                            <li className="table-data-3">{contact?.FullName || ""}</li>
+                                            <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
+                                            <li className="table-data-6">{location?.StreetAddress || ""}</li>
                                             <li className="table-data-7">
                                                     <strong>
                                                         <Link to={`/admin/edit_provider/agency/${record.Id}?tab=0`} >Edit</Link>
@@ -66,8 +67,8 @@ const AgenciesList = () => {
                                                 <strong>Details</strong>
                                             </a>{" "}
                                         </li> */}
-                                        </ul>
-                                    ))}
+                                        </ul>)
+})}
 
                                 </div>
                             </div>
