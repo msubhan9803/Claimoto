@@ -29,7 +29,7 @@ export default function AuthRoute() {
 
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <Routes>
                 {getRoutes(routes)}
                 <Route path="*" element={<NotFound />} />
