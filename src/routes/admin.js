@@ -154,16 +154,10 @@ export const adminRoutes = () => {
             path: "/vehical_detail_edit/:id",
             component: <VehicalDetail />,
             layout: "admin"
-        },
-        {
-            name: "",
-            path: '/vehicle_parts_details',
-            component: <VehicleParts />,
-            layout: 'admin'
         }
     ];
-        }
-    
+};
+
 
 // <Route path="/create_product" element={<ProductDetail/>}/>
 //           <Route path="/product_detail/:id" element={<ProductDetail/>}/>
