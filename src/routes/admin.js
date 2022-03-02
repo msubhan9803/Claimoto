@@ -17,40 +17,54 @@ import VehiclePartManage from 'views/pages/Admin/VehicleParts/VehiclePartManage'
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
 
-export const adminRoutes = () => {
+export const adminRoutes = ({userPermissions}) => {
+
+    const _checkPer = (msn) => {
+        let usr_pre = userPermissions?.find(up=>up.ModuleSystemName === msn) || null;
+        return usr_pre ? { ModuleActions:usr_pre.ModuleActions.map(ma=>ma.ActionName)} : null;
+    }
+
     return [
+        _checkPer("AD") && 
         {
             name: "Dashboard",
             path: "/",
-            component: <Dashboard />,
+            component: <Dashboard actions={ _checkPer("AD").ModuleActions} />,
             icon: "ti-layout",
             layout: "admin",
+            short_name:"AD"
         },
+        _checkPer("APR") && 
         {
             name: "Products",
             path: "/products",
-            component: <Products />,
+            component: <Products actions={ _checkPer("APR").ModuleActions} />,
             icon: "ti-file",
             layout: "admin",
+            short_name:"AD"
         },
+        _checkPer("APO") && 
         {
             name: "Policies",
             path: "/policies",
-            component: <Policies />,
+            component: <Policies actions={ _checkPer("APO").ModuleActions} />,
             icon: "ti-clipboard",
             layout: "admin",
+            short_name:"AD"
         },
+        _checkPer("APR") && 
         {
             name: "Providers",
             path: "/provider",
             icon: "ti-server",
             layout: "admin",
+            short_name:"AD",
             collapse: true,
             views: [
                 {
                     name: "Providers",
                     path: "/provider",
-                    component: <Provider />,
+                    component: <Provider actions={ _checkPer("APR").ModuleActions} />,
                     layout: "admin",
                 },
                 {
@@ -67,6 +81,7 @@ export const adminRoutes = () => {
                 },
             ]
         },
+        _checkPer("AVP") && 
         {
             name: "Vehicle parts",
             path: "/vehicle_parts",
@@ -77,7 +92,7 @@ export const adminRoutes = () => {
                 {
                     name: "Vehical Parts",
                     path: "/vehicle_parts",
-                    component: <VehicleParts />,
+                    component: <VehicleParts actions={ _checkPer("AVP").ModuleActions} />,
                     layout: "admin",
                 },
                 {
@@ -94,16 +109,19 @@ export const adminRoutes = () => {
                 },
             ]
         },
+        _checkPer("AUM") && 
         {
             name: "User management",
             path: "/user_management",
-            component: <UserManagement />,
+            component: <UserManagement actions={ _checkPer("AUM").ModuleActions} />,
             icon: "ti-user",
             layout: "admin",
-        }, {
+        },
+        _checkPer("ASC") &&  
+        {
             name: "Settings",
             path: "/settings",
-            component: <Setting />,
+            component: <Setting actions={ _checkPer("ASC").ModuleActions} />,
             icon: "ti-settings",
             layout: "admin",
         },

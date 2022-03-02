@@ -15,10 +15,13 @@ import { getUserDetails } from 'store/actions/users/users_screen';
 import { msgAlert } from 'functions';
 import { confirmAlert } from 'functions';
 import { addUser } from 'store/actions/users/users_screen';
+import { getAllowActions } from 'functions';
 
 
 const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
+    const { permissions } = useSelector(state => state.authReducer);
+    let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
 
     //Form Validtion
     const formSchema = Yup.object().shape({
@@ -164,7 +167,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
     useEffect(() => {
-        if(success){
+        if (success) {
             dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
             toggleModal();
         }
@@ -342,32 +345,31 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                 <div className="row">
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
-                                                            <div className="ltnd__left btn-normal">
-                                                                {edit ? deletingUser ?
-                                                                    <div className="spinner-grow" role="status">
-                                                                        <span className="sr-only">Loading...</span>
-                                                                    </div>
-                                                                    :
-                                                                    <div className="ltn__table-active-status clearfix">
-                                                                        <div className="ltn__checkbox-radio-group inline">
-                                                                            <label className="ltn__switch-2">
-                                                                                <input type="checkbox" role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
-                                                                                <i className="lever" />
-                                                                            </label>
+
+                                                            {pre_actions.includes("DELETE") &&
+                                                                <div className="ltnd__left btn-normal">
+                                                                    {edit ? deletingUser ?
+                                                                        <div className="spinner-grow" role="status">
+                                                                            <span className="sr-only">Loading...</span>
                                                                         </div>
+                                                                        :
+                                                                        <div className="ltn__table-active-status clearfix">
+                                                                            <div className="ltn__checkbox-radio-group inline">
+                                                                                <label className="ltn__switch-2">
+                                                                                    <input type="checkbox" role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
+                                                                                    <i className="lever" />
+                                                                                </label>
+                                                                            </div>
 
-                                                                    </div>
-                                                                    : ""}
-                                                                {/* <a onClick={_deleteUser} className="ltn__color-1" role="button">
-                                                                    <i className="ti-trash"></i>
-                                                                    Toggle Status</a> */}
-
-                                                            </div>
+                                                                        </div>
+                                                                        : ""}
+                                                                </div>
+                                                            }
 
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
                                                                     <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
-                                                                    <button disabled={loading_action}  type="submit" className="btn theme-btn-1 btn-round-12">{loading_action  ? "loading" : "Save"}</button>
+                                                                    <button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button>
                                                                 </div>
                                                             </div>
                                                         </div>

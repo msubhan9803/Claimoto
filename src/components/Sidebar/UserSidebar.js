@@ -21,10 +21,10 @@ export default function Sidebar(props) {
               </a> */}
               <a href="index.html">
                 <img src={logo} alt="Icon" />
-                {!logo && 
-                <span className="logo-text">
-                  Motor claims<sup>®</sup>
-                </span>
+                {!logo &&
+                  <span className="logo-text">
+                    Motor claims<sup>®</sup>
+                  </span>
                 }
               </a>
             </div>
@@ -33,15 +33,17 @@ export default function Sidebar(props) {
           <div className="ltn__utilize-menu">
             <ul>
               {routes.map((route, index) => {
-                let isActiveRoute = `/${route.layout+route.path}` === activeRoute;
-                if(route.name !== "")
-                return <li className={isActiveRoute ? "active" : ""} key={index}>
-                  <Link to={`.${route.path}`} >
-                    <i className={route.icon}></i>
-                    <span className="ltn__sidebar-menu-text">{route.name}</span>
-                  </Link>
-                </li>
-                })}
+                if (route) {
+                  let isActiveRoute = `/${route.layout + route.path}` === activeRoute;
+                  if (route.name !== "")
+                    return <li className={isActiveRoute ? "active" : ""} key={index}>
+                      <Link to={`.${route.path}`} >
+                        <i className={route.icon}></i>
+                        <span className="ltn__sidebar-menu-text">{route.name}</span>
+                      </Link>
+                    </li>
+                }
+              })}
               {/* <button className="sidebar-menu-collapse">
                 <div className="sidebar-menu-collapse-icon">
                   <i className="ti-arrows-horizontal" />

@@ -10,13 +10,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from "react-router-dom";
 import { getAccessRoles, getRoles, handleInputValue, getActions, getModulesActions } from 'store/actions/users/users_screen';
 import { getUsers } from 'store/actions/users/users_screen';
+import { getAllowActions } from 'functions';
 
 
-function UserManagement() {
+function UserManagement({ actions }) {
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
 
     //Redux State
+    const { permissions } = useSelector(state => state.authReducer);
+    let pre_actions = getAllowActions({permissions, module_name : "AUM"});
     const { tabs, search_options, userValues, users_per_page, users_page_index, users_count } = useSelector(state => state.usersScreenReducer);
     const { search_option, search_text, sort_name, sort_type } = userValues;
     //Component State
@@ -118,9 +121,6 @@ function UserManagement() {
         dispatch(getAccessRoles());
     }
 
-
-
-
     useEffect(() => {
         _handleComActions();
     }, [searchParams]);
@@ -130,17 +130,16 @@ function UserManagement() {
     }, []);
 
     useEffect(() => {
-        if(search_text?.length > 2 && search_option !== "" || search_text === ""){
+        if (search_text?.length > 2 && search_option !== "" || search_text === "") {
             dispatch(getUsers({ users_per_page, users_page_index: 1, search_text, search_option, sort_name, sort_type }));
         }
-    }, [search_text ,search_option, sort_name])
-
+    }, [search_text, search_option, sort_name])
 
 
     return (
         <React.Fragment>
-            {comState.openUserModal && <UserAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
-            {comState.openAccessModal && <AccessAddModal edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
+            {comState.openUserModal && <UserAddModal pre_actions={actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
+            {comState.openAccessModal && <AccessAddModal pre_actions={actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -195,7 +194,7 @@ function UserManagement() {
                                             <i className="fas fa-search" />
                                         </button>
                                         <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
-                                        <option disabled value={""}>Search By</option>
+                                            <option disabled value={""}>Search By</option>
                                             {search_options.map((op) => (
                                                 <option key={op.value} value={op.value}>{op.label}</option>
 
@@ -211,7 +210,7 @@ function UserManagement() {
                                         <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
-                                                <option disabled value={""}>Sort By</option>
+                                                    <option disabled value={""}>Sort By</option>
                                                     {search_options.map((op) => (
                                                         <option key={op.value} value={op.value}>{op.label}</option>
 
@@ -228,21 +227,23 @@ function UserManagement() {
                                                 </select>
                                             </div>
                                         </li> */}
-
-                                        <li>
-                                            <div className="btn-wrapper text-center mt-0">
-                                                <button
-                                                    onClick={() => _toggleModal("add_user")}
-                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    Add User +
-                                                </button>
-                                                <button
-                                                    onClick={() => _toggleModal("add_access_group")}
-                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    Add Access Group +
-                                                </button>
-                                            </div>
-                                        </li>
+                                        {
+                                            pre_actions?.includes("INSERT") &&
+                                            <li>
+                                                <div className="btn-wrapper text-center mt-0">
+                                                    <button
+                                                        onClick={() => _toggleModal("add_user")}
+                                                        className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                        Add User +
+                                                    </button>
+                                                    <button
+                                                        onClick={() => _toggleModal("add_access_group")}
+                                                        className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                        Add Access Group +
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>

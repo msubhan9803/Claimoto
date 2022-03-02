@@ -1,3 +1,4 @@
+import { getAllowActions } from 'functions';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
@@ -5,6 +6,10 @@ import { useSearchParams } from 'react-router-dom';
 function AccessGroupList() {
     let [searchParams, setSearchParams] = useSearchParams();
     const { access_groups, roles } = useSelector(state => state.usersScreenReducer);
+
+    const { permissions } = useSelector(state => state.authReducer);
+    let pre_actions = getAllowActions({permissions, module_name : "AUM"});
+
 
 
     const _handleEdit = (id) => {
@@ -61,6 +66,7 @@ function AccessGroupList() {
                                     </li>
                                     <li className="table-data-7">
                                         {!ag.IsDefault &&
+                                            pre_actions.includes("UPDATE") &&
                                             <strong>
                                                 <a role="button" onClick={() => _handleEdit(ag.Id)} className="" title="Edit">
                                                     Edit
