@@ -16,7 +16,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
     const { permissions } = useSelector(state => state.authReducer);
     let garage_actions = getAllowActions({ permissions, module_name: "PG" });
     let agency_actions = getAllowActions({ permissions, module_name: "PA" });
-    let car_agency_actions = getAllowActions({ permissions, module_name: "PC" });
+    let car_agency_actions = getAllowActions({ permissions, module_name: "PCA" });
     let surveyor_actions = getAllowActions({ permissions, module_name: "PS" });
 
 
