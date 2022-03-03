@@ -214,13 +214,19 @@ export const CencelProductBenifit = () => (dispatch) => {
 export const DeleteProduct = (ID) => async (dispatch) => {
   try {
     let res = await instance.delete(`api/product/${ID}`);
-    console.log("res", res);
-    SweetAlert({
-      text: res.data,
-      icon: "success",
-    });
+    if (res.data?.includes("activate")) { 
+      SweetAlert({
+        text: res.data,
+        icon: "error",
+      });
+    } else {
+      SweetAlert({
+        text: res.data,
+        icon: "success",
+      });
+      dispatch({ type: DELETE_PRODUCT, payload: ID });
+    }
 
-    dispatch({ type: DELETE_PRODUCT, payload: ID });
   } catch (err) {
     console.log("err", err);
   }
@@ -272,24 +278,21 @@ export const UpdateProduct = (data) => async (dispatch) => {
       Benefit: BenefitId,
     };
 
-    let res = await instance.put("api/Product/PutProduct", value);
-    if (res.data?.includes("Already")) {
-      debugger;
-      SweetAlert({
-        text: "Product Name and Product type pair is not unique",
-        icon: "error",
-      });
-      // dispatch({ type: "ALERT_ALREADY_EXIT", payload: res.data });
-    } else {
-      SweetAlert({
-        text: res.data,
-        icon: "success",
-      });
-      dispatch({ type: UPDATE_PRODUCT, payload: value });
-      // setTimeout(() => {
-      //   window.location.href = "/admin/products";
-      // }, 850);
-    }
+    await instance.put("api/Product/PutProduct", value).then(res => {
+      if (res.data?.includes("already")) {
+        SweetAlert({
+          text: "Product Name and Product type pair is not unique",
+          icon: "error",
+        });
+        // dispatch({ type: "ALERT_ALREADY_EXIT", payload: res.data });
+      } else {
+        SweetAlert({
+          text: res.data,
+          icon: "success",
+        });
+        dispatch({ type: UPDATE_PRODUCT, payload: value });
+      }
+    })
   } catch (err) {
     console.log("err", err);
   }

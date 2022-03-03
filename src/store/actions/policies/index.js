@@ -68,37 +68,27 @@ export const RegisterPolicies = (data) => async (dispatch) => {
       Image5: data.Image5,
     };
 
-    console.log("Daa", policyDetail);
-    console.log("Images", Imgdata);
-
     await instance.post("api/Policy", policyDetail).then(async (res) => {
       let formData = new FormData();
-      formData.append("Id");
+      formData.append("Id", res.data);
       for (let [key, value] of Object.entries(Imgdata)) {
         formData.append(key, value);
       }
-      let resd = await instance.post("api/FileUpload", formData);
-      console.log("data", resd);
-
-      dispatch({
-        type: REGISTER_POLICIES,
-        payload: data,
-      });
-      SweetAlert({
-        text: "Policy are successfully register",
-        icon: "Success",
-      });
+      await instance
+        .post("api/FileUpload", formData)
+        .then((res) => {
+          dispatch({
+            type: REGISTER_POLICIES,
+            payload: data,
+          });
+          SweetAlert({
+            text: "Policy are successfully register",
+            icon: "Success",
+          });
+          window.location.href = "/admin/policies";
+        })
+        .catch((err) => console.log("err FileUpload: ", err));
     });
-    // if (res.status == 200) {
-    //     dispatch({
-    //         type: REGISTER_POLICIES,
-    //         payload: data
-    //     })
-    // SweetAlert({
-    //     text: "Policy are successfully register",
-    //     icon: "Success"
-    // })
-    // }
   } catch (err) {
     console.log("err", err);
   }
@@ -116,7 +106,7 @@ export const GetPolicies = () => async (dispatch) => {
     });
     dispatch({
       type: POLICIES_LIST_TABLE_DATA_CHANGE,
-      payload: { name: "policies_count", value: res.data.length }
+      payload: { name: "policies_count", value: res.data.length },
     });
   } catch (err) {
     console.log("err", err);

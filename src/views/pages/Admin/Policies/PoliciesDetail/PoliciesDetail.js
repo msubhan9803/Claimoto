@@ -33,6 +33,7 @@ function PoliciesDetail() {
   // state hook
   const [show, setShow] = useState(false);
   const [pname, setPname] = useState(false);
+  const [isView, setIsView] = useState(false);
 
   // navigate hook
   const navigate = useNavigate();
@@ -132,6 +133,11 @@ function PoliciesDetail() {
   } = policy;
 
   useEffect(() => {
+    if (Url) {
+      setIsView(true);
+    } else {
+      setIsView(false);
+    }
     //   get single policy
     if (params.id) {
       dispatch(GetSinglePolicy(params.id));
@@ -156,6 +162,7 @@ function PoliciesDetail() {
     formState: { errors },
     control,
     setValue,
+    getValues
   } = useForm(formOptions);
   setValue("DOB", params.id ? DOB : DOB);
   setValue("StartDate", params.id ? StartDate : StartDate);
@@ -180,6 +187,9 @@ function PoliciesDetail() {
   // onsubmit form
   function onSubmit() {
     console.log("hellow onsubmit");
+    const values = getValues();
+    console.log("values: ", values)
+
     return navigate(
       params.id ? `/admin/vehical_detail/${params.id}` : "/admin/create_vehical"
     );
@@ -750,9 +760,9 @@ function PoliciesDetail() {
                                 <>
                                   <Link
                                     to={
-                                      params
-                                        ? `/admin/vehical_detail/${params.id}`
-                                        : "/admin/create_vehical"
+                                      Url
+                                      ? `/admin/vehical_detail/${params.id}`
+                                      : `/admin/vehical_detail_edit/${params.id}`
                                     }
                                     className="btn btn-2 btn-transparent btn-round-12 btn-border"
                                   >
@@ -914,13 +924,14 @@ function PoliciesDetail() {
               {/* BLOCK AREA END */}
             </div>
             {/* Body Content Area Inner End */}
+
             <footer className=" fixed-footer-1 mt-4 ">
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="ltnd__footer-1-inner bg-white">
                       <div className="ltnd__left btn-normal">
-                        {params.id && (
+                        {params.id && !isView && (
                           <span
                             style={{ fontWeight: "600", cursor: "pointer" }}
                             onClick={() => delPolicy(params.id)}
