@@ -38,7 +38,7 @@ const initialState = {
             id: "ltn__tab_3_3",
             name: "car%20Agencie",
             component: <CarAgenciesList />,
-            short: "PC"
+            short: "PCA"
         },
         {
             label: "Surveyor",

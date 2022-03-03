@@ -11,7 +11,7 @@ function CarAgenciesList() {
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
-    let car_agency_actions = getAllowActions({ permissions, module_name: "PC" });
+    let car_agency_actions = getAllowActions({ permissions, module_name: "PCA" });
 
 
     const dispatch = useDispatch();
