@@ -43,7 +43,10 @@ import {
 
     //Save Provider
     SAVE_PROVIDER_REQUEST,
-    SAVE_PROVIDER
+    SAVE_PROVIDER,
+
+
+    DELETE_PROVIDER_REQUEST
 
 
 
@@ -386,6 +389,20 @@ export const setProviderDetails = (id) => async dispatch => {
         })
     } catch (error) {
         dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: {user_loading:false}});
+        console.log(error);
+    }
+}
+
+
+export const deleteProvider = (id, navigate) => async dispatch => {
+    try {
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:true}});
+        let { data } = await instance.delete(`/api/Provider/PolicyDel?id=${id}`);
+        successAlert({title:"Successfully", text:"PROVIDER DEACTIVED"});
+        navigate("/admin/provider");
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:false}});
+    } catch (error) {
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:false}});
         console.log(error);
     }
 }

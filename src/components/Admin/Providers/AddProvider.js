@@ -10,6 +10,7 @@ import { successAlert } from 'functions';
 import { addProvider } from 'store/actions/provider';
 import Loader from 'components/Loader/Loader';
 import { confirmAlert } from 'functions';
+import { deleteProvider } from 'store/actions/provider';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -136,7 +137,7 @@ const AddProvider = () => {
     }
 
     const _deleteAction = () => {
-        navigate('/admin/provider');
+        dispatch(deleteProvider(navigate, id));
     }
 
 
