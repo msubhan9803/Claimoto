@@ -11,15 +11,21 @@ import { useSearchParams } from "react-router-dom";
 import { getAccessRoles, getRoles, handleInputValue, getActions, getModulesActions } from 'store/actions/users/users_screen';
 import { getUsers } from 'store/actions/users/users_screen';
 import { getAllowActions } from 'functions';
+import ADAnimation from 'components/AccessDenied/ADAnimation';
 
 
-function UserManagement({ actions }) {
+function UserManagement() {
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
 
     //Redux State
     const { permissions } = useSelector(state => state.authReducer);
-    let pre_actions = getAllowActions({permissions, module_name : "AUM"});
+
+    let user_actions = getAllowActions({ permissions, module_name: "AUM" });
+    let roles_actions = getAllowActions({ permissions, module_name: "ARM" });
+    let ag_actions = getAllowActions({ permissions, module_name: "AGM" });
+
+
     const { tabs, search_options, userValues, users_per_page, users_page_index, users_count } = useSelector(state => state.usersScreenReducer);
     const { search_option, search_text, sort_name, sort_type } = userValues;
     //Component State
@@ -138,8 +144,8 @@ function UserManagement({ actions }) {
 
     return (
         <React.Fragment>
-            {comState.openUserModal && <UserAddModal pre_actions={actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
-            {comState.openAccessModal && <AccessAddModal pre_actions={actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
+            {comState.openUserModal && <UserAddModal pre_actions={user_actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
+            {comState.openAccessModal && <AccessAddModal pre_actions={ag_actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -228,19 +234,22 @@ function UserManagement({ actions }) {
                                             </div>
                                         </li> */}
                                         {
-                                            pre_actions?.includes("INSERT") &&
                                             <li>
                                                 <div className="btn-wrapper text-center mt-0">
-                                                    <button
-                                                        onClick={() => _toggleModal("add_user")}
-                                                        className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                        Add User +
-                                                    </button>
-                                                    <button
-                                                        onClick={() => _toggleModal("add_access_group")}
-                                                        className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                        Add Access Group +
-                                                    </button>
+                                                    {user_actions?.includes("INSERT") &&
+                                                        <button
+                                                            onClick={() => _toggleModal("add_user")}
+                                                            className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                            Add User +
+                                                        </button>
+                                                    }
+                                                    {ag_actions?.includes("INSERT") &&
+                                                        <button
+                                                            onClick={() => _toggleModal("add_access_group")}
+                                                            className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                            Add Access Group +
+                                                        </button>
+                                                    }
                                                 </div>
                                             </li>
                                         }
@@ -262,7 +271,11 @@ function UserManagement({ actions }) {
                                             <TabsWrapper>
                                                 <TabsHeader tabs={tabs} />
                                                 <TabContent>
-                                                    {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                                    {getAllowActions({ permissions, module_name: tabs[parseInt(searchParams.get("tab"))]?.short }) ?
+                                                        tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4> :
+                                                        // <iframe style={{position:"fixed", left:"50%", top:"50%"}} src="https://embed.lottiefiles.com/animation/86535"></iframe>
+                                                        <ADAnimation />
+                                                    }
                                                     {/* {tabs.map((tab, index) => (
                                                         <Tab key={tab.id} tab={tab} index={index}>
                                                             {tab.component}

@@ -109,11 +109,11 @@ export const adminRoutes = ({userPermissions}) => {
                 },
             ]
         },
-        _checkPer("AUM") && 
+        (_checkPer("AUM") || _checkPer("ARM") || _checkPer("AGM")) &&
         {
             name: "User management",
             path: "/user_management",
-            component: <UserManagement actions={ _checkPer("AUM").ModuleActions} />,
+            component: <UserManagement />,
             icon: "ti-user",
             layout: "admin",
         },

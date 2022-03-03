@@ -49,21 +49,21 @@ const initialState = {
             id: "ltn__tab_3_1",
             name: "members",
             component: <UserList />,
-            short: "Members"
+            short: "AUM"
         },
         {
             label: "User roles",
             id: "ltn__tab_3_2",
             name: "user_roles",
             component: <RoleList />,
-            short: "Roles"
+            short: "ARM"
         },
         {
             label: "Access Groups",
             id: "ltn__tab_3_3",
             name: "access_management",
             component: <AccessGroupList />,
-            short: "Groups"
+            short: "AGM"
         }
     ],
     selectedTab: 0,
