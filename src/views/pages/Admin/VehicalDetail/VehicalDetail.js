@@ -19,7 +19,20 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { confirmAlert } from "functions";
 import Carasole from "components/Admin/Carasole/Carasole";
+import { getAllowActions } from "functions";
+
+
+
 function VehicalDetail() {
+
+  //Permissions Controlling
+  const { permissions } = useSelector(state => state.authReducer);
+  let vehicle_actions = getAllowActions({ permissions, module_name: "AVP" });
+
+
+
+
+
   // state hook
   const [isEdit, setIsEdit] = useState(false);
 

@@ -13,8 +13,17 @@ import VehiclePartList from "../../../../components/Admin/VehiclePart/VehiclePar
 import { setUserPage } from "store/actions/users/users_screen";
 import Fuse from "fuse.js";
 import SortArray from "sort-array";
+import { getAllowActions } from "functions";
+import ADAnimation from "components/AccessDenied/ADAnimation";
 
 const VehicleParts = () => {
+
+
+  //Permissions Controlling
+  const { permissions } = useSelector(state => state.authReducer);
+  let vehicle_actions = getAllowActions({ permissions, module_name: "AVP" });
+
+
   let [searchParams, setSearchParams] = useSearchParams();
   let dispatch = useDispatch();
   const {
@@ -220,16 +229,18 @@ const VehicleParts = () => {
                       </div>
                     </div>
                   </li>
-                  <li>
-                    <div className="btn-wrapper text-center mt-0">
-                      <Link
-                        className="btn theme-btn-1 btn-round-12 mt-2"
-                        to={"add_vehical_detail"}
-                      >
-                        Add +
-                      </Link>
-                    </div>
-                  </li>
+                  {vehicle_actions?.includes("INSERT") &&
+                    <li>
+                      <div className="btn-wrapper text-center mt-0">
+                        <Link
+                          className="btn theme-btn-1 btn-round-12 mt-2"
+                          to={"add_vehical_detail"}
+                        >
+                          Add +
+                        </Link>
+                      </div>
+                    </li>
+                  }
                 </ul>
               </div>
             </div>
@@ -364,9 +375,13 @@ const VehicleParts = () => {
                               </ul>
 
                               {/* Vehicle List */}
-                              <VehiclePartList
-                                state={filteredVehiclePartList}
-                              />
+                              {vehicle_actions?.includes("VIEW") ?
+                                <VehiclePartList
+                                  state={filteredVehiclePartList}
+                                />
+                                :
+                                <ADAnimation />
+                              }
                             </div>
                           </div>
                         </div>

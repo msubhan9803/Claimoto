@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
+import { getAllowActions } from "functions";
 
 const customStyles = {
   cancelBtn: {
@@ -46,6 +47,11 @@ const defaultValues = {
 };
 
 const VehiclePartManage = (props) => {
+  //Permissions Control
+  const { permissions } = useSelector(state => state.authReducer);
+  let vehicle_actions = getAllowActions({ permissions, module_name: "AVP" });
+
+
   const initialState = {
     editable: false,
     canEdit: false,
@@ -170,7 +176,10 @@ const VehiclePartManage = (props) => {
                 </p>
               </div>
             </div>
-            {vehicleId && !state.canEdit && (
+            {
+              //Permission Check
+            vehicle_actions?.includes("UPDATE") &&
+            vehicleId && !state.canEdit && (  
               <div className="col-lg-3">
                 <div className="ltnd__page-title-area d-flex flex-row justify-content-end">
                   <button
