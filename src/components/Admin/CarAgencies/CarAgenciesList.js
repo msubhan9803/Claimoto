@@ -5,8 +5,13 @@ import { getCarAgency } from 'store/actions/provider';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/Loader/Loader';
 import { Link } from 'react-router-dom';
+import { getAllowActions } from 'functions';
 
 function CarAgenciesList() {
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let car_agency_actions = getAllowActions({ permissions, module_name: "PC" });
 
 
     const dispatch = useDispatch();
@@ -39,7 +44,6 @@ function CarAgenciesList() {
                                         <li className="table-data-1">Car Agency Name</li>
                                         <li className="table-data-3">POC name</li>
                                         <li className="table-data-4">Contact number</li>
-                                        <li className="table-data-5">Expiry</li>
                                         <li className="table-data-6">Car Agency address</li>
                                         <li className="table-data-7">Edit </li>
                                         {/* <li className="table-data-8">Details</li> */}
@@ -58,11 +62,13 @@ function CarAgenciesList() {
                                                 <li className="table-data-3">{contact?.FullName || ""}</li>
                                                 <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
                                                 <li className="table-data-6">{location?.StreetAddress | ""}</li>
-                                                <li className="table-data-7">
-                                                    <strong>
-                                                        <Link to={`/admin/edit_provider/car%20agency/${record.Id}?tab=0`} >Edit</Link>
-                                                    </strong>
-                                                </li>
+                                                {car_agency_actions?.includes("UPDATE") &&
+                                                    <li className="table-data-7">
+                                                        <strong>
+                                                            <Link to={`/admin/edit_provider/car%20agency/${record.Id}?tab=0`} >Edit</Link>
+                                                        </strong>
+                                                    </li>
+                                                }
                                                 {/* <li className="table-data-8">
                                                 <a
                                                     className="ltn__secondary-color"

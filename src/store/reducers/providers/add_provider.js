@@ -25,7 +25,10 @@ import {
 
     //SET_PROVIDER_DETAILS
     SET_PROVIDER_DETAILS_REQUEST,
-    SET_PROVIDER_DETAILS
+    SET_PROVIDER_DETAILS,
+
+    //DELETE_PROVIDE
+    DELETE_PROVIDER_REQUEST
 
 } from '../../types/providers';
 
@@ -92,8 +95,8 @@ const initialState = {
             country: "",
             city: "",
             area: "",
-            lat: "",
-            long: "",
+            lat: 29.378586,
+            long: 47.9903414,
             url: "",
             street_address: ""
         },
@@ -108,8 +111,9 @@ const initialState = {
     user_loading: false,
 
 
-    edit_index: null
+    edit_index: null,
 
+    deleting:false
 
 };
 
@@ -517,7 +521,14 @@ const addProviderScreenReducer = (state = initialState, action) => {
                 edit_index: Id
             }
         }
-
+        break;
+        case DELETE_PROVIDER_REQUEST : {
+            return {
+                ...state,
+                ...action.payload
+            };
+        }
+        break;
         default:
             return {
                 ...state,

@@ -38,8 +38,8 @@ const authReducer = (state = initialState, action) => {
         case SET_AUTH: {
             localStorage.setItem(localStorageVarible, action.payload);
             let user_details = jwt_decode(action.payload);
-            return { ...state, token: action.payload, user_details };
-
+            let permissions =  user_details?.UserPermissions || null;
+            return { ...state, token: action.payload, user_details, permissions: JSON.parse(permissions) };
         }
         break;
 

@@ -5,8 +5,16 @@ import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGarages } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
+import { getAllowActions } from 'functions';
 
-const  GaragesList = () => {
+const GaragesList = () => {
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let garage_actions = getAllowActions({ permissions, module_name: "PG" });
+
+
+
     const dispatch = useDispatch();
     const {
         list,
@@ -46,23 +54,25 @@ const  GaragesList = () => {
                                             let location = record.ProviderLocations?.length > 0 ? record.ProviderLocations[0] : null;
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
-                                                <li className="table-data-1">
-                                                    <strong>
-                                                        <img src={carImg} alt="car" />
-                                                        {record.Name}
-                                                    </strong>
-                                                </li>
-                                                <li className="table-data-3">{contact?.FullName || ""}</li>
-                                                <li className="table-data-4">{contact?.PhoneNumber | ""}</li>
-                                                <li className="table-data-6">
-                                                    {location?.StreetAddress || ""}
-                                                </li>
-                                                <li className="table-data-7">
-                                                    <strong>
-                                                        <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
-                                                    </strong>
-                                                </li>
-                                                {/* <li className="table-data-8">
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            <img src={carImg} alt="car" />
+                                                            {record.Name}
+                                                        </strong>
+                                                    </li>
+                                                    <li className="table-data-3">{contact?.FullName || ""}</li>
+                                                    <li className="table-data-4">{contact?.PhoneNumber | ""}</li>
+                                                    <li className="table-data-6">
+                                                        {location?.StreetAddress || ""}
+                                                    </li>
+                                                    {garage_actions?.includes("UPDATE") &&
+                                                        <li className="table-data-7">
+                                                            <strong>
+                                                                <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
+                                                            </strong>
+                                                        </li>
+                                                    }
+                                                    {/* <li className="table-data-8">
                                                     <a
                                                         className="ltn__secondary-color"
                                                         href="garage-details.html"
@@ -70,9 +80,9 @@ const  GaragesList = () => {
                                                         <strong>Details</strong>
                                                     </a>{" "}
                                                 </li> */}
-                                            </ul>
+                                                </ul>
                                             )
-                                        } 
+                                        }
                                         )}
                                     </div>
                                 </div>

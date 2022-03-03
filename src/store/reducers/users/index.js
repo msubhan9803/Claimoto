@@ -49,21 +49,21 @@ const initialState = {
             id: "ltn__tab_3_1",
             name: "members",
             component: <UserList />,
-            short: "Members"
+            short: "AUM"
         },
         {
             label: "User roles",
             id: "ltn__tab_3_2",
             name: "user_roles",
             component: <RoleList />,
-            short: "Roles"
+            short: "ARM"
         },
         {
             label: "Access Groups",
             id: "ltn__tab_3_3",
             name: "access_management",
             component: <AccessGroupList />,
-            short: "Groups"
+            short: "AGM"
         }
     ],
     selectedTab: 0,
@@ -308,7 +308,7 @@ const usersScreenReducer = (state = initialState, action) => {
                 accessValues: {
                     ...state.accessValues,
                     name: group_details?.GroupName || "",
-                    access_group: group_details ? { label: InheritAccessGroup.GroupName, value: InheritAccessGroup.Id } : "",
+                    access_group: group_details ? { label: InheritAccessGroup?.GroupName ||  "", value: InheritAccessGroup?.Id || "" } : "",
                     modules: modules.map((mod) => { return { label: mod.ModuleMenuName, value: mod.Id } }),
                     loading: false
                 },

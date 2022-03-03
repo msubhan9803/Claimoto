@@ -5,8 +5,15 @@ import Loader from 'components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSurveyor } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
+import { getAllowActions } from 'functions';
 
 const SurveyorList = () => {
+
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let surveyor_actions = getAllowActions({ permissions, module_name: "PS" });
+
 
     const dispatch = useDispatch();
     const {
@@ -55,11 +62,13 @@ const SurveyorList = () => {
                                                 <li className="table-data-6">
                                                     {location?.StreetAddress || ""}
                                                 </li>
-                                                <li className="table-data-7">
-                                                    <strong>
-                                                        <Link to={`/admin/edit_provider/surveyor/${record.Id}?tab=0`} >Edit</Link>
-                                                    </strong>
-                                                </li>
+                                                {surveyor_actions?.includes("UPDATE") &&
+                                                    <li className="table-data-7">
+                                                        <strong>
+                                                            <Link to={`/admin/edit_provider/surveyor/${record.Id}?tab=0`} >Edit</Link>
+                                                        </strong>
+                                                    </li>
+                                                }
                                                 {/* <li className="table-data-8">
                                             <a
                                                 className="ltn__secondary-color"
@@ -71,7 +80,7 @@ const SurveyorList = () => {
                                             </ul>
                                         )
                                     }
-                                )}
+                                    )}
                                 </div>
                             </div>
                         </div>

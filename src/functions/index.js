@@ -83,3 +83,6 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export const getAllowActions = ({permissions, module_name}) => {
+  return permissions.find(pre=>pre.ModuleSystemName === module_name)?.ModuleActions.map(act=>act.ActionName);
+}

@@ -6,11 +6,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from "react-router-dom";
 import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
 import ProviderAddModal from 'components/Admin/Providers/ProviderAddModal';
+import { getAllowActions } from 'functions';
+import ADAnimation from 'components/AccessDenied/ADAnimation';
 
 
-function UserManagement() {
+function Provider() {
+
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
+
+
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+
+
+
 
     //Redux State
     const { tabs, search_options } = useSelector(state => state.providersScreenReducer);
@@ -80,7 +91,7 @@ function UserManagement() {
 
     return (
         <React.Fragment>
-            <ProviderAddModal  toggleModal={() => _toggleModal("add")} openModal={comState.openModal} />
+            <ProviderAddModal toggleModal={() => _toggleModal("add")} openModal={comState.openModal} />
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -131,7 +142,7 @@ function UserManagement() {
                                         />
                                         <button type="submit">
                                             <i className="fas fa-search" />
-                                        </button> 
+                                        </button>
                                         {/* <select className='select search-options'>
                                         {search_options.map((op)=>(
                                             <option key={op.value} value={op.vlaue}>{op.label}</option>
@@ -139,7 +150,7 @@ function UserManagement() {
                                         ))}
                                         </select> */}
                                     </form>
-                                    
+
                                 </div>
                             </div>
                             <div className="col-lg-7">
@@ -178,7 +189,11 @@ function UserManagement() {
                                             <TabsWrapper>
                                                 <TabsHeader tabs={tabs} />
                                                 <TabContent>
-                                                    {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                                    {getAllowActions({ permissions, module_name: tabs[parseInt(searchParams.get("tab"))]?.short }) ?
+                                                        tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>
+                                                        :
+                                                        <ADAnimation />
+                                                    }
                                                     {/* {tabs.map((tab, index) => (
                                                         <Tab key={tab.id} tab={tab} index={index}>
                                                             {tab.component}
@@ -199,4 +214,4 @@ function UserManagement() {
     )
 }
 
-export default UserManagement
+export default Provider

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getUsers } from "store/actions/users/users_screen";
 import Pagination from 'components/Pagination/Pagination';
 import { setUserPage } from 'store/actions/users/users_screen';
+import { getAllowActions } from 'functions';
 
 function UserList() {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -18,6 +19,9 @@ function UserList() {
     } = useSelector(state => state.usersScreenReducer);
 
     const { search_text, search_option, sort_name, sort_type } = userValues;
+
+    const { permissions } = useSelector(state => state.authReducer);
+    let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
 
 
     const _handleEdit = (id) => {
@@ -80,11 +84,13 @@ function UserList() {
                                             </div>
                                         </li>
                                         <li className="table-data-7">
-                                            <strong>
-                                                <a onClick={() => _handleEdit(user.UserId)} role="button" title="EditUser" >
-                                                    Edit
-                                                </a>
-                                            </strong>
+                                            {pre_actions.includes("UPDATE") &&
+                                                <strong>
+                                                    <a onClick={() => _handleEdit(user.UserId)} role="button" title="EditUser" >
+                                                        Edit
+                                                    </a>
+                                                </strong>
+                                            }
                                         </li>
                                     </ul>
                                 ))}
@@ -111,11 +117,14 @@ function UserList() {
                                         </div></span></li>
                                         <li>
                                             <span>
-                                                <strong>
-                                                    <a onClick={() => _handleEdit(user.UserId)}>
-                                                        Edit
-                                                    </a>
-                                                </strong>
+                                                {pre_actions.includes("UPDATE") &&
+
+                                                    <strong>
+                                                        <a onClick={() => _handleEdit(user.UserId)}>
+                                                            Edit
+                                                        </a>
+                                                    </strong>
+                                                }
                                             </span>
                                         </li>
                                     </ul>

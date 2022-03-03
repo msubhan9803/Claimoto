@@ -5,8 +5,16 @@ import Loader from 'components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAgency } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
+import { getAllowActions } from 'functions';
 
 const AgenciesList = () => {
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let agency_actions = getAllowActions({ permissions, module_name: "PA" });
+
+
+
     const dispatch = useDispatch();
     const {
         list,
@@ -41,25 +49,27 @@ const AgenciesList = () => {
                                         {/* <li className="table-data-8">Details</li> */}
                                     </ul>
                                     {list.map(record => {
-                                        let contact = record.ProviderContacts?.length  > 0  ?  record.ProviderContacts[0] : null;
-                                        let location = record.ProviderLocations?.length  > 0  ?  record.ProviderLocations[0] : null;
+                                        let contact = record.ProviderContacts?.length > 0 ? record.ProviderContacts[0] : null;
+                                        let location = record.ProviderLocations?.length > 0 ? record.ProviderLocations[0] : null;
                                         return (
-                                        <ul className="ltn__select-availability-table-row">
-                                            <li className="table-data-1">
-                                                <strong>
-                                                    <img src={carImg} alt="car" />
-                                                    {record.Name}
-                                                </strong>
-                                            </li>
-                                            <li className="table-data-3">{contact?.FullName || ""}</li>
-                                            <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
-                                            <li className="table-data-6">{location?.StreetAddress || ""}</li>
-                                            <li className="table-data-7">
+                                            <ul className="ltn__select-availability-table-row">
+                                                <li className="table-data-1">
                                                     <strong>
-                                                        <Link to={`/admin/edit_provider/agency/${record.Id}?tab=0`} >Edit</Link>
+                                                        <img src={carImg} alt="car" />
+                                                        {record.Name}
                                                     </strong>
-                                            </li>
-                                            {/* <li className="table-data-8">
+                                                </li>
+                                                <li className="table-data-3">{contact?.FullName || ""}</li>
+                                                <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
+                                                <li className="table-data-6">{location?.StreetAddress || ""}</li>
+                                                {agency_actions?.includes("UPDATE") &&
+                                                    <li className="table-data-7">
+                                                        <strong>
+                                                            <Link to={`/admin/edit_provider/agency/${record.Id}?tab=0`} >Edit</Link>
+                                                        </strong>
+                                                    </li>
+                                                }
+                                                {/* <li className="table-data-8">
                                             <a
                                                 className="ltn__secondary-color"
                                                 href="agency-details.html"
@@ -67,8 +77,8 @@ const AgenciesList = () => {
                                                 <strong>Details</strong>
                                             </a>{" "}
                                         </li> */}
-                                        </ul>)
-})}
+                                            </ul>)
+                                    })}
 
                                 </div>
                             </div>

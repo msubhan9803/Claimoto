@@ -14,6 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { getAccessRoles } from 'store/actions/users/users_screen';
 import { confirmAlert } from 'functions';
+import { getAllowActions } from 'functions';
 
 
 
@@ -21,6 +22,8 @@ import { confirmAlert } from 'functions';
 
 const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
     const dispatch = useDispatch();
+    const { permissions } = useSelector(state => state.authReducer);
+    let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
     const { accessValues, modules_access_groups, modules_actions, access_groups, actions } = useSelector(state => state.usersScreenReducer);
     const { access_group, name, modules, module, loading } = accessValues;
     const { register, handleSubmit, formState: { errors }, control } = useForm(
@@ -89,7 +92,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
     useEffect(() => {
-        dispatch(getModules(access_group?.value));  
+        dispatch(getModules(access_group?.value));
     }, [access_group]);
 
     const _deleteAction = () => {
@@ -125,7 +128,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
         const payload = {
-            Edit:edit,
+            Edit: edit,
             AccessGroupId: id,
             GroupName: name,
             GroupDetails: "",
@@ -136,7 +139,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
 
         dispatch(addUpdateAccessGroup(payload));
-        
+
         setTimeout(() => {
             dispatch(getAccessRoles());
             toggleModal();
@@ -220,7 +223,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     name="access_group"
                                                     value={access_group}
                                                     onChange={(event) => _handleSelect(event, "access_group")}
-                                                    options={access_groups.map((option => { return { label: option?.GroupName, value: option.Id } }))}
+                                                    options={access_groups.filter(ag=>ag.IsDefault).map((option => { return { label: option?.GroupName || "", value: option.Id } }))}
                                                     closeMenuOnSelect={true}
                                                 />
                                                 {/* )}
@@ -285,7 +288,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
                                                             <div className="ltnd__left btn-normal">
-                                                                <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>
+                                                                {pre_actions.includes("DELETE") && <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>}
                                                             </div>
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
