@@ -19,6 +19,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { getAllowActions } from 'functions';
+import { msgAlert } from 'functions';
 
 // Custom model styling 
 const customStyles = {
@@ -33,6 +35,12 @@ const customStyles = {
 };
 
 function ProductDetail(props) {
+
+    //Permission Control
+    const { permissions } = useSelector(state => state.authReducer);
+    let product_actions = getAllowActions({ permissions, module_name: "APR" });
+
+
 
     //  Get id from Url  
     let params = useParams();
@@ -227,9 +235,20 @@ function ProductDetail(props) {
 
     // validetion useform
     function onSubmit() {
-        return params.id
-            ? updateProduct()
-            : SendForm();
+        if (params.id) {
+            if (product_actions.includes("UPDATE")) {
+                return updateProduct();
+            } else {
+                msgAlert({ title: "Permission Denied", text: "" });
+            }
+        } else {
+            if (product_actions.includes("INSERT")) {
+                return SendForm();
+            }else{
+                msgAlert({ title: "Permission Denied", text: "" });
+            }
+        }
+
     }
 
 
@@ -575,16 +594,17 @@ function ProductDetail(props) {
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner bg-white">
-
-                                        <div className="ltnd__left btn-normal" >
-                                            {params.id &&
-                                                <span onClick={() => openModal()}
-                                                    style={{ fontWeight: '600', cursor: 'pointer' }}
-                                                >
-                                                    <i className="ti-trash" /> Delete
-                                                </span>
-                                            }
-                                        </div>
+                                        {product_actions.includes("DELETE") &&
+                                            <div className="ltnd__left btn-normal" >
+                                                {params.id &&
+                                                    <span onClick={() => openModal()}
+                                                        style={{ fontWeight: '600', cursor: 'pointer' }}
+                                                    >
+                                                        <i className="ti-trash" /> Delete
+                                                    </span>
+                                                }
+                                            </div>
+                                        }
 
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">

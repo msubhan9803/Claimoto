@@ -18,8 +18,15 @@ import SortArray from "sort-array";
 import PaginationFromUI from "components/Pagination/PaginationFromUI";
 import Fuse from "fuse.js";
 import { setProductPage } from "store/actions/product";
+import { getAllowActions } from "functions";
+import ADAnimation from "components/AccessDenied/ADAnimation";
 
 function Products() {
+    //Permission Control
+  const { permissions } = useSelector(state => state.authReducer);
+  let product_actions = getAllowActions({ permissions, module_name: "APR" });
+
+
   // State
   const [search, setSearch] = useState("");
 
@@ -312,24 +319,27 @@ function Products() {
                         </div>
                       </div>
                     </li>
-                    <li>
-                      <div className="btn-wrapper text-center mt-0">
-                        <Link
-                          to="/admin/create_product"
-                          className="btn theme-btn-1 btn-round-12"
-                        >
-                          Add +
-                        </Link>
-                      </div>
-                    </li>
+                    {product_actions.includes("INSERT") &&
+                      <li>
+                        <div className="btn-wrapper text-center mt-0">
+                          <Link
+                            to="/admin/create_product"
+                            className="btn theme-btn-1 btn-round-12"
+                          >
+                            Add +
+                          </Link>
+                        </div>
+                      </li>
+                    }
                   </ul>
                 </div>
               </div>
             </div>
-            <div className="row">
-              {/* product-item */}
-              {filteredProducts.length > 0
-                ? _getPaginatedResults(filteredProducts).map((item, index) => {
+            {product_actions.includes("VIEW") ?
+              <div className="row">
+                {/* product-item */}
+                {filteredProducts.length > 0
+                  ? _getPaginatedResults(filteredProducts).map((item, index) => {
                     return (
                       <div className="col-lg-4 col-md-6" key={item.id}>
                         <div className="ltnd__product-item row flex-column justify-content-between mx-1">
@@ -393,8 +403,11 @@ function Products() {
                       </div>
                     );
                   })
-                : null}
-            </div>
+                  : null}
+              </div>
+              :
+              <ADAnimation />
+            }
             {filteredProducts && !filteredProducts.length && (
               <div className="row text-center h-100">
                 <h5>
