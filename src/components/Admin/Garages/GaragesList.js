@@ -56,7 +56,7 @@ const GaragesList = () => {
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            <img src={carImg} alt="car" />
+                                                        <img  src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
                                                             {record.Name}
                                                         </strong>
                                                     </li>
