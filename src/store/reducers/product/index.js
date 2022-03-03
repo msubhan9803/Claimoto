@@ -181,7 +181,6 @@ const productReducer = (state = initialState, action) => {
     }
 
     case GET_SINGLE_PRODUCT: {
-      debugger;
       // let filup = state.allProducts.find((item , index) => index == action.payload)
       return {
         ...state,
