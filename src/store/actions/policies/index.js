@@ -206,7 +206,6 @@ export const DeletePolicies = (id) => async (dispatch) => {
 
 // Update Policies
 export const UpdatePolicies = (data, params) => async (dispatch) => {
-  debugger;
   try {
     let check = Array.isArray(data.Benefits) && data.Benefits.length;
 
@@ -248,51 +247,71 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
       Image5: data.Image5,
     };
     console.log("policy detail update", policyDetail);
-    // await instance.put('api/Policy', policyDetail)
-    // .then(async (res) => {
-    // if (Object.keys(Imgdata).length > 0) {
-    let values;
-    const func = async (url) => {
-      console.log("url", url);
-      const response = await fetch(url);
-      const data = await response.blob();
-      const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
-      const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
-      const metadata = { type: `image/${ext}` };
-      return new File([data], filename, metadata);
-    };
+    await instance.put("api/Policy", policyDetail).then(async (res) => {
+      if (Object.keys(Imgdata).length > 0) {
+        let values;
+        const func = async (url) => {
+          console.log("url", url);
+          const response = await fetch(url);
+          const data = await response.blob();
+          const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+          const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
+          const metadata = { type: `image/${ext}` };
+          return new File([data], filename, metadata);
+        };
 
-    for (let [key, value] of Object.entries(Imgdata)) {
-      if (typeof value === "string") {
-        values = await func(value);
-        Imgdata[key] = values;
+        for (let [key, value] of Object.entries(Imgdata)) {
+          if (typeof value === "string") {
+            values = await func(value);
+            Imgdata[key] = values;
+          }
+        }
+        // let formData = new FormData();
+        // formData.append("Id", Number(params));
+        // for (let [key, value] of Object.entries(Imgdata)) {
+        //   formData.append(key, value);
+        //   let ig = await instance.post("api/FileUpload", formData);
+        // }
+        let formData = new FormData();
+        formData.append("Id", params);
+        for (let [key, value] of Object.entries(Imgdata)) {
+          formData.append(key, value);
+        }
+
+        await instance
+          .post("api/FileUpload", formData)
+          .then((res) => {
+            dispatch({
+              type: REGISTER_POLICIES,
+              payload: data,
+            });
+            SweetAlert({
+              text: res.data,
+              icon: "success",
+            });
+            // window.location.href = "/admin/policies";
+            dispatch({ type: UPDATE_POLICIES, payload: data });
+          })
+          .catch((err) => console.log("err FileUpload: ", err));
+
+        // formData.append(key, value);
+        // let ig = await instance.post('api/FileUpload', formData)
+        // SweetAlert({
+        //   text: "Policy are successfully update",
+        //   icon: "success",
+        // });
+
+        // console.log("imagDta", ig)
+
+        // await instance.post('api/FileUpload', formData)
+        // }
+        // dispatch({ type: UPDATE_POLICIES, payload: data })
+        // SweetAlert({
+        //     text: "Policy are successfully update",
+        //     icon: "success"
+        // })
       }
-    }
-    let formData = new FormData();
-    formData.append("Id", Number(params));
-    for (let [key, value] of Object.entries(Imgdata)) {
-      formData.append(key, value);
-      let ig = await instance.post("api/FileUpload", formData);
-    }
-    // formData.append(key, value);
-    // let ig = await instance.post('api/FileUpload', formData)
-    dispatch({ type: UPDATE_POLICIES, payload: data });
-    SweetAlert({
-      text: "Policy are successfully update",
-      icon: "success",
     });
-
-    // console.log("imagDta", ig)
-
-    // await instance.post('api/FileUpload', formData)
-    // }
-    // dispatch({ type: UPDATE_POLICIES, payload: data })
-    // SweetAlert({
-    //     text: "Policy are successfully update",
-    //     icon: "success"
-    // })
-
-    // })
   } catch (err) {
     console.log("err", err);
   }
