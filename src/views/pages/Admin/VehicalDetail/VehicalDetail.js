@@ -76,7 +76,7 @@ function VehicalDetail() {
   };
 
   useEffect(() => {
-    if (Url) {
+    if (Url || checkUrl == "vehical_detail_view") {
       setIsView(true);
     } else {
       setIsView(false);
@@ -85,9 +85,9 @@ function VehicalDetail() {
 
   // get single policy
   useEffect(() => {
-    // if (params.id) {
-    //     dispatch(GetSinglePolicy(params.id))
-    // }
+    if (params.id) {
+      dispatch(GetSinglePolicy(params.id));
+    }
     dispatch(GetColor());
   }, [params.id]);
 
@@ -99,7 +99,7 @@ function VehicalDetail() {
 
   useEffect(() => {
     if (isSuccess) {
-        console.log("==== isSuccess =====")
+      console.log("==== isSuccess =====");
       navigate("/admin/policies");
     }
   }, [isSuccess]);
@@ -179,7 +179,9 @@ function VehicalDetail() {
                       <Link
                         to={
                           params.id
-                            ? `/admin/policy_detail/${params.id}`
+                            ? checkUrl == "vehical_detail_view"
+                              ? "/admin/policies"
+                              : `/admin/policy_detail/${params.id}`
                             : "/admin/create_policy"
                         }
                       >
@@ -250,7 +252,7 @@ function VehicalDetail() {
                             <div className="policies-details-single-info">
                               <h6 className="ltnd__title-4">Plate number</h6>
                               <input
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 type="text"
                                 {...register("PlateNumber")}
                                 onChange={changeValue}
@@ -270,7 +272,7 @@ function VehicalDetail() {
                             <div className="policies-details-single-info">
                               <h6 className="ltnd__title-4">Capacity</h6>
                               <input
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 type="number"
                                 min={0}
                                 {...register("Capacity")}
@@ -292,7 +294,7 @@ function VehicalDetail() {
                             <div className="policies-details-single-info">
                               <h6 className="ltnd__title-4">Chassis number</h6>
                               <input
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 type="text"
                                 {...register("ChassisNumber")}
                                 onChange={changeValue}
@@ -313,7 +315,7 @@ function VehicalDetail() {
                             <div className="policies-details-single-info">
                               <h6 className="ltnd__title-4">Color</h6>
                               <select
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 className="nice-select"
                                 {...register("ColourId")}
                                 onChange={changeValue}
@@ -346,7 +348,7 @@ function VehicalDetail() {
                             <div className="policies-details-single-info">
                               <h6 className="ltnd__title-4">Year</h6>
                               <input
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 type="number"
                                 min={0}
                                 name="Year"
@@ -394,7 +396,7 @@ function VehicalDetail() {
                           <input
                             type="file"
                             id="file_2"
-                            disabled={Url ? true : false}
+                            disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                             name="Image1"
                             style={{ display: "none" }}
                             onChange={_onImageChange}
@@ -405,7 +407,7 @@ function VehicalDetail() {
                           <input
                             type="file"
                             id="file_1"
-                            disabled={Url ? true : false}
+                            disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                             name="Image1"
                             onChange={_onImageChange}
                           />
@@ -446,7 +448,7 @@ function VehicalDetail() {
                               </label>
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 id="files"
                                 name="Image2"
                                 style={{ display: "none" }}
@@ -457,7 +459,7 @@ function VehicalDetail() {
                             <div className="Neon Neon-theme-dragdropbox">
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 name="Image2"
                                 onChange={_onImageChange}
                               />
@@ -495,7 +497,7 @@ function VehicalDetail() {
                               </label>
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 id="file_s"
                                 name="Image3"
                                 style={{ display: "none" }}
@@ -506,7 +508,7 @@ function VehicalDetail() {
                             <div className="Neon Neon-theme-dragdropbox">
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 name="Image3"
                                 onChange={_onImageChange}
                               />
@@ -544,7 +546,7 @@ function VehicalDetail() {
                               </label>
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 id="file_4"
                                 name="Image4"
                                 style={{ display: "none" }}
@@ -555,7 +557,7 @@ function VehicalDetail() {
                             <div className="Neon Neon-theme-dragdropbox">
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 name="Image4"
                                 onChange={_onImageChange}
                               />
@@ -593,7 +595,7 @@ function VehicalDetail() {
                               </label>
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 id="file_5"
                                 name="Image5"
                                 style={{ display: "none" }}
@@ -604,7 +606,7 @@ function VehicalDetail() {
                             <div className="Neon Neon-theme-dragdropbox">
                               <input
                                 type="file"
-                                disabled={Url ? true : false}
+                                disabled={Url || checkUrl == "vehical_detail_view" ? true : false}
                                 name="Image5"
                                 onChange={_onImageChange}
                               />
@@ -652,7 +654,9 @@ function VehicalDetail() {
                           <Link
                             to={
                               isView
-                                ? `/admin/policy_detail/${params.id}`
+                                ? checkUrl == "vehical_detail_view"
+                                  ? "/admin/policies"
+                                  : `/admin/policy_detail/${params.id}`
                                 : `/admin/policy_detail_edit/${params.id}`
                             }
                           >

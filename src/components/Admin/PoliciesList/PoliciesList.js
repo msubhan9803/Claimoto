@@ -47,7 +47,7 @@ function PoliciesList({ policies }) {
                       </li>
                       <li className="table-data-7">
                         <strong>
-                          <Link to={`/admin/vehical_detail/${p.Id}`}>
+                          <Link to={`/admin/vehical_detail_view/${p.Id}`}>
                             Vehicle
                           </Link>
                         </strong>

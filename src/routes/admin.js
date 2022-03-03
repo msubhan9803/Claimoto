@@ -150,6 +150,12 @@ export const adminRoutes = () => {
         },
         {
             name: "",
+            path: "/vehical_detail_view/:id",
+            component: <VehicalDetail />,
+            layout: "admin"
+        },
+        {
+            name: "",
             path: "/vehical_detail_edit/:id",
             component: <VehicalDetail />,
             layout: "admin"
