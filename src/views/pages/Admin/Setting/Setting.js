@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Setting() {
   return (
@@ -29,26 +30,30 @@ function Setting() {
                     <div className="ltn__block-item-info">
                       <div className="row">
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-user"></i>
+                          <Link to={"/admin/settings/account_preferences"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-user"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Account</h6>
+                                <p>Manage account preferences</p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Account</h6>
-                              <p>Manage account preferences</p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-bell"></i>
+                          <Link to={"/admin/settings/notification_preferences"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-bell"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Notification</h6>
+                                <p>Manage notifcation preferences </p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Notification</h6>
-                              <p>Manage notifcation preferences </p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -68,29 +73,33 @@ function Setting() {
                     <div className="ltn__block-item-info">
                       <div className="row">
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i class="ti-marker-alt"></i>
+                          <Link to={"/admin/settings/email_signature"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i class="ti-marker-alt"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Email Signature</h6>
+                                <p>Manage email signature</p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Email Signature</h6>
-                              <p>Manage email signature</p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-email"></i>
+                          <Link to={"/admin/settings/email_management"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-email"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Email/Notification Template</h6>
+                                <p>
+                                  Manage email/motification templates <br />
+                                  for different events.
+                                </p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Email/Notification Template</h6>
-                              <p>
-                                Manage email/motification templates <br />
-                                for different events.
-                              </p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -110,30 +119,34 @@ function Setting() {
                     <div className="ltn__block-item-info">
                       <div className="row">
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-pulse"></i>
+                          <Link to={"/admin/settings/logs_activity"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-pulse"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Acitivity Logs</h6>
+                                <p>
+                                  View activity hostry and <br /> error logs{" "}
+                                </p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Acitivity Logs</h6>
-                              <p>
-                                View activity hostry and <br /> error logs{" "}
-                              </p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-na"></i>
+                          <Link to={"/admin/settings/logs_error"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-na"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Error Logs</h6>
+                                <p>
+                                  View error hostry and <br /> error logs{" "}
+                                </p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Error Logs</h6>
-                              <p>
-                                View error hostry and <br /> error logs{" "}
-                              </p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -155,26 +168,30 @@ function Setting() {
                     <div className="ltn__block-item-info">
                       <div className="row">
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-view-list-alt" />
+                          <Link to={"/admin/settings/smtp_management"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-view-list-alt" />
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>SMTP</h6>
+                                <p>Manage smtp configuration.</p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>SMTP</h6>
-                              <p>Manage smtp configuration.</p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                         <div className="col-lg-6">
-                          <div className="settings-single-item mb-40">
-                            <div className="settings-single-item-icon">
-                              <i className="ti-time" />
+                          <Link to={"/admin/settings/timezone_management"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-time" />
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Timezone</h6>
+                                <p>Manage timezone configuration.</p>
+                              </div>
                             </div>
-                            <div className="settings-single-item-info">
-                              <h6>Timezone</h6>
-                              <p>Manage timezone configuration.</p>
-                            </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -184,32 +201,6 @@ function Setting() {
             </div>
             {/* BLOCK AREA END */}
           </div>
-          {/* Body Content Area Inner End */}
-          <footer className="ltnd__footer-1 fixed-footer-1 bg-white mt-80 d-none">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="ltnd__footer-1-inner">
-                    <div className="ltnd__left btn-normal">
-                      <a href="#" className="ltn__color-1">
-                        <i className="ti-trash" /> Delete
-                      </a>
-                    </div>
-                    <div className="ltnd__right btn-normal">
-                      <div className="btn-wrapper">
-                        <a href="product.html" className="ltn__color-1">
-                          <i className="ti-angle-left" /> Back
-                        </a>
-                        <a href="#" className="btn theme-btn-1 btn-round-12">
-                          Save
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
     </React.Fragment>
