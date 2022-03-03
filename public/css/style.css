@@ -20119,3 +20119,9 @@ form .ltnd__title-3 {
     height: 50vh;
   }
 }
+
+.spinner-grow {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+}

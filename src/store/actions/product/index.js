@@ -16,7 +16,7 @@ import {
   PRODUCT_SORT,
   FILTERS_DATA_CHANGE,
   HANDLE_PRODUCT_FILTERING,
-  SET_PRODUCTS_PAGE_INDEX
+  SET_PRODUCTS_PAGE_INDEX,
 } from "store/types/types";
 
 export const GetInputs = (name, value) => (dispatch) => {
@@ -170,7 +170,7 @@ export const GetProduct = () => async (dispatch) => {
     });
     dispatch({
       type: FILTERS_DATA_CHANGE,
-      payload: { name: "products_count", value: res.data.length }
+      payload: { name: "products_count", value: res.data.length },
     });
   } catch (err) {
     console.log("err", err);
@@ -273,12 +273,23 @@ export const UpdateProduct = (data) => async (dispatch) => {
     };
 
     let res = await instance.put("api/Product/PutProduct", value);
-
-    SweetAlert({
-      text: res.data,
-      icon: "success",
-    });
-    dispatch({ type: UPDATE_PRODUCT, payload: value });
+    if (res.data?.includes("Already")) {
+      debugger;
+      SweetAlert({
+        text: "Product Name and Product type pair is not unique",
+        icon: "error",
+      });
+      // dispatch({ type: "ALERT_ALREADY_EXIT", payload: res.data });
+    } else {
+      SweetAlert({
+        text: res.data,
+        icon: "success",
+      });
+      dispatch({ type: UPDATE_PRODUCT, payload: value });
+      // setTimeout(() => {
+      //   window.location.href = "/admin/products";
+      // }, 850);
+    }
   } catch (err) {
     console.log("err", err);
   }
@@ -317,6 +328,6 @@ export const HandleFilterTable = (filteredList) => (dispatch) => {
   }
 };
 
-export const setProductPage = (pageIndex) => async dispatch => {
+export const setProductPage = (pageIndex) => async (dispatch) => {
   dispatch({ type: SET_PRODUCTS_PAGE_INDEX, payload: pageIndex });
-}
+};
