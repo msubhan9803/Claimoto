@@ -308,7 +308,7 @@ const usersScreenReducer = (state = initialState, action) => {
                 accessValues: {
                     ...state.accessValues,
                     name: group_details?.GroupName || "",
-                    access_group: group_details ? { label: InheritAccessGroup.GroupName, value: InheritAccessGroup.Id } : "",
+                    access_group: group_details ? { label: InheritAccessGroup?.GroupName ||  "", value: InheritAccessGroup?.Id || "" } : "",
                     modules: modules.map((mod) => { return { label: mod.ModuleMenuName, value: mod.Id } }),
                     loading: false
                 },

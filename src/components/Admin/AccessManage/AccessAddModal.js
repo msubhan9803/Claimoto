@@ -223,7 +223,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     name="access_group"
                                                     value={access_group}
                                                     onChange={(event) => _handleSelect(event, "access_group")}
-                                                    options={access_groups.map((option => { return { label: option?.GroupName, value: option.Id } }))}
+                                                    options={access_groups.filter(ag=>ag.IsDefault).map((option => { return { label: option?.GroupName || "", value: option.Id } }))}
                                                     closeMenuOnSelect={true}
                                                 />
                                                 {/* )}
