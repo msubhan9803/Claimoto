@@ -95,8 +95,8 @@ const initialState = {
             country: "",
             city: "",
             area: "",
-            lat: "",
-            long: "",
+            lat: 29.378586,
+            long: 47.9903414,
             url: "",
             street_address: ""
         },

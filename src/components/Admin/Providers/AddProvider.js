@@ -11,6 +11,8 @@ import { addProvider } from 'store/actions/provider';
 import Loader from 'components/Loader/Loader';
 import { confirmAlert } from 'functions';
 import { deleteProvider } from 'store/actions/provider';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import MapComponent from 'components/Admin/Providers/Map/MapComponent';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -20,9 +22,20 @@ const AddProvider = () => {
     const { addTabs, tab1, tab2, tab3, success, loading, user_loading } = useSelector(state => state.addProviderScreenReducer);
     const { name, contacts, logo } = tab1;
     const { selected_service_types } = tab2;
-    const { selected_locations } = tab3;
+    const { selected_locations, location_values } = tab3;
+    const { lat, long } = location_values;
+    //Map Defaults
+    const zoom = 7;
 
 
+
+    const _mapRender = (status) => {
+        // if (status === Status.LOADING) return <h3>{status} ..</h3>;
+        // if (status === Status.FAILURE) return <h3>{status} ...</h3>;
+        // return null;
+        return <p>{status}</p>;
+
+    };
 
     //Actions
     const _handleComActions = () => {
@@ -106,7 +119,7 @@ const AddProvider = () => {
                 services: selected_service_types,
                 locations: selected_locations,
                 providerId: _getProviderId(),
-                editId:id || null
+                editId: id || null
 
             }
             dispatch(addProvider(action_payload));
@@ -128,12 +141,12 @@ const AddProvider = () => {
 
 
     const _handleCancel = () => {
-            confirmAlert({
-                title: "Are you sure?",
-                text: "",
-                buttonText: "Yes, Go Back",
-                action: _cancelAction
-            });
+        confirmAlert({
+            title: "Are you sure?",
+            text: "",
+            buttonText: "Yes, Go Back",
+            action: _cancelAction
+        });
     }
 
     const _deleteAction = () => {
@@ -142,14 +155,14 @@ const AddProvider = () => {
 
 
     const _handleDelete = () => {
-        if(id){
-        confirmAlert({
-            title: "Are you sure?",
-            text: "",
-            buttonText: "Yes, Deactivate it",
-            action: _deleteAction
-        });
-    }
+        if (id) {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Deactivate it",
+                action: _deleteAction
+            });
+        }
     }
 
 
@@ -189,7 +202,7 @@ const AddProvider = () => {
     return (
         <React.Fragment>
             {user_loading ?
-                <div style={{textAlign:"center"}}>
+                <div style={{ textAlign: "center" }}>
                     <Loader />
                 </div>
                 :
@@ -211,8 +224,20 @@ const AddProvider = () => {
                         </div>
 
                         <div className="ltnd__right-full-height d-none d-md-block">
-                            <img src={Side_Image} alt="#" />
+                            {
+                                searchParams.get("tab") < 2 ?
+                                    <img src={Side_Image} alt="#" /> :
+                                    <Wrapper apiKey='AIzaSyASwWi0HKSx9m6NhXKyn-voaZm2YunPtx4' render={_mapRender}>
+                                        <MapComponent center={{ lat:  parseFloat(lat) ,lng: parseFloat(long)}} zoom={zoom} />
+                                    </Wrapper>
+
+                            }
+
                         </div>
+
+
+
+
                     </div>
 
                     <footer className="ltnd__footer-1 fixed-footer-1  bg-white" >
@@ -221,7 +246,7 @@ const AddProvider = () => {
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner">
                                         <div className="ltnd__left btn-normal">
-                                        <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
+                                            <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
                                         </div>
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">
