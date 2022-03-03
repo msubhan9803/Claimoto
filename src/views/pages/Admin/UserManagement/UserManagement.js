@@ -14,6 +14,10 @@ import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+
+
 function UserManagement() {
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
@@ -199,7 +203,7 @@ function UserManagement() {
                                             value={search_text}
                                         />
                                         <button type="submit">
-                                            <i className="fas fa-search" />
+                                        <FontAwesomeIcon icon={faSearch} />
                                         </button>
                                         <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
                                             <option disabled value={""}>Search By</option>

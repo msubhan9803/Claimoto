@@ -3,8 +3,8 @@ import RespHeader from "components/Admin/ResponsiveHeader/RespHeader";
 import { useDispatch } from "react-redux";
 import userImg from 'assets/img/icons/mc/png/10.png';
 import { handleLogout } from 'store/actions/auth/user';
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
 
 function ProductNavbar() {
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ function ProductNavbar() {
                                 <div className="ltn__top-bar-menu">
                                     <ul>
                                         {/*Notifications*/}
-                                        <li className="ltnd-dropdown">
+                                        {/* <li className="ltnd-dropdown">
                                             <a className="toggle" href="#">
                                                 <i className="far fa-bell" />
                                             </a>
@@ -92,7 +92,7 @@ function ProductNavbar() {
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </li> */}
                                         {/*User Account*/}
                                         <li className="ltnd-dropdown ltnd__user-img">
                                             <a className="toggle" href="#">
@@ -150,7 +150,8 @@ function ProductNavbar() {
                                         </li>
                                         <li className="ltnd-dropdown ltnd__user-img">
                                             <a role="button" onClick={_handleLogout} className="toggle" href="#">
-                                            <i class="far fa-power-off"></i>
+                                            <FontAwesomeIcon icon={faPowerOff} />
+
                                             </a>
                                         </li>
                                     </ul>
