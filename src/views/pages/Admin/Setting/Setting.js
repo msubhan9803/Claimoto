@@ -31,7 +31,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="far fa-user"></i>
+                              <i className="ti-user"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Account</h6>
@@ -42,7 +42,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="far fa-bell"></i>
+                              <i className="ti-bell"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Notification</h6>
@@ -70,7 +70,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i class="far fa-file-signature"></i>
+                              <i class="ti-marker-alt"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Email Signature</h6>
@@ -81,7 +81,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="far fa-envelope"></i>
+                              <i className="ti-email"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Email/Notification Template</h6>
@@ -112,7 +112,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="far fa-file-lines"></i>
+                              <i className="ti-pulse"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Acitivity Logs</h6>
@@ -125,7 +125,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="fa fa-regular fa-file-xmark"></i>
+                              <i className="ti-na"></i>
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Error Logs</h6>
@@ -157,7 +157,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="ti-bell" />
+                              <i className="ti-view-list-alt" />
                             </div>
                             <div className="settings-single-item-info">
                               <h6>SMTP</h6>
@@ -168,7 +168,7 @@ function Setting() {
                         <div className="col-lg-6">
                           <div className="settings-single-item mb-40">
                             <div className="settings-single-item-icon">
-                              <i className="ti-bell" />
+                              <i className="ti-time" />
                             </div>
                             <div className="settings-single-item-info">
                               <h6>Timezone</h6>
