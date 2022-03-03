@@ -239,13 +239,13 @@ function ProductDetail(props) {
             if (product_actions.includes("UPDATE")) {
                 return updateProduct();
             } else {
-                msgAlert({ title: "Permission Denied", text: "" });
+                msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
             }
         } else {
             if (product_actions.includes("INSERT")) {
                 return SendForm();
             }else{
-                msgAlert({ title: "Permission Denied", text: "" });
+                msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
             }
         }
 
