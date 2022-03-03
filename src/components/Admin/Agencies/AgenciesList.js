@@ -32,11 +32,13 @@ const AgenciesList = () => {
 
     return (
         <React.Fragment>
-            {loading ?
-                <Loader /> :
 
-                <div className="ltn__product-tab-content-inner">
-                    <div className="row">
+
+            <div className="ltn__product-tab-content-inner">
+
+                <div className="row">
+                    {loading ?
+                        <Loader /> :
                         <div className="col-lg-12">
                             <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                                 <div className="ltn__select-availability-table  d-none d-md-block">
@@ -83,9 +85,11 @@ const AgenciesList = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
-            }
+
+            </div>
+
 
 
             {/* <Pagination /> */}

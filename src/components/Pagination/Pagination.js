@@ -2,8 +2,12 @@
 
 
 
-import React from 'react'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+
 function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
+
     const pagesCount = Math.ceil(recordsCount / recordsPerPage);
 
 
@@ -15,7 +19,7 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
                         {pageIndex !== 1 &&
                             <li>
                                 <a role="button" onClick={() => handler(pageIndex - 1)}>
-                                    <i className="fas fa-chevron-left" />
+                                    <FontAwesomeIcon icon={faChevronLeft} />
                                 </a>
                             </li>
                         }
@@ -28,7 +32,8 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
                         {pageIndex !== pagesCount &&
                             <li>
                                 <a role="button" onClick={() => handler(pageIndex + 1)}>
-                                    <i className="fas fa-chevron-right" />
+                                    <FontAwesomeIcon icon={faChevronRight} />
+
                                 </a>
                             </li>
                         }

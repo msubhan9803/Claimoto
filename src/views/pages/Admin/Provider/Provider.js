@@ -8,7 +8,8 @@ import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
 import ProviderAddModal from 'components/Admin/Providers/ProviderAddModal';
 import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function Provider() {
 
@@ -141,7 +142,8 @@ function Provider() {
                                             className=""
                                         />
                                         <button type="submit">
-                                            <i className="fas fa-search" />
+                                        <FontAwesomeIcon icon={faSearch} />
+
                                         </button>
                                         {/* <select className='select search-options'>
                                         {search_options.map((op)=>(

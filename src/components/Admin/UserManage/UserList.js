@@ -5,6 +5,7 @@ import { getUsers } from "store/actions/users/users_screen";
 import Pagination from 'components/Pagination/Pagination';
 import { setUserPage } from 'store/actions/users/users_screen';
 import { getAllowActions } from 'functions';
+import Loader from 'components/Loader/Loader';
 
 function UserList() {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -45,9 +46,7 @@ function UserList() {
             <div className="row">
                 <div className="col-lg-12">
                     {loadingUsers ?
-                        <div className="spinner-grow" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
+                        <Loader />
                         :
                         <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                             <div className="ltn__select-availability-table  d-none d-md-block">
@@ -132,13 +131,13 @@ function UserList() {
                             </div>
 
 
+                            <Pagination recordsCount={users_count} pageIndex={users_page_index} recordsPerPage={users_per_page} handler={_paginationHandler} className="mt-3" />
 
                         </div>
                     }
                 </div>
             </div>
 
-            <Pagination recordsCount={users_count} pageIndex={users_page_index} recordsPerPage={users_per_page} handler={_paginationHandler} className="mt-3" />
         </React.Fragment>)
 }
 

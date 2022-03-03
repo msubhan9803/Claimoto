@@ -1,8 +1,5 @@
+import React from 'react';
 
-
-
-
-import React from 'react'
 function Loader() {
     return (
         <div className="spinner-grow" role="status">

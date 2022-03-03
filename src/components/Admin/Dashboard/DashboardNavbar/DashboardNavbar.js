@@ -1,13 +1,28 @@
 import React from "react";
 import RespHeader from "../../ResponsiveHeader/RespHeader";
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import mcIcon from '../../../../assets/img/icons/mc/png/10.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPowerOff, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from "react-redux";
+import { handleLogout } from 'store/actions/auth/user';
+
+
 export default function DashboardNavbar() {
+
+  const dispatch = useDispatch();
+
+  const _handleLogout = () => {
+    dispatch(handleLogout());
+  }
+
+
+
   return (
     <React.Fragment>
-        <RespHeader/>
+      <RespHeader />
       {/* HEADER AREA START */}
-      <div className="ltnd__header-area section-bg-5" style={{padding:'25px'}} >
+      <div className="ltnd__header-area section-bg-5" style={{ padding: '25px' }} >
         {/* ltn__header-top-area start */}
         <div className="ltn__header-top-area top-area-color-white ltnd__header-top-area">
           <div className="row">
@@ -17,7 +32,7 @@ export default function DashboardNavbar() {
                 <div className="ltn__top-bar-menu">
                   <ul>
                     {/*Notifications*/}
-                    <li className="ltnd-dropdown">
+                    {/* <li className="ltnd-dropdown">
                       <a className="toggle" href="#">
                         <i className="far fa-bell" />
                       </a>
@@ -63,7 +78,7 @@ export default function DashboardNavbar() {
                               <div className="ltnd-dropdown-menu-item">
                                 <a href="#">
                                   <div className="image">
-                                  <img src={mcIcon} alt="mC_img" />
+                                    <img src={mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -78,22 +93,22 @@ export default function DashboardNavbar() {
                           </ul>
                         </div>
                       </div>
-                    </li>
+                    </li> */}
                     {/*User Account*/}
                     <li className="ltnd-dropdown ltnd__user-img">
                       <Link className="toggle" to="/">
-                      <img src={mcIcon} alt="mC_img" />
+                        <img src={mcIcon} alt="mC_img" />
                       </Link>
                       <div className="ltnd-dropdown-menu dropdown-menu-user">
                         <div className="head">
                           <div className="dropdown-menu-user-img">
-                          <img src={mcIcon} alt="mC_img" />
+                            <img src={mcIcon} alt="mC_img" />
                           </div>
                           <div className="dropdown-menu-user-info">
                             <h6>Yasmin Ali</h6>
                             <p className="dropdown-menu-user-mail">
                               yasminali@gmail.com
-                        </p>
+                            </p>
                             <p className="dropdown-menu-user-title">
                               <strong>Account</strong>
                             </p>
@@ -109,10 +124,10 @@ export default function DashboardNavbar() {
                                 <div className="btn-wrapper btn-normal mt-0">
                                   <a href="#" className="btn-active">
                                     English
-                              </a>
+                                  </a>
                                   <a href="#" className="btn-inactive">
                                     ةيبرعلا
-                              </a>
+                                  </a>
                                 </div>
                               </div>
                             </li>
@@ -121,16 +136,23 @@ export default function DashboardNavbar() {
                                 <p>
                                   <a href="terms-conditions.html">
                                     Terms and conditions
-                              </a>
+                                  </a>
                                 </p>
                                 <p>
                                   <a href="login.html">Logout</a>
                                 </p>
                               </div>
                             </li>
+
                           </ul>
                         </div>
                       </div>
+                    </li>
+                    <li className="ltnd-dropdown ltnd__user-img">
+                      <a role="button" onClick={_handleLogout} className="toggle" href="#">
+                        <FontAwesomeIcon icon={faPowerOff} />
+
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -161,7 +183,7 @@ export default function DashboardNavbar() {
                       placeholder="Select Date"
                     />
                     <div className="input-group-addon">
-                      <i className="far fa-calendar-alt" />
+                      <FontAwesomeIcon icon={faCalendar} />
                     </div>
                   </div>
                 </div>
@@ -173,7 +195,7 @@ export default function DashboardNavbar() {
       </div>
       {/* HEADER AREA END */}
 
-      
+
 
     </React.Fragment>
 
