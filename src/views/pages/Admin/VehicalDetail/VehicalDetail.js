@@ -72,7 +72,7 @@ function VehicalDetail() {
     console.log("s_file", s_file);
     let name = event.target.name;
     let selectedTypes = ["image/png", "image/jpg", "image/jpeg"];
-    if (!selectedTypes.includes(s_file.type)) {
+    if (!selectedTypes?.includes(s_file.type)) {
       msgAlert({
         title: "Invalid Image Type",
         text: "Only Png and Jpeg images are allowed",

@@ -55,20 +55,20 @@ function CarAgenciesList() {
                                             <ul key={record.Id} className="ltn__select-availability-table-row">
                                                 <li className="table-data-1">
                                                     <strong>
-                                                        <img  src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
+                                                        <img src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
                                                         {record.Name}
                                                     </strong>
                                                 </li>
                                                 <li className="table-data-3">{contact?.FullName || ""}</li>
                                                 <li className="table-data-4">{contact?.PhoneNumber || ""}</li>
                                                 <li className="table-data-6">{location?.StreetAddress | ""}</li>
-                                                {car_agency_actions?.includes("UPDATE") &&
-                                                    <li className="table-data-7">
+                                                <li className="table-data-7">
+                                                    {car_agency_actions?.includes("UPDATE") &&
                                                         <strong>
                                                             <Link to={`/admin/edit_provider/car%20agency/${record.Id}?tab=0`} >Edit</Link>
                                                         </strong>
-                                                    </li>
-                                                }
+                                                    }
+                                                </li>
                                                 {/* <li className="table-data-8">
                                                 <a
                                                     className="ltn__secondary-color"

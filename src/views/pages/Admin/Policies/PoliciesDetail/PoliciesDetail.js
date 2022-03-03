@@ -21,7 +21,15 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import ReactSelect from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
+import { getAllowActions } from "functions";
 function PoliciesDetail() {
+
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let policy_actions = getAllowActions({ permissions, module_name: "APO" });
+  
+
   // params hook
   let params = useParams();
   let location = useLocation();

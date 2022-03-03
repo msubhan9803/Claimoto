@@ -236,13 +236,13 @@ function ProductDetail(props) {
     // validetion useform
     function onSubmit() {
         if (params.id) {
-            if (product_actions.includes("UPDATE")) {
+            if (product_actions?.includes("UPDATE")) {
                 return updateProduct();
             } else {
                 msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
             }
         } else {
-            if (product_actions.includes("INSERT")) {
+            if (product_actions?.includes("INSERT")) {
                 return SendForm();
             }else{
                 msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
@@ -594,7 +594,7 @@ function ProductDetail(props) {
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner bg-white">
-                                        {product_actions.includes("DELETE") &&
+                                        {product_actions?.includes("DELETE") &&
                                             <div className="ltnd__left btn-normal" >
                                                 {params.id &&
                                                     <span onClick={() => openModal()}

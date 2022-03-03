@@ -56,7 +56,7 @@ const GaragesList = () => {
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                        <img  src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
+                                                            <img src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
                                                             {record.Name}
                                                         </strong>
                                                     </li>
@@ -65,13 +65,13 @@ const GaragesList = () => {
                                                     <li className="table-data-6">
                                                         {location?.StreetAddress || ""}
                                                     </li>
-                                                    {garage_actions?.includes("UPDATE") &&
-                                                        <li className="table-data-7">
+                                                    <li className="table-data-7">
+                                                        {garage_actions?.includes("UPDATE") &&
                                                             <strong>
                                                                 <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
                                                             </strong>
-                                                        </li>
-                                                    }
+                                                        }
+                                                    </li>
                                                     {/* <li className="table-data-8">
                                                     <a
                                                         className="ltn__secondary-color"

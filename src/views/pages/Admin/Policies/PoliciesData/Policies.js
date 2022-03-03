@@ -10,8 +10,16 @@ import {
 import SortArray from "sort-array";
 import Fuse from "fuse.js";
 import PaginationFromUI from "components/Pagination/PaginationFromUI";
+import { getAllowActions } from "functions";
+import ADAnimation from "components/AccessDenied/ADAnimation";
 
 function Policies() {
+
+  //Permissions Controlling
+  const { permissions } = useSelector(state => state.authReducer);
+  let policy_actions = getAllowActions({ permissions, module_name: "APO" });
+
+
   const dispatch = useDispatch();
   const policies = useSelector((state) => state.policyReducer.allPolicies);
   const { isLoading } = useSelector((state) => state.productReducer.product);
@@ -264,17 +272,19 @@ function Policies() {
                         </div>
                       </div>
                     </li>
-                    <li>
-                      <div className="btn-wrapper text-center mt-0">
-                        <Link
-                          to="/admin/create_policy"
-                          className="btn theme-btn-1 btn-round-12"
-                        >
-                          Add +
-                        </Link>
-                        {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
-                      </div>
-                    </li>
+                    {policy_actions?.includes("INSERT") &&
+                      <li>
+                        <div className="btn-wrapper text-center mt-0">
+                          <Link
+                            to="/admin/create_policy"
+                            className="btn theme-btn-1 btn-round-12"
+                          >
+                            Add +
+                          </Link>
+                          {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
+                        </div>
+                      </li>
+                    }
                   </ul>
                 </div>
               </div>
@@ -287,7 +297,14 @@ function Policies() {
             <div className="row">
               <div className="col-lg-12">
                 {/* ltnd__policies-table start */}
-                <PoliciesList policies={_getPaginatedResults(filteredPoliciesList)} />
+                {policy_actions?.includes("VIEW") ?
+
+                  <PoliciesList policies={_getPaginatedResults(filteredPoliciesList)} />
+
+                  :
+
+                  <ADAnimation />
+                }
 
                 {/* <!-- pagination --> */}
                 {policies_count > 0 && (

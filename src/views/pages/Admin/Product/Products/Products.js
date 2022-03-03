@@ -319,7 +319,7 @@ function Products() {
                         </div>
                       </div>
                     </li>
-                    {product_actions.includes("INSERT") &&
+                    {product_actions?.includes("INSERT") &&
                       <li>
                         <div className="btn-wrapper text-center mt-0">
                           <Link
@@ -335,7 +335,7 @@ function Products() {
                 </div>
               </div>
             </div>
-            {product_actions.includes("VIEW") ?
+            {product_actions?.includes("VIEW") ?
               <div className="row">
                 {/* product-item */}
                 {filteredProducts.length > 0

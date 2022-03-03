@@ -83,7 +83,7 @@ function UserList() {
                                             </div>
                                         </li>
                                         <li className="table-data-7">
-                                            {pre_actions.includes("UPDATE") &&
+                                            {pre_actions?.includes("UPDATE") &&
                                                 <strong>
                                                     <a onClick={() => _handleEdit(user.UserId)} role="button" title="EditUser" >
                                                         Edit
@@ -116,7 +116,7 @@ function UserList() {
                                         </div></span></li>
                                         <li>
                                             <span>
-                                                {pre_actions.includes("UPDATE") &&
+                                                {pre_actions?.includes("UPDATE") &&
 
                                                     <strong>
                                                         <a onClick={() => _handleEdit(user.UserId)}>

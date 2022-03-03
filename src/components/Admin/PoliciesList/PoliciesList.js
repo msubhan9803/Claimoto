@@ -2,8 +2,16 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { _productDetailDotDot } from "functions";
+import { useSelector } from "react-redux";
+import { getAllowActions } from "functions";
 
 function PoliciesList({ policies }) {
+
+  //Permissions Controlling
+  const { permissions } = useSelector(state => state.authReducer);
+  let policy_actions = getAllowActions({ permissions, module_name: "APO" });
+
+
 
   return (
     <React.Fragment>
@@ -61,12 +69,14 @@ function PoliciesList({ policies }) {
                         </Link>
                       </li>
                       <li className="table-data-8">
-                        <Link
-                          className="ltn__secondary-color"
-                          to={`/admin/policy_detail_edit/${p.Id}`}
-                        >
-                          <strong>Edit</strong>
-                        </Link>
+                        {policy_actions?.includes("UPDATE") &&
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/admin/policy_detail_edit/${p.Id}`}
+                          >
+                            <strong>Edit</strong>
+                          </Link>
+                        }
                       </li>
                     </ul>
                   );
