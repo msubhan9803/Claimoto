@@ -394,11 +394,11 @@ export const setProviderDetails = (id) => async dispatch => {
 }
 
 
-export const deleteProvider = (id, navigate) => async dispatch => {
+export const deleteProvider = (navigate, id) => async dispatch => {
     try {
         dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:true}});
         let { data } = await instance.delete(`/api/Provider/PolicyDel?id=${id}`);
-        successAlert({title:"Successfully", text:"PROVIDER DEACTIVED"});
+        successAlert({title:"Successfully", text:data || ""});
         navigate("/admin/provider");
         dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:false}});
     } catch (error) {
