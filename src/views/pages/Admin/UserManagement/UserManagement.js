@@ -19,6 +19,8 @@ function UserManagement() {
     let [searchParams, setSearchParams] = useSearchParams();
 
     //Redux State
+
+    //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
 
     let user_actions = getAllowActions({ permissions, module_name: "AUM" });

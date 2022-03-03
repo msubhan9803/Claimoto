@@ -24,28 +24,28 @@ const initialState = {
             id: "ltn__tab_3_1",
             name: "garages",
             component: <GaragesList />,
-            short: "Garages"
+            short: "PG"
         },
         {
             label: "Agencies",
             id: "ltn__tab_3_2",
             name: "agencies",
             component: <AgenciesList />,
-            short: "Agencies"
+            short: "PA"
         },
         {
             label: "Car Agencies",
             id: "ltn__tab_3_3",
             name: "car%20Agencie",
             component: <CarAgenciesList />,
-            short: "Car Agn"
+            short: "PC"
         },
         {
             label: "Surveyor",
             id: "ltn__tab_3_3",
             name: "surveyor",
             component: <SurveyorList />,
-            short: "surveyor"
+            short: "PS"
         }
     ],
 

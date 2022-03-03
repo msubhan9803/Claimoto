@@ -25,11 +25,10 @@ export const adminRoutes = ({userPermissions}) => {
     }
 
     return [
-        _checkPer("AD") && 
         {
             name: "Dashboard",
             path: "/",
-            component: <Dashboard actions={ _checkPer("AD").ModuleActions} />,
+            component: <Dashboard />,
             icon: "ti-layout",
             layout: "admin",
             short_name:"AD"
@@ -52,7 +51,7 @@ export const adminRoutes = ({userPermissions}) => {
             layout: "admin",
             short_name:"AD"
         },
-        _checkPer("APR") && 
+        (_checkPer("PG") || _checkPer("PA") || _checkPer("PC") || _checkPer("PS")) && 
         {
             name: "Providers",
             path: "/provider",
@@ -64,7 +63,7 @@ export const adminRoutes = ({userPermissions}) => {
                 {
                     name: "Providers",
                     path: "/provider",
-                    component: <Provider actions={ _checkPer("APR").ModuleActions} />,
+                    component: <Provider  />,
                     layout: "admin",
                 },
                 {

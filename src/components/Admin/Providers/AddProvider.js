@@ -13,12 +13,26 @@ import { confirmAlert } from 'functions';
 import { deleteProvider } from 'store/actions/provider';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import MapComponent from 'components/Admin/Providers/Map/MapComponent';
+import { getAllowActions } from 'functions';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { type, id } = useParams();
     let navigate = useNavigate();
     const dispatch = useDispatch();
+
+
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+    let garage_actions = getAllowActions({ permissions, module_name: "PG" });
+    let agency_actions = getAllowActions({ permissions, module_name: "PA" });
+    let car_agency_actions = getAllowActions({ permissions, module_name: "PC" });
+    let surveyor_actions = getAllowActions({ permissions, module_name: "PS" });
+
+
+
+
+
     const { addTabs, tab1, tab2, tab3, success, loading, user_loading } = useSelector(state => state.addProviderScreenReducer);
     const { name, contacts, logo } = tab1;
     const { selected_service_types } = tab2;
@@ -51,6 +65,30 @@ const AddProvider = () => {
 
     const _setProviderDetails = (id) => {
         dispatch(setProviderDetails(id));
+    }
+
+
+    const _checkPermissionsOfProvider = (action) => {
+        switch (type) {
+            case "garage":
+                return garage_actions?.includes(action);
+                break;
+            case "agency":
+                return agency_actions?.includes(action);
+                break;
+
+            case "car agency":
+                return car_agency_actions?.includes(action);
+                break;
+
+            case "surveyor":
+                return surveyor_actions?.includes(action);
+                break;
+
+            default:
+                return false;
+                break;
+        }
     }
 
 
@@ -112,18 +150,32 @@ const AddProvider = () => {
             setSearchParams(searchParams);
         } else if (!error && active_tab === 2) {
 
-            let action_payload = {
-                name,
-                logo,
-                contacts,
-                services: selected_service_types,
-                locations: selected_locations,
-                providerId: _getProviderId(),
-                editId: id || null
 
+            //Handling Update and Insert
+
+            if ((_checkPermissionsOfProvider("INSERT") || _checkPermissionsOfProvider("UPDATE"))) {
+                //If user has Permission of Insert and Update
+                if (id && !_checkPermissionsOfProvider("UPDATE")) {
+                    //If User is Updating but Do not Have Permissions
+                    msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
+                } else {
+                    // Updating and Inserting
+                    let action_payload = {
+                        name,
+                        logo,
+                        contacts,
+                        services: selected_service_types,
+                        locations: selected_locations,
+                        providerId: _getProviderId(),
+                        editId: id || null
+                    }
+                    dispatch(addProvider(action_payload));
+
+                }
+            } else {
+                //If User Do not have permissions
+                msgAlert({ title: "Permissions Denied", text: "Requested Action Permissions Denied" })
             }
-            dispatch(addProvider(action_payload));
-
 
         }
     }
@@ -228,7 +280,7 @@ const AddProvider = () => {
                                 searchParams.get("tab") < 2 ?
                                     <img src={Side_Image} alt="#" /> :
                                     <Wrapper apiKey='AIzaSyASwWi0HKSx9m6NhXKyn-voaZm2YunPtx4' render={_mapRender}>
-                                        <MapComponent center={{ lat:  parseFloat(lat) ,lng: parseFloat(long)}} zoom={zoom} />
+                                        <MapComponent center={{ lat: parseFloat(lat), lng: parseFloat(long) }} zoom={zoom} />
                                     </Wrapper>
 
                             }
@@ -246,7 +298,9 @@ const AddProvider = () => {
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner">
                                         <div className="ltnd__left btn-normal">
-                                            <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
+                                            {_checkPermissionsOfProvider("DELETE") &&
+                                                <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
+                                            }
                                         </div>
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">
@@ -255,7 +309,10 @@ const AddProvider = () => {
                                                 {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
                                                 {searchParams.get("tab") > 0 &&
                                                     <button role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</button>}
-                                                <button role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</button>
+
+                                                { // (_checkPermissionsOfProvider("INSERT") || _checkPermissionsOfProvider("UPDATE")) &&
+                                                    <button role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
