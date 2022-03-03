@@ -588,7 +588,7 @@ function ProductDetail(props) {
 
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">
-                                                <Link to="/products">
+                                                <Link to="/admin/products">
                                                     <i className="ti-angle-left" /> Back
                                                 </Link>
                                                 <button type="submit" className="btn theme-btn-1 btn-round-12">
