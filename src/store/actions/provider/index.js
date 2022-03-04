@@ -45,9 +45,11 @@ import {
     SAVE_PROVIDER_REQUEST,
     SAVE_PROVIDER,
 
+    //DELETE
+    DELETE_PROVIDER_REQUEST,
 
-    DELETE_PROVIDER_REQUEST
-
+    //Handle Change
+    SET_INPUT_VALUES_PROVIDER_SCREEN
 
 
 } from '../../types/providers';
@@ -57,10 +59,10 @@ import {
 
 
 
-export const addProvider = ({name, logo, contacts, services, locations, providerId, editId}) => async dispatch => {
+export const addProvider = ({ name, logo, contacts, services, locations, providerId, editId }) => async dispatch => {
     try {
         //Restructuring contacts
-        let provider_contacts = contacts.map((contact)=>{
+        let provider_contacts = contacts.map((contact) => {
             return {
                 "Id": contact?.Id || 0,
                 "FullName": contact.full_name,
@@ -70,21 +72,21 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
         });
 
         //Restructuring services
-        let provider_services = services.map((service)=>{
+        let provider_services = services.map((service) => {
             return {
-                    "Id": service?.Id || 0,
-                    "ProviderServiceId": service.service_type,
-                    "ServiceTypeId":service.service
+                "Id": service?.Id || 0,
+                "ProviderServiceId": service.service_type,
+                "ServiceTypeId": service.service
             }
         });
 
         //Restructuring locations
-        let provider_locations = locations.map((loc)=>{
+        let provider_locations = locations.map((loc) => {
             return {
                 "Id": loc?.Id || 0,
                 "BranchName": loc.name,
                 "CountryId": loc.country,
-                "StreetAddress":loc.street_address,
+                "StreetAddress": loc.street_address,
                 "CityId": loc.city,
                 "Url": loc.url,
                 "latitude": loc.lat,
@@ -96,7 +98,7 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
         //Payload
         const payload = {
             "Id": editId || 0,
-            "Name": name ,
+            "Name": name,
             "ProviderTypeId": providerId,
             "ImageModel": logo,
             "ProviderContacts": provider_contacts,
@@ -104,13 +106,13 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
             "ProviderLocations": provider_locations
         };
 
-        dispatch({ type: SAVE_PROVIDER_REQUEST, payload: {success:false, error:false, loading: true} });
+        dispatch({ type: SAVE_PROVIDER_REQUEST, payload: { success: false, error: false, loading: true } });
         let { data } = editId ? await instance.put(`api/Provider`, payload) : await instance.post(`api/Provider`, payload);
-        successAlert({title : data || "Added Successfully"});
-        dispatch({ type: SAVE_PROVIDER, payload: {success:true, loading: false} });
+        successAlert({ title: data || "Added Successfully" });
+        dispatch({ type: SAVE_PROVIDER, payload: { success: true, loading: false } });
 
     } catch (error) {
-        dispatch({ type: SAVE_PROVIDER_REQUEST, payload: {success:false, error:true, loading: false} });
+        dispatch({ type: SAVE_PROVIDER_REQUEST, payload: { success: false, error: true, loading: false } });
         console.log(error);
     }
 }
@@ -125,10 +127,11 @@ export const addProvider = ({name, logo, contacts, services, locations, provider
 
 
 // Root Getters
-export const getGarages = ({ record_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
+export const getGarages = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
+        let ProviderTypeId = 1;
         dispatch({ type: GET_REQUEST, payload: { modeule: "garages", bool: true, list: [] } });
-        let { data } = await instance.get(`api/Provider/Garage`);
+        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_GARAGES,
             payload: data
@@ -140,10 +143,11 @@ export const getGarages = ({ record_per_page, page_index, search_text, search_op
 }
 
 
-export const getCarAgency = ({ record_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
+export const getCarAgency = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
+        let ProviderTypeId = 3;
         dispatch({ type: GET_REQUEST, payload: { modeule: "car_agencies", bool: true, list: [] } });
-        let { data } = await instance.get(`api/Provider/CarAgency`);
+        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_CAR_AGENCIES,
             payload: data
@@ -154,10 +158,11 @@ export const getCarAgency = ({ record_per_page, page_index, search_text, search_
     }
 }
 
-export const getAgency = ({ record_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
+export const getAgency = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
+        let ProviderTypeId = 2;
         dispatch({ type: GET_REQUEST, payload: { modeule: "agencies", bool: true, list: [] } });
-        let { data } = await instance.get(`api/Provider/Agency`);
+        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_AGENCIES,
             payload: data
@@ -168,10 +173,11 @@ export const getAgency = ({ record_per_page, page_index, search_text, search_opt
     }
 }
 
-export const getSurveyor = ({ record_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
+export const getSurveyor = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
+        let ProviderTypeId = 4;
         dispatch({ type: GET_REQUEST, payload: { modeule: "surveyorers", bool: true, list: [] } });
-        let { data } = await instance.get(`api/Provider/Surveyor`);
+        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_SURVEYORERS,
             payload: data
@@ -380,15 +386,15 @@ export const clearAddProviderState = () => dispatch => {
 
 export const setProviderDetails = (id) => async dispatch => {
     try {
-        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: {user_loading:true}});
-        
+        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: { user_loading: true } });
+
         let { data } = await instance.get(`/api/Provider/ProviderByID?Id=${id}`);
         dispatch({
             type: SET_PROVIDER_DETAILS,
             payload: data
         })
     } catch (error) {
-        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: {user_loading:false}});
+        dispatch({ type: SET_PROVIDER_DETAILS_REQUEST, payload: { user_loading: false } });
         console.log(error);
     }
 }
@@ -396,13 +402,31 @@ export const setProviderDetails = (id) => async dispatch => {
 
 export const deleteProvider = (navigate, id) => async dispatch => {
     try {
-        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:true}});
-        let { data } = await instance.delete(`/api/Provider/PolicyDel?id=${id}`);
-        successAlert({title:"Successfully", text:data || ""});
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: { deleting: true } });
+        let { data } = await instance.delete(`/api/Provider/ProviderDel?id=${id}`);
+        successAlert({ title: "Successfully", text: data || "" });
         navigate("/admin/provider");
-        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:false}});
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: { deleting: false } });
     } catch (error) {
-        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: {deleting:false}});
+        dispatch({ type: DELETE_PROVIDER_REQUEST, payload: { deleting: false } });
         console.log(error);
+    }
+}
+
+
+
+//handle Change
+
+export const handleProviderInputValue = ({ name, value, compnnt }) => dispatch => {
+
+    try {
+        dispatch({
+            type:  SET_INPUT_VALUES_PROVIDER_SCREEN,
+            payload: { name, value }
+        })
+
+    }
+    catch (error) {
+        console.log("err", error)
     }
 }

@@ -15,19 +15,45 @@ const GaragesList = () => {
 
 
 
+
     const dispatch = useDispatch();
+    const {
+        garages,
+        search_option,
+        search_text,
+        sort_type,
+        sort_name,
+    } = useSelector(state => state.providersScreenReducer);
+
+
     const {
         list,
         loading,
         records_per_page,
         page_index,
         count,
-    } = useSelector(state => state.providersScreenReducer.garages);
+    } = garages;
+
+
+    const _paginationHandler = () => {
+        _getList();
+    }
+
+
+    const _getList = () => {
+        dispatch(getGarages({
+            records_per_page, page_index, search_option,
+            search_text,
+            sort_type,
+            sort_name,
+        }));
+    }
 
 
     useEffect(() => {
-        dispatch(getGarages({ records_per_page, page_index }));
+        _getList();
     }, []);
+
 
 
 
@@ -50,20 +76,18 @@ const GaragesList = () => {
                                             {/* <li className="table-data-8">Details</li> */}
                                         </ul>
                                         {list.map(record => {
-                                            let contact = record.ProviderContacts?.length > 0 ? record.ProviderContacts[0] : null;
-                                            let location = record.ProviderLocations?.length > 0 ? record.ProviderLocations[0] : null;
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            <img src={record.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${record.ImageUrl}`} alt="" />
+                                                        <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
                                                             {record.Name}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-3">{contact?.FullName || ""}</li>
-                                                    <li className="table-data-4">{contact?.PhoneNumber | ""}</li>
+                                                    <li className="table-data-3">{record?.FullName || ""}</li>
+                                                    <li className="table-data-4">{record?.PhoneNumber | ""}</li>
                                                     <li className="table-data-6">
-                                                        {location?.StreetAddress || ""}
+                                                        {record?.StreetAddress || ""}
                                                     </li>
                                                     <li className="table-data-7">
                                                         {garage_actions?.includes("UPDATE") &&
@@ -92,7 +116,7 @@ const GaragesList = () => {
             }
 
 
-            {/* <Pagination /> */}
+            <Pagination recordsCount={count} pageIndex={page_index} recordsPerPage={records_per_page} handler={_paginationHandler} className="mt-3" />
         </React.Fragment>
     )
 }

@@ -6,6 +6,8 @@ import {
     GET_SURVEYORERS,
     //Request
     GET_REQUEST,
+    //Handle Change
+    SET_INPUT_VALUES_PROVIDER_SCREEN
 
 
 
@@ -56,31 +58,57 @@ const initialState = {
     surveyorers: {
         list: [],
         records_per_page: 10,
-        age_index: 1,
+        page_index: 1,
         count: 0,
         loading: false
     },
     garages: {
         list: [],
         records_per_page: 10,
-        age_index: 1,
+        page_index: 1,
         count: 0,
         loading: false
     },
     car_agencies: {
         list: [],
         records_per_page: 10,
-        age_index: 1,
+        page_index: 1,
         count: 0,
         loading: false
     },
     agencies: {
         list: [],
         records_per_page: 10,
-        age_index: 1,
+        page_index: 1,
         count: 0,
         loading: false
-    }
+    },
+
+
+    search_options: [
+        {
+            label: "Name",
+            value: "Name",
+        },
+        {
+            label: "POC",
+            value: "FullName",
+        },
+        {
+            label: "Mobile",
+            value: "PhoneNumber",
+        },
+        {
+            label:"Address",
+            value:"StreetAddress"
+        }
+    ],
+
+
+    search_option: "",
+    search_text: "",
+    sort_type: "asc",
+    sort_name: "",
 
 
 
@@ -97,13 +125,13 @@ const providersScreenReducer = (state = initialState, action) => {
 
 
         case GET_REQUEST: {
-            let {modeule, bool, list} = action.payload;
+            let { modeule, bool, list } = action.payload;
             return {
                 ...state,
                 [modeule]:
                 {
                     ...state[modeule],
-                    loading:bool,
+                    loading: bool,
                     list
                 }
             }
@@ -111,58 +139,73 @@ const providersScreenReducer = (state = initialState, action) => {
             break;
 
         case GET_GARAGES: {
+            const { ModelProvider, TotalRecord } = action.payload;
             return {
                 ...state,
                 garages:
                 {
                     ...state.garages,
-                    list: action.payload,
-                    loading:false
+                    list: ModelProvider || [],
+                    count: TotalRecord || 0,
+                    loading: false
                 }
             }
         }
             break;
 
         case GET_CAR_AGENCIES: {
+            const { ModelProvider, TotalRecord } = action.payload;
             return {
                 ...state,
                 car_agencies:
                 {
                     ...state.car_agencies,
-                    list: action.payload,
-                    loading:false
+                    list: ModelProvider || [],
+                    count: TotalRecord || 0,
+                    loading: false
                 }
             }
         }
             break;
 
         case GET_AGENCIES: {
+            const { ModelProvider, TotalRecord } = action.payload;
             return {
                 ...state,
                 agencies:
                 {
                     ...state.agencies,
-                    list: action.payload,
-                    loading:false
+                    list: ModelProvider || [],
+                    count: TotalRecord || 0,
+                    loading: false
                 }
             }
         }
             break;
 
         case GET_SURVEYORERS: {
+            const { ModelProvider, TotalRecord } = action.payload;
             return {
                 ...state,
                 surveyorers:
                 {
                     ...state.surveyorers,
-                    list: action.payload,
-                    loading:false
+                    list: ModelProvider || [],
+                    count: TotalRecord || 0,
+                    loading: false
                 }
             }
         }
             break;
 
-        
+        case SET_INPUT_VALUES_PROVIDER_SCREEN: {
+            const { name, value } = action.payload;
+            return {
+                ...state,
+                [name]: value,
+            }
+        }
+            break;
 
         default:
             return { ...state };

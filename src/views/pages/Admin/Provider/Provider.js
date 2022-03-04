@@ -4,12 +4,16 @@ import TabContent from 'components/Tabs/TabsContent';
 import TabsHeader from 'components/Tabs/TabsHeader';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from "react-router-dom";
-import { getAccessRoles, getRoles } from 'store/actions/users/users_screen';
+import { handleProviderInputValue } from 'store/actions/provider';
 import ProviderAddModal from 'components/Admin/Providers/ProviderAddModal';
 import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { getGarages } from 'store/actions/provider';
+import { getAgency } from 'store/actions/provider';
+import { getCarAgency } from 'store/actions/provider';
+import { getSurveyor } from 'store/actions/provider';
 
 function Provider() {
 
@@ -25,20 +29,18 @@ function Provider() {
 
 
     //Redux State
-    const { tabs, search_options } = useSelector(state => state.providersScreenReducer);
+    const { tabs, search_options, search_option, search_text, sort_type, sort_name, surveyorers, garages, car_agencies, agencies } = useSelector(state => state.providersScreenReducer);
 
     //Component State
     let initialState = {
         openModal: false,
     }
-    const [comState, setComState] = useState(initialState);
 
+    const [comState, setComState] = useState(initialState);
 
 
     //Actions
     const _handleComActions = () => {
-        dispatch(getRoles());
-        dispatch(getAccessRoles());
         // dispatch(getModules());
         let action = searchParams.get("action");
         let activeTab = searchParams.get("tab");
@@ -70,6 +72,41 @@ function Provider() {
 
 
 
+    const _getProvidersList = () => {
+        let records_per_page = 10;
+        let page_index = 1;
+        switch (searchParams.get("tab")) {
+            case "garage":
+                records_per_page = garages.records_per_page;
+                page_index = garages.page_index;
+                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "agency":
+                records_per_page = agencies.records_per_page;
+                page_index = agencies.page_index;
+                dispatch(getAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "car agency":
+                records_per_page = car_agencies.records_per_page;
+                page_index = car_agencies.page_index;
+                dispatch(getCarAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "surveyor":
+                records_per_page = surveyorers.records_per_page;
+                page_index = surveyorers.page_index;
+                dispatch(getSurveyor({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            default:
+                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+        }
+    }
+
+
     //toggleModal
     const _toggleModal = (action) => {
         if (searchParams.has("action")) {
@@ -83,9 +120,24 @@ function Provider() {
     }
 
 
+
+    const _handleChange = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        dispatch(handleProviderInputValue({ name, value }));
+    }
+
+
     useEffect(() => {
         _handleComActions();
     }, [searchParams]);
+
+
+    useEffect(() => {
+        if (search_text?.length > 2 && search_option !== "" || search_text === "") {
+            _getProvidersList();
+        }
+    }, [search_text, search_option, sort_name])
 
 
 
@@ -137,20 +189,22 @@ function Provider() {
                                     <form action="#" _lpchecked={1}>
                                         <input
                                             type="text"
-                                            name="search"
+                                            name="search_text"
                                             placeholder="Search ..."
+                                            onChange={_handleChange}
                                             className=""
+                                            value={search_text}
                                         />
                                         <button type="submit">
-                                        <FontAwesomeIcon icon={faSearch} />
-
+                                            <FontAwesomeIcon icon={faSearch} />
                                         </button>
-                                        {/* <select className='select search-options'>
-                                        {search_options.map((op)=>(
-                                            <option key={op.value} value={op.vlaue}>{op.label}</option>
+                                        <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
+                                            <option disabled value={""}>Search By</option>
+                                            {search_options.map((op) => (
+                                                <option key={op.value} value={op.value}>{op.label}</option>
 
-                                        ))}
-                                        </select> */}
+                                            ))}
+                                        </select>
                                     </form>
 
                                 </div>
@@ -160,7 +214,12 @@ function Provider() {
                                     <ul>
                                         <li>
                                             <div className="short-by text-center">
-                                                <select className="nice-select">
+                                                <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
+                                                    <option disabled value={""}>Sort By</option>
+                                                    {search_options.map((op) => (
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+
+                                                    ))}
                                                 </select>
                                             </div>
                                         </li>
