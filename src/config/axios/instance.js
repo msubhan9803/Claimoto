@@ -1,5 +1,7 @@
 import axios from 'axios';
+import SessionExpired from 'components/SessionExpired/SessionExpired';
 import { msgAlert } from 'functions';
+import history from 'utils/history';
 import { localStorageVarible } from 'variables';
 
 
@@ -36,11 +38,15 @@ instance.interceptors.response.use(
 
       throw new Error(`${err.config.url} not found`);
     }
+
     else if (err.response.status === 400) {
       msgAlert({ title: "Invaild Details", text: err.response?.data?.Message || "Server Error" });
-    } else if (err.response.status === 400) {
+    } 
+    //Session Clear
+    else if (err.response.status === 401) {
       msgAlert({ title: "Session Expired", text: "Please Login Again to Access System" })
       localStorage.clear();
+      history.push("/")
     }
     throw err;
   }
