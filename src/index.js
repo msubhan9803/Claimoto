@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import AdminLayout from "layouts/admin";
 import AuthLayout from "layouts/auth"
@@ -12,15 +11,15 @@ import 'font-awesome/css/font-awesome.min.css';
 
 //Jquery 
 import $ from "jquery";
+import history from "utils/history";
 window.jQuery = window.$ = $;
 require("jquery-nice-select");
 
 
-const hist = createBrowserHistory();
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router history={hist}>
+      <Router history={history}>
         <Routes>
           <Route path="/*" element={<AuthLayout />} />
           <Route path="/admin/*" element={<AdminLayout />} />
