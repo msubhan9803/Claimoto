@@ -91,18 +91,19 @@ function VehicalDetail() {
   useEffect(() => {
     if (Url || checkUrl == "vehical_detail_view") {
       setIsView(true);
+      dispatch(GetSinglePolicy(params.id));
     } else {
       setIsView(false);
     }
   }, []);
 
   // get single policy
-  useEffect(() => {
-    if (params.id) {
-      dispatch(GetSinglePolicy(params.id));
-    }
-    dispatch(GetColor());
-  }, [params.id]);
+  // useEffect(() => {
+  //   if (params.id) {
+  //     dispatch(GetSinglePolicy(params.id));
+  //   }
+  //   dispatch(GetColor());
+  // }, [params.id]);
 
   // use selector hook
   const car_colors = useSelector((state) => state.policyReducer.color);
@@ -142,6 +143,7 @@ function VehicalDetail() {
   // update form data
 
   const updatProduct = () => {
+    console.log("policy payload: ", policy)
     dispatch(UpdatePolicies(policy, params.id));
   };
 

@@ -207,6 +207,7 @@ export const DeletePolicies = (id) => async (dispatch) => {
 // Update Policies
 export const UpdatePolicies = (data, params) => async (dispatch) => {
   try {
+    debugger;
     let check = Array.isArray(data.Benefits) && data.Benefits.length;
 
     let policyDetail = {
@@ -238,70 +239,71 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
       ChassisNumber: data.ChassisNumber,
       Benefits: check == 1 ? data.Benefits : null,
     };
+    debugger;
 
-    let Imgdata = {
-      Image1: data.Image1,
-      Image2: data.Image2,
-      Image3: data.Image3,
-      Image4: data.Image4,
-      Image5: data.Image5,
-    };
+    // let Imgdata = {
+    //   Image1: data.Image1,
+    //   Image2: data.Image2,
+    //   Image3: data.Image3,
+    //   Image4: data.Image4,
+    //   Image5: data.Image5,
+    // };
 
     await instance.put("api/Policy", policyDetail).then(async (res) => {
-      if (Object.keys(Imgdata).length > 0) {
-        let values;
-        const func = async (url) => {
-          let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
-          console.log("urlConverted: ", urlConverted);
-          const response = await fetch(urlConverted);
-          const blob = await response.blob();
-          const ext = url.split(".").pop();
-          const contentType = response.headers.get("content-type");
-          const filename = url.split("/").pop();
-          // const metadata = { type: `image/${ext}` };
-          const file = new File([blob], filename, contentType);
-          // var file = new File([blob], filename, {
-          //   lastModified: new Date(0), // optional - default = now
-          //   type: "image/" + ext, // optional - default = ''
-          // });
+      // if (Object.keys(Imgdata).length > 0) {
+        // let values;
+        // const func = async (url) => {
+        //   let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
+        //   console.log("urlConverted: ", urlConverted);
+        //   const response = await fetch(url);
+        //   const blob = await response.blob();
+        //   const ext = url.split(".").pop();
+        //   const contentType = response.headers.get("content-type");
+        //   const filename = url.split("/").pop();
+        //   // const metadata = { type: `image/${ext}` };
+        //   const file = new File([blob], filename, contentType);
+        //   // var file = new File([blob], filename, {
+        //   //   lastModified: new Date(0), // optional - default = now
+        //   //   type: "image/" + ext, // optional - default = ''
+        //   // });
 
-          console.log("response", response);
-          return file;
-        };
+        //   console.log("response", response);
+        //   return file;
+        // };
 
-        for (let [key, value] of Object.entries(Imgdata)) {
-          if (typeof value === "string") {
-            values = await func(value);
-            Imgdata[key] = values;
-          }
-        }
+        // for (let [key, value] of Object.entries(Imgdata)) {
+        //   if (typeof value === "string") {
+        //     values = await func(value);
+        //     Imgdata[key] = values;
+        //   }
+        // }
         // let formData = new FormData();
         // formData.append("Id", Number(params));
         // for (let [key, value] of Object.entries(Imgdata)) {
         //   formData.append(key, value);
         //   let ig = await instance.post("api/FileUpload", formData);
         // }
-        let formData = new FormData();
-        formData.append("Id", params);
-        for (let [key, value] of Object.entries(Imgdata)) {
-          formData.append(key, value);
-        }
+        // let formData = new FormData();
+        // formData.append("Id", params);
+        // for (let [key, value] of Object.entries(Imgdata)) {
+        //   formData.append(key, value);
+        // }
 
-        await instance
-          .post("api/FileUpload", formData)
-          .then((res) => {
-            dispatch({
-              type: REGISTER_POLICIES,
-              payload: data,
-            });
-            SweetAlert({
-              text: res.data,
-              icon: "success",
-            });
-            // window.location.href = "/admin/policies";
-            dispatch({ type: UPDATE_POLICIES, payload: data });
-          })
-          .catch((err) => console.log("err FileUpload: ", err));
+        // await instance
+        //   .post("api/FileUpload", formData)
+        //   .then((res) => {
+        //     dispatch({
+        //       type: REGISTER_POLICIES,
+        //       payload: data,
+        //     });
+        //     SweetAlert({
+        //       text: res.data,
+        //       icon: "success",
+        //     });
+        //     // window.location.href = "/admin/policies";
+        //     dispatch({ type: UPDATE_POLICIES, payload: data });
+        //   })
+        //   .catch((err) => console.log("err FileUpload: ", err));
 
         // formData.append(key, value);
         // let ig = await instance.post('api/FileUpload', formData)
@@ -314,12 +316,12 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
 
         // await instance.post('api/FileUpload', formData)
         // }
-        // dispatch({ type: UPDATE_POLICIES, payload: data })
-        // SweetAlert({
-        //     text: "Policy are successfully update",
-        //     icon: "success"
-        // })
-      }
+        dispatch({ type: UPDATE_POLICIES, payload: data })
+        SweetAlert({
+            text: "Policy are successfully update",
+            icon: "success"
+        })
+      // }
     });
   } catch (err) {
     console.log("err", err);
