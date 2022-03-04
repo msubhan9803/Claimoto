@@ -14,6 +14,7 @@ import { deleteProvider } from 'store/actions/provider';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import MapComponent from 'components/Admin/Providers/Map/MapComponent';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 const AddProvider = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -255,7 +256,7 @@ const AddProvider = () => {
         <React.Fragment>
             {user_loading ?
                 <div style={{ textAlign: "center" }}>
-                    <Loader />
+                    <LoaderAnimation />
                 </div>
                 :
                 <div className="body-content-area ltnd__no-sidebar-menu body-100vh ltn__body-height-800 body-bg-1--- pb-80---">
