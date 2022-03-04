@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSurveyor } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 const SurveyorList = () => {
 
@@ -60,7 +61,7 @@ const SurveyorList = () => {
 
     return (
         <React.Fragment>
-            {loading ? <Loader /> :
+            {loading ? <LoaderAnimation /> :
                 <div className="ltn__apartments-tab-content-inner">
                     <div className="row">
                         <div className="col-lg-12">

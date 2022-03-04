@@ -1,6 +1,6 @@
 
 import { REGISTER_USER } from '../../types/types'
-import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH } from 'store/types/auth'
+import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH, SET_AUTH_VALUES } from 'store/types/auth'
 import instance from 'config/axios/instance'
 
 
@@ -33,6 +33,7 @@ export const RegisterUser = (name, value) => async dispatch => {
 
 export const loginUser = (payload) => async dispatch => {
     try {
+        dispatch({type: SET_AUTH_VALUES,payload: {loading_login:true}});
         let _payload = {
             "UserName": payload.user_name,
             "Password": payload.password
@@ -41,6 +42,7 @@ export const loginUser = (payload) => async dispatch => {
         let { data } = await instance.post('/api/Token', _payload);
         
         if (data) {
+            dispatch({type: SET_AUTH_VALUES,payload: {loading_login:false}});
             dispatch({
                 type: SET_AUTH,
                 payload: data
@@ -49,7 +51,7 @@ export const loginUser = (payload) => async dispatch => {
 
     }
     catch (err) {
-
+        dispatch({type: SET_AUTH_VALUES,payload: {loading_login:false}});
     }
 }
 

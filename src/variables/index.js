@@ -1,1 +1,1 @@
-export const localStorageVarible = "claimoto_auth_key"
+export const localStorageVarible = "claimoto_auth_key";

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAgency } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 const AgenciesList = () => {
 
@@ -69,7 +70,7 @@ const AgenciesList = () => {
 
                 <div className="row">
                     {loading ?
-                        <Loader /> :
+                        <LoaderAnimation /> :
                         <div className="col-lg-12">
                             <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                                 <div className="ltn__select-availability-table  d-none d-md-block">

@@ -16,6 +16,8 @@ import { msgAlert } from 'functions';
 import { confirmAlert } from 'functions';
 import { addUser } from 'store/actions/users/users_screen';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import Loader from 'components/Loader/Loader';
 
 
 const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
@@ -349,9 +351,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                             {pre_actions.includes("DELETE") &&
                                                                 <div className="ltnd__left btn-normal">
                                                                     {edit ? deletingUser ?
-                                                                        <div className="spinner-grow" role="status">
-                                                                            <span className="sr-only">Loading...</span>
-                                                                        </div>
+                                                                        <Loader />
                                                                         :
                                                                         <div className="ltn__table-active-status clearfix">
                                                                             <div className="ltn__checkbox-radio-group inline">
@@ -369,7 +369,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
                                                                     <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
-                                                                    <button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button>
+                                                                    {loading_action ? <Loader /> :<button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button>}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -383,9 +383,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                 </div>
                             </div>
                             :
-                            <div className="spinner-grow" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <LoaderAnimation />
                         }
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { SET_LOGIN_VALUES, SET_LOGOUT , SET_AUTH } from 'store/types/auth';
+import { SET_LOGIN_VALUES, SET_LOGOUT , SET_AUTH, SET_AUTH_VALUES } from 'store/types/auth';
 import { localStorageVarible } from 'variables';
 import jwt_decode from "jwt-decode";
 
@@ -19,7 +19,8 @@ const initialState = {
     },
     user_details: {
 
-    }
+    },
+    loading_login:false
 };
 
 
@@ -42,7 +43,13 @@ const authReducer = (state = initialState, action) => {
             return { ...state, token: action.payload, user_details, permissions: JSON.parse(permissions) };
         }
         break;
-
+        case SET_AUTH_VALUES:{
+            return {
+                ...state,
+                ...action.payload
+            }
+        }
+        break;
         case SET_LOGOUT: {
             localStorage.setItem(localStorageVarible, null);
             localStorage.clear();
