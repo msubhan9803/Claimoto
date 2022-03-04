@@ -359,7 +359,7 @@ function Products() {
                                 )}
                               </span>
                               <span>
-                                {Number(item.AnnualPremium).toFixed(3)} KDW
+                                {Number(item.AnnualPremium).toFixed(3)} KWD
                               </span>
                             </div>
                             <div className="ltnd__product-brief">

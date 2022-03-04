@@ -259,14 +259,13 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
           const contentType = response.headers.get("content-type");
           const filename = url.split("/").pop();
           // const metadata = { type: `image/${ext}` };
-          // const file = new File([blob], filename, contentType);
-          var file = new File([blob], filename, {
-            lastModified: new Date(0), // optional - default = now
-            type: "image/" + ext, // optional - default = ''
-          });
+          const file = new File([blob], filename, contentType);
+          // var file = new File([blob], filename, {
+          //   lastModified: new Date(0), // optional - default = now
+          //   type: "image/" + ext, // optional - default = ''
+          // });
 
           console.log("response", response);
-          debugger;
           return file;
         };
 
