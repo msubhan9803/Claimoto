@@ -52,7 +52,7 @@ const GaragesList = () => {
 
     useEffect(() => {
         _getList();
-    }, [search_text, search_text, search_option]);
+    }, []);
 
 
 

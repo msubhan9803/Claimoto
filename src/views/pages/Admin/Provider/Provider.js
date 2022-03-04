@@ -10,6 +10,10 @@ import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { getGarages } from 'store/actions/provider';
+import { getAgency } from 'store/actions/provider';
+import { getCarAgency } from 'store/actions/provider';
+import { getSurveyor } from 'store/actions/provider';
 
 function Provider() {
 
@@ -25,7 +29,7 @@ function Provider() {
 
 
     //Redux State
-    const { tabs, search_options, search_option, search_text, sort_type, sort_name } = useSelector(state => state.providersScreenReducer);
+    const { tabs, search_options, search_option, search_text, sort_type, sort_name, surveyorers, garages, car_agencies, agencies } = useSelector(state => state.providersScreenReducer);
 
     //Component State
     let initialState = {
@@ -68,6 +72,41 @@ function Provider() {
 
 
 
+    const _getProvidersList = () => {
+        let records_per_page = 10;
+        let page_index = 1;
+        switch (searchParams.get("tab")) {
+            case "garage":
+                records_per_page = garages.records_per_page;
+                page_index = garages.page_index;
+                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "agency":
+                records_per_page = agencies.records_per_page;
+                page_index = agencies.page_index;
+                dispatch(getAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "car agency":
+                records_per_page = car_agencies.records_per_page;
+                page_index = car_agencies.page_index;
+                dispatch(getCarAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            case "surveyor":
+                records_per_page = surveyorers.records_per_page;
+                page_index = surveyorers.page_index;
+                dispatch(getSurveyor({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+
+            default:
+                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                break;
+        }
+    }
+
+
     //toggleModal
     const _toggleModal = (action) => {
         if (searchParams.has("action")) {
@@ -92,6 +131,13 @@ function Provider() {
     useEffect(() => {
         _handleComActions();
     }, [searchParams]);
+
+
+    useEffect(() => {
+        if (search_text?.length > 2 && search_option !== "" || search_text === "") {
+            _getProvidersList();
+        }
+    }, [search_text, search_option, sort_name])
 
 
 
