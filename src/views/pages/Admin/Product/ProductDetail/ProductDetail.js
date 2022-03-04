@@ -243,7 +243,7 @@ function ProductDetail(props) {
                         <div className="col-lg-9">
                             <div className="ltnd__page-title-area">
                                 <p className="page-back-btn">
-                                    <Link to="/admin/products">
+                                    <Link to="/admin/settings">
                                         <i className="icon-left-arrow-1" /> Back
                                     </Link>
                                 </p>

@@ -246,18 +246,28 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
       Image4: data.Image4,
       Image5: data.Image5,
     };
-    console.log("policy detail update", policyDetail);
+
     await instance.put("api/Policy", policyDetail).then(async (res) => {
       if (Object.keys(Imgdata).length > 0) {
         let values;
         const func = async (url) => {
-          console.log("url", url);
-          const response = await fetch(url);
-          const data = await response.blob();
-          const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
-          const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
-          const metadata = { type: `image/${ext}` };
-          return new File([data], filename, metadata);
+          let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
+          console.log("urlConverted: ", urlConverted);
+          const response = await fetch(urlConverted);
+          const blob = await response.blob();
+          const ext = url.split(".").pop();
+          const contentType = response.headers.get("content-type");
+          const filename = url.split("/").pop();
+          // const metadata = { type: `image/${ext}` };
+          // const file = new File([blob], filename, contentType);
+          var file = new File([blob], filename, {
+            lastModified: new Date(0), // optional - default = now
+            type: "image/" + ext, // optional - default = ''
+          });
+
+          console.log("response", response);
+          debugger;
+          return file;
         };
 
         for (let [key, value] of Object.entries(Imgdata)) {
