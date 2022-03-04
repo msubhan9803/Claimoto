@@ -259,7 +259,7 @@ export const UpdateProduct = (data) => async (dispatch) => {
   } = data;
   try {
     let BenefitId = Benefit.map((obj) => ({ ...obj, ProductId: Id }));
-    let Copy = Number(CoPayPercentage);
+    let Copy = CoPayPercentage;
     let agency = Number(IsAgencyRepair);
     let value = {
       Id,
