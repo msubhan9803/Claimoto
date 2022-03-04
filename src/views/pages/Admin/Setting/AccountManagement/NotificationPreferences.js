@@ -1,156 +1,20 @@
 import React from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const NotificationPreferences = () => {
   return (
     <>
       <div class="body-bg-1">
         <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-          <div class="ltn__header-top-area top-area-color-white--- ltnd__header-top-area">
-            <div class="row">
-              <div class="col-md-7"></div>
-              <div class="col-md-5">
-                <div class="top-bar-right text-end">
-                  <div class="ltn__top-bar-menu">
-                    <ul>
-                      <li class="ltnd-dropdown">
-                        <a class="toggle" href="#">
-                          <i class="far fa-bell"></i>
-                        </a>
-                        <div class="ltnd-dropdown-menu dropdown-menu-notifications">
-                          <div class="head">
-                            <h4 class="title">Notifications (7)</h4>
-                          </div>
-                          <div class="ltnd-dropdown-menu-inner ltn__scrollbar">
-                            <ul>
-                              <li>
-                                <div class="ltnd-dropdown-menu-item">
-                                  <a href="#">
-                                    <div class="image">
-                                      <img
-                                        src="img/icons/mc/png/10.png"
-                                        alt="#"
-                                      />
-                                    </div>
-                                    <div class="content">
-                                      <h6>
-                                        <strong>Yasmin Ali has</strong> viewed
-                                        the <strong>vehicle 13454</strong>
-                                      </h6>
-                                      <p class="ltn__color-1">2 mins ago </p>
-                                    </div>
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="ltnd-dropdown-menu-item">
-                                  <a href="#">
-                                    <div class="image">
-                                      <img
-                                        src="img/icons/mc/png/10.png"
-                                        alt="#"
-                                      />
-                                    </div>
-                                    <div class="content">
-                                      <h6>
-                                        <strong>Yasmin Ali has</strong> viewed
-                                        the <strong>vehicle 13454</strong>
-                                      </h6>
-                                      <p class="ltn__color-1">2 mins ago </p>
-                                    </div>
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="ltnd-dropdown-menu-item">
-                                  <a href="#">
-                                    <div class="image">
-                                      <img
-                                        src="img/icons/mc/png/10.png"
-                                        alt="#"
-                                      />
-                                    </div>
-                                    <div class="content">
-                                      <h6>
-                                        <strong>Yasmin Ali has</strong> viewed
-                                        the <strong>vehicle 13454</strong>
-                                      </h6>
-                                      <p class="ltn__color-1">2 mins ago </p>
-                                    </div>
-                                  </a>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-
-                      <li class="ltnd-dropdown ltnd__user-img">
-                        <a class="toggle" href="#">
-                          <img src="img/blog/author.jpg" alt="User" />
-                        </a>
-                        <div class="ltnd-dropdown-menu dropdown-menu-user">
-                          <div class="head">
-                            <div class="dropdown-menu-user-img">
-                              <img src="img/icons/mc/png/10.png" alt="#" />
-                            </div>
-                            <div class="dropdown-menu-user-info">
-                              <h6>Yasmin Ali</h6>
-                              <p class="dropdown-menu-user-mail">
-                                yasminali@gmail.com
-                              </p>
-                              <p class="dropdown-menu-user-title">
-                                <strong>Account</strong>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="ltnd-dropdown-menu-inner ltn__scrollbar">
-                            <ul>
-                              <li>
-                                <div class="ltnd-dropdown-menu-item">
-                                  <p class="dropdown-menu-user-language">
-                                    <strong>Language</strong>
-                                  </p>
-                                  <div class="btn-wrapper btn-normal mt-0">
-                                    <a href="#" class="btn-active">
-                                      English
-                                    </a>
-                                    <a href="#" class="btn-inactive">
-                                      ةيبرعلا
-                                    </a>
-                                  </div>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="ltnd-dropdown-menu-item">
-                                  <p>
-                                    <a href="terms-conditions.html">
-                                      Terms and conditions
-                                    </a>
-                                  </p>
-                                  <p>
-                                    <a href="login.html">Logout</a>
-                                  </p>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="ltnd__header-middle-area mt-30">
             <div class="row">
               <div class="col-lg-9">
                 <div class="ltnd__page-title-area">
                   <h2>Notification</h2>
                   <p class="page-back-btn">
-                    <a href="settings.html">
-                      <i class="icon-left-arrow-1"></i> Back
-                    </a>
+                    <Link to="/admin/settings">
+                      <i className="icon-left-arrow-1" /> Back
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -200,7 +64,7 @@ const NotificationPreferences = () => {
 
                     <div class="ltn__checkbox-radio-group inline mt-20 mb-20">
                       <label class="ltn__switch-2">
-                        <input type="checkbox" checked="" />{" "}
+                        <input type="checkbox" checked="" />
                         <i class="lever"></i>{" "}
                         <span class="text">
                           <strong>Enable Two-factor authentication </strong>
@@ -294,21 +158,17 @@ const NotificationPreferences = () => {
           </div>
         </div>
 
-        <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80 d-none">
+        <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80">
           <div class="container-fluid">
             <div class="row">
               <div class="col-lg-12">
                 <div class="ltnd__footer-1-inner">
-                  <div class="ltnd__left btn-normal">
-                    <a href="#" class="ltn__color-1">
-                      <i class="ti-trash"></i> Delete
-                    </a>
-                  </div>
+                  <div class="ltnd__left btn-normal"></div>
                   <div class="ltnd__right btn-normal">
                     <div class="btn-wrapper">
-                      <a href="product.html" class="ltn__color-1">
-                        <i class="ti-angle-left"></i> Back
-                      </a>
+                      <Link to="/admin/settings">
+                        <i className="icon-left-arrow-1" /> Back
+                      </Link>
                       <a href="#" class="btn theme-btn-1 btn-round-12">
                         Save
                       </a>

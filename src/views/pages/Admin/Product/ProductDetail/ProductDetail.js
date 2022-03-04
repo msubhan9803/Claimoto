@@ -450,7 +450,7 @@ function ProductDetail(props) {
                               {...register("Deductibles")}
                               onChange={changeValue}
                               name="Deductibles"
-                              placeholder="Enter Amount"
+                              placeholder="Enter Deductibles"
                             />
                             <ErrorMessage
                               errors={errors}
@@ -595,7 +595,7 @@ function ProductDetail(props) {
                             className="form-control"
                             onChange={changeValue}
                             name="BenefitDetails"
-                            placeholder="Enter benifits here..."
+                            placeholder="Enter benefit here..."
                           />
                           {field && (
                             <div className="error_show mt-1">

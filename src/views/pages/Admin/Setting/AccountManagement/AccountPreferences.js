@@ -11,12 +11,12 @@ const AccountPreferences = () => {
             <div class="row">
               <div class="col-lg-9">
                 <div class="ltnd__page-title-area">
+                  <h2>Account</h2>
                   <p class="page-back-btn">
                     <Link to="/admin/settings">
                       <i className="icon-left-arrow-1" /> Back
                     </Link>
                   </p>
-                  <h2>Account</h2>
                 </div>
               </div>
               <div class="col-lg-3 align-self-center text-end">
@@ -206,6 +206,28 @@ const AccountPreferences = () => {
             </div>
           </div>
         </div>
+
+        <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="ltnd__footer-1-inner">
+                  <div class="ltnd__left btn-normal"></div>
+                  <div class="ltnd__right btn-normal">
+                    <div class="btn-wrapper">
+                      <Link to="/admin/settings">
+                        <i className="icon-left-arrow-1" /> Back
+                      </Link>
+                      <a href="#" class="btn theme-btn-1 btn-round-12">
+                        Save
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </>
   );

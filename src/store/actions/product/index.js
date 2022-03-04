@@ -89,10 +89,11 @@ export const RegisterProduct = (data) => async (dispatch) => {
       IsAgencyRepair,
       Benefit,
     } = data;
+    debugger;
     let check = Array.isArray(Benefit) && Benefit.length;
     let annual = Number(AnnualPremium);
-    let copay = Number(CoPayPercentage);
-    let deduc = Number(Deductibles);
+    let copay = CoPayPercentage;
+    let deduc = Deductibles;
     let agency = Number(IsAgencyRepair);
 
     let value = {

@@ -55,6 +55,21 @@ function Setting() {
                             </div>
                           </Link>
                         </div>
+                        <div className="col-lg-6">
+                          <Link to={"/admin/settings/logs_activity"}>
+                            <div className="settings-single-item mb-40">
+                              <div className="settings-single-item-icon">
+                                <i className="ti-pulse"></i>
+                              </div>
+                              <div className="settings-single-item-info">
+                                <h6>Acitivity</h6>
+                                <p>
+                                  View activity history and <br /> error logs{" "}
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -80,7 +95,7 @@ function Setting() {
                               </div>
                               <div className="settings-single-item-info">
                                 <h6>Email Signature</h6>
-                                <p>Manage email signature</p>
+                                <p>Manage email signature configurations</p>
                               </div>
                             </div>
                           </Link>
@@ -109,7 +124,7 @@ function Setting() {
             </div>
             {/* BLOCK AREA END */}
             {/* BLOCK AREA START ( Product Details section - 2 ) */}
-            <div className="ltnd__block-area">
+            {/* <div className="ltnd__block-area">
               <div className="row">
                 <div className="col-lg-12">
                   <div className="ltnd__block-item mt-30">
@@ -153,7 +168,7 @@ function Setting() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* BLOCK AREA END */}
             {/* BLOCK AREA START ( Product Details section - 2 ) */}
             <div className="ltnd__block-area">
