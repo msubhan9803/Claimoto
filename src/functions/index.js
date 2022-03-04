@@ -36,15 +36,16 @@ export const successWithoutConfirmAlert = ({title , text }) => {
     });
 };
 
-export const confirmAlert = ({title, text, buttonText, action}) => {
+
+export const confirmAlert = ({title, text, buttonText, action, notCancelButton}) => {
   Swal.fire({
     title: title,
     text: text,
     icon: 'warning',
-    showCancelButton: true,
+    showCancelButton: notCancelButton ? false : true,
     confirmButtonColor: '#205bf5',
     cancelButtonColor: '#d33',
-    confirmButtonText: buttonText
+    confirmButtonText: buttonText,
   }).then((result) => {
     if (result.isConfirmed) {
       action();
