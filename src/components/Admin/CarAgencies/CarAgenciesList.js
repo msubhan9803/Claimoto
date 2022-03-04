@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/Loader/Loader';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 function CarAgenciesList() {
 
@@ -61,7 +62,7 @@ function CarAgenciesList() {
     return (
         <React.Fragment>
             {/* SELECT AVAILABILITY AREA START */}
-            {loading ? <Loader /> :
+            {loading ? <LoaderAnimation /> :
                 <div className="ltn__product-tab-content-inner">
                     <div className="row">
                         <div className="col-lg-12">

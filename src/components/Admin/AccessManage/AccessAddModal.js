@@ -15,6 +15,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { getAccessRoles } from 'store/actions/users/users_screen';
 import { confirmAlert } from 'functions';
 import { getAllowActions } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 
 
@@ -182,9 +183,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                             <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
                         </div>
                         {loading ?
-                            <div className="spinner-grow" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <LoaderAnimation />
                             :
 
                             <div className="row">

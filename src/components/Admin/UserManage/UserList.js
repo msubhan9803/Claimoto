@@ -6,6 +6,7 @@ import Pagination from 'components/Pagination/Pagination';
 import { setUserPage } from 'store/actions/users/users_screen';
 import { getAllowActions } from 'functions';
 import Loader from 'components/Loader/Loader';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 function UserList() {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -46,7 +47,7 @@ function UserList() {
             <div className="row">
                 <div className="col-lg-12">
                     {loadingUsers ?
-                        <Loader />
+                        <LoaderAnimation />
                         :
                         <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                             <div className="ltn__select-availability-table  d-none d-md-block">

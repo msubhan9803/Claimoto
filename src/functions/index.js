@@ -16,6 +16,7 @@ export const msgAlert = ({title , text , icon }) => {
       title: title,
       text: text,
       icon: icon,
+      confirmButtonColor:"#205bf5"
     });
 };
 
@@ -23,7 +24,8 @@ export const successAlert = ({title , text }) => {
   Swal.fire({
       title: title,
       text: text,
-      icon:"success"
+      icon:"success",
+      confirmButtonColor:"#205bf5"
     });
 };
 
