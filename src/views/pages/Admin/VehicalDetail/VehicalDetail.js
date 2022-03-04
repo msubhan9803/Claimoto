@@ -37,6 +37,7 @@ function VehicalDetail() {
   let path = location.pathname;
   const checkUrl = path.split("/")[2];
   const Url = checkUrl === "vehical_detail";
+  const isVehicleDetailEditUrl = checkUrl === "vehical_detail_edit";
   const [isView, setIsView] = useState(false);
 
   // dispatch hook
@@ -189,6 +190,8 @@ function VehicalDetail() {
                           params.id
                             ? checkUrl == "vehical_detail_view"
                               ? "/admin/policies"
+                              : isVehicleDetailEditUrl
+                              ? `/admin/policy_detail_edit/${params.id}`
                               : `/admin/policy_detail/${params.id}`
                             : "/admin/create_policy"
                         }
@@ -724,6 +727,8 @@ function VehicalDetail() {
                               params.id
                                 ? checkUrl == "vehical_detail_view"
                                   ? "/admin/policies"
+                                  : isVehicleDetailEditUrl
+                                  ? `/admin/policy_detail_edit/${params.id}`
                                   : `/admin/policy_detail/${params.id}`
                                 : "/admin/create_policy"
                             }
