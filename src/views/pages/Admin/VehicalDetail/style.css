@@ -1,0 +1,23 @@
+.uploaded-image {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(235, 235, 235);
+  text-align: center;
+  border-radius: 5px;
+  margin: 8px;
+  height: 130px;
+}
+.uploaded-image img {
+  width: 100%;
+}
+.uploaded-image-font-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.uploaded-image i {
+  /* margin: auto; */
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 6px;
+}

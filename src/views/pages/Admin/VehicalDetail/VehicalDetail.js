@@ -12,6 +12,7 @@ import {
   GetSinglePolicy,
   GetColor,
   DeletePolicies,
+  UpdateVehcileImage
 } from "store/actions/policies";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -78,12 +79,29 @@ function VehicalDetail() {
         text: "Only < 1 MB are allowed",
       });
     } else {
-      dispatch(GetInputs(name, s_file));
+      if (params.id) {
+        dispatch(GetInputs(name, s_file));
+        let index = null;
+        if (name == "Image1") {
+          index = 0;
+        } else if (name == "Image2") {
+          index = 1;
+        } else if (name == "Image3") {
+          index = 2;
+        } else if (name == "Image4") {
+          index = 3;
+        } else {
+          index = 4;
+        }
+        dispatch(UpdateVehcileImage(params.id, index, s_file));
+      } else {
+        dispatch(GetInputs(name, s_file));
+      }
     }
   };
 
   useEffect(() => {
-    if (Url || checkUrl == "vehical_detail_view") {
+    if (Url || checkUrl == "vehical_detail_view" || isVehicleDetailEditUrl) {
       setIsView(true);
       dispatch(GetSinglePolicy(params.id));
     } else {

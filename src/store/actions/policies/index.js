@@ -251,76 +251,76 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
 
     await instance.put("api/Policy", policyDetail).then(async (res) => {
       // if (Object.keys(Imgdata).length > 0) {
-        // let values;
-        // const func = async (url) => {
-        //   let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
-        //   console.log("urlConverted: ", urlConverted);
-        //   const response = await fetch(url);
-        //   const blob = await response.blob();
-        //   const ext = url.split(".").pop();
-        //   const contentType = response.headers.get("content-type");
-        //   const filename = url.split("/").pop();
-        //   // const metadata = { type: `image/${ext}` };
-        //   const file = new File([blob], filename, contentType);
-        //   // var file = new File([blob], filename, {
-        //   //   lastModified: new Date(0), // optional - default = now
-        //   //   type: "image/" + ext, // optional - default = ''
-        //   // });
+      // let values;
+      // const func = async (url) => {
+      //   let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
+      //   console.log("urlConverted: ", urlConverted);
+      //   const response = await fetch(url);
+      //   const blob = await response.blob();
+      //   const ext = url.split(".").pop();
+      //   const contentType = response.headers.get("content-type");
+      //   const filename = url.split("/").pop();
+      //   // const metadata = { type: `image/${ext}` };
+      //   const file = new File([blob], filename, contentType);
+      //   // var file = new File([blob], filename, {
+      //   //   lastModified: new Date(0), // optional - default = now
+      //   //   type: "image/" + ext, // optional - default = ''
+      //   // });
 
-        //   console.log("response", response);
-        //   return file;
-        // };
+      //   console.log("response", response);
+      //   return file;
+      // };
 
-        // for (let [key, value] of Object.entries(Imgdata)) {
-        //   if (typeof value === "string") {
-        //     values = await func(value);
-        //     Imgdata[key] = values;
-        //   }
-        // }
-        // let formData = new FormData();
-        // formData.append("Id", Number(params));
-        // for (let [key, value] of Object.entries(Imgdata)) {
-        //   formData.append(key, value);
-        //   let ig = await instance.post("api/FileUpload", formData);
-        // }
-        // let formData = new FormData();
-        // formData.append("Id", params);
-        // for (let [key, value] of Object.entries(Imgdata)) {
-        //   formData.append(key, value);
-        // }
+      // for (let [key, value] of Object.entries(Imgdata)) {
+      //   if (typeof value === "string") {
+      //     values = await func(value);
+      //     Imgdata[key] = values;
+      //   }
+      // }
+      // let formData = new FormData();
+      // formData.append("Id", Number(params));
+      // for (let [key, value] of Object.entries(Imgdata)) {
+      //   formData.append(key, value);
+      //   let ig = await instance.post("api/FileUpload", formData);
+      // }
+      // let formData = new FormData();
+      // formData.append("Id", params);
+      // for (let [key, value] of Object.entries(Imgdata)) {
+      //   formData.append(key, value);
+      // }
 
-        // await instance
-        //   .post("api/FileUpload", formData)
-        //   .then((res) => {
-        //     dispatch({
-        //       type: REGISTER_POLICIES,
-        //       payload: data,
-        //     });
-        //     SweetAlert({
-        //       text: res.data,
-        //       icon: "success",
-        //     });
-        //     // window.location.href = "/admin/policies";
-        //     dispatch({ type: UPDATE_POLICIES, payload: data });
-        //   })
-        //   .catch((err) => console.log("err FileUpload: ", err));
+      // await instance
+      //   .post("api/FileUpload", formData)
+      //   .then((res) => {
+      //     dispatch({
+      //       type: REGISTER_POLICIES,
+      //       payload: data,
+      //     });
+      //     SweetAlert({
+      //       text: res.data,
+      //       icon: "success",
+      //     });
+      //     // window.location.href = "/admin/policies";
+      //     dispatch({ type: UPDATE_POLICIES, payload: data });
+      //   })
+      //   .catch((err) => console.log("err FileUpload: ", err));
 
-        // formData.append(key, value);
-        // let ig = await instance.post('api/FileUpload', formData)
-        // SweetAlert({
-        //   text: "Policy are successfully update",
-        //   icon: "success",
-        // });
+      // formData.append(key, value);
+      // let ig = await instance.post('api/FileUpload', formData)
+      // SweetAlert({
+      //   text: "Policy are successfully update",
+      //   icon: "success",
+      // });
 
-        // console.log("imagDta", ig)
+      // console.log("imagDta", ig)
 
-        // await instance.post('api/FileUpload', formData)
-        // }
-        dispatch({ type: UPDATE_POLICIES, payload: data })
-        SweetAlert({
-            text: "Policy are successfully update",
-            icon: "success"
-        })
+      // await instance.post('api/FileUpload', formData)
+      // }
+      dispatch({ type: UPDATE_POLICIES, payload: data });
+      SweetAlert({
+        text: "Policy are successfully update",
+        icon: "success",
+      });
       // }
     });
   } catch (err) {
@@ -362,6 +362,31 @@ export const HandleTableInputValue =
         type: POLICIES_LIST_TABLE_DATA_CHANGE,
         payload: { name, value },
       });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+// Get Single Policies
+export const UpdateVehcileImage =
+  (policyId, fieldName, file) => async (dispatch) => {
+    let formData = new FormData();
+    formData.append("Id", policyId);
+    formData.append("Fieldname", fieldName);
+    formData.append("Image", file);
+    // debugger
+    try {
+      await instance
+        .put(`api/file/update`, formData, {
+          "Content-Type": "multipart/form-data",
+        })
+        .then((res) => {
+          // if (res.data) {
+          dispatch(GetSinglePolicy(policyId));
+          // }
+        })
+        .catch((err) => console.log("err: ", err));
+      // dispatch({ type: GET_SINGLE_POLICIES, payload: res.data });
     } catch (err) {
       console.log("err", err);
     }
