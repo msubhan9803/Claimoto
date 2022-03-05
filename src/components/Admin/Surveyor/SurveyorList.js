@@ -73,14 +73,14 @@ const SurveyorList = () => {
                                         <li className="table-data-4">Contact number</li>
                                         <li className="table-data-6">Surveyor address</li>
                                         <li className="table-data-7">Edit </li>
-                                        {/* <li className="table-data-8">Details</li> */}
+                                        <li className="table-data-8">Details</li>
                                     </ul>
                                     {list.map(record => {
                                         return (
                                             <ul className="ltn__select-availability-table-row">
                                                 <li className="table-data-1">
                                                     <strong>
-                                                    <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
+                                                        <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
                                                         {record.Name}
                                                     </strong>
                                                 </li>
@@ -89,21 +89,21 @@ const SurveyorList = () => {
                                                 <li className="table-data-6">
                                                     {record?.StreetAddress || ""}
                                                 </li>
-                                                {surveyor_actions?.includes("UPDATE") &&
-                                                    <li className="table-data-7">
+                                                <li className="table-data-7">
+
+                                                    {surveyor_actions?.includes("UPDATE") &&
                                                         <strong>
                                                             <Link to={`/admin/edit_provider/surveyor/${record.Id}?tab=0`} >Edit</Link>
                                                         </strong>
-                                                    </li>
-                                                }
-                                                {/* <li className="table-data-8">
-                                            <a
-                                                className="ltn__secondary-color"
-                                                href="garage-details.html"
-                                            >
-                                                <strong>Details</strong>
-                                            </a>{" "}
-                                        </li> */}
+                                                    }
+                                                </li>
+                                                <li className="table-data-7">
+                                                    {surveyor_actions?.includes("VIEW") &&
+                                                        <strong>
+                                                            <Link to={`/admin/view_provider/surveyor/${record.Id}?tab=0`} >View</Link>
+                                                        </strong>
+                                                    }
+                                                </li>
                                             </ul>
                                         )
                                     }

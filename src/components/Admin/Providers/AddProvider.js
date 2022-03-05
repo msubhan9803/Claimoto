@@ -281,7 +281,7 @@ const AddProvider = () => {
                                 searchParams.get("tab") < 2 ?
                                     <img src={Side_Image} alt="#" /> :
                                     <Wrapper apiKey='AIzaSyASwWi0HKSx9m6NhXKyn-voaZm2YunPtx4' render={_mapRender}>
-                                        <MapComponent center={{ lat: parseFloat(lat), lng: parseFloat(long) }} zoom={zoom} />
+                                        <MapComponent height={window.screen.height} center={{ lat: parseFloat(lat), lng: parseFloat(long) }} zoom={zoom} />
                                     </Wrapper>
 
                             }

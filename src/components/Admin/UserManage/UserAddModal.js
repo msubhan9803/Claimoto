@@ -20,7 +20,7 @@ import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import Loader from 'components/Loader/Loader';
 
 
-const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
+const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
@@ -197,7 +197,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                 <div className="modal-body">
                     <div className="ltnd__adding-modal-inner">
                         <div className="section-title-area mb-30---">
-                            <h1 className="section-title">{edit ? "Edit member" : "Add member"}</h1>
+                            <h1 className="section-title">{view ? "View member" : edit ? "Edit member" : "Add member"}</h1>
                         </div>
                         {!loading ?
                             <div className="row">
@@ -207,7 +207,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <div className="ltnd__edit-table-logo-title mb-20">
                                                 <div className="ltnd__edit-table-logo">
                                                     <img src={selected_image?.Base64 || typeof selected_image === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${selected_image}` || Img} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" />
-                                                    <input type="file" ref={imageRef} style={{ display: "none" }} onChange={_onImageChange} name="attachment" />
+                                                    <input disabled={view} type="file" ref={imageRef} style={{ display: "none" }} onChange={_onImageChange} name="attachment" />
                                                 </div>
                                                 <div className="ltnd__edit-table-title">
                                                     <h3>{first_name || "First Name"} {last_name || "Last Name"} </h3>
@@ -225,6 +225,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <input type="text"
                                                         autoComplete='off'
                                                         {...register("first_name")}
+                                                        disabled={view}
                                                         onChange={_handleChange} name="first_name" placeholder="First name" value={first_name} />
                                                     <ErrorMessage
                                                         errors={errors}
@@ -242,6 +243,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                                 message: "Last Name must exceed 5 characters"
                                                             }
                                                         })}
+                                                        disabled={view}
                                                         type="text" onChange={_handleChange} name="last_name" placeholder="Last name " value={last_name} />
                                                     <ErrorMessage
                                                         errors={errors}
@@ -253,7 +255,8 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <h6 className="ltnd__title-3 mt-2">Contact information</h6>
                                             <input
                                                 {...register("phone")}
-                                                type="text" onChange={_handleChange} name="phone" placeholder="079 079 1189" value={phone} />
+                                                        disabled={view}
+                                                        type="text" onChange={_handleChange}  name="phone" placeholder="079 079 1189" value={phone} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="phone"
@@ -262,6 +265,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <input
                                                 {...register("user_name")}
                                                 className="mt-2"
+                                                disabled={view}
                                                 type="text" onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -271,6 +275,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <input
                                                 {...register("email")}
                                                 className="mt-2"
+                                                disabled={view}
                                                 type="email" onChange={_handleChange} name="email" placeholder="Email" value={email} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -282,6 +287,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <input
                                                 {...register("password")}
                                                 className="mt-2"
+                                                disabled={view}
                                                 type="password" onChange={_handleChange} name="password" placeholder="Password" value={password} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -292,6 +298,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                             <input
                                                 {...register("confirm_password")}
                                                 className="mt-2"
+                                                disabled={view}
                                                 type="password" onChange={_handleChange} name="confirm_password" placeholder="Confirm Password" value={confirm_password} />
                                             <ErrorMessage
                                                 errors={errors}
@@ -311,6 +318,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     onChange={(value) => _handleSelect("access_role", value)}
                                                     value={access_role}
                                                     name="access_role"
+                                                    isDisabled={view}
                                                     components={animatedComponents}
                                                     options={roles.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
 
@@ -328,6 +336,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     value={access_group}
                                                     name="access_group"
                                                     closeMenuOnSelect={false}
+                                                    isDisabled={view}
                                                     onChange={_handleMultipleSelect}
                                                     components={animatedComponents}
                                                     isMulti
@@ -348,7 +357,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
 
-                                                            {pre_actions.includes("DELETE") &&
+                                                            {!view && pre_actions.includes("DELETE") &&
                                                                 <div className="ltnd__left btn-normal">
                                                                     {edit ? deletingUser ?
                                                                         <Loader />
@@ -356,7 +365,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                                         <div className="ltn__table-active-status clearfix">
                                                                             <div className="ltn__checkbox-radio-group inline">
                                                                                 <label className="ltn__switch-2">
-                                                                                    <input type="checkbox" role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
+                                                                                    <input type="checkbox" disabled={view} role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
                                                                                     <i className="lever" />
                                                                                 </label>
                                                                             </div>
@@ -369,7 +378,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
                                                                     <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
-                                                                    {loading_action ? <Loader /> :<button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button>}
+                                                                    {!view ? loading_action ? <Loader /> :<button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button> : ""}
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -39,6 +39,7 @@ function UserManagement() {
         openUserModal: false,
         openAccessModal: false,
         edit: false,
+        view: false,
         id: null
     }
     const [comState, setComState] = useState(initialState);
@@ -63,12 +64,15 @@ function UserManagement() {
                 setComState((comState) => ({
                     ...initialState,
                     openUserModal: true,
+                    view: true,
+                    edit: false
                 }));
                 break;
             case "add_access_group":
                 setComState((comState) => ({
                     ...initialState,
                     openAccessModal: true,
+                    view: false,
                 }));
                 break;
             case "edit_user":
@@ -76,6 +80,16 @@ function UserManagement() {
                     ...initialState,
                     openUserModal: true,
                     edit: true,
+                    view: false,
+                    id
+                }));
+                break;
+            case "view_user":
+                setComState((comState) => ({
+                    ...initialState,
+                    openUserModal: true,
+                    edit: true,
+                    view: true,
                     id
                 }));
                 break;
@@ -84,6 +98,16 @@ function UserManagement() {
                     ...initialState,
                     openAccessModal: true,
                     edit: true,
+                    view: false,
+                    id
+                }));
+                break;
+            case "view_access_group":
+                setComState((comState) => ({
+                    ...initialState,
+                    openAccessModal: true,
+                    edit: true,
+                    view: true,
                     id
                 }));
                 break;
@@ -150,8 +174,8 @@ function UserManagement() {
 
     return (
         <React.Fragment>
-            {comState.openUserModal && <UserAddModal pre_actions={user_actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
-            {comState.openAccessModal && <AccessAddModal pre_actions={ag_actions} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
+            {comState.openUserModal && <UserAddModal pre_actions={user_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_user")} openModal={comState.openUserModal} />}
+            {comState.openAccessModal && <AccessAddModal pre_actions={ag_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_access_group")} openModal={comState.openAccessModal} />}
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
@@ -203,7 +227,7 @@ function UserManagement() {
                                             value={search_text}
                                         />
                                         <button type="submit">
-                                        <FontAwesomeIcon icon={faSearch} />
+                                            <FontAwesomeIcon icon={faSearch} />
                                         </button>
                                         <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
                                             <option disabled value={""}>Search By</option>

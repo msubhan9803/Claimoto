@@ -20,6 +20,7 @@ import Activity from "views/pages/Admin/Setting/LogsManagement/Activity.js";
 import Error from "views/pages/Admin/Setting/LogsManagement/Error.js";
 import SmtpManagement from "views/pages/Admin/Setting/SmtpManagement/SmtpManagement.js";
 import TimezoneManagement from "views/pages/Admin/Setting/TimezoneManagement/TimezoneManagement.js";
+import ViewProvider from "components/Admin/Providers/ViewProvider";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -83,6 +84,12 @@ export const adminRoutes = ({ userPermissions }) => {
           name: "Edit Provider",
           path: "/edit_provider/:type/:id",
           component: <AddProvider />,
+          layout: "admin",
+        },
+        {
+          name: "View Provider",
+          path: "/view_provider/:type/:id",
+          component: <ViewProvider />,
           layout: "admin",
         },
       ]

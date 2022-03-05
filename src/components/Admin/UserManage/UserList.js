@@ -32,6 +32,13 @@ function UserList() {
         setSearchParams(searchParams);
     }
 
+
+    const _handleView = (id) => {
+        searchParams.set("action", "view_user");
+        searchParams.set("id", id);
+        setSearchParams(searchParams);
+    }
+
     const _paginationHandler = (pageIndex) => {
         dispatch(setUserPage(pageIndex));
     }
@@ -57,7 +64,8 @@ function UserList() {
                                     <li className="table-data-5">Mobile number</li>
                                     <li className="table-data-6">Role</li>
                                     <li className="table-data-5">Status</li>
-                                    <li className="table-data-7"> </li>
+                                    <li className="table-data-7">Edit</li>
+                                    <li className="table-data-7">View</li>
                                 </ul>
                                 {users.map((user) => (
                                     <ul key={user.UserId} className="ltn__select-availability-table-row">
@@ -92,6 +100,15 @@ function UserList() {
                                                 </strong>
                                             }
                                         </li>
+                                        <li className="table-data-7">
+                                            {pre_actions?.includes("VIEW") &&
+                                                <strong>
+                                                    <a onClick={() => _handleView(user.UserId)} role="button" title="ViewUser" >
+                                                        VIEW
+                                                    </a>
+                                                </strong>
+                                            }
+                                        </li>
                                     </ul>
                                 ))}
                             </div>
@@ -122,6 +139,18 @@ function UserList() {
                                                     <strong>
                                                         <a onClick={() => _handleEdit(user.UserId)}>
                                                             Edit
+                                                        </a>
+                                                    </strong>
+                                                }
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span>
+                                                {pre_actions?.includes("VIEW") &&
+
+                                                    <strong>
+                                                        <a onClick={() => _handleView(user.UserId)}>
+                                                            View
                                                         </a>
                                                     </strong>
                                                 }
