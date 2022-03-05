@@ -189,13 +189,13 @@ function Setting() {
                                 <i className="ti-view-list-alt" />
                               </div>
                               <div className="settings-single-item-info">
-                                <h6>SMTP</h6>
-                                <p>Manage smtp configuration.</p>
+                                <h6>SMTP/Timezone</h6>
+                                <p>Manage SMTP and Timezone configuration.</p>
                               </div>
                             </div>
                           </Link>
                         </div>
-                        <div className="col-lg-6">
+                        {/* <div className="col-lg-6">
                           <Link to={"/admin/settings/timezone_management"}>
                             <div className="settings-single-item mb-40">
                               <div className="settings-single-item-icon">
@@ -207,7 +207,7 @@ function Setting() {
                               </div>
                             </div>
                           </Link>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Garage_Icon from "assets/img/user-account.png";
+import { Editor } from "react-draft-wysiwyg";
+import htmlToDraft from "html-to-draftjs";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { TagsInput } from "react-tag-input-component";
 
 const EmailSignature = () => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [selected, setSelected] = useState([]);
+
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+  };
+
   return (
     <div class="body-bg-1">
       <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
@@ -9,7 +22,7 @@ const EmailSignature = () => {
           <div class="row">
             <div class="col-lg-9">
               <div class="ltnd__page-title-area">
-                <h2>Email Signature Configuration</h2>
+                <h2>Email Signature</h2>
                 <p class="page-back-btn">
                   <Link to="/admin/settings">
                     <i className="icon-left-arrow-1" /> Back
@@ -50,103 +63,49 @@ const EmailSignature = () => {
           </div>
         </div>
       </div>
+
       <div class="body-content-area-inner">
         <div class="ltnd__block-area">
           <div class="row">
             <div class="col-lg-12">
               <div class="ltnd__block-item mt-30">
                 <div class="ltn__block-item-info">
-                  <h6 class="ltnd__title-3">Two-factor authentication </h6>
-
-                  <div class="ltn__checkbox-radio-group inline mt-20 mb-20">
-                    <label class="ltn__switch-2">
-                      <input type="checkbox" checked="" />
-                      <i class="lever"></i>{" "}
-                      <span class="text">
-                        <strong>Enable Two-factor authentication </strong>
-                      </span>
-                    </label>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-5">
-                      <div class="notification-item mb-30">
-                        <p class="ltn__color-1">Content language</p>
-                        <p>Yasminali@gmail.com</p>
-                        <div class="ltn__checkbox-radio-group inline---">
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i> Don’t
-                            send any email
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" checked="" />{" "}
-                            <i class="icon"></i> Offers
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i>{" "}
-                            Surveys
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i> Now
-                            on Aurora
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i>{" "}
-                            Latest updates
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" checked="" />{" "}
-                            <i class="icon"></i> Checkbox Active
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" disabled="" />{" "}
-                            <i class="icon"></i> Checkbox Disabled
-                          </label>
+                  <form id="#" action="#" method="#" class="ltnd__form-1">
+                    <div class="row">
+                      <div class="col-12 pt-2 pb-2">
+                        <h6>Email CC</h6>
+                        <div class="input-item">
+                          <TagsInput
+                            value={selected}
+                            onChange={setSelected}
+                            name="email-cc"
+                            placeHolder="Enter Email CC"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 pt-2 pb-2">
+                        <h6>Email BCC</h6>
+                        <div class="input-item">
+                          <TagsInput
+                            value={selected}
+                            onChange={setSelected}
+                            name="email-bcc"
+                            placeHolder="Enter Email BCC"
+                          />
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-5">
-                      <div class="notification-item mb-30">
-                        <p class="ltn__color-1">Content language</p>
-                        <p>
-                          <strong>Add your phone number</strong>
-                        </p>
-                        <div class="ltn__checkbox-radio-group inline---">
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i> Don’t
-                            send messages on mobile
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" checked="" />{" "}
-                            <i class="icon"></i> Accounts messages
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i>{" "}
-                            Aurora information
-                          </label>
-                        </div>
-                      </div>
+                    <div className="row pt-2 pb-2">
+                      <h6>Email Signature</h6>
+                      <Editor
+                        editorState={editorState}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        onEditorStateChange={onEditorStateChange}
+                      />
                     </div>
-                    <div class="col-lg-12">
-                      <div class="notification-item mb-30">
-                        <p class="ltn__color-1">Marketing communication</p>
-                        <div class="ltn__checkbox-radio-group inline--- mb-30">
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" /> <i class="icon"></i> Use
-                            my information to send promotional communications on
-                            thrd party services
-                          </label>
-                          <label class="ltn__checkbox">
-                            <input type="checkbox" checked="" />{" "}
-                            <i class="icon"></i> Send me newsletters
-                          </label>
-                        </div>
-                        <p>
-                          Note: You will always receive transactional emails
-                          related to your account.{" "}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
