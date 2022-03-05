@@ -21,7 +21,7 @@ import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 
 
-const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
+const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
     const dispatch = useDispatch();
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
@@ -61,6 +61,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
 
     const _clearState = () => {
         dispatch(clearInputValues());
+        // toggleModal();
     }
 
     const _multiValueLabel = props => {
@@ -180,7 +181,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                     <div className="ltnd__adding-modal-inner">
 
                         <div className="section-title-area mb-30---">
-                            <h1 className="section-title">{!edit ? "Add Group" : "Edit Group"}</h1>
+                            <h1 className="section-title">{view ? "View Group" : !edit ? "Add Group" : "Edit Group"}</h1>
                         </div>
                         {loading ?
                             <LoaderAnimation />
@@ -192,7 +193,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                         <div className="ltnd__edit-table-item">
                                             <div className="input-item">
                                                 <h6 className="ltnd__title-3">Access Group Name <span className={errors.name && "errorMsg"}>*</span></h6>
-                                                <input type="text"
+                                                <input disabled={view} type="text"
                                                     aria-invalid={errors.name ? "true" : "false"}
                                                     autoComplete="off"
                                                     {...register("name", {
@@ -221,8 +222,9 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                 <Select
                                                     name="access_group"
                                                     value={access_group}
+                                                    isDisabled={view}
                                                     onChange={(event) => _handleSelect(event, "access_group")}
-                                                    options={access_groups.filter(ag=>ag.IsDefault).map((option => { return { label: option?.GroupName || "", value: option.Id } }))}
+                                                    options={access_groups.filter(ag => ag.IsDefault).map((option => { return { label: option?.GroupName || "", value: option.Id } }))}
                                                     closeMenuOnSelect={true}
                                                 />
                                                 {/* )}
@@ -244,17 +246,33 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     name="modules"
                                                     // rules={{ required: "Modules is required *" }}
                                                     render={({ field: { onChange } }) => ( */}
-                                                <Select
-                                                    value={modules}
-                                                    name="modules"
-                                                    closeMenuOnSelect={true}
-                                                    isMulti
-                                                    menuPlacement="top"
-                                                    blurInputOnSelect={true}
-                                                    components={{ MultiValueLabel: _multiValueLabel }}
-                                                    onChange={(event) => _handleSelect(event, "modules")}
-                                                    options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
-                                                />
+                                                {view ?
+                                                    <Select
+                                                        value={modules}
+                                                        name="modules"
+                                                        closeMenuOnSelect={true}
+                                                        isMulti
+                                                        // isDisabled={view}
+                                                        menuPlacement="top"
+                                                        menuIsOpen={false}
+                                                        blurInputOnSelect={true}
+                                                        components={{ MultiValueLabel: _multiValueLabel }}
+                                                        onChange={(event) => _handleSelect(event, "modules")}
+                                                        options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
+                                                    /> :
+
+                                                    <Select
+                                                        value={modules}
+                                                        name="modules"
+                                                        closeMenuOnSelect={true}
+                                                        isMulti
+                                                        // isDisabled={view}
+                                                        menuPlacement="top"
+                                                        blurInputOnSelect={true}
+                                                        components={{ MultiValueLabel: _multiValueLabel }}
+                                                        onChange={(event) => _handleSelect(event, "modules")}
+                                                        options={modules_access_groups.map((option => { return { label: option.ModuleMenuName, value: option.Id } }))}
+                                                    />}
                                                 {/* )}
                                                 /> */}
                                                 <ErrorMessage
@@ -273,7 +291,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <h4>{module?.label || ""}</h4>
                                                     <div className="ltn__checkbox-radio-group inline mt-30">
                                                         {modules_actions.filter(act => act.ModuleId === module.value).map((act) => (
-                                                            <label className="ltn__switch-2"><input type="checkbox" onChange={_handleChange} name="actions" value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>
+                                                            <label className="ltn__switch-2"><input type="checkbox" disabled={view} onChange={_handleChange} name="actions" value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>
                                                         ))}
                                                     </div>
                                                 </div>
@@ -287,13 +305,15 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit }) => {
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
                                                             <div className="ltnd__left btn-normal">
-                                                                {pre_actions.includes("DELETE") && <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>}
+                                                                {!view && pre_actions.includes("DELETE") && <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>}
                                                             </div>
                                                             <div className="ltnd__right btn-normal">
-                                                                <div className="btn-wrapper">
-                                                                    {/* <a onClick={_clearState} className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a> */}
-                                                                    <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>
-                                                                </div>
+                                                                
+                                                                    <div className="btn-wrapper">
+                                                                <a onClick={toggleModal} role="button" className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a>
+                                                                        {!view &&<button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>}
+                                                                    </div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

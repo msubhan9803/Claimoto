@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 function MapComponent({
     center,
     zoom,
+    height
 }) {
     const ref = useRef();
 
@@ -13,7 +14,7 @@ function MapComponent({
         });
     });
 
-    return <div style={{height:window.screen.height}} ref={ref} id="map" />;
+    return <div style={{height}} ref={ref} id="map" />;
 }
 
 

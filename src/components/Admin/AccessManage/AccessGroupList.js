@@ -8,12 +8,18 @@ function AccessGroupList() {
     const { access_groups, roles } = useSelector(state => state.usersScreenReducer);
 
     const { permissions } = useSelector(state => state.authReducer);
-    let pre_actions = getAllowActions({permissions, module_name : "AUM"});
+    let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
 
 
 
     const _handleEdit = (id) => {
         searchParams.set("action", "edit_access_group");
+        searchParams.set("id", id);
+        setSearchParams(searchParams);
+    }
+
+    const _handleView = (id) => {
+        searchParams.set("action", "view_access_group");
         searchParams.set("id", id);
         setSearchParams(searchParams);
     }
@@ -30,7 +36,8 @@ function AccessGroupList() {
                                 <li className="table-data-6">Role</li>
                                 <li className="table-data-5">Status</li>
                                 <li className="table-data-5">Default</li>
-                                <li className="table-data-7"> </li>
+                                <li className="table-data-7">Edit</li>
+                                <li className="table-data-7">View</li>
                             </ul>
                             {access_groups.map((ag) => (
                                 <ul key={ag.Id} className="ltn__select-availability-table-row">
@@ -72,8 +79,20 @@ function AccessGroupList() {
                                                     Edit
                                                 </a>
                                             </strong>
-                                        } 
+                                        }
+
                                     </li>
+                                    <li className="table-data-7">
+                                        {
+                                            pre_actions.includes("VIEW") &&
+                                            <strong>
+                                                <a role="button" onClick={() => _handleView(ag.Id)} className="" title="View">
+                                                    View
+                                                </a>
+                                            </strong>
+                                        }
+                                    </li>
+
                                 </ul>
                             ))}
                         </div>

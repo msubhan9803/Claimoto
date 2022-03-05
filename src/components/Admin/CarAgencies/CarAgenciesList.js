@@ -74,7 +74,7 @@ function CarAgenciesList() {
                                         <li className="table-data-4">Contact number</li>
                                         <li className="table-data-6">Car Agency address</li>
                                         <li className="table-data-7">Edit </li>
-                                        {/* <li className="table-data-8">Details</li> */}
+                                        <li className="table-data-8">Details</li>
                                     </ul>
                                     {list.map(record => {
                                         return (
@@ -95,14 +95,14 @@ function CarAgenciesList() {
                                                         </strong>
                                                     }
                                                 </li>
-                                                {/* <li className="table-data-8">
-                                                <a
-                                                    className="ltn__secondary-color"
-                                                    href="car-agency-details.html"
-                                                >
-                                                    <strong>Details</strong>
-                                                </a>{" "}
-                                            </li> */}
+                                                <li className="table-data-7">
+                                                        {car_agency_actions?.includes("VIEW") &&
+                                                            <strong>
+                                                                <Link to={`/admin/view_provider/car%20agency/${record.Id}?tab=0`} >View</Link>
+                                                            </strong>
+                                                        }
+                                                    </li>
+                                                
                                             </ul>
                                         )
                                     }
