@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createRef } from "react";
 import { msgAlert } from "functions";
 import "./style.css";
-import Imageviewer from "./ImageViewer.js";
+import Imageviewer from "../../General/ImageViewer.js";
 
 const VehiclePartImageManage = ({
   imagesListLength,

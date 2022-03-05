@@ -12,7 +12,7 @@ import {
   GetSinglePolicy,
   GetColor,
   DeletePolicies,
-  UpdateVehcileImage
+  UpdateVehcileImage,
 } from "store/actions/policies";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,18 +21,16 @@ import { ErrorMessage } from "@hookform/error-message";
 import { confirmAlert } from "functions";
 import Carasole from "components/Admin/Carasole/Carasole";
 import { getAllowActions } from "functions";
+import Imageviewer from "../../../../components/Admin/General/ImageViewer.js";
 
 function VehicalDetail() {
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
   let vehicle_actions = getAllowActions({ permissions, module_name: "AVP" });
-
   // state hook
   const [isEdit, setIsEdit] = useState(false);
-
   // params hook
   const params = useParams();
-
   const navigate = useNavigate();
   let location = useLocation();
   let path = location.pathname;
@@ -40,16 +38,11 @@ function VehicalDetail() {
   const Url = checkUrl === "vehical_detail";
   const isVehicleDetailEditUrl = checkUrl === "vehical_detail_edit";
   const [isView, setIsView] = useState(false);
-
-  // dispatch hook
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const [imageViewerList, setImageViewerList] = useState([]);
+  const [currenctImageIndex, setCurrenctImageIndex] = useState(0);
   const dispatch = useDispatch();
 
-  // handle input
-  const changeValue = (e) => {
-    e.persist();
-    const { name, value } = e.target;
-    dispatch(GetInputs(name, value));
-  };
   // form validation
   const formSchema = Yup.object().shape({
     PlateNumber: Yup.string().required("Plate Number  is required"),
@@ -60,6 +53,75 @@ function VehicalDetail() {
       .max(2, "Enter 2 digits"),
     ChassisNumber: Yup.string().required("Chassis Number is required"),
   });
+  // use selector hook
+  const car_colors = useSelector((state) => state.policyReducer.color);
+  const policy = useSelector((state) => state.policyReducer.policy);
+  const policy_make = useSelector((state) => state.policyReducer.make);
+  const { isSuccess } = useSelector((state) => state.policyReducer);
+  // destrute policy values
+  const {
+    PlateNumber,
+    Year,
+    ColourId,
+    Capacity,
+    ChassisNumber,
+    Image1,
+    Image2,
+    Image3,
+    Image4,
+    Image5,
+    isLoading,
+    MakeId,
+  } = policy;
+  // initialize react hook form
+  const formOptions = { resolver: yupResolver(formSchema), mode: "onChange" };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm(formOptions);
+
+  useEffect(() => {
+    if (Url || checkUrl == "vehical_detail_view" || isVehicleDetailEditUrl) {
+      setIsView(true);
+      dispatch(GetSinglePolicy(params.id));
+    } else {
+      setIsView(false);
+    }
+  }, []);
+
+  // get single policy
+  useEffect(() => {
+    // if (params.id) {
+    //   dispatch(GetSinglePolicy(params.id));
+    // }
+    dispatch(GetColor());
+  }, [params.id]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      // console.log("==== isSuccess =====");
+      navigate("/admin/policies");
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    let imagesList = [Image1, Image2, Image3, Image4, Image5];
+    let temp = [];
+    for (let index = 0; index < imagesList.length; index++) {
+      const image = imagesList[index];
+      temp.push(`${process.env.REACT_APP_API_ENVIROMENT}/${image}`);
+    }
+    console.log("temp: ", temp);
+    setImageViewerList(temp);
+  }, [policy]);
+
+  // handle input
+  const changeValue = (e) => {
+    e.persist();
+    const { name, value } = e.target;
+    dispatch(GetInputs(name, value));
+  };
 
   // handle image
   const _onImageChange = (event) => {
@@ -100,52 +162,6 @@ function VehicalDetail() {
     }
   };
 
-  useEffect(() => {
-    if (Url || checkUrl == "vehical_detail_view" || isVehicleDetailEditUrl) {
-      setIsView(true);
-      dispatch(GetSinglePolicy(params.id));
-    } else {
-      setIsView(false);
-    }
-  }, []);
-
-  // get single policy
-  useEffect(() => {
-    // if (params.id) {
-    //   dispatch(GetSinglePolicy(params.id));
-    // }
-    dispatch(GetColor());
-  }, [params.id]);
-
-  // use selector hook
-  const car_colors = useSelector((state) => state.policyReducer.color);
-  const policy = useSelector((state) => state.policyReducer.policy);
-  const policy_make = useSelector((state) => state.policyReducer.make);
-  const { isSuccess } = useSelector((state) => state.policyReducer);
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("==== isSuccess =====");
-      navigate("/admin/policies");
-    }
-  }, [isSuccess]);
-
-  // destrute policy values
-  const {
-    PlateNumber,
-    Year,
-    ColourId,
-    Capacity,
-    ChassisNumber,
-    Image1,
-    Image2,
-    Image3,
-    Image4,
-    Image5,
-    isLoading,
-    MakeId,
-  } = policy;
-
   // Send Form data
 
   const SendForm = () => {
@@ -178,19 +194,33 @@ function VehicalDetail() {
     return params.id ? updatProduct() : SendForm();
   };
 
-  // initialize react hook form
-  const formOptions = { resolver: yupResolver(formSchema), mode: "onChange" };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm(formOptions);
-
   let makeName = policy_make.find((i) => i.Id === MakeId);
+
+  const _handleImageViewer = (index) => {
+    console.log("index: ", index);
+    setCurrenctImageIndex(index);
+    setShowImageViewer(!showImageViewer);
+  };
+
+  const _handleImageViewerModalClose = () => {
+    setShowImageViewer(!showImageViewer);
+  };
 
   return (
     <React.Fragment>
-      <Carasole openModal={isEdit} closeModel={(value) => setIsEdit(value)} />
+      {/* <Carasole openModal={isEdit} closeModel={(value) => setIsEdit(value)} /> */}
+      {showImageViewer && (
+        <Imageviewer
+          src={imageViewerList}
+          currentIndex={currenctImageIndex}
+          onClose={_handleImageViewerModalClose}
+          disableScroll={false}
+          backgroundStyle={{
+            backgroundColor: "rgba(0,0,0,0.9)",
+          }}
+          closeOnClickOutside={true}
+        />
+      )}
       {params.id && isLoading ? (
         <div className="spinner-grow" role="status">
           <span className="sr-only">Loading...</span>
@@ -425,35 +455,65 @@ function VehicalDetail() {
               {/* BLOCK AREA END */}
               {/* BLOCK AREA START ( Vehicle Details section - 2 ) */}
               <div className="ltnd__block-area mt-15">
+                {isVehicleDetailEditUrl && (
+                  <div className="row ltn__custom-gutter">
+                    <h6>
+                      <i
+                        className="ti-info-alt text-primary"
+                        style={{ marginRight: "4px" }}
+                      ></i>
+                      Click on any image to change it
+                    </h6>
+                  </div>
+                )}
                 <div className="row ltn__custom-gutter">
                   <div className="col-lg-5">
                     <div className="ltnd__img-gallery mt-15">
                       {Image1 ? (
                         <>
                           <label htmlFor="file_2">
-                            <img
-                              onClick={() => setIsEdit(Url ? true : false)}
-                              src={
-                                Image1?.Base64 ||
-                                (typeof Image1 === "string" &&
-                                  `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}`) ||
-                                URL.createObjectURL(Image1)
-                              }
-                              alt="Image"
-                            />
+                            {checkUrl == "vehical_detail_edit" ||
+                            checkUrl == "create_vehical" ? (
+                              <>
+                                <img
+                                  onClick={() => setIsEdit(Url ? true : false)}
+                                  // onClick={() => _handleImageViewer(0)}
+                                  src={
+                                    Image1?.Base64 ||
+                                    (typeof Image1 === "string" &&
+                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}`) ||
+                                    URL.createObjectURL(Image1)
+                                  }
+                                  alt="Image"
+                                />
+
+                                <input
+                                  type="file"
+                                  id="file_2"
+                                  disabled={
+                                    Url || checkUrl == "vehical_detail_view"
+                                      ? true
+                                      : false
+                                  }
+                                  name="Image1"
+                                  style={{ display: "none" }}
+                                  onChange={_onImageChange}
+                                />
+                              </>
+                            ) : (
+                              <img
+                                // onClick={() => setIsEdit(Url ? true : false)}
+                                onClick={() => _handleImageViewer(0)}
+                                src={
+                                  Image1?.Base64 ||
+                                  (typeof Image1 === "string" &&
+                                    `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}`) ||
+                                  URL.createObjectURL(Image1)
+                                }
+                                alt="Image"
+                              />
+                            )}
                           </label>
-                          <input
-                            type="file"
-                            id="file_2"
-                            disabled={
-                              Url || checkUrl == "vehical_detail_view"
-                                ? true
-                                : false
-                            }
-                            name="Image1"
-                            style={{ display: "none" }}
-                            onChange={_onImageChange}
-                          />
                         </>
                       ) : (
                         <div className="Neon Neon-theme-dragdropboxs">
@@ -492,29 +552,49 @@ function VehicalDetail() {
                           {Image2 ? (
                             <>
                               <label htmlFor="files">
-                                <img
-                                  onClick={() => setIsEdit(Url ? true : false)}
-                                  src={
-                                    Image2?.Base64 ||
-                                    (typeof Image2 === "string" &&
-                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}`) ||
-                                    URL.createObjectURL(Image2)
-                                  }
-                                  alt="Image"
-                                />
+                                {checkUrl == "vehical_detail_edit" ||
+                                checkUrl == "create_vehical" ? (
+                                  <>
+                                    <img
+                                      onClick={() =>
+                                        setIsEdit(Url ? true : false)
+                                      }
+                                      // onClick={() => _handleImageViewer(1)}
+                                      src={
+                                        Image2?.Base64 ||
+                                        (typeof Image2 === "string" &&
+                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}`) ||
+                                        URL.createObjectURL(Image2)
+                                      }
+                                      alt="Image"
+                                    />
+                                    <input
+                                      type="file"
+                                      disabled={
+                                        Url || checkUrl == "vehical_detail_view"
+                                          ? true
+                                          : false
+                                      }
+                                      id="files"
+                                      name="Image2"
+                                      style={{ display: "none" }}
+                                      onChange={_onImageChange}
+                                    />
+                                  </>
+                                ) : (
+                                  <img
+                                    // onClick={() => setIsEdit(Url ? true : false)}
+                                    onClick={() => _handleImageViewer(1)}
+                                    src={
+                                      Image1?.Base64 ||
+                                      (typeof Image1 === "string" &&
+                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}`) ||
+                                      URL.createObjectURL(Image1)
+                                    }
+                                    alt="Image"
+                                  />
+                                )}
                               </label>
-                              <input
-                                type="file"
-                                disabled={
-                                  Url || checkUrl == "vehical_detail_view"
-                                    ? true
-                                    : false
-                                }
-                                id="files"
-                                name="Image2"
-                                style={{ display: "none" }}
-                                onChange={_onImageChange}
-                              />
                             </>
                           ) : (
                             <div className="Neon Neon-theme-dragdropbox">
@@ -549,29 +629,49 @@ function VehicalDetail() {
                           {Image3 ? (
                             <>
                               <label htmlFor="file_s">
-                                <img
-                                  onClick={() => setIsEdit(Url ? true : false)}
-                                  src={
-                                    Image3?.Base64 ||
-                                    (typeof Image3 === "string" &&
-                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}`) ||
-                                    URL.createObjectURL(Image3)
-                                  }
-                                  alt="Image"
-                                />
+                                {checkUrl == "vehical_detail_edit" ||
+                                checkUrl == "create_vehical" ? (
+                                  <>
+                                    <img
+                                      onClick={() =>
+                                        setIsEdit(Url ? true : false)
+                                      }
+                                      // onClick={() => _handleImageViewer(2)}
+                                      src={
+                                        Image3?.Base64 ||
+                                        (typeof Image3 === "string" &&
+                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}`) ||
+                                        URL.createObjectURL(Image3)
+                                      }
+                                      alt="Image"
+                                    />
+                                    <input
+                                      type="file"
+                                      disabled={
+                                        Url || checkUrl == "vehical_detail_view"
+                                          ? true
+                                          : false
+                                      }
+                                      id="file_s"
+                                      name="Image3"
+                                      style={{ display: "none" }}
+                                      onChange={_onImageChange}
+                                    />
+                                  </>
+                                ) : (
+                                  <img
+                                    // onClick={() => setIsEdit(Url ? true : false)}
+                                    onClick={() => _handleImageViewer(2)}
+                                    src={
+                                      Image1?.Base64 ||
+                                      (typeof Image1 === "string" &&
+                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}`) ||
+                                      URL.createObjectURL(Image1)
+                                    }
+                                    alt="Image"
+                                  />
+                                )}
                               </label>
-                              <input
-                                type="file"
-                                disabled={
-                                  Url || checkUrl == "vehical_detail_view"
-                                    ? true
-                                    : false
-                                }
-                                id="file_s"
-                                name="Image3"
-                                style={{ display: "none" }}
-                                onChange={_onImageChange}
-                              />
                             </>
                           ) : (
                             <div className="Neon Neon-theme-dragdropbox">
@@ -606,29 +706,49 @@ function VehicalDetail() {
                           {Image4 ? (
                             <>
                               <label htmlFor="file_4">
-                                <img
-                                  onClick={() => setIsEdit(Url ? true : false)}
-                                  src={
-                                    Image4?.Base64 ||
-                                    (typeof Image4 === "string" &&
-                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}`) ||
-                                    URL.createObjectURL(Image4)
-                                  }
-                                  alt="Image"
-                                />
+                                {checkUrl == "vehical_detail_edit" ||
+                                checkUrl == "create_vehical" ? (
+                                  <>
+                                    <img
+                                      onClick={() =>
+                                        setIsEdit(Url ? true : false)
+                                      }
+                                      // onClick={() => _handleImageViewer(3)}
+                                      src={
+                                        Image4?.Base64 ||
+                                        (typeof Image4 === "string" &&
+                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}`) ||
+                                        URL.createObjectURL(Image4)
+                                      }
+                                      alt="Image"
+                                    />
+                                    <input
+                                      type="file"
+                                      disabled={
+                                        Url || checkUrl == "vehical_detail_view"
+                                          ? true
+                                          : false
+                                      }
+                                      id="file_4"
+                                      name="Image4"
+                                      style={{ display: "none" }}
+                                      onChange={_onImageChange}
+                                    />
+                                  </>
+                                ) : (
+                                  <img
+                                    // onClick={() => setIsEdit(Url ? true : false)}
+                                    onClick={() => _handleImageViewer(3)}
+                                    src={
+                                      Image1?.Base64 ||
+                                      (typeof Image1 === "string" &&
+                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}`) ||
+                                      URL.createObjectURL(Image1)
+                                    }
+                                    alt="Image"
+                                  />
+                                )}
                               </label>
-                              <input
-                                type="file"
-                                disabled={
-                                  Url || checkUrl == "vehical_detail_view"
-                                    ? true
-                                    : false
-                                }
-                                id="file_4"
-                                name="Image4"
-                                style={{ display: "none" }}
-                                onChange={_onImageChange}
-                              />
                             </>
                           ) : (
                             <div className="Neon Neon-theme-dragdropbox">
@@ -663,29 +783,47 @@ function VehicalDetail() {
                           {Image5 ? (
                             <>
                               <label htmlFor="file_5">
-                                <img
-                                  onClick={() => setIsEdit(Url ? true : false)}
-                                  src={
-                                    Image5?.Base64 ||
-                                    (typeof Image5 === "string" &&
-                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}`) ||
-                                    URL.createObjectURL(Image5)
-                                  }
-                                  alt="Image"
-                                />
+                                {checkUrl == "vehical_detail_edit" ||
+                                checkUrl == "create_vehical" ? (
+                                  <>
+                                    <img
+                                      onClick={() => setIsEdit(Url ? true : false)}
+                                      // onClick={() => _handleImageViewer(4)}
+                                      src={
+                                        Image5?.Base64 ||
+                                        (typeof Image5 === "string" &&
+                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}`) ||
+                                        URL.createObjectURL(Image5)
+                                      }
+                                      alt="Image"
+                                    />
+                                    <input
+                                      type="file"
+                                      disabled={
+                                        Url || checkUrl == "vehical_detail_view"
+                                          ? true
+                                          : false
+                                      }
+                                      id="file_5"
+                                      name="Image5"
+                                      style={{ display: "none" }}
+                                      onChange={_onImageChange}
+                                    />
+                                  </>
+                                ) : (
+                                  <img
+                                    // onClick={() => setIsEdit(Url ? true : false)}
+                                    onClick={() => _handleImageViewer(4)}
+                                    src={
+                                      Image1?.Base64 ||
+                                      (typeof Image1 === "string" &&
+                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}`) ||
+                                      URL.createObjectURL(Image1)
+                                    }
+                                    alt="Image"
+                                  />
+                                )}
                               </label>
-                              <input
-                                type="file"
-                                disabled={
-                                  Url || checkUrl == "vehical_detail_view"
-                                    ? true
-                                    : false
-                                }
-                                id="file_5"
-                                name="Image5"
-                                style={{ display: "none" }}
-                                onChange={_onImageChange}
-                              />
                             </>
                           ) : (
                             <div className="Neon Neon-theme-dragdropbox">
