@@ -64,7 +64,7 @@ function UserManagement() {
                 setComState((comState) => ({
                     ...initialState,
                     openUserModal: true,
-                    view: true,
+                    view: false,
                     edit: false
                 }));
                 break;
