@@ -9,6 +9,7 @@ import addProviderScreenReducer from "store/reducers/providers/add_provider";
 import productReducer from 'store/reducers/product'
 import policyReducer from 'store/reducers/policies'
 import vehiclePartsReducer from 'store/reducers/vehicleParts'
+import settingsReducer from 'store/reducers/settings'
 
 const rootPersistConfig = {
   key: 'root',
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   productReducer: productReducer,
   policyReducer: policyReducer,
   vehiclePartsReducer: vehiclePartsReducer,
+  settingsReducer: settingsReducer
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

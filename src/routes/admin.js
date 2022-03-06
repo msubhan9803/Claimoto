@@ -18,8 +18,7 @@ import EmailSignature from "views/pages/Admin/Setting/EmailManagement/EmailSigna
 import EmailTemplate from "views/pages/Admin/Setting/EmailManagement/EmailTemplate.js";
 import Activity from "views/pages/Admin/Setting/LogsManagement/Activity.js";
 import Error from "views/pages/Admin/Setting/LogsManagement/Error.js";
-import SmtpManagement from "views/pages/Admin/Setting/SmtpManagement/SmtpManagement.js";
-import TimezoneManagement from "views/pages/Admin/Setting/TimezoneManagement/TimezoneManagement.js";
+import SmtpTimezoneManagement from 'views/pages/Admin/Setting/SmtpTimezoneManagement/SmtpTImezoneManagement';
 import ViewProvider from "components/Admin/Providers/ViewProvider";
 
 // import NotFound from 'views/pages/404/404'
@@ -184,13 +183,7 @@ export const adminRoutes = ({ userPermissions }) => {
         {
           name: "Smtp Management",
           path: "/settings/smtp_management",
-          component: <SmtpManagement />,
-          layout: "admin",
-        },
-        {
-          name: "Timezone Management",
-          path: "/settings/timezone_management",
-          component: <TimezoneManagement />,
+          component: <SmtpTimezoneManagement />,
           layout: "admin",
         },
       ],

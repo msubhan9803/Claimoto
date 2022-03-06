@@ -75,7 +75,7 @@ export const RegisterPolicies = (data) => async (dispatch) => {
         formData.append(key, value);
       }
       await instance
-        .post("api/FileUpload", formData)
+        .post("api/File/Insert", formData)
         .then((res) => {
           dispatch({
             type: REGISTER_POLICIES,
@@ -239,89 +239,13 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
       ChassisNumber: data.ChassisNumber,
       Benefits: check == 1 ? data.Benefits : null,
     };
-    debugger;
-
-    // let Imgdata = {
-    //   Image1: data.Image1,
-    //   Image2: data.Image2,
-    //   Image3: data.Image3,
-    //   Image4: data.Image4,
-    //   Image5: data.Image5,
-    // };
 
     await instance.put("api/Policy", policyDetail).then(async (res) => {
-      // if (Object.keys(Imgdata).length > 0) {
-      // let values;
-      // const func = async (url) => {
-      //   let urlConverted = process.env.REACT_APP_API_ENVIROMENT + url.substring(1, url.length);
-      //   console.log("urlConverted: ", urlConverted);
-      //   const response = await fetch(url);
-      //   const blob = await response.blob();
-      //   const ext = url.split(".").pop();
-      //   const contentType = response.headers.get("content-type");
-      //   const filename = url.split("/").pop();
-      //   // const metadata = { type: `image/${ext}` };
-      //   const file = new File([blob], filename, contentType);
-      //   // var file = new File([blob], filename, {
-      //   //   lastModified: new Date(0), // optional - default = now
-      //   //   type: "image/" + ext, // optional - default = ''
-      //   // });
-
-      //   console.log("response", response);
-      //   return file;
-      // };
-
-      // for (let [key, value] of Object.entries(Imgdata)) {
-      //   if (typeof value === "string") {
-      //     values = await func(value);
-      //     Imgdata[key] = values;
-      //   }
-      // }
-      // let formData = new FormData();
-      // formData.append("Id", Number(params));
-      // for (let [key, value] of Object.entries(Imgdata)) {
-      //   formData.append(key, value);
-      //   let ig = await instance.post("api/FileUpload", formData);
-      // }
-      // let formData = new FormData();
-      // formData.append("Id", params);
-      // for (let [key, value] of Object.entries(Imgdata)) {
-      //   formData.append(key, value);
-      // }
-
-      // await instance
-      //   .post("api/FileUpload", formData)
-      //   .then((res) => {
-      //     dispatch({
-      //       type: REGISTER_POLICIES,
-      //       payload: data,
-      //     });
-      //     SweetAlert({
-      //       text: res.data,
-      //       icon: "success",
-      //     });
-      //     // window.location.href = "/admin/policies";
-      //     dispatch({ type: UPDATE_POLICIES, payload: data });
-      //   })
-      //   .catch((err) => console.log("err FileUpload: ", err));
-
-      // formData.append(key, value);
-      // let ig = await instance.post('api/FileUpload', formData)
-      // SweetAlert({
-      //   text: "Policy are successfully update",
-      //   icon: "success",
-      // });
-
-      // console.log("imagDta", ig)
-
-      // await instance.post('api/FileUpload', formData)
-      // }
       dispatch({ type: UPDATE_POLICIES, payload: data });
       SweetAlert({
         text: "Policy are successfully update",
         icon: "success",
       });
-      // }
     });
   } catch (err) {
     console.log("err", err);
@@ -330,21 +254,6 @@ export const UpdatePolicies = (data, params) => async (dispatch) => {
 
 export const HandleFilterTable = (filteredList) => (dispatch) => {
   try {
-    // console.log("stateList: ", stateList)
-    // console.log("search_option: ", search_option)
-    // console.log("search_text: ", search_text)
-    // let searchedData = [];
-    // for (let i = 0; i < stateList.length; i++) {
-    //   let part = stateList[i][search_option]
-    //   if (part.includes(search_text)) searchedData.push(part)
-    // }
-    // console.log('searchedData: ', searchedData)
-
-    // dispatch({
-    //   type: VEHICLE_PARTS_LIST_TABLE_FILTERING,
-    //   payload: { name, value }
-    // });
-
     dispatch({
       type: POLICIES_LIST_TABLE_FILTERING,
       payload: filteredList,
