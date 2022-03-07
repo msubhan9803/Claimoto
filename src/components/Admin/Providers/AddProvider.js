@@ -170,7 +170,7 @@ const AddProvider = () => {
                         providerId: _getProviderId(),
                         editId: id || null
                     }
-                    dispatch(addProvider(action_payload));
+                    dispatch(addProvider(action_payload, navigate));
 
                 }
             } else {
@@ -241,6 +241,8 @@ const AddProvider = () => {
     useEffect(() => {
         if (id) {
             _setProviderDetails(id);
+        }else{
+            dispatch(clearAddProviderState());
         }
     }, [id]);
 
