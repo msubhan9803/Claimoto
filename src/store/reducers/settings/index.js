@@ -12,7 +12,8 @@ import {
   HANDLE_ACCOUNT_VALUES,
   GET_ALL_COUNTRIES,
   HANDLE_ACCOUNT_VALUES_OUTER,
-  NAVIGATE_ACCOUNT_BACK
+  NAVIGATE_ACCOUNT_BACK,
+  RESET_ACCOUNT_STATE
 } from "../../types/settings.js";
 
 const initialState = {
@@ -151,6 +152,30 @@ const settingsReducer = (state = initialState, action) => {
 
     case NAVIGATE_ACCOUNT_BACK: {
       return { ...state, navigateAccount: action.payload };
+    }
+
+    case RESET_ACCOUNT_STATE: {
+      return {
+        ...state,
+        accountValues: {
+          TenantLogoPath: "",
+          TenantPrimaryPersonName: "",
+          TenantPrimaryPersonCountry: "",
+          TenantPrimaryPersonEmail: "",
+          TenantPrimaryPersonPhone: "",
+          TenantPrimaryPersonPassword: "",
+          TenantPrimaryPersonTwoFactorPhone: "",
+        },
+        CurrentPassword: "",
+        NewPassword: "",
+        ConfirmNewPassword: "",
+        UploadedImage: "",
+        ImageName: "",
+        fileExt: "",
+        IsEditImage: false,
+        countryList: [],
+        navigateAccount: false,
+      };
     }
 
     default:

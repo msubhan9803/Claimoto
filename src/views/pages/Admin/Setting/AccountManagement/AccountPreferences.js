@@ -70,6 +70,10 @@ const AccountPreferences = () => {
     resolver: yupResolver(schema),
     defaultValues: defaultValues,
   });
+  const [passwordErrors, setPasswordErrors] = useState({
+    CurrentPassword: "",
+    ConfirmNewPassword: "",
+  });
 
   useEffect(() => {
     dispatch(GetAllCountry());
@@ -81,6 +85,10 @@ const AccountPreferences = () => {
         payload: false,
       });
       reset(defaultValues);
+
+      dispatch({
+        type: "RESET_ACCOUNT_STATE",
+      });
     };
   }, []);
 
@@ -94,11 +102,45 @@ const AccountPreferences = () => {
     }
   }, [navigateAccount]);
 
+  useEffect(() => {
+    if (CurrentPassword && CurrentPassword !== TenantPrimaryPersonPassword) {
+      setPasswordErrors({
+        ...passwordErrors,
+        CurrentPassword: "Current Password is incorrect",
+      });
+    } else {
+      setPasswordErrors({
+        ...passwordErrors,
+        CurrentPassword: "",
+      });
+    }
+    if (NewPassword && ConfirmNewPassword) {
+      if (NewPassword !== ConfirmNewPassword) {
+        setPasswordErrors({
+          ...passwordErrors,
+          ConfirmNewPassword: "Confirm New Password does not match",
+        });
+      } else {
+        setPasswordErrors({
+          ...passwordErrors,
+          ConfirmNewPassword: "",
+        });
+      }
+    }
+  }, [CurrentPassword, NewPassword, ConfirmNewPassword]);
+
   const _handleChangeValue = (e) => {
     e.persist();
     let name = e.target.name;
     let value = e.target.value;
     dispatch(HandleAccountValues(name, value));
+  };
+
+  const _handleChangeValueOuter = (e) => {
+    e.persist();
+    let name = e.target.name;
+    let value = e.target.value;
+    dispatch(HandleAccountValuesOuter(name, value));
   };
 
   // handle image
@@ -133,14 +175,22 @@ const AccountPreferences = () => {
   };
 
   const _onSubmit = (data) => {
-    dispatch(
-      UpdateAccountPart({
-        accountValues,
-        UploadedImage,
-        ImageName,
-        fileExt,
-      })
-    );
+    if (
+      passwordErrors.CurrentPassword === "" &&
+      passwordErrors.ConfirmNewPassword === ""
+    ) {
+      dispatch(
+        UpdateAccountPart({
+          accountValues,
+          UploadedImage,
+          ImageName,
+          fileExt,
+          CurrentPassword,
+          NewPassword,
+          ConfirmNewPassword,
+        })
+      );
+    }
   };
 
   return (
@@ -354,8 +404,28 @@ const AccountPreferences = () => {
                             <div class="input-item">
                               <input
                                 type="password"
-                                name="name"
-                                placeholder="Current password"
+                                name="CurrentPassword"
+                                value={CurrentPassword}
+                                {...register("CurrentPassword")}
+                                onChange={_handleChangeValueOuter}
+                                placeholder="Enter current password"
+                              />
+                              {passwordErrors.CurrentPassword !== "" && (
+                                <p style={{ color: "red", paddingTop: "20px" }}>
+                                  {passwordErrors.CurrentPassword}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="input-item">
+                              <input
+                                type="password"
+                                name="NewPassword"
+                                value={NewPassword}
+                                {...register("NewPassword")}
+                                onChange={_handleChangeValueOuter}
+                                placeholder="Enter new password"
                               />
                             </div>
                           </div>
@@ -363,18 +433,17 @@ const AccountPreferences = () => {
                             <div class="input-item">
                               <input
                                 type="password"
-                                name="name"
-                                placeholder="New password"
+                                name="ConfirmNewPassword"
+                                value={ConfirmNewPassword}
+                                {...register("ConfirmNewPassword")}
+                                onChange={_handleChangeValueOuter}
+                                placeholder="Enter confirm new password"
                               />
-                            </div>
-                          </div>
-                          <div class="col-md-5">
-                            <div class="input-item">
-                              <input
-                                type="password"
-                                name="name"
-                                placeholder="Confirm new password"
-                              />
+                              {passwordErrors.ConfirmNewPassword !== "" && (
+                                <p style={{ color: "red", paddingTop: "20px" }}>
+                                  {passwordErrors.ConfirmNewPassword}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>

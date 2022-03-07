@@ -176,14 +176,16 @@ export const HandleAccountValuesOuter = (name, value) => async (dispatch) => {
 export const UpdateAccountPart = (accountObj) => async (dispatch) => {
   try {
     let temp = accountObj.accountValues;
-    temp.ImageModel = {
-      Base64: accountObj.UploadedImage,
-      ImageName: accountObj.ImageName,
-      Type: accountObj.fileExt,
-    };
-    console.log("temp: ", JSON.stringify(temp))
-
-    debugger;
+    if (accountObj.UploadedImage !== "") {
+      temp.ImageModel = {
+        Base64: accountObj.UploadedImage,
+        ImageName: accountObj.ImageName,
+        Type: accountObj.fileExt,
+      };
+    }
+    if (accountObj.ConfirmNewPassword !== "") {
+      temp.TenantPrimaryPersonPassword = accountObj.ConfirmNewPassword;
+    }
 
     instance.put(`api/Account/UserAccount`, temp).then((res) => {
       successAlert({
