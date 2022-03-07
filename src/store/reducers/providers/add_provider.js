@@ -71,7 +71,7 @@ const initialState = {
         full_name: "",
         phone: "",
         email: "",
-        add_contact_modal: false,
+        add_contact_modal: true,
         edit_index: null
     },
 
@@ -84,7 +84,7 @@ const initialState = {
             service_type: ""
         },
         selected_service_types: [],
-        add_service_modal: false,
+        add_service_modal: true,
         edit_index: null
     },
 
@@ -104,7 +104,7 @@ const initialState = {
             loading:false
         },
         selected_locations: [],
-        add_location_modal: false,
+        add_location_modal: true,
         edit_index: null
     },
 
