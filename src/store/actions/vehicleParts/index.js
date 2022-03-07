@@ -83,22 +83,6 @@ export const LoadVehiclePartsList =
         type: LOAD_VEHICLE_PARTS_LIST,
         payload: vehiclePartListDummy,
       });
-      // dispatch({
-      //   type: VEHICLE_PARTS_LIST_LOADING,
-      //   payload: true,
-      // });
-      // let { data } = await instance.get(
-      //   `api/UserProfile/Paging?PageIndex=${parts_page_index}&PageSize=${parts_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`
-      // );
-      // // let { data } = await instance.get(`api/UserProfile`);
-      // dispatch({
-      //   type: LOAD_VEHICLE_PARTS_LIST,
-      //   payload: {
-      //     users: data?.ModelUserProfileWithTotalRecords || [],
-      //     counts: data?.TotalRecord || 0,
-      //   },
-      //   // payload: { users: data || [], counts: data?.lenght || 0 }
-      // });
     } catch (err) {
       console.log("err", err);
     }
@@ -106,21 +90,6 @@ export const LoadVehiclePartsList =
 
 export const HandleFilterTable = (filteredList) => (dispatch) => {
   try {
-    // console.log("stateList: ", stateList)
-    // console.log("search_option: ", search_option)
-    // console.log("search_text: ", search_text)
-    // let searchedData = [];
-    // for (let i = 0; i < stateList.length; i++) {
-    //   let part = stateList[i][search_option]
-    //   if (part.includes(search_text)) searchedData.push(part)
-    // }
-    // console.log('searchedData: ', searchedData)
-
-    // dispatch({
-    //   type: VEHICLE_PARTS_LIST_TABLE_FILTERING,
-    //   payload: { name, value }
-    // });
-
     dispatch({
       type: VEHICLE_PARTS_LIST_TABLE_FILTERING,
       payload: filteredList,

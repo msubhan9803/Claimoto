@@ -933,7 +933,7 @@ function PoliciesDetail() {
             </div>
             {/* Body Content Area Inner End */}
 
-            <footer className=" fixed-footer-1 mt-4 ">
+            <footer className="mt-4">
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-lg-12">
