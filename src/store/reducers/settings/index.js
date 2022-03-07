@@ -7,7 +7,12 @@ import {
   NAVIGATE_SMTP_BACK,
   GET_EMAIL_CONFIG,
   NAVIGATE_EMAIL_BACK,
-  HANDLE_EMAIL_VALUES
+  HANDLE_EMAIL_VALUES,
+  GET_ACCOUNT_CONFIG,
+  HANDLE_ACCOUNT_VALUES,
+  GET_ALL_COUNTRIES,
+  HANDLE_ACCOUNT_VALUES_OUTER,
+  NAVIGATE_ACCOUNT_BACK
 } from "../../types/settings.js";
 
 const initialState = {
@@ -40,7 +45,27 @@ const initialState = {
     Email_Signature: "",
   },
   emailValuesLoaded: false,
-  navigateEmailSig: false
+  navigateEmailSig: false,
+
+  // For Account
+  accountValues: {
+    TenantLogoPath: "",
+    TenantPrimaryPersonName: "",
+    TenantPrimaryPersonCountry: "",
+    TenantPrimaryPersonEmail: "",
+    TenantPrimaryPersonPhone: "",
+    TenantPrimaryPersonPassword: "",
+    TenantPrimaryPersonTwoFactorPhone: "",
+  },
+  CurrentPassword: "",
+  NewPassword: "",
+  ConfirmNewPassword: "",
+  UploadedImage: "",
+  ImageName: "",
+  fileExt: "",
+  IsEditImage: false,
+  countryList: [],
+  navigateAccount: false,
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -70,11 +95,19 @@ const settingsReducer = (state = initialState, action) => {
 
     // For Email Signature
     case GET_EMAIL_CONFIG: {
-      return { ...state, emailSigValues: action.payload, emailValuesLoaded: true };
+      return {
+        ...state,
+        emailSigValues: action.payload,
+        emailValuesLoaded: true,
+      };
     }
 
     case NAVIGATE_EMAIL_BACK: {
-      return { ...state, navigateEmailSig: action.payload, emailValuesLoaded: false };
+      return {
+        ...state,
+        navigateEmailSig: action.payload,
+        emailValuesLoaded: false,
+      };
     }
 
     case HANDLE_EMAIL_VALUES: {
@@ -85,6 +118,39 @@ const settingsReducer = (state = initialState, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
+    }
+
+    // For Account
+    case GET_ACCOUNT_CONFIG: {
+      return {
+        ...state,
+        accountValues: action.payload,
+      };
+    }
+
+    case GET_ALL_COUNTRIES: {
+      return { ...state, countryList: action.payload };
+    }
+
+    case HANDLE_ACCOUNT_VALUES: {
+      return {
+        ...state,
+        accountValues: {
+          ...state.accountValues,
+          [action.payload.name]: action.payload.value,
+        },
+      };
+    }
+
+    case HANDLE_ACCOUNT_VALUES_OUTER: {
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value,
+      };
+    }
+
+    case NAVIGATE_ACCOUNT_BACK: {
+      return { ...state, navigateAccount: action.payload };
     }
 
     default:

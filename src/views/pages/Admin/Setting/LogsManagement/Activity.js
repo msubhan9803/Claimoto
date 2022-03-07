@@ -53,7 +53,7 @@ const Activity = () => {
         </div>
       </div>
 
-      <div class="body-content-area-inner">
+      <div class="body-content-area-inner pt-20">
         <div class="select-availability-area pb-120">
           <div class="row">
             <div class="col-lg-12">

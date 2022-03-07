@@ -1,8 +1,4 @@
-import {
-  SweetAlert,
-  successAlert,
-  successWithoutConfirmAlert,
-} from "functions";
+import { successAlert, successWithoutConfirmAlert } from "functions";
 import {
   GET_ALL_TIMEZONES,
   GET_SMTP_CONFIG,
@@ -11,10 +7,15 @@ import {
   GET_EMAIL_CONFIG,
   NAVIGATE_EMAIL_BACK,
   HANDLE_EMAIL_VALUES,
-  EMAIL_VALUES_LOADED,
+  GET_ACCOUNT_CONFIG,
+  GET_ALL_COUNTRIES,
+  HANDLE_ACCOUNT_VALUES,
+  HANDLE_ACCOUNT_VALUES_OUTER,
+  NAVIGATE_ACCOUNT_BACK,
 } from "store/types/settings.js";
 import instance from "config/axios/instance";
 
+// For SMTP & Timezone
 export const GetAllTimezones = () => async (dispatch) => {
   try {
     let res = await instance.get(`api/EmailTemplate/TimeZone`);
@@ -69,6 +70,7 @@ export const HandleSmtpValues = (name, value) => async (dispatch) => {
   }
 };
 
+// For Email Signature
 export const GetEmailConfig = () => async (dispatch) => {
   try {
     let res = await instance.get(`api/EmailTemplate/GlobelEmail_Signature`);
@@ -92,7 +94,7 @@ export const UpdateEmailPart = (settingsObj) => async (dispatch) => {
     temp.EmailBCC = temp.EmailBCC.join(",");
 
     instance
-      .put(`api/EmailTemplate/Put_GlobelEmail_Signature`, settingsObj)
+      .put(`api/EmailTemplate/Put_GlobelEmail_Signature`, temp)
       .then((res) => {
         successWithoutConfirmAlert({
           text: res.data,
@@ -115,6 +117,85 @@ export const HandleEmailValues = (name, value) => async (dispatch) => {
     dispatch({
       type: HANDLE_EMAIL_VALUES,
       payload: { name, value },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+// For Account
+export const GetAllCountry = () => async (dispatch) => {
+  try {
+    let res = await instance.get(`api/Account/Country`);
+    dispatch({
+      type: GET_ALL_COUNTRIES,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const GetAccountConfig = () => async (dispatch) => {
+  try {
+    let res = await instance.get(`api/Account/UserAccount`);
+    res.data.TenantPrimaryPersonTwoFactorPhone =
+      res.data.TenantPrimaryPersonPhone;
+
+    dispatch({
+      type: GET_ACCOUNT_CONFIG,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const HandleAccountValues = (name, value) => async (dispatch) => {
+  try {
+    dispatch({
+      type: HANDLE_ACCOUNT_VALUES,
+      payload: { name, value },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const HandleAccountValuesOuter = (name, value) => async (dispatch) => {
+  try {
+    dispatch({
+      type: HANDLE_ACCOUNT_VALUES_OUTER,
+      payload: { name, value },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const UpdateAccountPart = (accountObj) => async (dispatch) => {
+  try {
+    let temp = accountObj.accountValues;
+    temp.ImageModel = {
+      Base64: accountObj.UploadedImage,
+      ImageName: accountObj.ImageName,
+      Type: accountObj.fileExt,
+    };
+    console.log("temp: ", JSON.stringify(temp))
+
+    debugger;
+
+    instance.put(`api/Account/UserAccount`, temp).then((res) => {
+      successAlert({
+        text: res.data,
+        icon: "success",
+      });
+      setTimeout(() => {
+        dispatch({
+          type: NAVIGATE_ACCOUNT_BACK,
+          payload: true,
+        });
+      }, 1500);
     });
   } catch (err) {
     console.log("err", err);
