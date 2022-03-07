@@ -626,7 +626,7 @@ function ProductDetail(props) {
             {/* BLOCK AREA END */}
           </div>
           {/* Body Content Area Inner End */}
-          <footer className="ltnd__footer-1 fixed-footer-1">
+          <footer className="ltnd__footer-1">
             <div className="container-fluid">
               <div className="row">
                 <div className="col-lg-12">
