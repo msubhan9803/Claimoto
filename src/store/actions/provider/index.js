@@ -27,6 +27,7 @@ import {
     SAVE_SERVICE,
     DELETE_SERVICE,
     EDIT_SERVICE_INDEX,
+    EDIT_SERVICE,
     SET_INPUT_VALUES_PROVIDER_TAB3_SCREEN,
     GET_CITIES,
     GET_AREAS,
@@ -34,6 +35,7 @@ import {
     EDIT_LOCATION_INDEX,
     DELETE_LOCATION,
     CLEAR_ADD_PROVIDER_STATE,
+    EDIT_LOCATION,
 
 
 
@@ -327,10 +329,14 @@ export const saveService = (service) => dispatch => {
 
 
 export const editServiceIndex = (index) => dispatch => {
+    dispatch({type: EDIT_SERVICE,payload: true});
     dispatch({
         type: EDIT_SERVICE_INDEX,
         payload: index
-    })
+    });
+    setTimeout(() => {
+        dispatch({type: EDIT_SERVICE,payload: false});
+    }, 1000);
 }
 
 
@@ -361,10 +367,14 @@ export const saveLocation = (loaction) => dispatch => {
 }
 
 export const editLocationIndex = (index) => dispatch => {
+    dispatch({type: EDIT_LOCATION,payload: true});
     dispatch({
         type: EDIT_LOCATION_INDEX,
         payload: index
-    })
+    });
+    setTimeout(() => {
+        dispatch({type: EDIT_LOCATION,payload: false});
+    }, 1000);
 }
 
 
@@ -421,7 +431,7 @@ export const handleProviderInputValue = ({ name, value, compnnt }) => dispatch =
 
     try {
         dispatch({
-            type:  SET_INPUT_VALUES_PROVIDER_SCREEN,
+            type: SET_INPUT_VALUES_PROVIDER_SCREEN,
             payload: { name, value }
         })
 

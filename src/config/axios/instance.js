@@ -36,8 +36,9 @@ instance.interceptors.response.use(
   res => res,
   err => {
     if (err.response.status === 500) {
+      msgAlert({ title: "Server Error", text: err.response?.data?.Message || "Server Error" });
 
-      throw new Error(`${err.config.url} not found`);
+      // throw new Error(`${err.config.url} not found`);
     }
 
     else if (err.response.status === 400) {

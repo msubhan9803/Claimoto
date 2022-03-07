@@ -18,10 +18,12 @@ import {
     EDIT_LOCATION_INDEX,
     DELETE_LOCATION,
     CLEAR_ADD_PROVIDER_STATE,
+    EDIT_LOCATION,
 
     //Save Provider
     SAVE_PROVIDER_REQUEST,
     SAVE_PROVIDER,
+    EDIT_SERVICE,
 
     //SET_PROVIDER_DETAILS
     SET_PROVIDER_DETAILS_REQUEST,
@@ -98,7 +100,8 @@ const initialState = {
             lat: 29.378586,
             long: 47.9903414,
             url: "",
-            street_address: ""
+            street_address: "",
+            loading:false
         },
         selected_locations: [],
         add_location_modal: false,
@@ -113,7 +116,7 @@ const initialState = {
 
     edit_index: null,
 
-    deleting:false
+    deleting: false
 
 };
 
@@ -293,9 +296,23 @@ const addProviderScreenReducer = (state = initialState, action) => {
             srvs.splice(action.payload, 1);
             return {
                 ...state,
-                tab1: {
+                tab2: {
                     ...state.tab2,
                     selected_service_types: srvs
+                }
+            }
+        }
+
+
+        case EDIT_SERVICE: {
+            return {
+                ...state,
+                tab2: {
+                    ...state.tab2,
+                    services_values: {
+                        ...state.tab2.services_values,
+                        loading: action.payload
+                    },
                 }
             }
         }
@@ -401,7 +418,7 @@ const addProviderScreenReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tab3: {
-                    ...state.tab2,
+                    ...state.tab3,
                     selected_locations: locs,
                     location_values: initialState.tab3.location_values,
                     edit_index: null,
@@ -410,6 +427,23 @@ const addProviderScreenReducer = (state = initialState, action) => {
             }
         }
             break;
+
+        case EDIT_LOCATION: {
+
+            return {
+                ...state,
+                tab3: {
+                    ...state.tab3,
+                    location_values: {
+                        ...state.tab3.location_values,
+                        loading: action.payload
+                    },
+
+                }
+            }
+        }
+            break;
+
 
         case EDIT_LOCATION_INDEX: {
             let provider_index = action.payload;
@@ -434,7 +468,7 @@ const addProviderScreenReducer = (state = initialState, action) => {
             locs.splice(action.payload, 1);
             return {
                 ...state,
-                tab1: {
+                tab3: {
                     ...state.tab3,
                     selected_locations: locs
                 }
@@ -482,19 +516,19 @@ const addProviderScreenReducer = (state = initialState, action) => {
                     service: service.ServiceTypeId,
                     service_type: service.ProviderServiceId,
                     service_name: service.Service,
-                    parent_name:service.Name
+                    parent_name: service.Name
                 }
             });
 
             let selected_locations = ProviderLocations.map((loc) => {
                 return {
-                    name:loc.BranchName,
+                    name: loc.BranchName,
                     Id: loc.Id,
                     country: loc.CountryId,
                     city: loc.CityId,
                     area: loc.AreaId,
                     lat: loc.latitude,
-                    long:  loc.longitude,
+                    long: loc.longitude,
                     url: loc.Url,
                     street_address: loc.StreetAddress
                 }
@@ -521,14 +555,14 @@ const addProviderScreenReducer = (state = initialState, action) => {
                 edit_index: Id
             }
         }
-        break;
-        case DELETE_PROVIDER_REQUEST : {
+            break;
+        case DELETE_PROVIDER_REQUEST: {
             return {
                 ...state,
                 ...action.payload
             };
         }
-        break;
+            break;
         default:
             return {
                 ...state,

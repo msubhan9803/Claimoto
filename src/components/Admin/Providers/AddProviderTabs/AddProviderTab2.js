@@ -6,11 +6,11 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ErrorMessage } from "@hookform/error-message";
 import * as Yup from 'yup';
-import { handleInputValue2, saveService , editServiceIndex, removeService} from 'store/actions/provider';
+import { handleInputValue2, saveService, editServiceIndex, removeService } from 'store/actions/provider';
 import Select from 'react-select';
 import { getServiceChilds } from 'store/actions/provider';
 import { getServices } from 'store/actions/provider';
-
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 
 const AddProviderTab2 = () => {
@@ -18,7 +18,7 @@ const AddProviderTab2 = () => {
     const dispatch = useDispatch();
     const { tab2 } = useSelector(state => state.addProviderScreenReducer);
     const { services_values, services, service_types, selected_service_types, edit_index, add_service_modal } = tab2;
-    const { service, service_type } = services_values;
+    const { service, service_type, loading } = services_values;
 
 
     //Form Validtion
@@ -40,7 +40,7 @@ const AddProviderTab2 = () => {
 
         let name = event.target.name;
         let value = event.target.value;
-        if(name === "service"){
+        if (name === "service") {
             dispatch(getServiceChilds(value));
         }
         dispatch(handleInputValue2({ name, value, comp: 1 }));
@@ -52,8 +52,8 @@ const AddProviderTab2 = () => {
     }
 
     const _saveService = (data) => {
-        let serviceObj = service_types.find(svrs=> svrs.Id === parseInt(service_type));
-        dispatch(saveService({service, service_type, edit_index, service_name:serviceObj.Service }))
+        let serviceObj = service_types.find(svrs => svrs.Id === parseInt(service_type));
+        dispatch(saveService({ service, service_type, edit_index, service_name: serviceObj?.Service || "" }))
     }
 
     const _editService = (index) => {
@@ -67,15 +67,18 @@ const AddProviderTab2 = () => {
 
     const _addServiceModal = (act) => {
         reset();
-        dispatch(handleInputValue2({ name: "add_service_modal", value: act, comp:0 }));
+        
+        dispatch(handleInputValue2({ name: "services_values", value: {}, comp: 0 }));
+        dispatch(handleInputValue2({ name: "add_service_modal", value: act, comp: 0 }));
     }
 
 
 
     const _closeAddServiceModal = () => {
         reset();
-        dispatch(handleInputValue2({ name: "add_service_modal", value: false }));
-        dispatch(handleInputValue2({ name: "edit_index", value: null }));
+        dispatch(handleInputValue2({ name: "services_values", value: {}, comp: 0 }));
+        dispatch(handleInputValue2({ name: "add_service_modal", value: false, comp: 0  }));
+        dispatch(handleInputValue2({ name: "edit_index", value: null, comp: 0  }));
     }
 
 
@@ -100,58 +103,61 @@ const AddProviderTab2 = () => {
                             <div onClick={_importServiceTypes} disabled role="button" className="adding-method-title">
                                 <p><strong> </strong></p>
                             </div>
-                            <div role="button" onClick={()=>_addServiceModal(true)} className="adding-method-icon">
+                            <div role="button" onClick={() => _addServiceModal(true)} className="adding-method-icon">
                                 <i className="ti-plus"></i>
                             </div>
                         </div>
-                        {add_service_modal &&
-                        <form onSubmit={handleSubmit(_saveService)} className="ltnd__form-1 ltnd__block-item">
-                            <label>Select Service</label>
-                            <select
-                                className='form-control'
-                                value={service}
-                                name="service"
-                                {...register("service")}
-                                onChange={_handleChange}
+                        {loading ? <LoaderAnimation /> :
+                            add_service_modal &&
+                            <>
+                                <form onSubmit={handleSubmit(_saveService)} className="ltnd__form-1 ltnd__block-item">
+                                    <label>Select Service</label>
+                                    <select
+                                        className='form-control'
+                                        value={service || ""}
+                                        name="service"
+                                        {...register("service")}
+                                        onChange={_handleChange}
 
-                            >
-                                <option disabled={true} value="">Select Service</option>
-                                {services.map(service => (
-                                    <option key={service.id} value={service.Id}>{service.Name}</option>
-                                ))}
-                            </select>
-                            <ErrorMessage
-                                errors={errors}
-                                name="service"
-                                className="errorMsg"
-                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                            />
-                            <label>Select Service Type</label>
-                            <select
-                                className='form-control'
-                                value={service_type}
-                                {...register("service_type")}
-                                name="service_type"
-                                onChange={_handleChange}
-                            >
-                                <option disabled={true} value="">Select Service Type</option>
-                                {service_types.map(service => (
-                                    <option key={service.id} value={service.Id}>{service.Service}</option>
-                                ))}
-                            </select>
-                            <ErrorMessage
-                                errors={errors}
-                                name="service_type"
-                                className="errorMsg"
-                                render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                            />
+                                    >
+                                        <option disabled={true} value="">Select Service</option>
+                                        {services.map(service => (
+                                            <option key={service.id} value={service.Id}>{service.Name}</option>
+                                        ))}
+                                    </select>
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="service"
+                                        className="errorMsg"
+                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                    />
+                                    <label>Select Service Type</label>
+                                    <select
+                                        className='form-control'
+                                        value={service_type || ""}
+                                        {...register("service_type")}
+                                        name="service_type"
+                                        onChange={_handleChange}
+                                    >
+                                        <option disabled={true} value="">Select Service Type</option>
+                                        {service_types.map(service => (
+                                            <option key={service.id} value={service.Id}>{service.Service}</option>
+                                        ))}
+                                    </select>
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="service_type"
+                                        className="errorMsg"
+                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                    />
 
-                            <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
-                            <button onClick={_closeAddServiceModal} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</button>
+                                    <button type='submit' className="btn btn-xs theme-btn-3 btn-round-12 mt-2">Add</button>
+                                    <span  onClick={_closeAddServiceModal} className="btn btn-xs theme-btn-1 btn-round-12 mt-2">Cancel</span>
 
 
-                            {/* <a className="ltn__secondary-color mt-2" href="#"><strong>Add service +</strong></a> */}
-                        </form>
+                                    {/* <a className="ltn__secondary-color mt-2" href="#"><strong>Add service +</strong></a> */}
+                                </form>
+                            </>
                         }
 
 
