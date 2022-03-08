@@ -137,8 +137,7 @@ function Provider() {
         if (search_text?.length > 2 && search_option !== "" || search_text === "") {
             _getProvidersList();
         }
-    }, [search_text, search_option, sort_name])
-
+    }, [search_text, search_option, sort_name]);
 
 
 
