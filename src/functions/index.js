@@ -16,7 +16,8 @@ export const msgAlert = ({title , text , icon }) => {
       title: title,
       text: text,
       icon: icon,
-      confirmButtonColor:"#205bf5"
+      confirmButtonColor:"#205bf5",
+      
     });
 };
 

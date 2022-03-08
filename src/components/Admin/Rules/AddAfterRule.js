@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 
 
 const AddRuleAfterCom = () => {
@@ -17,32 +18,32 @@ const AddRuleAfterCom = () => {
                     <div className='col-6 '>
                         <div className="form-group">
                             <h6 className="ltnd__title-4 mt-2">Type</h6>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check form-check-inline mt-3">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                <label className="form-check-label" for="inlineRadio1">Amount</label>
+                                <label className="form-check-label" for="inlineRadio1">Claim Amount</label>
                             </div>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check form-check-inline mt-3">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                <label className="form-check-label" for="inlineRadio2">Service</label>
+                                <label className="form-check-label" for="inlineRadio2">Service Amount</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h6 className="ltnd__title-2 my-2">Amount   </h6>
+                <h6 className="ltnd__title-2 my-3">Amount   </h6>
 
 
                 {/* Amount */}
                 <div className='row'>
                     <div className='col-6'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">From</h6>
+                            <h6 className="ltnd__title-4 mt-1">From</h6>
                             <input min={0} type="number" className="form-control" id="exampleFormControlTextarea1" />
                         </div>
                     </div>
                     <div className='col-6 '>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">To</h6>
+                            <h6 className="ltnd__title-4 mt-1">To</h6>
                             <input min={1} type="number" className="form-control" id="exampleFormControlTextarea1" />
                         </div>
                     </div>
@@ -50,76 +51,38 @@ const AddRuleAfterCom = () => {
 
 
 
-                <h6 className="ltnd__title-2 my-2">Services (50)    </h6>
+                <h6 className="ltnd__title-2 mt-3">Services (50)    </h6>
+
 
 
                 {/* services */}
                 <div className='row'>
-                    <div className='col-6 '>
-                        <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Includes (4)
-                                <span role="button" style={{ float: "right" }}>
-                                    <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                </span>
-                            </h6>
-                            <select className="form-control" id="exampleFormControlTextarea1" >
-                                <option>Service 1</option>
-                                <option>Service 2</option>
-                                <option>Service 3</option>
-                                <option>Service 4</option>
-                                <option>Service 5</option>
-                            </select>
-
-                            <ul class="list-group">
-                                <li class="list-group-item active">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Morbi leo risus</li>
-                                <li class="list-group-item">Porta ac consectetur ac</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                            </ul>
-
-                        </div>
-                    </div>
-
-                    <div className='col-6 '>
-                        <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Excludes (8)
-                                <span role="button" style={{ float: "right" }}>
-                                    <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                </span>
-                            </h6>
-                            <select className="form-control" id="exampleFormControlTextarea1" >
-                                <option>Service 1</option>
-                                <option>Service 2</option>
-                                <option>Service 3</option>
-                                <option>Service 4</option>
-                                <option>Service 5</option>
-                            </select>
-
-                            <ul class="list-group">
-                                <li class="list-group-item active">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Morbi leo risus</li>
-                                <li class="list-group-item">Porta ac consectetur ac</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='row'>
-                    <div className='col-6 '>
-                        <div className="form-group">
-                            <h6 className="ltnd__title-2 my-3">Initiate</h6>
+                    <div className='col-12'>
+                    <div className="form-group">
                             <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                <label className="form-check-label" for="inlineRadio1">Auto</label>
+                                <input className="form-check-input" type="radio" name="services" id="inlineRadio3" value="include_services" />
+                                <label className="form-check-label" for="inlineRadio3">Include Services</label>
                             </div>
-                            <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                <label className="form-check-label" for="inlineRadio2">Manual</label>
+                            <div className="form-check form-check-inline mt-3">
+                                <input className="form-check-input" type="radio" name="services" id="inlineRadio4" value="exclude_services" />
+                                <label className="form-check-label" for="inlineRadio4">Exclude Services</label>
                             </div>
                         </div>
+                    </div>
+                    <div className='col-12 '>
+
+                        <Select
+                            value={""}
+                            name="services"
+                            closeMenuOnSelect={false}
+                            className="mt-1"
+                            // onChange={_handleMultipleSelect}
+                            // components={animatedComponents}
+                            isMulti
+                            options={[{ label: "All", value: 0 }]}
+                        />
+
+
                     </div>
                 </div>
 
@@ -128,12 +91,39 @@ const AddRuleAfterCom = () => {
                 {/* Assign TO */}
                 <div className='row'>
                     <div className='col-12'>
+                        <h6 className="ltnd__title-2 my-3">Assign To</h6>
+                    </div>
+
+                    <div className='col-4'>
+                    {/* <h6 className="ltnd__title-4 mt-2"> </h6> */}
+                        <Select
+                            value={{ label: "Auto", value: 1 }}
+                            name="users"
+                            formatGroupLabel={"option"}
+                            closeMenuOnSelect={false}
+                            className="mt-1"
+                            // onChange={_handleMultipleSelect}
+                            // components={animatedComponents}
+                            options={[{ label: "Auto", value: 1 }, { label: "Manual", value: 2 }]}
+                        />
+
+                    </div>
+
+                    <div className='col-8'>
+                        {/* <h6 className="ltnd__title-4 mt-2">Select User</h6> */}
                         <div className="form-group">
-                            <h6 className="ltnd__title-2 my-3">Assign To</h6>
-                            <select className="form-control">
-                                <option>XYZ</option>
-                                <option>ABC</option>
-                            </select>
+                            <Select
+                                value={""}
+                                name="users"
+                                placeholder="Select User"
+                                formatGroupLabel={"User"}
+                                closeMenuOnSelect={false}
+                                className="mt-1"
+                                // onChange={_handleMultipleSelect}
+                                // components={animatedComponents}
+                                isMulti
+                                options={[{ label: "System", value: 1 }, { label: "User 1", value: 2 }]}
+                                />
                         </div>
                     </div>
                 </div>
@@ -144,8 +134,8 @@ const AddRuleAfterCom = () => {
 
 
                 <div className="form-group">
-                    <h6 className="ltnd__title-2 my-3">Details</h6>
-                    <textarea rows={4} className="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                    <h6 className="ltnd__title-2 my-3">Remarks</h6>
+                    <textarea rows={4} className="form-control" id="exampleFormControlTextarea1" rows="4" ></textarea>
                 </div>
             </form>
         </div>

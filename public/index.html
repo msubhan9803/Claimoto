@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/font-icons.css" />
-    <!-- plugins css -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/plugins.css" />
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/style.css" />
-    <!-- Responsive css -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/responsive.css" />
-    <link
-      rel="stylesheet"
-      href="path/to/font-awesome/css/font-awesome.min.css"
-    />
-    <link href="/themify-icons.css" rel="stylesheet">
-    <title>Claimoto</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <!-- <a
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/font-icons.css" />
+  <!-- plugins css -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/plugins.css" />
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/style.css" />
+  <!-- Responsive css -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/responsive.css" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+  <link href="/themify-icons.css" rel="stylesheet">
+  <title>Claimoto</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+  <!-- <a
       href="https://unsplash.it/800/500?image=1014"
       id="example1"
       class="showcase"
@@ -39,22 +35,29 @@
       ><img src="https://unsplash.it/300/200?image=1014"
     /></a> -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="%PUBLIC_URL%/js/plugins.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="%PUBLIC_URL%/js/main.js"></script>
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      $("a[data-rel^=lightcase]").lightcase({
-        transition:
-          "scrollRight" /* none, fade, fadeInline, elastic, scrollTop, scrollRight, scrollBottom, scrollLeft, scrollHorizontal and scrollVertical */,
-        swipe: true,
-        maxWidth: 1170,
-        maxHeight: 600,
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="%PUBLIC_URL%/js/plugins.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="%PUBLIC_URL%/js/main.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script>
+    // $("a[data-rel^=lightcase]").lightcase({
+    //   transition: "scrollRight" /* none, fade, fadeInline, elastic, scrollTop, scrollRight, scrollBottom, scrollLeft, scrollHorizontal and scrollVertical */ ,
+    //   swipe: true,
+    //   maxWidth: 1170,
+    //   maxHeight: 600,
+    // });
+
+    $(document).ready(function () {
+      $("#datepicker").datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years",
+        autoclose: true
       });
-    </script>
-  </body>
+    })
+  </script>
+</body>
+
 </html>
