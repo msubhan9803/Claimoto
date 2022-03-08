@@ -60,6 +60,10 @@ const SurveyorList = () => {
         _getList();
     }, [page_index]);
 
+    useEffect(() => {
+        _paginationHandler(1);
+    }, []);
+
 
 
     return (

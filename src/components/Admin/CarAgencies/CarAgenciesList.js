@@ -60,6 +60,10 @@ function CarAgenciesList() {
     }, [page_index]);
 
 
+    useEffect(() => {
+        _paginationHandler(1);
+    }, []);
+
 
 
 

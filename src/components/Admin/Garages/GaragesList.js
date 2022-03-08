@@ -59,6 +59,10 @@ const GaragesList = () => {
     }, [page_index]);
 
 
+    useEffect(() => {
+        _paginationHandler(1);
+    }, []);
+
 
 
 
