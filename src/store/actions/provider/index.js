@@ -3,6 +3,8 @@ import instance from 'config/axios/instance'
 import { successAlert } from 'functions';
 import {
 
+    CHANGE_HANDLER_PROVIDER,
+
     //Get Providers
     GET_GARAGES,
     GET_CAR_AGENCIES,
@@ -57,6 +59,11 @@ import {
 } from '../../types/providers';
 
 
+
+
+export const changeHandlerProvider = ({modeule, key, val}) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_PROVIDER, payload: {modeule, key, val} });
+}
 
 
 

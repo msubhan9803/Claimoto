@@ -3,7 +3,7 @@ import carImg from 'assets/img/icons/mc/png/3.png';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGarages } from 'store/actions/provider';
+import { getGarages, changeHandlerProvider } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
@@ -36,8 +36,11 @@ const GaragesList = () => {
     } = garages;
 
 
-    const _paginationHandler = () => {
-        _getList();
+    const _paginationHandler = (pageIndex) => {
+        let modeule = "garages";
+        let key = "page_index";
+        let val = pageIndex;
+        dispatch(changeHandlerProvider({modeule, key, val}));
     }
 
 
@@ -53,7 +56,7 @@ const GaragesList = () => {
 
     useEffect(() => {
         _getList();
-    }, []);
+    }, [page_index]);
 
 
 

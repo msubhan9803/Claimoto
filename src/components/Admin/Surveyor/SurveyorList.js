@@ -7,6 +7,7 @@ import { getSurveyor } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { changeHandlerProvider } from 'store/actions/provider';
 
 const SurveyorList = () => {
 
@@ -49,13 +50,15 @@ const SurveyorList = () => {
     }
 
 
-    const _paginationHandler = () => {
-        _getList();
+    const _paginationHandler = (pageIndex) => {
+        let modeule = "surveyorers";
+        let key = "page_index";
+        let val = pageIndex;
+        dispatch(changeHandlerProvider({modeule, key, val}));
     }
-
     useEffect(() => {
         _getList();
-    }, []);
+    }, [page_index]);
 
 
 
