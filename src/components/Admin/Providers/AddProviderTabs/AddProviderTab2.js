@@ -54,7 +54,7 @@ const AddProviderTab2 = () => {
     }
 
     const _saveService = (data) => {
-        let isAlreadySelected = selected_service_types.find(srv=>srv.service === data.service && srv.service_type === data.service_type);
+        let isAlreadySelected = selected_service_types.find(srv=> parseInt(srv.service) === parseInt(data.service) && parseInt(srv.service_type) === parseInt(data.service_type));
         if(!edit_index && isAlreadySelected){
             msgAlert({title:"Already Exists", icon:"warning", text:"This service already exists in provider"});
         }else{
