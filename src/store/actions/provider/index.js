@@ -104,7 +104,7 @@ export const addProvider = ({ name, logo, contacts, services, locations, provide
             "ProviderTypeId": providerId,
             "ImageModel": logo,
             "ProviderContacts": provider_contacts,
-            "ProviderServices": provider_services,
+            "ProviderServiceMapping": provider_services,
             "ProviderLocations": provider_locations
         };
 
