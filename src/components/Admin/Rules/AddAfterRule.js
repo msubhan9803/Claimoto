@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-const AddRuleCom = () => {
+const AddRuleAfterCom = () => {
     return (
         <div className='mb-10'>
-            <h1>Add Rule</h1>
+            <h3>Add After Assessment Authority Matrix</h3>
             <form>
                 {/* Name and Type */}
                 <div className='row'>
@@ -19,11 +19,11 @@ const AddRuleCom = () => {
                             <h6 className="ltnd__title-4 mt-2">Type</h6>
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                <label className="form-check-label" for="inlineRadio1">Auto</label>
+                                <label className="form-check-label" for="inlineRadio1">Amount</label>
                             </div>
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                <label className="form-check-label" for="inlineRadio2">Manual</label>
+                                <label className="form-check-label" for="inlineRadio2">Service</label>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,9 @@ const AddRuleCom = () => {
                     <div className='col-6 '>
                         <div className="form-group">
                             <h6 className="ltnd__title-4 mt-2">Includes (4)
-                                <span role="button" style={{ float: "right" }}>Select All</span>
+                                <span role="button" style={{ float: "right" }}>
+                                    <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                </span>
                             </h6>
                             <select className="form-control" id="exampleFormControlTextarea1" >
                                 <option>Service 1</option>
@@ -82,7 +84,9 @@ const AddRuleCom = () => {
                     <div className='col-6 '>
                         <div className="form-group">
                             <h6 className="ltnd__title-4 mt-2">Excludes (8)
-                                <span role="button" style={{ float: "right" }}>Select All</span>
+                                <span role="button" style={{ float: "right" }}>
+                                    <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                </span>
                             </h6>
                             <select className="form-control" id="exampleFormControlTextarea1" >
                                 <option>Service 1</option>
@@ -103,12 +107,44 @@ const AddRuleCom = () => {
                     </div>
                 </div>
 
+                <div className='row'>
+                    <div className='col-6 '>
+                        <div className="form-group">
+                            <h6 className="ltnd__title-2 my-3">Initiate</h6>
+                            <div className="form-check form-check-inline">
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                                <label className="form-check-label" for="inlineRadio1">Auto</label>
+                            </div>
+                            <div className="form-check form-check-inline">
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                                <label className="form-check-label" for="inlineRadio2">Manual</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {/* Assign TO */}
+                <div className='row'>
+                    <div className='col-12'>
+                        <div className="form-group">
+                            <h6 className="ltnd__title-2 my-3">Assign To</h6>
+                            <select className="form-control">
+                                <option>XYZ</option>
+                                <option>ABC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
 
 
 
 
                 <div className="form-group">
-                    <h6 className="ltnd__title-4 mt-2">Details</h6>
+                    <h6 className="ltnd__title-2 my-3">Details</h6>
                     <textarea rows={4} className="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                 </div>
             </form>
@@ -117,4 +153,4 @@ const AddRuleCom = () => {
 }
 
 
-export default AddRuleCom;
+export default AddRuleAfterCom;

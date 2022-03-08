@@ -1,5 +1,5 @@
 //ACTION TYPES
-import instance from 'config/axios/instance'
+import instance from 'config/axios/instance';
 import { successAlert } from 'functions';
 import {
 

@@ -20,9 +20,8 @@ import Activity from "views/pages/Admin/Setting/LogsManagement/Activity.js";
 import Error from "views/pages/Admin/Setting/LogsManagement/Error.js";
 import SmtpTimezoneManagement from 'views/pages/Admin/Setting/SmtpTimezoneManagement/SmtpTImezoneManagement';
 import ViewProvider from "components/Admin/Providers/ViewProvider";
-import RoleList from "components/Admin/RoleManage/RoleList";
-import RuleList from "views/pages/Admin/Rules/RuleList";
 import AddRule from "views/pages/Admin/Rules/AddRule";
+import Rules from "views/pages/Admin/Rules/Rules";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -133,7 +132,7 @@ export const adminRoutes = ({ userPermissions }) => {
       layout: "admin",
     },
     {
-      name: "Rules",
+      name: "Authority Matrix",
       path: "/rules",
       icon: "ti-ruler",
       layout: "admin",
@@ -143,12 +142,12 @@ export const adminRoutes = ({ userPermissions }) => {
           name: "Rules",
           path: "/rules",
           icon: "ti-ruler",
-          component: <RuleList />,
+          component: <Rules />,
           layout: "admin",
         },
         {
           name: "Add Rule",
-          path: "/add_rule",
+          path: "/add_rule/:type",
           component: <AddRule />,
           layout: "admin",
         },
