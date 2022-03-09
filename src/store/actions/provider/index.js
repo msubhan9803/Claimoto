@@ -140,6 +140,7 @@ export const addProvider = ({ name, logo, contacts, services, locations, provide
 export const getGarages = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         let ProviderTypeId = 1;
+        search_option = search_text.length < 3 ?  "" : search_option;
         dispatch({ type: GET_REQUEST, payload: { modeule: "garages", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
@@ -156,6 +157,7 @@ export const getGarages = ({ records_per_page, page_index, search_text, search_o
 export const getCarAgency = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         let ProviderTypeId = 3;
+        search_option = search_text.length < 3 ?  "" : search_option;
         dispatch({ type: GET_REQUEST, payload: { modeule: "car_agencies", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
@@ -171,6 +173,7 @@ export const getCarAgency = ({ records_per_page, page_index, search_text, search
 export const getAgency = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         let ProviderTypeId = 2;
+        search_option = search_text.length < 3 ?  "" : search_option;
         dispatch({ type: GET_REQUEST, payload: { modeule: "agencies", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
@@ -186,6 +189,7 @@ export const getAgency = ({ records_per_page, page_index, search_text, search_op
 export const getSurveyor = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         let ProviderTypeId = 4;
+        search_option = search_text.length < 3 ?  "" : search_option;
         dispatch({ type: GET_REQUEST, payload: { modeule: "surveyorers", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({

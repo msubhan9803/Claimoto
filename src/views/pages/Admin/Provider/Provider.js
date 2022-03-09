@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, createRef } from 'react'
 import TabsWrapper from 'components/Tabs/TabsWrapper';
 import TabContent from 'components/Tabs/TabsContent';
 import TabsHeader from 'components/Tabs/TabsHeader';
@@ -14,8 +14,14 @@ import { getGarages } from 'store/actions/provider';
 import { getAgency } from 'store/actions/provider';
 import { getCarAgency } from 'store/actions/provider';
 import { getSurveyor } from 'store/actions/provider';
+import CSVExport from 'components/Export/CSV';
+import ExportCSV from 'components/Export/Excle';
 
 function Provider() {
+
+    let excle_export = createRef();
+    let csv_export = createRef();
+
 
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
@@ -34,6 +40,7 @@ function Provider() {
     //Component State
     let initialState = {
         openModal: false,
+        download:""
     }
 
     const [comState, setComState] = useState(initialState);
@@ -70,31 +77,69 @@ function Provider() {
         // }
     }
 
+    const _download = (event) => {
+        switch (parseInt(event.target.value)) {
+            case 1:
+                csv_export.current.link.click();
+                break;
+            case 2:
+                excle_export.current.click();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    const _exportData = () => {
+        switch (searchParams.get("tab")) {
+            case "0":
+                return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
+                break;
+
+            case "1":
+                return { header: Object.keys(agencies.list), _data: agencies.list, file_name: `agencies - page # ${agencies.page_index}` };
+                break;
+
+            case "2":
+                return { header: Object.keys(car_agencies.list), _data: car_agencies.list, file_name: `car agencies - page # ${car_agencies.page_index}` };
+                break;
+
+            case "3":
+                return { header: Object.keys(surveyorers.list), _data: surveyorers.list, file_name: `surveyor - page # ${surveyorers.page_index}` };
+                break;
+
+            default:
+                return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
+                break;
+        }
+    }
+
 
 
     const _getProvidersList = () => {
         let records_per_page = 10;
         let page_index = 1;
         switch (searchParams.get("tab")) {
-            case "garage":
+            case "0":
                 records_per_page = garages.records_per_page;
                 page_index = garages.page_index;
                 dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
 
-            case "agency":
+            case "1":
                 records_per_page = agencies.records_per_page;
                 page_index = agencies.page_index;
                 dispatch(getAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
 
-            case "car agency":
+            case "2":
                 records_per_page = car_agencies.records_per_page;
                 page_index = car_agencies.page_index;
                 dispatch(getCarAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
 
-            case "surveyor":
+            case "3":
                 records_per_page = surveyorers.records_per_page;
                 page_index = surveyorers.page_index;
                 dispatch(getSurveyor({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
@@ -118,6 +163,7 @@ function Provider() {
             setSearchParams(searchParams)
         };
     }
+
 
 
 
@@ -213,6 +259,20 @@ function Provider() {
                                     <ul>
                                         <li>
                                             <div className="short-by text-center">
+                                                <select onChange={_download} name="sort_name" value={initialState.download} className="nice-select">
+                                                    <option disabled value={""}>Downlaod</option>
+                                                    <option value={1} >
+                                                        CSV
+                                                    </option>
+                                                    <option value={2} >
+                                                        Excle
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div className="short-by text-center">
                                                 <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
                                                     <option disabled value={""}>Sort By</option>
                                                     {search_options.map((op) => (
@@ -220,6 +280,15 @@ function Provider() {
 
                                                     ))}
                                                 </select>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div className="btn-wrapper text-center mt-0 d-none">
+                                                <CSVExport ref={csv_export} data={{ header:  _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
+                                                <ExportCSV ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+
+                                                {/* <ExcleExport /> */}
                                             </div>
                                         </li>
                                         <li>
