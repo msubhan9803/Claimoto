@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import PoliciesList from "components/Admin/PoliciesList/PoliciesList";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,8 @@ import Fuse from "fuse.js";
 import PaginationFromUI from "components/Pagination/PaginationFromUI";
 import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
+import CSVExport from "components/Export/CSV";
+import ExportExcle from "components/Export/Excle";
 
 function Policies() {
 
@@ -40,6 +42,35 @@ function Policies() {
   useEffect(() => {
     dispatch(GetPolicies());
   }, []);
+
+
+  //Refs
+  let excle_export = createRef();
+  let csv_export = createRef();
+
+
+  const _download = (event) => {
+    switch (parseInt(event.target.value)) {
+      case 1:
+        csv_export.current.link.click();
+        break;
+      case 2:
+        excle_export.current.click();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const _exportData = () => {
+    return { header: Object.keys(policies), _data: policies, file_name: `policies` };
+  }
+
+
+
+
+
 
   // Search Filter
   useEffect(() => {
@@ -199,6 +230,20 @@ function Policies() {
                   <ul>
                     <li>
                       <div className="short-by text-center">
+                        <select onChange={_download} name="sort_name" value={""} className="nice-select">
+                          <option disabled value={""}>Downlaod</option>
+                          <option value={1} >
+                            CSV
+                          </option>
+                          <option value={2} >
+                            Excle
+                          </option>
+
+                        </select>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="short-by text-center">
                         <select
                           onChange={_handleChange}
                           name="sort_name"
@@ -242,24 +287,6 @@ function Policies() {
                           <select
                             className="nice-select"
                             // onChange={changeValue}
-                            // value={download}
-                            name="download"
-                          >
-                            <option selected disabled value={""}>
-                              Download
-                            </option>
-                            <option value="csv">CSV</option>
-                            <option value="pdf">PDF</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="short-by text-center">
-                        <div className="short-by-menu">
-                          <select
-                            className="nice-select"
-                            // onChange={changeValue}
                             // value={importAs}
                             name="importAs"
                           >
@@ -285,6 +312,14 @@ function Policies() {
                         </div>
                       </li>
                     }
+                    <li>
+                      <div className="btn-wrapper text-center mt-0 d-none">
+                        <CSVExport ref={csv_export} data={{ header: _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
+                        <ExportExcle ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+
+                        {/* <ExcleExport /> */}
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 // import SearchBar from 'components/Admin/SearchBar/SearchBar'
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   GetProduct,
@@ -20,11 +20,18 @@ import Fuse from "fuse.js";
 import { setProductPage } from "store/actions/product";
 import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
+import CSVExport from "components/Export/CSV";
+import ExportExcle from "components/Export/Excle";
 
 function Products() {
-    //Permission Control
+  //Permission Control
   const { permissions } = useSelector(state => state.authReducer);
   let product_actions = getAllowActions({ permissions, module_name: "APR" });
+
+
+  //Refs
+  let excle_export = createRef();
+  let csv_export = createRef();
 
 
   // State
@@ -54,6 +61,7 @@ function Products() {
 
   const dispatch = useDispatch();
 
+
   // disptach peoduct action
   useEffect(() => {
     dispatch(GetProduct());
@@ -63,6 +71,28 @@ function Products() {
   useEffect(() => {
     _handleSortingFiltering();
   }, [allProductsList.length, search_text, search_option, inputValue.status, products_page_index]);
+
+
+
+
+  const _download = (event) => {
+    switch (parseInt(event.target.value)) {
+      case 1:
+        csv_export.current.link.click();
+        break;
+      case 2:
+        excle_export.current.click();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const _exportData = () => {
+    return { header: Object.keys(allProductsList), _data: allProductsList, file_name: `products` };
+  }
+
 
   const _handleSortingFiltering = () => {
     if (allProductsList.length > 0) {
@@ -228,6 +258,20 @@ function Products() {
                   <ul>
                     <li>
                       <div className="short-by text-center">
+                        <select onChange={_download} name="sort_name" value={""} className="nice-select">
+                          <option disabled value={""}>Downlaod</option>
+                          <option value={1} >
+                            CSV
+                          </option>
+                          <option value={2} >
+                            Excle
+                          </option>
+
+                        </select>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="short-by text-center">
                         <div className="short-by-menu">
                           <select
                             className="nice-select"
@@ -283,42 +327,7 @@ function Products() {
                         </select>
                       </div>
                     </li> */}
-                    <li>
-                      <div className="short-by text-center">
-                        <div className="short-by-menu">
-                          <select
-                            className="nice-select"
-                            onChange={changeValue}
-                            value={inputValue.download}
-                            name="status"
-                          >
-                            <option disabled value={""}>
-                              Download
-                            </option>
-                            <option value="csv">CSV</option>
-                            <option value="pdf">PDF</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="short-by text-center">
-                        <div className="short-by-menu">
-                          <select
-                            className="nice-select"
-                            onChange={changeValue}
-                            value={inputValue.import}
-                            name="status"
-                          >
-                            <option disabled value={""}>
-                              Import
-                            </option>
-                            <option value="template">Template</option>
-                            <option value="upload">Upload</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
+
                     {product_actions?.includes("INSERT") &&
                       <li>
                         <div className="btn-wrapper text-center mt-0">
@@ -331,6 +340,17 @@ function Products() {
                         </div>
                       </li>
                     }
+
+                    <li>
+                      <div className="btn-wrapper text-center mt-0 d-none">
+                        <CSVExport ref={csv_export} data={{ header: _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
+                        <ExportExcle ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+
+                        {/* <ExcleExport /> */}
+                      </div>
+                    </li>
+
+
                   </ul>
                 </div>
               </div>
