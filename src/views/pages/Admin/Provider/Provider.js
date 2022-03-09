@@ -98,15 +98,15 @@ function Provider() {
                 break;
 
             case "1":
-                return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
+                return { header: Object.keys(agencies.list), _data: agencies.list, file_name: `agencies - page # ${agencies.page_index}` };
                 break;
 
             case "2":
-                return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
+                return { header: Object.keys(car_agencies.list), _data: car_agencies.list, file_name: `car agencies - page # ${car_agencies.page_index}` };
                 break;
 
             case "3":
-                return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
+                return { header: Object.keys(surveyorers.list), _data: surveyorers.list, file_name: `surveyor - page # ${surveyorers.page_index}` };
                 break;
 
             default:
