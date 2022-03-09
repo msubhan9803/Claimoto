@@ -506,8 +506,7 @@ function ProductDetail(props) {
                 <div className="col-lg-12">
                   <div className="benifits-header mt-30">
                     <h4>
-                      Benefits (
-                      {Benefit.map((i) => (i != null ? Benefit.length : 0))})
+                      Benefits {Benefit.length > 0 ? `(${Benefit.length.toString()})` : ""}
                     </h4>
                     <div className="btn-normal">
                       <span
