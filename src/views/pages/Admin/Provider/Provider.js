@@ -77,7 +77,6 @@ function Provider() {
         // }
     }
 
-
     const _download = (event) => {
         switch (parseInt(event.target.value)) {
             case 1:
@@ -91,7 +90,6 @@ function Provider() {
                 break;
         }
     }
-
 
     const _exportData = () => {
         switch (searchParams.get("tab")) {
