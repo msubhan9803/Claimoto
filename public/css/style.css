@@ -20134,3 +20134,7 @@ form .ltnd__title-3 {
   margin-left: 4px !important;
   margin-right: 4px !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

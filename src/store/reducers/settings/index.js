@@ -13,7 +13,8 @@ import {
   GET_ALL_COUNTRIES,
   HANDLE_ACCOUNT_VALUES_OUTER,
   NAVIGATE_ACCOUNT_BACK,
-  RESET_ACCOUNT_STATE
+  RESET_ACCOUNT_STATE,
+  GET_ALL_ACTIVITY_LOGS
 } from "../../types/settings.js";
 
 const initialState = {
@@ -67,6 +68,12 @@ const initialState = {
   IsEditImage: false,
   countryList: [],
   navigateAccount: false,
+
+  // For Activites
+  activitesList: {
+    ActivityLogs: [],
+    TotalRecords: 0
+  },
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -176,6 +183,11 @@ const settingsReducer = (state = initialState, action) => {
         countryList: [],
         navigateAccount: false,
       };
+    }
+
+    // For Activity Logs
+    case GET_ALL_ACTIVITY_LOGS: {
+      return { ...state, activitesList: action.payload };
     }
 
     default:
