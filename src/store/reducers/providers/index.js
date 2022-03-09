@@ -89,19 +89,19 @@ const initialState = {
     search_options: [
         {
             label: "Name",
-            value: "Name",
+            value: "name",
         },
         {
             label: "POC",
-            value: "FullName",
+            value: "pocname",
         },
         {
             label: "Mobile",
-            value: "PhoneNumber",
+            value: "contactnumber",
         },
         {
             label: "Address",
-            value: "StreetAddress"
+            value: "Garageaddress"
         }
     ],
 
