@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
 import { loginUser } from "store/actions/auth/user";
 import Loader from "components/Loader/Loader";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 
 const Login = () => {
@@ -120,15 +122,21 @@ const Login = () => {
                           name="password"
                           {...register("password")}
                         />
+                        <FontAwesomeIcon
+                          style={{ marginLeft: "-30px", cursor: "pointer" }}
+                          icon={ showPass ?  faEye : faEyeSlash}
+                          onClick={() => setShowPass(!showPass)}
+                          />
+                          
 
-                        <i
+                        {/* <i
                           className={
                             showPass ? "far fa-eye" : "far fa-eye-slash"
                           }
                           id="togglePassword"
                           style={{ marginLeft: "-30px", cursor: "pointer" }}
                           onClick={() => setShowPass(!showPass)}
-                        ></i>
+                        ></i> */}
                         <ErrorMessage
                           errors={errors}
                           name="password"
