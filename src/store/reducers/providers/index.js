@@ -7,7 +7,8 @@ import {
     //Request
     GET_REQUEST,
     //Handle Change
-    SET_INPUT_VALUES_PROVIDER_SCREEN
+    SET_INPUT_VALUES_PROVIDER_SCREEN,
+    CHANGE_HANDLER_PROVIDER
 
 
 
@@ -99,8 +100,8 @@ const initialState = {
             value: "PhoneNumber",
         },
         {
-            label:"Address",
-            value:"StreetAddress"
+            label: "Address",
+            value: "StreetAddress"
         }
     ],
 
@@ -122,6 +123,21 @@ const providersScreenReducer = (state = initialState, action) => {
             return { ...state, selectedTab: action.payload }
         }
             break;
+
+        case CHANGE_HANDLER_PROVIDER: {
+            let { modeule, key, val } = action.payload;
+            return {
+                ...state,
+                [modeule]:
+                {
+                    ...state[modeule],
+                    [key]: val,
+                }
+            }
+        }
+            break;
+
+
 
 
         case GET_REQUEST: {

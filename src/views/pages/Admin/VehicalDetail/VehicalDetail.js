@@ -82,9 +82,12 @@ function VehicalDetail() {
   } = useForm(formOptions);
 
   useEffect(() => {
-    if (Url || checkUrl == "vehical_detail_view" || isVehicleDetailEditUrl) {
+    if (checkUrl == "vehical_detail" || checkUrl == "vehical_detail_view") {
+      // if (!isVehicleDetailEditUrl) {
       setIsView(true);
-      dispatch(GetSinglePolicy(params.id));
+      if (params.id) {
+        dispatch(GetSinglePolicy(params.id));
+      }
     } else {
       setIsView(false);
     }
@@ -787,7 +790,9 @@ function VehicalDetail() {
                                 checkUrl == "create_vehical" ? (
                                   <>
                                     <img
-                                      onClick={() => setIsEdit(Url ? true : false)}
+                                      onClick={() =>
+                                        setIsEdit(Url ? true : false)
+                                      }
                                       // onClick={() => _handleImageViewer(4)}
                                       src={
                                         Image5?.Base64 ||

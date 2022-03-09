@@ -20,6 +20,8 @@ import Activity from "views/pages/Admin/Setting/LogsManagement/Activity.js";
 import Error from "views/pages/Admin/Setting/LogsManagement/Error.js";
 import SmtpTimezoneManagement from 'views/pages/Admin/Setting/SmtpTimezoneManagement/SmtpTImezoneManagement';
 import ViewProvider from "components/Admin/Providers/ViewProvider";
+import AddRule from "views/pages/Admin/Rules/AddRule";
+import Rules from "views/pages/Admin/Rules/Rules";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -129,6 +131,29 @@ export const adminRoutes = ({ userPermissions }) => {
       icon: "ti-user",
       layout: "admin",
     },
+    {
+      name: "Authority Matrix",
+      path: "/rules",
+      icon: "ti-ruler",
+      layout: "admin",
+      collapse: true,
+      views: [
+        {
+          name: "Rules",
+          path: "/rules",
+          icon: "ti-ruler",
+          component: <Rules />,
+          layout: "admin",
+        },
+        {
+          name: "Add Rule",
+          path: "/add_rule/:type",
+          component: <AddRule />,
+          layout: "admin",
+        },
+      ]
+    }
+    ,
     _checkPer("ASC") &&
     {
       name: "Settings",

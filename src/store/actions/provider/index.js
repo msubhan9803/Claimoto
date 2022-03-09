@@ -1,7 +1,9 @@
 //ACTION TYPES
-import instance from 'config/axios/instance'
+import instance from 'config/axios/instance';
 import { successAlert } from 'functions';
 import {
+
+    CHANGE_HANDLER_PROVIDER,
 
     //Get Providers
     GET_GARAGES,
@@ -59,9 +61,14 @@ import {
 
 
 
+export const changeHandlerProvider = ({modeule, key, val}) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_PROVIDER, payload: {modeule, key, val} });
+}
 
 
-export const addProvider = ({ name, logo, contacts, services, locations, providerId, editId }) => async dispatch => {
+
+
+export const addProvider = ({ name, logo, contacts, services, locations, providerId, editId }, navigate) => async dispatch => {
     try {
         //Restructuring contacts
         let provider_contacts = contacts.map((contact) => {
@@ -104,7 +111,7 @@ export const addProvider = ({ name, logo, contacts, services, locations, provide
             "ProviderTypeId": providerId,
             "ImageModel": logo,
             "ProviderContacts": provider_contacts,
-            "ProviderServices": provider_services,
+            "ProviderServiceMapping": provider_services,
             "ProviderLocations": provider_locations
         };
 
@@ -112,6 +119,7 @@ export const addProvider = ({ name, logo, contacts, services, locations, provide
         let { data } = editId ? await instance.put(`api/Provider`, payload) : await instance.post(`api/Provider`, payload);
         successAlert({ title: data || "Added Successfully" });
         dispatch({ type: SAVE_PROVIDER, payload: { success: true, loading: false } });
+        navigate('/admin/provider');
 
     } catch (error) {
         dispatch({ type: SAVE_PROVIDER_REQUEST, payload: { success: false, error: true, loading: false } });

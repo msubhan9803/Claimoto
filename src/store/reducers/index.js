@@ -10,6 +10,7 @@ import productReducer from 'store/reducers/product'
 import policyReducer from 'store/reducers/policies'
 import vehiclePartsReducer from 'store/reducers/vehicleParts'
 import settingsReducer from 'store/reducers/settings'
+import rulesScreenReducer from './rules';
 
 const rootPersistConfig = {
   key: 'root',
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   productReducer: productReducer,
   policyReducer: policyReducer,
   vehiclePartsReducer: vehiclePartsReducer,
-  settingsReducer: settingsReducer
+  settingsReducer: settingsReducer,
+  rulesScreenReducer:rulesScreenReducer
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

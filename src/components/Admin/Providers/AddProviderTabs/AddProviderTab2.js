@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { getServiceChilds } from 'store/actions/provider';
 import { getServices } from 'store/actions/provider';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { msgAlert } from 'functions';
 
 
 const AddProviderTab2 = () => {
@@ -23,6 +24,7 @@ const AddProviderTab2 = () => {
 
     //Form Validtion
     const formSchema = Yup.object().shape({
+        // isExists:(val)=>{selected_service_types.includes(srv=> parseInt(srv.service_type) === parseInt(val))},
         service: Yup.string()
             .required('Service is mendatory'),
         service_type: Yup.string()
@@ -52,8 +54,13 @@ const AddProviderTab2 = () => {
     }
 
     const _saveService = (data) => {
+        let isAlreadySelected = selected_service_types.find(srv=> parseInt(srv.service) === parseInt(data.service) && parseInt(srv.service_type) === parseInt(data.service_type));
+        if(!edit_index && isAlreadySelected){
+            msgAlert({title:"Already Exists", icon:"warning", text:"This service already exists in provider"});
+        }else{
         let serviceObj = service_types.find(svrs => svrs.Id === parseInt(service_type));
         dispatch(saveService({ service, service_type, edit_index, service_name: serviceObj?.Service || "" }))
+        }
     }
 
     const _editService = (index) => {

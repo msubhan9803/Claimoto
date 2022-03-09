@@ -3,19 +3,14 @@ import TabsWrapper from 'components/Tabs/TabsWrapper';
 import TabContent from 'components/Tabs/TabsContent';
 import TabsHeader from 'components/Tabs/TabsHeader';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSearchParams } from "react-router-dom";
-import { handleProviderInputValue } from 'store/actions/provider';
-import ProviderAddModal from 'components/Admin/Providers/ProviderAddModal';
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { getGarages } from 'store/actions/provider';
-import { getAgency } from 'store/actions/provider';
-import { getCarAgency } from 'store/actions/provider';
-import { getSurveyor } from 'store/actions/provider';
+import { getInitials, getAfters, handleRulesInputValue } from 'store/actions/rules';
 
-function Provider() {
+function Rules() {
 
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
@@ -29,102 +24,53 @@ function Provider() {
 
 
     //Redux State
-    const { tabs, search_options, search_option, search_text, sort_type, sort_name, surveyorers, garages, car_agencies, agencies } = useSelector(state => state.providersScreenReducer);
+    const { tabs, search_options, search_option, search_text, sort_type, sort_name, initials, afters } = useSelector(state => state.rulesScreenReducer);
 
-    //Component State
-    let initialState = {
-        openModal: false,
-    }
-
-    const [comState, setComState] = useState(initialState);
 
 
     //Actions
     const _handleComActions = () => {
         // dispatch(getModules());
-        let action = searchParams.get("action");
         let activeTab = searchParams.get("tab");
-        switch (action) {
-            case "add":
-                setComState((comState) => ({
-                    ...initialState,
-                    openModal: true,
-                }));
-                break;
-            default:
-                setComState(initialState);
-                break;
-        }
+
         if (!activeTab) {
             searchParams.set("tab", 0);
             setSearchParams(searchParams);
         }
 
-        // if(action){
-        //     document.body.style.overflow = 'hidden';
-        // }
-        // else{
-        //     setTimeout(() => {
-        //         document.body.style.overflow = 'scroll';
-        //     }, 700);
-        // }
     }
 
 
 
-    const _getProvidersList = () => {
+    const _getRulesList = () => {
         let records_per_page = 10;
         let page_index = 1;
         switch (searchParams.get("tab")) {
-            case "garage":
-                records_per_page = garages.records_per_page;
-                page_index = garages.page_index;
-                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+            case "initial":
+                records_per_page = initials.records_per_page;
+                page_index = initials.page_index;
+                dispatch(getInitials({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
 
-            case "agency":
-                records_per_page = agencies.records_per_page;
-                page_index = agencies.page_index;
-                dispatch(getAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-
-            case "car agency":
-                records_per_page = car_agencies.records_per_page;
-                page_index = car_agencies.page_index;
-                dispatch(getCarAgency({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-
-            case "surveyor":
-                records_per_page = surveyorers.records_per_page;
-                page_index = surveyorers.page_index;
-                dispatch(getSurveyor({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+            case "after":
+                records_per_page = afters.records_per_page;
+                page_index = afters.page_index;
+                dispatch(getAfters({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
 
             default:
-                dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+                dispatch(getAfters({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
                 break;
         }
     }
 
-
-    //toggleModal
-    const _toggleModal = (action) => {
-        if (searchParams.has("action")) {
-            searchParams.delete("action");
-            setSearchParams(searchParams)
-        }
-        else {
-            searchParams.set("action", action);
-            setSearchParams(searchParams)
-        };
-    }
 
 
 
     const _handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        dispatch(handleProviderInputValue({ name, value }));
+        dispatch(handleRulesInputValue({ name, value }));
     }
 
 
@@ -135,7 +81,7 @@ function Provider() {
 
     useEffect(() => {
         if (search_text?.length > 2 && search_option !== "" || search_text === "") {
-            _getProvidersList();
+            _getRulesList();
         }
     }, [search_text, search_option, sort_name]);
 
@@ -143,14 +89,13 @@ function Provider() {
 
     return (
         <React.Fragment>
-            <ProviderAddModal toggleModal={() => _toggleModal("add")} openModal={comState.openModal} />
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
                     <div className="ltnd__header-middle-area mt-30">
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="ltnd__page-title-area">
-                                    <h2>Providers </h2>
+                                    <h2>Authority Matrix </h2>
                                 </div>
                             </div>
                             <div className="col-lg-3 align-self-center text-end">
@@ -224,11 +169,16 @@ function Provider() {
                                         </li>
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
-                                                <a
-                                                    onClick={() => _toggleModal("add")}
+                                                <Link
+                                                    to={"/admin/add_rule/1"}
                                                     className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    Add
-                                                </a>
+                                                    Add Initial +
+                                                </Link>
+                                                <Link
+                                                    to={"/admin/add_rule/2"}
+                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                    Add After Assessment +
+                                                </Link>
                                             </div>
                                         </li>
                                     </ul>
@@ -249,10 +199,11 @@ function Provider() {
                                             <TabsWrapper>
                                                 <TabsHeader tabs={tabs} />
                                                 <TabContent>
-                                                    {getAllowActions({ permissions, module_name: tabs[parseInt(searchParams.get("tab"))]?.short }) ?
-                                                        tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>
-                                                        :
-                                                        <ADAnimation />
+                                                    {
+                                                    /* {getAllowActions({ permissions, module_name: tabs[parseInt(searchParams.get("tab"))]?.short }) ? */}
+                                                    {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
+                                                    {/* :
+                                                        <ADAnimation /> */
                                                     }
                                                     {/* {tabs.map((tab, index) => (
                                                         <Tab key={tab.id} tab={tab} index={index}>
@@ -274,4 +225,4 @@ function Provider() {
     )
 }
 
-export default Provider
+export default Rules

@@ -7,6 +7,7 @@ import { getAgency } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { changeHandlerProvider } from 'store/actions/provider';
 
 const AgenciesList = () => {
 
@@ -49,14 +50,21 @@ const AgenciesList = () => {
 
 
 
-    const _paginationHandler = () => {
-        _getList();
+    const _paginationHandler = (pageIndex) => {
+        let modeule = "agencies";
+        let key = "page_index";
+        let val = pageIndex;
+        dispatch(changeHandlerProvider({modeule, key, val}));
     }
 
 
 
     useEffect(() => {
         _getList();
+    }, [page_index]);
+
+    useEffect(() => {
+        _paginationHandler(1);
     }, []);
 
 

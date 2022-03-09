@@ -3,28 +3,28 @@ import carImg from 'assets/img/icons/mc/png/3.png';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGarages, changeHandlerProvider } from 'store/actions/provider';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { getAfters , changeHandlerRule} from 'store/actions/rules';
 
-const GaragesList = () => {
+const InitialRuleList = () => {
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
-    let garage_actions = getAllowActions({ permissions, module_name: "PG" });
+    let after_rules_actions = getAllowActions({ permissions, module_name: "AAR" });
 
 
 
 
     const dispatch = useDispatch();
     const {
-        garages,
+        afters,
         search_option,
         search_text,
         sort_type,
         sort_name,
-    } = useSelector(state => state.providersScreenReducer);
+    } = useSelector(state => state.rulesScreenReducer);
 
 
     const {
@@ -33,19 +33,19 @@ const GaragesList = () => {
         records_per_page,
         page_index,
         count,
-    } = garages;
+    } = afters;
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "garages";
+        let modeule = "initials";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({modeule, key, val}));
+        dispatch(changeHandlerRule({ modeule, key, val }));
     }
 
 
     const _getList = () => {
-        dispatch(getGarages({
+        dispatch(getAfters({
             records_per_page, page_index, search_option,
             search_text,
             sort_type,
@@ -58,10 +58,6 @@ const GaragesList = () => {
         _getList();
     }, [page_index]);
 
-
-    useEffect(() => {
-        _paginationHandler(1);
-    }, []);
 
 
 
@@ -76,12 +72,12 @@ const GaragesList = () => {
                                 <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
-                                            <li className="table-data-1">Garage name</li>
-                                            <li className="table-data-3">POC name</li>
-                                            <li className="table-data-4">Contact number</li>
-                                            <li className="table-data-6">Garage address</li>
-                                            <li className="table-data-7">Edit </li>
-                                            <li className="table-data-8">Details</li>
+                                            <li className="table-data-5">Name</li>
+                                            <li className="table-data-5">Amount</li>
+                                            <li className="table-data-6"> Services Count</li>
+                                            <li className="table-data-10">Assigned To</li>
+                                            <li className="table-data-7">View</li>
+                                            <li className="table-data-7">EDIT</li>
                                         </ul>
                                         {list.map(record => {
                                             return (
@@ -98,14 +94,14 @@ const GaragesList = () => {
                                                         {record?.StreetAddress || ""}
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {garage_actions?.includes("UPDATE") &&
+                                                        {after_rules_actions?.includes("UPDATE") &&
                                                             <strong>
                                                                 <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
                                                             </strong>
                                                         }
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {garage_actions?.includes("VIEW") &&
+                                                        {after_rules_actions?.includes("VIEW") &&
                                                             <strong>
                                                                 <Link to={`/admin/view_provider/garage/${record.Id}?tab=0`} >View</Link>
                                                             </strong>
@@ -129,4 +125,4 @@ const GaragesList = () => {
     )
 }
 
-export default GaragesList
+export default InitialRuleList;

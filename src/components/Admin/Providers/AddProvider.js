@@ -170,7 +170,7 @@ const AddProvider = () => {
                         providerId: _getProviderId(),
                         editId: id || null
                     }
-                    dispatch(addProvider(action_payload));
+                    dispatch(addProvider(action_payload, navigate));
 
                 }
             } else {
@@ -241,6 +241,8 @@ const AddProvider = () => {
     useEffect(() => {
         if (id) {
             _setProviderDetails(id);
+        }else{
+            dispatch(clearAddProviderState());
         }
     }, [id]);
 
@@ -254,7 +256,7 @@ const AddProvider = () => {
 
     return (
         <React.Fragment>
-            {user_loading ?
+            {user_loading || loading ?
                 <div style={{ textAlign: "center" }}>
                     <LoaderAnimation />
                 </div>
@@ -312,8 +314,8 @@ const AddProvider = () => {
                                                     <button role="button" onClick={_movePrev} className="btn theme-btn-2 btn-round-12">Back</button>}
 
                                                 { // (_checkPermissionsOfProvider("INSERT") || _checkPermissionsOfProvider("UPDATE")) &&
-                                                    <button role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</button>
-                                                }
+}
+                                                    <button role="button" disabled={loading} onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{searchParams.get("tab") < 2 ? "Next" : "Save"}</button>
                                             </div>
                                         </div>
                                     </div>

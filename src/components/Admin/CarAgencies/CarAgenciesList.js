@@ -7,6 +7,7 @@ import Loader from 'components/Loader/Loader';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { changeHandlerProvider } from 'store/actions/provider';
 
 function CarAgenciesList() {
 
@@ -36,8 +37,11 @@ function CarAgenciesList() {
 
 
 
-    const _paginationHandler = () => {
-        _getList();
+    const _paginationHandler = (pageIndex) => {
+        let modeule = "car_agencies";
+        let key = "page_index";
+        let val = pageIndex;
+        dispatch(changeHandlerProvider({modeule, key, val}));
     }
 
     const _getList = () => {
@@ -53,8 +57,12 @@ function CarAgenciesList() {
 
     useEffect(() => {
         _getList();
-    }, []);
+    }, [page_index]);
 
+
+    useEffect(() => {
+        _paginationHandler(1);
+    }, []);
 
 
 
