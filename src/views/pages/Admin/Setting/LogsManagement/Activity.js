@@ -1,17 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { GetAllActivityLogs } from "../../../../../store/actions/settings/index.js";
-import ActivityLogsList from '../../../../../components/Admin/Activities/ActivityLogsList.js';
+import {
+  GetAllActivityLogs,
+  HandleAccountValuesOuter,
+  SetPageIndex
+} from "../../../../../store/actions/settings/index.js";
+import ActivityLogsList from "../../../../../components/Admin/Activities/ActivityLogsList.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "components/Pagination/Pagination";
 
 const Activity = () => {
   let dispatch = useDispatch();
-  const { activitesList } = useSelector((state) => state.settingsReducer);
-  const { ActivityLogs } = activitesList;
+  const {
+    activitesList,
+    search_option,
+    search_text,
+    sort_type,
+    sort_name,
+    search_options,
+    logs_per_page,
+    logs_page_index,
+    // logs_count,
+    to_date,
+    from_date,
+    activity_type,
+  } = useSelector((state) => state.settingsReducer);
+  const { ActivityLogs, TotalRecords } = activitesList;
 
   useEffect(() => {
     dispatch(GetAllActivityLogs());
   }, []);
+
+  useEffect(() => {
+    if (
+      (search_text?.length > 2 && search_option !== "") ||
+      search_text === ""
+    ) {
+      dispatch(
+        GetAllActivityLogs(
+          logs_page_index,
+          logs_per_page,
+          search_text,
+          search_option,
+          sort_type,
+          sort_name,
+          to_date,
+          from_date,
+          activity_type
+        )
+      );
+    }
+  }, [search_text, search_option, sort_name, sort_type, logs_page_index]);
+
+  const _handleChange = (e) => {
+    e.persist();
+    let name = e.target.name;
+    let value = e.target.value;
+    dispatch(HandleAccountValuesOuter(name, value));
+  };
+
+  const _paginationHandler = (pageIndex) => {
+    dispatch(SetPageIndex(pageIndex));
+  };
 
   return (
     <div class="body-bg-1 pb-80">
@@ -40,29 +92,130 @@ const Activity = () => {
                   Edit
                 </a>
               </div>
-              <div class="ltnd__date-area d-none">
-                <div class="ltn__datepicker">
-                  <div class="ltn_datepicker-title">
-                    <span>Date</span>
-                  </div>
-                  <div class="input-group date" data-provide="datepicker">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Select Date"
-                    />
-                    <div class="input-group-addon">
-                      <i class="far fa-calendar-alt"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="body-content-area-inner pt-20">
+        <div className="ltn__product-area ltn__product-gutter">
+          <div className="row">
+            <div className="col-lg-5">
+              <div className="ltn__search-widget ltnd__product-search-widget mb-30">
+                <form action="#" _lpchecked={1}>
+                  <input
+                    type="text"
+                    name="search_text"
+                    placeholder="Search ..."
+                    onChange={_handleChange}
+                    className=""
+                    value={search_text}
+                  />
+                  <button type="submit">
+                    <FontAwesomeIcon icon={faSearch} />
+                  </button>
+                  <select
+                    name="search_option"
+                    value={search_option}
+                    onChange={_handleChange}
+                    className="select search-options"
+                  >
+                    <option disabled value={""}>
+                      Search By
+                    </option>
+                    {search_options.map((op) => (
+                      <option key={op.value} value={op.value}>
+                        {op.label}
+                      </option>
+                    ))}
+                  </select>
+                </form>
+              </div>
+            </div>
+            <div className="col-lg-7">
+              <div className="ltn__shop-options ltnd__shop-options select-list-right">
+                <ul>
+                  <li>
+                    <div className="short-by text-center">
+                      <select
+                        onChange={_handleChange}
+                        name="sort_name"
+                        value={sort_name}
+                        className="nice-select"
+                      >
+                        <option disabled value={""}>
+                          Sort By
+                        </option>
+                        {search_options.map((op) => (
+                          <option key={op.value} value={op.value}>
+                            {op.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="short-by text-center">
+                      <select
+                        onChange={_handleChange}
+                        name="sort_type"
+                        value={sort_type}
+                        className="nice-select"
+                      >
+                        <option disabled value={""}>
+                          Order By
+                        </option>
+                        <option key={"asc"} value={"asc"}>
+                          Ascending
+                        </option>
+                        <option key={"desc"} value={"desc"}>
+                          Descending
+                        </option>
+                      </select>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="short-by text-center">
+                      <div className="short-by-menu">
+                        <select
+                          className="nice-select"
+                          // onChange={changeValue}
+                          // value={download}
+                          name="download"
+                        >
+                          <option selected disabled value={""}>
+                            Download
+                          </option>
+                          <option value="csv">CSV</option>
+                          <option value="pdf">PDF</option>
+                        </select>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="short-by text-center">
+                      <div className="short-by-menu">
+                        <select
+                          className="nice-select"
+                          // onChange={changeValue}
+                          // value={importAs}
+                          name="importAs"
+                        >
+                          <option selected disabled value={""}>
+                            Import
+                          </option>
+                          <option value="template">Template</option>
+                          <option value="upload">Upload</option>
+                        </select>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="select-availability-area pb-120">
           <div class="row">
             <div class="col-lg-12">
@@ -88,37 +241,14 @@ const Activity = () => {
                     </div>
                   </div>
                 </div>
-                <div class="ltn__pagination-area text-center">
-                  <div class="ltn__pagination">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fas fa-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">1</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">2</a>
-                      </li>
-                      <li>
-                        <a href="#">3</a>
-                      </li>
-                      <li>
-                        <a href="#">...</a>
-                      </li>
-                      <li>
-                        <a href="#">10</a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fas fa-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+
+                <Pagination
+                  recordsCount={TotalRecords}
+                  pageIndex={logs_page_index}
+                  recordsPerPage={logs_per_page}
+                  handler={_paginationHandler}
+                  className="mt-3"
+                />
               </div>
             </div>
           </div>

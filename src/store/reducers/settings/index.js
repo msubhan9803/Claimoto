@@ -15,7 +15,8 @@ import {
   NAVIGATE_ACCOUNT_BACK,
   RESET_ACCOUNT_STATE,
   GET_ALL_ACTIVITY_LOGS,
-  GET_ALL_ACTIVITY_BY_ID
+  GET_ALL_ACTIVITY_BY_ID,
+  SET_LOGS_PAGE_INDEX
 } from "../../types/settings.js";
 
 const initialState = {
@@ -75,7 +76,31 @@ const initialState = {
     ActivityLogs: [],
     TotalRecords: 0
   },
-  currentActivityDetails: []
+  currentActivityDetails: [],
+  search_option: "",
+  search_text: "",
+  sort_type: "",
+  sort_name: "",
+  logs_per_page: 10,
+  logs_page_index: 1,
+  logs_count: 0,
+  to_date: new Date(),
+  from_date: new Date(),
+  activity_type: "",
+  search_options: [
+    {
+      label: "User",
+      value: "user",
+    },
+    {
+      label: "Activity",
+      value: "activity",
+    },
+    {
+      label: "Entity",
+      value: "entity",
+    },
+  ],
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -194,6 +219,10 @@ const settingsReducer = (state = initialState, action) => {
 
     case GET_ALL_ACTIVITY_BY_ID: {
       return { ...state, currentActivityDetails: action.payload };
+    }
+
+    case SET_LOGS_PAGE_INDEX: {
+      return { ...state, logs_page_index: action.payload };
     }
 
     default:

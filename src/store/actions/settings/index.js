@@ -14,6 +14,7 @@ import {
   NAVIGATE_ACCOUNT_BACK,
   GET_ALL_ACTIVITY_LOGS,
   GET_ALL_ACTIVITY_BY_ID,
+  SET_LOGS_PAGE_INDEX
 } from "store/types/settings.js";
 import instance from "config/axios/instance";
 
@@ -209,15 +210,15 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
 // Activity Log
 export const GetAllActivityLogs =
   (
-    PageIndex = 1,
-    PageSize = 10,
-    SearchText = "",
-    SearchOption = "",
-    SortType = "",
-    SortName = "",
-    ToDate = new Date(),
-    FromDate = new Date(),
-    ActivityType = ""
+    PageIndex,
+    PageSize,
+    SearchText,
+    SearchOption,
+    SortType,
+    SortName,
+    ToDate,
+    FromDate,
+    ActivityType
   ) =>
   async (dispatch) => {
     try {
@@ -252,6 +253,14 @@ export const GetAllActivityById = (activityId) => async (dispatch) => {
       type: GET_ALL_ACTIVITY_BY_ID,
       payload: res.data,
     });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const SetPageIndex = (pageIndex) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOGS_PAGE_INDEX, payload: pageIndex });
   } catch (err) {
     console.log("err", err);
   }

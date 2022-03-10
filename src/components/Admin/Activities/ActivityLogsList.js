@@ -61,44 +61,6 @@ const Activitylogslist = ({ activitesList }) => {
                       </Link>
                     </li>
                   </ul>
-                  <div
-                    id="ltn__activity_item_1"
-                    class={`collapse ltn__activity-single-content-info ${
-                      index == currentAccordian && "show"
-                    }`}
-                  >
-                    <div class="ltn_coupon-code-form ltn__form-box">
-                      <form action="#">
-                        <div class="row">
-                          <div class="col-lg-2 col-md-4">
-                            <div class="input-item">
-                              <p class="ltn__color-1 mb-10">Edit field</p>
-                              <p>
-                                <strong>Updated by</strong>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="col-lg-3 col-md-4">
-                            <div class="input-item">
-                              <p class="ltn__color-1 mb-10">Field old value</p>
-                              <p>
-                                <strong>yasminali@gmail.com</strong>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="col-lg-2"></div>
-                          <div class="col-lg-4 col-md-4">
-                            <div class="input-item">
-                              <p class="ltn__color-1 mb-10">Field new value</p>
-                              <p>
-                                <strong>yasminali@gmail.com</strong>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
                 </>
               ))}
             </div>
