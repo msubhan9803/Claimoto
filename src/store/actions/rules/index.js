@@ -12,11 +12,14 @@ import {
     //GET
     GET_INITIAL,
     GET_AFTER,
-    //GET Root
+    //GET ROOT
     GET_INIT_RULE_MAKES,
     GET_INIT_RULE_MODELS,
     GET_INIT_RULE_PRODUCTS,
-    GET_INIT_RULE_USERS
+    GET_INIT_RULE_USERS,
+
+    GET_AFTER_RULE_SERVICES,
+    GET_AFTER_RULE_USERS
 } from "store/types/rules";
 
 export const getInitials = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
@@ -124,9 +127,9 @@ export const getMakes = (text)  => async dispatch => {
 }
 
 
-export const getModels = (text)  => async dispatch => {
+export const getModels = (text, id)  => async dispatch => {
         try {
-            let { data } = await instance.get(`/api/AuthorityMatrix/Model?SearchText=${text}`);
+            let { data } = await instance.get(`/api/AuthorityMatrix/Model?SearchText=${text}&Id=${id}`);
             dispatch({
                 type: GET_INIT_RULE_MODELS,
                 payload: data
@@ -155,13 +158,25 @@ export const getProducts = (text)  => async dispatch => {
 export const getUsers = (text)  => async dispatch => {
     try {
         let { data } = await instance.get(`/api/AuthorityMatrix/UserProfiles?SearchText=${text}`);
-        dispatch({
-            type: GET_INIT_RULE_USERS,
-            payload: data
-        });
+        dispatch({type: GET_INIT_RULE_USERS,payload: data});
+        dispatch({type: GET_AFTER_RULE_USERS,payload: data});
     } catch (error) {
         console.log(error);
     }
 }
+
+
+export const getServices = (text)  => async dispatch => {
+    try {
+        let { data } = await instance.get(`/api/AuthorityMatrix/Services?SearchText=${text}`);
+        dispatch({type: GET_AFTER_RULE_SERVICES,payload: data});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
 
 

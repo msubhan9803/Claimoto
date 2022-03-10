@@ -10,6 +10,14 @@ import { handleAddRulesInputValue } from 'store/actions/rules';
 
 const AddInitRuleCom = () => {
     let dispatch = useDispatch();
+    const [comState, setComState] = useState({
+        values: {
+            make: "",
+            model: "",
+            product: "",
+            user: ""
+        }
+    })
     let { initials } = useSelector(state => state.addRuleScreenReducer);
     let { values, makes, models, users, products } = initials;
     let { name,
@@ -37,26 +45,39 @@ const AddInitRuleCom = () => {
     }
 
     const _inputChangeHandler = (value, name) => {
-        switch (name) {
-            case "make":
-                dispatch(getMakes(value));
-                break;
+        if (value.length > 1) {
+            switch (name) {
+                case "make":
+                    dispatch(getMakes(value));
+                    _changeVal({ name: "model", value: "" });
+                    break;
 
-            case "model":
-                dispatch(getModels(value));
+                case "model":
+                    dispatch(getModels(value, make.value));
 
-                break;
+                    break;
 
-            case "product":
-                dispatch(getProducts(value));
+                case "product":
+                    dispatch(getProducts(value));
 
-                break;
+                    break;
 
-            case "user":
-                dispatch(getUsers(value));
+                case "user":
+                    dispatch(getUsers(value));
 
-                break;
+                    break;
+            }
         }
+
+        setComState({
+            ...comState,
+            values: {
+                ...comState.values,
+                [name]: value
+            }
+        })
+
+
     }
 
     useEffect(() => {
@@ -64,7 +85,7 @@ const AddInitRuleCom = () => {
     }, []);
 
 
-   
+
 
     return (
         <div className='mb-10'>
@@ -92,14 +113,15 @@ const AddInitRuleCom = () => {
                             <Select
                                 value={make}
                                 name="make"
+                                inputValue={comState.values.make}
                                 placeholder="Select Make"
                                 onInputChange={(val) => _inputChangeHandler(val, "make")}
                                 formatGroupLabel={"User"}
                                 closeMenuOnSelect={false}
                                 className="mt-1"
-                                onChange={(value)=> _changeVal({name:"make", value})}
+                                onChange={(value) => _changeVal({ name: "make", value })}
                                 // components={animatedComponents}
-                                options={[{ label: "All", value: 0 }].concat(makes.map(make => {return {label: make?.MakeName, value:make?.Id } }))}
+                                options={[{ label: "All", value: 0 }].concat(makes.map(make => { return { label: make?.MakeName, value: make?.Id } }))}
                             />
                         </div>
                     </div>
@@ -109,14 +131,15 @@ const AddInitRuleCom = () => {
                             <Select
                                 value={model}
                                 name="model"
+                                inputValue={comState.values.model}
                                 placeholder="Select Model"
                                 formatGroupLabel={"model"}
                                 onInputChange={(val) => _inputChangeHandler(val, "model")}
                                 closeMenuOnSelect={false}
                                 className="mt-1"
-                                onChange={(value)=> _changeVal({name:"model", value})}
+                                onChange={(value) => _changeVal({ name: "model", value })}
                                 // components={animatedComponents}
-                                options={[{ label: "All", value: 0 }].concat(makes.map(make => {return {label: make?.ModelName, value:make?.Id } }))}
+                                options={[{ label: "All", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
                             />
                         </div>
                     </div>
@@ -164,17 +187,20 @@ const AddInitRuleCom = () => {
                         <div className="form-group">
                             <h6 className="ltnd__title-2 my-3">Product (s)</h6>
                             <Select
-                                value={""}
-                                name="products"
+                                value={selected_products}
+                                name="product"
                                 placeholder="Select Products"
                                 formatGroupLabel={"product"}
                                 onInputChange={(val) => _inputChangeHandler(val, "product")}
                                 closeMenuOnSelect={false}
+                                inputValue={comState.values.product}
                                 className="mt-1"
                                 isMulti
-                                // onChange={_handleMultipleSelect}
+                                onChange={(value) => {
+                                    _changeVal({ name: "selected_products", value })
+                                }}
                                 // components={animatedComponents}
-                                options={[{ label: "All", value: 1 }, { label: "Yaris", value: 2 }]}
+                                options={[{ label: "All", value: 0 }].concat(products.map(product => { return { label: product?.ProductName, value: product?.id } }))}
                             />
                         </div>
                     </div>
@@ -188,16 +214,16 @@ const AddInitRuleCom = () => {
                         <div className="form-group">
                             <h6 className="ltnd__title-2 my-3">Assign To</h6>
                             <Select
-                                value={""}
+                                value={user}
                                 name="users"
                                 placeholder="Select User"
                                 formatGroupLabel={"User"}
                                 closeMenuOnSelect={false}
                                 className="mt-1"
                                 onInputChange={(val) => _inputChangeHandler(val, "user")}
-                                // onChange={_handleMultipleSelect}
-                                // components={animatedComponents}
-                                options={[{ label: "User 1", value: 2 }]}
+                                inputValue={comState.values.user}
+                                onChange={(value) => _changeVal({ name: "user", value })}
+                                options={[{ label: "All", value: 0 }].concat(users.map(user => { return { label: user?.UserName, value: user?.UserId } }))}
                             />
                         </div>
                     </div>
