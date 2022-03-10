@@ -54,7 +54,7 @@ const AgenciesList = () => {
         let modeule = "agencies";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({modeule, key, val}));
+        dispatch(changeHandlerProvider({ modeule, key, val }));
     }
 
 
@@ -110,12 +110,12 @@ const AgenciesList = () => {
                                                     }
                                                 </li>
                                                 <li className="table-data-7">
-                                                        {agency_actions?.includes("VIEW") &&
-                                                            <strong>
-                                                                <Link to={`/admin/view_provider/agency/${record.Id}?tab=0`} >View</Link>
-                                                            </strong>
-                                                        }
-                                                    </li>
+                                                    {agency_actions?.includes("VIEW") &&
+                                                        <strong>
+                                                            <Link to={`/admin/view_provider/agency/${record.Id}?tab=0`} >View</Link>
+                                                        </strong>
+                                                    }
+                                                </li>
                                             </ul>)
                                     })}
 
