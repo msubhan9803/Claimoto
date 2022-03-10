@@ -14,7 +14,8 @@ import {
   HANDLE_ACCOUNT_VALUES_OUTER,
   NAVIGATE_ACCOUNT_BACK,
   RESET_ACCOUNT_STATE,
-  GET_ALL_ACTIVITY_LOGS
+  GET_ALL_ACTIVITY_LOGS,
+  GET_ALL_ACTIVITY_BY_ID
 } from "../../types/settings.js";
 
 const initialState = {
@@ -74,6 +75,7 @@ const initialState = {
     ActivityLogs: [],
     TotalRecords: 0
   },
+  currentActivityDetails: []
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -188,6 +190,10 @@ const settingsReducer = (state = initialState, action) => {
     // For Activity Logs
     case GET_ALL_ACTIVITY_LOGS: {
       return { ...state, activitesList: action.payload };
+    }
+
+    case GET_ALL_ACTIVITY_BY_ID: {
+      return { ...state, currentActivityDetails: action.payload };
     }
 
     default:

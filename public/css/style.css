@@ -17996,6 +17996,11 @@ form .ltnd__title-3 {
   width: 50%;
   float: left;
 }
+.activity-detail-text {
+  width: 100% !important;
+  position: relative !important;
+  word-break: break-word !important;
+}
 
 .ltnd__adding-modal-area .modal-content {
   border-radius: 20px;
@@ -20137,4 +20142,8 @@ form .ltnd__title-3 {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.link {
+  color: var(--ltn__secondary-color);
 }

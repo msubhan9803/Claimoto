@@ -12,7 +12,8 @@ import {
   HANDLE_ACCOUNT_VALUES,
   HANDLE_ACCOUNT_VALUES_OUTER,
   NAVIGATE_ACCOUNT_BACK,
-  GET_ALL_ACTIVITY_LOGS
+  GET_ALL_ACTIVITY_LOGS,
+  GET_ALL_ACTIVITY_BY_ID,
 } from "store/types/settings.js";
 import instance from "config/axios/instance";
 
@@ -243,3 +244,15 @@ export const GetAllActivityLogs =
       console.log("err", err);
     }
   };
+
+export const GetAllActivityById = (activityId) => async (dispatch) => {
+  try {
+    let res = await instance.get(`api/ActivityDetails?Id=${activityId}`);
+    dispatch({
+      type: GET_ALL_ACTIVITY_BY_ID,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
