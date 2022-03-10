@@ -1,5 +1,6 @@
 //ACTION TYPES
 import instance from 'config/axios/instance';
+import { successAlert } from 'functions';
 import { HANDLE_CHANGE_RULES } from 'store/types/rules';
 import { CLEAR_ADD_RULE_STATE } from 'store/types/rules';
 import {
@@ -114,7 +115,7 @@ export const clearAddRuleState = () => dispatch => {
 
 
 
-export const getMakes = (text)  => async dispatch => {
+export const getMakes = (text) => async dispatch => {
     try {
         let { data } = await instance.get(`/api/AuthorityMatrix/Make?SearchText=${text}`);
         dispatch({
@@ -127,21 +128,21 @@ export const getMakes = (text)  => async dispatch => {
 }
 
 
-export const getModels = (text, id)  => async dispatch => {
-        try {
-            let { data } = await instance.get(`/api/AuthorityMatrix/Model?SearchText=${text}&Id=${id}`);
-            dispatch({
-                type: GET_INIT_RULE_MODELS,
-                payload: data
-            });
-        } catch (error) {
-            console.log(error);
-        }
+export const getModels = (text, id) => async dispatch => {
+    try {
+        let { data } = await instance.get(`/api/AuthorityMatrix/Model?SearchText=${text}&Id=${id}`);
+        dispatch({
+            type: GET_INIT_RULE_MODELS,
+            payload: data
+        });
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 
 
-export const getProducts = (text)  => async dispatch => {
+export const getProducts = (text) => async dispatch => {
     try {
         let { data } = await instance.get(`/api/AuthorityMatrix/Products?SearchText=${text}`);
         dispatch({
@@ -155,21 +156,67 @@ export const getProducts = (text)  => async dispatch => {
 
 
 
-export const getUsers = (text)  => async dispatch => {
+export const getUsers = (text) => async dispatch => {
     try {
         let { data } = await instance.get(`/api/AuthorityMatrix/UserProfiles?SearchText=${text}`);
-        dispatch({type: GET_INIT_RULE_USERS,payload: data});
-        dispatch({type: GET_AFTER_RULE_USERS,payload: data});
+        dispatch({ type: GET_INIT_RULE_USERS, payload: data });
+        dispatch({ type: GET_AFTER_RULE_USERS, payload: data });
     } catch (error) {
         console.log(error);
     }
 }
 
 
-export const getServices = (text)  => async dispatch => {
+export const getServices = (text) => async dispatch => {
     try {
         let { data } = await instance.get(`/api/AuthorityMatrix/Services?SearchText=${text}`);
-        dispatch({type: GET_AFTER_RULE_SERVICES,payload: data});
+        dispatch({ type: GET_AFTER_RULE_SERVICES, payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const save_initial = (values, navigate) => async dispatch => {
+    try {
+        let payload = {
+            "AM_Assign_ID": 0,
+            "AM_Assign_Name": values?.name || "",
+            "AM_Assign_Details": values?.remarks || "",
+            "AM_Assign_MakeID": values?.make?.value,
+            "AM_Assign_ModelID": values?.model.map((model) => { return model.value })?.toString() || [],
+            "AM_Assign_YearFrom": values?.from | "",
+            "AM_Assign_YearTo": values?.to || "",
+            "AM_Assign_Product": values?.selected_products.map((product) => { return product.value })?.toString() || [],
+            "AM_Assign_RepairOption": (values.garage && values?.agency) ? 3 : values.garage ? 2 : values.agency ? 1 : null,
+            "AM_Assign_ToUser": values?.user.value,
+        };
+        let { data } = await instance.post(`/api/AuthorityMatrix/AuthorityMatrix`, payload);
+        successAlert({ title: "Success", text: data })
+        navigate('/admin/rules');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+export const save_after = (values, navigate) => async dispatch => {
+    try {
+        let payload = {
+            "AM_Assess_ID": 0,
+            "AM_Assess_Name": values?.name || "",
+            "AM_Assess_Details": values?.remarks || "",
+            "AM_Assess_Type": values?.type === "claim" ? true : false,
+            "AM_Assess_AmountFrom": values?.from || "",
+            "AM_Assess_AmountTo": values?.to || "",
+            "AM_Assess_AssignType": values?.assign_to.value === 1 ? true : false,
+            "AM_Assess_AssignUser": values?.user?.value || null,
+            "AMatrixAssess_Service": values?.selected_services?.map(servs => { return { "AMA_Service_Code": servs.value } }) || []
+        };
+        let { data } = await instance.post(`/api/AuthorityMatrix/InitialAssessment`, payload);
+        successAlert({ title: "Success", text: data })
+        navigate('/admin/rules');
     } catch (error) {
         console.log(error);
     }

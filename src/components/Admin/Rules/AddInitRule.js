@@ -105,7 +105,6 @@ const AddInitRuleCom = () => {
     return (
         <div className='mb-50'>
             <h3>Add Initial Authority Matrix</h3>
-            <form>
 
 
                 {/* Product */}
@@ -153,8 +152,9 @@ const AddInitRuleCom = () => {
                                 closeMenuOnSelect={true}
                                 className="mt-1"
                                 onChange={(value) => _changeVal({ name: "model", value })}
+                                isMulti
                                 // components={animatedComponents}
-                                options={[{ label: "All", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
+                                options={[{ label: "All Models", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
                             />
                         </div>
                     </div>
@@ -253,7 +253,6 @@ const AddInitRuleCom = () => {
                     <h6 className="ltnd__title-2 my-3">Remarks</h6>
                     <textarea rows={4} placeholder="..." onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1" ></textarea>
                 </div>
-            </form>
         </div>
     )
 }

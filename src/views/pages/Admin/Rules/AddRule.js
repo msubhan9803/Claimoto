@@ -17,12 +17,19 @@ import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import AddInitRuleCom from 'components/Admin/Rules/AddInitRule';
 import AddRuleAfterCom from 'components/Admin/Rules/AddAfterRule';
+import { save_initial } from 'store/actions/rules';
+import { save_after } from 'store/actions/rules';
 
 const AddRule = () => {
     let { type } = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     let navigate = useNavigate();
     const dispatch = useDispatch();
+
+
+    //Selector
+    let { initials, afters } = useSelector(state => state.addRuleScreenReducer);
+
 
 
     //Permissions Controlling
@@ -36,12 +43,17 @@ const AddRule = () => {
 
 
 
-    const _moveNext = () => {
-        successAlert({ title: "Added Successfully" });
+    const _saveRule = () => {
+        parseInt(type) === 1 ?  _saveInitial() : _saveAfter() 
+    };
+    
+
+    const _saveInitial = () => {
+        dispatch(save_initial(initials.values, navigate));
     }
 
-    const _movePrev = () => {
-
+    const _saveAfter = () => {
+        dispatch(save_after(afters.values, navigate));
     }
 
 
@@ -126,7 +138,7 @@ const AddRule = () => {
                                                 {/* <a href="providers.html"><i className="ti-angle-left"></i> Cancel</a> */}
                                                 { // (_checkPermissionsOfProvider("INSERT") || _checkPermissionsOfProvider("UPDATE")) &&
                                                 }
-                                                <button role="button" onClick={_moveNext} className="btn theme-btn-1 btn-round-12">{"Save"}</button>
+                                                <button role="button" onClick={_saveRule} className="btn theme-btn-1 btn-round-12">{"Save"}</button>
                                             </div>
                                         </div>
                                     </div>

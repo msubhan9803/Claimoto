@@ -79,7 +79,6 @@ const AddRuleAfterCom = () => {
     return (
         <div className='mb-10'>
             <h3>Add After Assessment Authority Matrix</h3>
-            <form>
                 {/* Name and Type */}
                 <div className='row'>
                     <div className='col-6'>
@@ -213,7 +212,6 @@ const AddRuleAfterCom = () => {
                     <h6 className="ltnd__title-2 my-3">Remarks</h6>
                     <textarea rows={4} placeholder="..." value={remarks} onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1"  ></textarea>
                 </div>
-            </form>
         </div>
     )
 }

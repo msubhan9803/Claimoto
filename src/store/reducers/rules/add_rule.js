@@ -20,7 +20,7 @@ const initialState = {
         values: {
             name: "",
             make: { label: "All", value: 0 },
-            model: { label: "All", value: 0 },
+            model: [{ label: "All Models", value: 0 }],
             from: "",
             to: "",
             garage: true,
