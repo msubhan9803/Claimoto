@@ -184,10 +184,10 @@ export const save_initial = (values, navigate) => async dispatch => {
             "AM_Assign_Name": values?.name || "",
             "AM_Assign_Details": values?.remarks || "",
             "AM_Assign_MakeID": values?.make?.value,
-            "AM_Assign_ModelID": values?.model.map((model) => { return model.value })?.toString() || [],
+            "AM_Assign_ModelID": JSON.stringify(values?.model || []),
             "AM_Assign_YearFrom": values?.from | "",
             "AM_Assign_YearTo": values?.to || "",
-            "AM_Assign_Product": values?.selected_products.map((product) => { return product.value })?.toString() || [],
+            "AM_Assign_Product": JSON.stringify(values?.selected_products|| []),
             "AM_Assign_RepairOption": (values.garage && values?.agency) ? 3 : values.garage ? 2 : values.agency ? 1 : null,
             "AM_Assign_ToUser": values?.user.value,
         };
