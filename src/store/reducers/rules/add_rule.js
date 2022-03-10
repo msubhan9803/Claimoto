@@ -4,7 +4,10 @@ import {
     GET_INIT_RULE_MAKES,
     GET_INIT_RULE_MODELS,
     GET_INIT_RULE_PRODUCTS,
-    GET_INIT_RULE_USERS
+    GET_INIT_RULE_USERS,
+
+    GET_AFTER_RULE_SERVICES,
+    GET_AFTER_RULE_USERS
 } from '../../types/rules';
 
 const initialState = {
@@ -13,18 +16,17 @@ const initialState = {
         makes: [],
         models: [],
         users: [],
+        products: [],
         values: {
-            name: "Test",
-            make: {},
-            model: {},
+            name: "",
+            make: { label: "All", value: 0 },
+            model: [{ label: "All Models", value: 0 }],
             from: "",
             to: "",
-            garage: false,
+            garage: true,
             agency: false,
-            selected_products: [
-                {}
-            ],
-            user: {},
+            selected_products: [{ label: "All Products", value: 0 }],
+            user: null,
             remarks: ""
         }
     },
@@ -33,12 +35,13 @@ const initialState = {
         users: [],
         values: {
             name: "",
-            type: "",
-            from: 0,
-            to: 0,
-            sevice_type: "",
-            assign_to: "",
-            user: {},
+            type: "claim",
+            from: 2000,
+            to: 2012,
+            service_type: "include",
+            selected_services:[{ label: "All Services", value: 0 }],
+            assign_to: { label: "Auto", value: 1 },
+            user: null,
             remarks: ""
         },
 
@@ -109,6 +112,31 @@ const addRuleScreenReducer = (state = initialState, action) => {
             return {
                 ...state, initials: {
                     ...state.initials,
+                    users: action.payload
+                }
+            };
+        }
+            break;
+
+
+
+
+
+        case GET_AFTER_RULE_SERVICES: {
+            return {
+                ...state, afters: {
+                    ...state.afters,
+                    services: action.payload
+                }
+            };
+        }
+            break;
+
+
+        case GET_AFTER_RULE_USERS: {
+            return {
+                ...state, afters: {
+                    ...state.afters,
                     users: action.payload
                 }
             };
