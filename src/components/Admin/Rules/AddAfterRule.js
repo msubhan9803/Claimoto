@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Select from 'react-select';
 
 
 const AddRuleAfterCom = () => {
+
+    useEffect(() => {
+    
+    }, []);
+
+    
+
     return (
         <div className='mb-10'>
             <h3>Add After Assessment Authority Matrix</h3>
@@ -12,7 +19,7 @@ const AddRuleAfterCom = () => {
                     <div className='col-6'>
                         <div className="form-group">
                             <h6 className="ltnd__title-4 mt-2">Name</h6>
-                            <input type="text" className="form-control" id="exampleFormControlTextarea1" />
+                            <input type="text" className="form-control" id="exampleFormControlTextarea1"  />
                         </div>
                     </div>
                     <div className='col-6 '>
@@ -135,7 +142,7 @@ const AddRuleAfterCom = () => {
 
                 <div className="form-group">
                     <h6 className="ltnd__title-2 my-3">Remarks</h6>
-                    <textarea rows={4} className="form-control" id="exampleFormControlTextarea1" rows="4" ></textarea>
+                    <textarea rows={4} className="form-control" id="exampleFormControlTextarea1"  ></textarea>
                 </div>
             </form>
         </div>
