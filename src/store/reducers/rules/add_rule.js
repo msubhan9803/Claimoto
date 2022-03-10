@@ -18,16 +18,15 @@ const initialState = {
         users: [],
         products: [],
         values: {
-            name: "Test",
-            make: {},
-            model: {},
+            name: "",
+            make: { label: "All", value: 0 },
+            model: { label: "All", value: 0 },
             from: "",
             to: "",
-            garage: false,
+            garage: true,
             agency: false,
-            selected_products: [
-            ],
-            user: {},
+            selected_products: [{ label: "All Products", value: 0 }],
+            user: null,
             remarks: ""
         }
     },
@@ -40,9 +39,9 @@ const initialState = {
             from: 2000,
             to: 2012,
             service_type: "include",
-            selected_services:[],
+            selected_services:[{ label: "All Services", value: 0 }],
             assign_to: { label: "Auto", value: 1 },
-            user: {},
+            user: null,
             remarks: ""
         },
 

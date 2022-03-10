@@ -40,7 +40,19 @@ const AddInitRuleCom = () => {
 
     const _handleChange = (event) => {
         let name = event.target.name;
+        
         let value = event.target.value;
+
+        switch (name) {
+            case "make":
+                //Getttig First Ten Models
+                dispatch(getModels("", value?.value));
+                break;
+        
+            default:
+                break;
+        }
+
         _changeVal({ name, value });
     }
 
@@ -81,6 +93,9 @@ const AddInitRuleCom = () => {
     }
 
     useEffect(() => {
+        dispatch(getMakes(""));
+        dispatch(getProducts(""));
+        dispatch(getUsers(""));
 
     }, []);
 
@@ -88,7 +103,7 @@ const AddInitRuleCom = () => {
 
 
     return (
-        <div className='mb-10'>
+        <div className='mb-50'>
             <h3>Add Initial Authority Matrix</h3>
             <form>
 
@@ -97,7 +112,7 @@ const AddInitRuleCom = () => {
                 <div className='row'>
                     <div className='col-12'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-2 my-3">Name</h6>
+                            <h6 className="ltnd__title-2 my-3">Name *</h6>
                             <input type="text" className='' name='name' onChange={_handleChange} value={name} />
                         </div>
                     </div>
@@ -109,7 +124,7 @@ const AddInitRuleCom = () => {
                 <div className='row'>
                     <div className='col-6'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Make</h6>
+                            <h6 className="ltnd__title-4 mt-2">Make *</h6>
                             <Select
                                 value={make}
                                 name="make"
@@ -117,7 +132,7 @@ const AddInitRuleCom = () => {
                                 placeholder="Select Make"
                                 onInputChange={(val) => _inputChangeHandler(val, "make")}
                                 formatGroupLabel={"User"}
-                                closeMenuOnSelect={false}
+                                closeMenuOnSelect={true}
                                 className="mt-1"
                                 onChange={(value) => _changeVal({ name: "make", value })}
                                 // components={animatedComponents}
@@ -127,7 +142,7 @@ const AddInitRuleCom = () => {
                     </div>
                     <div className='col-6 '>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Model</h6>
+                            <h6 className="ltnd__title-4 mt-2">Model *</h6>
                             <Select
                                 value={model}
                                 name="model"
@@ -135,7 +150,7 @@ const AddInitRuleCom = () => {
                                 placeholder="Select Model"
                                 formatGroupLabel={"model"}
                                 onInputChange={(val) => _inputChangeHandler(val, "model")}
-                                closeMenuOnSelect={false}
+                                closeMenuOnSelect={true}
                                 className="mt-1"
                                 onChange={(value) => _changeVal({ name: "model", value })}
                                 // components={animatedComponents}
@@ -149,14 +164,14 @@ const AddInitRuleCom = () => {
                 <div className='row mt-2'>
                     <div className='col-6'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">From</h6>
-                            <input type="number" onChange={_handleChange} value={from} name="from" className="form-control" />
+                            <h6 className="ltnd__title-4 mt-2">From *</h6>
+                            <input type="number" placeholder='2000' onChange={_handleChange} value={from} name="from" className="form-control" />
                         </div>
                     </div>
                     <div className='col-6 '>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">To</h6>
-                            <input type="number" onChange={_handleChange} value={to} name="to" className="form-control" />
+                            <h6 className="ltnd__title-4 mt-2">To *</h6>
+                            <input type="number" placeholder='5000' onChange={_handleChange} value={to} name="to" className="form-control" />
                         </div>
                     </div>
                 </div>
@@ -185,7 +200,7 @@ const AddInitRuleCom = () => {
                 <div className='row'>
                     <div className='col-12'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-2 my-3">Product (s)</h6>
+                            <h6 className="ltnd__title-2 my-3">Product (s) *</h6>
                             <Select
                                 value={selected_products}
                                 name="product"
@@ -200,7 +215,7 @@ const AddInitRuleCom = () => {
                                     _changeVal({ name: "selected_products", value })
                                 }}
                                 // components={animatedComponents}
-                                options={[{ label: "All", value: 0 }].concat(products.map(product => { return { label: product?.ProductName, value: product?.id } }))}
+                                options={[{ label: "All Products", value: 0 }].concat(products.map(product => { return { label: product?.ProductName, value: product?.id } }))}
                             />
                         </div>
                     </div>
@@ -212,13 +227,14 @@ const AddInitRuleCom = () => {
                 <div className='row'>
                     <div className='col-12'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-2 my-3">Assign To</h6>
+                            <h6 className="ltnd__title-2 my-3">Assign To *</h6>
                             <Select
                                 value={user}
                                 name="users"
                                 placeholder="Select User"
                                 formatGroupLabel={"User"}
-                                closeMenuOnSelect={false}
+                                closeMenuOnSelect={true}
+                                menuPosition="absolute"
                                 className="mt-1"
                                 onInputChange={(val) => _inputChangeHandler(val, "user")}
                                 inputValue={comState.values.user}
@@ -235,7 +251,7 @@ const AddInitRuleCom = () => {
 
                 <div className="form-group">
                     <h6 className="ltnd__title-2 my-3">Remarks</h6>
-                    <textarea rows={4} onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1" ></textarea>
+                    <textarea rows={4} placeholder="..." onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1" ></textarea>
                 </div>
             </form>
         </div>

@@ -69,6 +69,8 @@ const AddRuleAfterCom = () => {
 
 
     useEffect(() => {
+        dispatch(getUsers(""));
+        dispatch(getServices(""));
 
     }, []);
 
@@ -82,13 +84,13 @@ const AddRuleAfterCom = () => {
                 <div className='row'>
                     <div className='col-6'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Name</h6>
+                            <h6 className="ltnd__title-4 mt-2">Name *</h6>
                             <input onChange={_handleChange} name="name" value={name} type="text" className="form-control" id="exampleFormControlTextarea1" />
                         </div>
                     </div>
                     <div className='col-6 '>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-2">Type</h6>
+                            <h6 className="ltnd__title-4 mt-2">Type *</h6>
                             <div className="form-check form-check-inline mt-3">
                                 <input className="form-check-input" onChange={() => _changeVal({ name: "type", value: "claim" })} checked={type === "claim"} type="radio" name="inlineRadioOptions" id="inlineRadio1" />
                                 <label className="form-check-label" htmlFor="inlineRadio1">Claim Amount</label>
@@ -101,20 +103,20 @@ const AddRuleAfterCom = () => {
                     </div>
                 </div>
 
-                <h6 className="ltnd__title-2 my-3">Amount   </h6>
+                <h6 className="ltnd__title-2 my-3">Amount </h6>
 
 
                 {/* Amount */}
                 <div className='row'>
                     <div className='col-6'>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-1">From Year</h6>
+                            <h6 className="ltnd__title-4 mt-1">From *</h6>
                             <input min={0} value={from} type="number" name="from" onChange={_handleChange} className="form-control" id="exampleFormControlTextarea1" />
                         </div>
                     </div>
                     <div className='col-6 '>
                         <div className="form-group">
-                            <h6 className="ltnd__title-4 mt-1">To Year</h6>
+                            <h6 className="ltnd__title-4 mt-1">To *</h6>
                             <input min={1} value={to} type="number" name="to" onChange={_handleChange} className="form-control" id="exampleFormControlTextarea1" />
                         </div>
                     </div>
@@ -122,7 +124,7 @@ const AddRuleAfterCom = () => {
 
 
 
-                <h6 className="ltnd__title-2 mt-3">Services  ({selected_services.length})  </h6>
+                <h6 className="ltnd__title-2 mt-3">Services  ({selected_services.length}) * </h6>
 
 
 
@@ -153,7 +155,7 @@ const AddRuleAfterCom = () => {
                             inputValue={comState.values.service}
                             onInputChange={(val) => _inputChangeHandler(val, "service")}
                             isMulti
-                            options={services.map(service => { return { label: service.Service, value: service.Id }}) || []}
+                            options={[{ label: "All Services", value: 0 }].concat(services.map(service => { return { label: service.Service, value: service.Id }})) || []}
                             />
 
 
@@ -165,7 +167,7 @@ const AddRuleAfterCom = () => {
                 {/* Assign TO */}
                 <div className='row'>
                     <div className='col-12'>
-                        <h6 className="ltnd__title-2 my-3">Assign To</h6>
+                        <h6 className="ltnd__title-2 my-3">Assign To *</h6>
                     </div>
 
                     <div className='col-4'>
@@ -186,16 +188,16 @@ const AddRuleAfterCom = () => {
                                 <Select
                                     value={user}
                                     name="users"
-                                    placeholder="Select User"
+                                    placeholder="Select User *"
                                     formatGroupLabel={"User"}
-                                    closeMenuOnSelect={false}
+                                    closeMenuOnSelect={true}
                                     className="mt-1"
                                     onChange={(value) => {
                                         _changeVal({ name: "user", value })
                                     }}
                                     inputValue={comState.values.user}
                                     onInputChange={(val) => _inputChangeHandler(val, "user")}
-                                    options={[{ label: "All", value: 0 }].concat(users.map(user => { return { label: user?.UserName, value: user?.UserId } }))}
+                                    options={users.map(user => { return { label: user?.UserName, value: user?.UserId } })}
                                     />
                             </div>
                         }
@@ -209,7 +211,7 @@ const AddRuleAfterCom = () => {
 
                 <div className="form-group">
                     <h6 className="ltnd__title-2 my-3">Remarks</h6>
-                    <textarea rows={4} value={remarks} onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1"  ></textarea>
+                    <textarea rows={4} placeholder="..." value={remarks} onChange={_handleChange} name="remarks" className="form-control" id="exampleFormControlTextarea1"  ></textarea>
                 </div>
             </form>
         </div>
