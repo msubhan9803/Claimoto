@@ -17,6 +17,7 @@ import NotificationPreferences from "views/pages/Admin/Setting/AccountManagement
 import EmailSignature from "views/pages/Admin/Setting/EmailManagement/EmailSignature.js";
 import EmailTemplate from "views/pages/Admin/Setting/EmailManagement/EmailTemplate.js";
 import Activity from "views/pages/Admin/Setting/LogsManagement/Activity.js";
+import ActivityDetail from "views/pages/Admin/Setting/LogsManagement/ActivityDetail.js";
 import Error from "views/pages/Admin/Setting/LogsManagement/Error.js";
 import SmtpTimezoneManagement from 'views/pages/Admin/Setting/SmtpTimezoneManagement/SmtpTImezoneManagement';
 import ViewProvider from "components/Admin/Providers/ViewProvider";
@@ -197,6 +198,12 @@ export const adminRoutes = ({ userPermissions }) => {
           name: "Activity",
           path: "/settings/logs_activity",
           component: <Activity />,
+          layout: "admin",
+        },
+        {
+          name: "Activity",
+          path: "/settings/logs_activity/:id",
+          component: <ActivityDetail />,
           layout: "admin",
         },
         {

@@ -12,6 +12,8 @@ import {
   HANDLE_ACCOUNT_VALUES,
   HANDLE_ACCOUNT_VALUES_OUTER,
   NAVIGATE_ACCOUNT_BACK,
+  GET_ALL_ACTIVITY_LOGS,
+  GET_ALL_ACTIVITY_BY_ID,
 } from "store/types/settings.js";
 import instance from "config/axios/instance";
 
@@ -198,6 +200,57 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
           payload: true,
         });
       }, 1500);
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+// Activity Log
+export const GetAllActivityLogs =
+  (
+    PageIndex = 1,
+    PageSize = 10,
+    SearchText = "",
+    SearchOption = "",
+    SortType = "",
+    SortName = "",
+    ToDate = new Date(),
+    FromDate = new Date(),
+    ActivityType = ""
+  ) =>
+  async (dispatch) => {
+    try {
+      let params = {
+        PageIndex: PageIndex,
+        PageSize: PageSize,
+        SearchText: SearchText,
+        SearchOption: SearchOption,
+        SortType: SortType,
+        SortName: SortName,
+        ToDate: ToDate,
+        FromDate: FromDate,
+        ActivityType: ActivityType,
+      };
+
+      let res = await instance.get(`api/ActivityLogs/Pagination`, {
+        params: params,
+      });
+      dispatch({
+        type: GET_ALL_ACTIVITY_LOGS,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+export const GetAllActivityById = (activityId) => async (dispatch) => {
+  try {
+    let res = await instance.get(`api/ActivityDetails?Id=${activityId}`);
+    dispatch({
+      type: GET_ALL_ACTIVITY_BY_ID,
+      payload: res.data,
     });
   } catch (err) {
     console.log("err", err);
