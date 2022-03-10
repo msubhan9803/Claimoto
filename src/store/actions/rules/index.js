@@ -212,7 +212,7 @@ export const save_after = (values, navigate) => async dispatch => {
             "AM_Assess_AmountTo": values?.to || "",
             "AM_Assess_AssignType": values?.assign_to.value === 1 ? true : false,
             "AM_Assess_AssignUser": values?.user?.value || null,
-            "AMatrixAssess_Service": values?.selected_services?.map(servs => { return { "AMA_Service_Code": servs.value } }) || []
+            "AMatrixAssess_Service": values?.selected_services?.map(servs => { return { "AMA_Service_Code": servs.value, "AMA_Service_Type": values?.service_type === "include", } }) || []
         };
         let { data } = await instance.post(`/api/AuthorityMatrix/InitialAssessment`, payload);
         successAlert({ title: "Success", text: data })
