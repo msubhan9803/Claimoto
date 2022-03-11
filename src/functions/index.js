@@ -75,10 +75,12 @@ export const formatDateTime = (given_date) => {
   var now = new Date(given_date);
   const dateTime = moment(now)
     .utcOffset(offset)
-    .format("DD-MM-YYYY hh:mm A");
+    .fromNow();
+    // .format("DD-MM-YYYY hh:mm A");
   const date = moment(now)
     .utcOffset(offset)
-    .format("DD-MM-YYYY");
+    .fromNow();
+    // .format("DD-MM-YYYY");
   return { dateTime, date };
 };
 

@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
-import { getAfters , changeHandlerRule} from 'store/actions/rules';
+import { getAfters, changeHandlerRule } from 'store/actions/rules';
+import { formatDateTime } from 'functions';
 
 const AfterRuleList = () => {
 
@@ -56,7 +57,7 @@ const AfterRuleList = () => {
 
     useEffect(() => {
         _getList();
-    }, [page_index]);
+    }, []);
 
 
 
@@ -73,37 +74,44 @@ const AfterRuleList = () => {
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-5">Name</li>
+                                            <li className="table-data-5">Type</li>
                                             <li className="table-data-5">Amount</li>
                                             <li className="table-data-6"> Services Count</li>
                                             <li className="table-data-10">Assigned To</li>
+                                            <li className="table-data-7">Created Date</li>
                                             <li className="table-data-7">View</li>
                                             <li className="table-data-7">EDIT</li>
                                         </ul>
-                                        {list.map(record => {
+                                        {list.filter((recrd) => recrd.AM_Assess_Name.toUpperCase().startsWith(search_text.toUpperCase())).map(record => {
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
-                                                            {record.Name}
+                                                            {record?.AM_Assess_Name || ""}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-3">{record?.FullName || ""}</li>
-                                                    <li className="table-data-4">{record?.PhoneNumber | ""}</li>
+                                                    <li className="table-data-3">{record?.AM_Assess_Type ? "Claim" : "Service"}</li>
+                                                    <li className="table-data-3">{`${record?.AM_Assess_AmountFrom}-${record?.AM_Assess_AmountTo}`}</li>
+                                                    <li className="table-data-4">{record?.Service_Count | ""}</li>
+                                                    <li className="table-data-4">{record?.Service_Count | ""}</li>
                                                     <li className="table-data-6">
-                                                        {record?.StreetAddress || ""}
+                                                        {record?.AM_Assess_AssignUser || ""}
+                                                    </li>
+                                                    <li className="table-data-6">
+                                                        {formatDateTime(record?.CreatedDate)?.dateTime || ""}
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {after_rules_actions?.includes("UPDATE") &&
+                                                        {!after_rules_actions?.includes("VIEW") &&
                                                             <strong>
-                                                                <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
+                                                                <Link to={`/admin/view_rule/2/${record.AM_Assess_ID}`} >View</Link>
                                                             </strong>
                                                         }
+
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {after_rules_actions?.includes("VIEW") &&
+                                                        {!after_rules_actions?.includes("UPDATE") &&
                                                             <strong>
-                                                                <Link to={`/admin/view_provider/garage/${record.Id}?tab=0`} >View</Link>
+                                                                <Link to={`/admin/edit_rule/2/${record.AM_Assess_ID}`} >Edit</Link>
                                                             </strong>
                                                         }
                                                     </li>
@@ -121,7 +129,7 @@ const AfterRuleList = () => {
 
 
             <Pagination recordsCount={count} pageIndex={page_index} recordsPerPage={records_per_page} handler={_paginationHandler} className="mt-3" />
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

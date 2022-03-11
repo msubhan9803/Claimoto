@@ -152,6 +152,18 @@ export const adminRoutes = ({ userPermissions }) => {
           component: <AddRule />,
           layout: "admin",
         },
+        {
+          name: "Edit Rule",
+          path: "/edit_rule/:type/:id",
+          component: <AddRule />,
+          layout: "admin",
+        },
+        {
+          name: "Edit Rule",
+          path: "/view_rule/:type/:id",
+          component: <AddRule />,
+          layout: "admin",
+        },
       ]
     }
     ,

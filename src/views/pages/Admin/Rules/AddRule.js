@@ -19,16 +19,19 @@ import AddInitRuleCom from 'components/Admin/Rules/AddInitRule';
 import AddRuleAfterCom from 'components/Admin/Rules/AddAfterRule';
 import { save_initial } from 'store/actions/rules';
 import { save_after } from 'store/actions/rules';
+import { getInitRuleDetails } from 'store/actions/rules';
+import { getAfterRuleDetails } from 'store/actions/rules';
+import { deleteRule } from 'store/actions/rules';
 
 const AddRule = () => {
-    let { type } = useParams();
+    let { type, id } = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
 
     //Selector
-    let { initials, afters } = useSelector(state => state.addRuleScreenReducer);
+    let { initials, afters, rule_loading, edit_index } = useSelector(state => state.addRuleScreenReducer);
 
 
 
@@ -44,16 +47,16 @@ const AddRule = () => {
 
 
     const _saveRule = () => {
-        parseInt(type) === 1 ?  _saveInitial() : _saveAfter() 
+        parseInt(type) === 1 ? _saveInitial() : _saveAfter()
     };
-    
+
 
     const _saveInitial = () => {
-        dispatch(save_initial(initials.values, navigate));
+        dispatch(save_initial({ ...initials.values, id }, navigate));
     }
 
     const _saveAfter = () => {
-        dispatch(save_after(afters.values, navigate));
+        dispatch(save_after({ ...afters.values, id }, navigate));
     }
 
 
@@ -72,7 +75,7 @@ const AddRule = () => {
     }
 
     const _deleteAction = () => {
-        // dispatch(deleteProvider(navigate, id));
+        dispatch(deleteRule(navigate, id, type));
     }
 
 
@@ -95,7 +98,9 @@ const AddRule = () => {
         // return () => {
         //     dispatch(clearAddProviderState());
         // };
-        console.log(type);
+        if (id) {
+            type === "1" ? dispatch(getInitRuleDetails(parseInt(id))) : dispatch(getAfterRuleDetails(parseInt(id)));
+        }
     }, [type]);
 
 
@@ -107,7 +112,7 @@ const AddRule = () => {
 
     return (
         <React.Fragment>
-            {1 + 2 == 5 ?
+            {rule_loading ?
                 <div style={{ textAlign: "center" }}>
                     <LoaderAnimation />
                 </div>
@@ -128,8 +133,9 @@ const AddRule = () => {
                                 <div className="col-lg-12">
                                     <div className="ltnd__footer-1-inner">
                                         <div className="ltnd__left btn-normal">
-                                            <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
-
+                                            {id &&
+                                                <button onClick={_handleDelete} className="btn "><i className="ti-trash"></i> Delete</button>
+                                            }
                                         </div>
                                         <div className="ltnd__right btn-normal">
                                             <div className="btn-wrapper">

@@ -6,20 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
-import { getAfters , changeHandlerRule} from 'store/actions/rules';
+import { getInitials, changeHandlerRule } from 'store/actions/rules';
+import { formatDateTime } from 'functions';
 
 const InitialRuleList = () => {
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
-    let after_rules_actions = getAllowActions({ permissions, module_name: "AAR" });
+    let initial_rules_actions = getAllowActions({ permissions, module_name: "IAR" });
 
 
 
 
     const dispatch = useDispatch();
     const {
-        afters,
+        initials,
         search_option,
         search_text,
         sort_type,
@@ -33,7 +34,7 @@ const InitialRuleList = () => {
         records_per_page,
         page_index,
         count,
-    } = afters;
+    } = initials;
 
 
     const _paginationHandler = (pageIndex) => {
@@ -45,7 +46,7 @@ const InitialRuleList = () => {
 
 
     const _getList = () => {
-        dispatch(getAfters({
+        dispatch(getInitials({
             records_per_page, page_index, search_option,
             search_text,
             sort_type,
@@ -56,7 +57,7 @@ const InitialRuleList = () => {
 
     useEffect(() => {
         _getList();
-    }, [page_index]);
+    }, []);
 
 
 
@@ -73,37 +74,38 @@ const InitialRuleList = () => {
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-5">Name</li>
-                                            <li className="table-data-5">Amount</li>
-                                            <li className="table-data-6"> Services Count</li>
+                                            <li className="table-data-5">Year</li>
                                             <li className="table-data-10">Assigned To</li>
+                                            <li className="table-data-10">Created Date</li>
                                             <li className="table-data-7">View</li>
                                             <li className="table-data-7">EDIT</li>
                                         </ul>
-                                        {list.map(record => {
+                                        {list.filter((recrd) => recrd.AM_Assign_Name.toUpperCase().startsWith(search_text.toUpperCase())).map(record => {
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
-                                                            {record.Name}
+                                                            {record.AM_Assign_Name}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-3">{record?.FullName || ""}</li>
-                                                    <li className="table-data-4">{record?.PhoneNumber | ""}</li>
+                                                    <li className="table-data-3">{`${record?.AM_Assign_YearFrom}-${record?.AM_Assign_YearTo}`}</li>
                                                     <li className="table-data-6">
-                                                        {record?.StreetAddress || ""}
+                                                        {record?.AM_Assign_ToUser || ""}
+                                                    </li>
+                                                    <li className="table-data-6">
+                                                        {formatDateTime(record?.CreatedDate)?.dateTime || ""}
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {after_rules_actions?.includes("UPDATE") &&
+                                                        {!initial_rules_actions?.includes("VIEW") &&
                                                             <strong>
-                                                                <Link to={`/admin/edit_provider/garage/${record.Id}?tab=0`} >Edit</Link>
+                                                                <Link to={`/admin/view_rule/1/${record.AM_Assign_ID}`} >View</Link>
                                                             </strong>
                                                         }
                                                     </li>
                                                     <li className="table-data-7">
-                                                        {after_rules_actions?.includes("VIEW") &&
+                                                        {!initial_rules_actions?.includes("UPDATE") &&
                                                             <strong>
-                                                                <Link to={`/admin/view_provider/garage/${record.Id}?tab=0`} >View</Link>
+                                                                <Link to={`/admin/edit_rule/1/${record.AM_Assign_ID}`} >Edit</Link>
                                                             </strong>
                                                         }
                                                     </li>

@@ -5,6 +5,7 @@ import {
     //Handle Change
     CHANGE_HANDLER_RULES,
     SET_INPUT_VALUES_RULES_SCREEN,
+    SET_ADD_RULE_ROOT_VALUES,
     //GET
     GET_INITIAL,
     GET_AFTER
@@ -114,13 +115,13 @@ const rulesScreenReducer = (state = initialState, action) => {
             break;
 
         case GET_INITIAL: {
-            const { ModelProvider, TotalRecord } = action.payload;
+            const { Records, TotalRecord } = action.payload;
             return {
                 ...state,
                 initials:
                 {
                     ...state.initials,
-                    list: ModelProvider || [],
+                    list: Records || [],
                     count: TotalRecord || 0,
                     loading: false
                 }
@@ -129,13 +130,13 @@ const rulesScreenReducer = (state = initialState, action) => {
             break;
 
         case GET_AFTER: {
-            const { ModelProvider, TotalRecord } = action.payload;
+            const { Records, TotalRecord } = action.payload;
             return {
                 ...state,
                 afters:
                 {
                     ...state.afters,
-                    list: ModelProvider || [],
+                    list: Records || [],
                     count: TotalRecord || 0,
                     loading: false
                 }
@@ -143,7 +144,7 @@ const rulesScreenReducer = (state = initialState, action) => {
         }
             break;
 
-        case SET_INPUT_VALUES_RULES_SCREEN: {
+        case SET_ADD_RULE_ROOT_VALUES: {
             const { name, value } = action.payload;
             return {
                 ...state,
@@ -151,6 +152,7 @@ const rulesScreenReducer = (state = initialState, action) => {
             }
         }
             break;
+
 
         default:
             return { ...state };

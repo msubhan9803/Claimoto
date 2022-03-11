@@ -10,6 +10,7 @@ import {
     GET_REQUEST_RULES,
     //Handle Change
     SET_INPUT_VALUES_RULES_SCREEN,
+    SET_ADD_RULE_ROOT_VALUES,
     //GET
     GET_INITIAL,
     GET_AFTER,
@@ -20,16 +21,21 @@ import {
     GET_INIT_RULE_USERS,
 
     GET_AFTER_RULE_SERVICES,
-    GET_AFTER_RULE_USERS
+    GET_AFTER_RULE_USERS,
+
+    SET_AFTER_RULE_DETAILS,
+    SET_INIT_RULE_DETAILS
 } from "store/types/rules";
 
 export const getInitials = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "initials", bool: true, list: [] } });
-        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        // let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixs`);
+        let Records = data ; let TotalRecord = 0;
         dispatch({
             type: GET_INITIAL,
-            payload: data
+            payload: {Records, TotalRecord}
         });
     } catch (error) {
         dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "initials", bool: false, list: [] } });
@@ -41,10 +47,12 @@ export const getInitials = ({ records_per_page, page_index, search_text, search_
 export const getAfters = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
         dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "afters", bool: true, list: [] } });
-        let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        // let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixsAssess`);
+        let Records = data ; let TotalRecord = 0;
         dispatch({
             type: GET_AFTER,
-            payload: data
+            payload: {Records, TotalRecord}
         });
     } catch (error) {
         dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "afters", bool: false, list: [] } });
@@ -179,19 +187,20 @@ export const getServices = (text) => async dispatch => {
 
 export const save_initial = (values, navigate) => async dispatch => {
     try {
+        let id = values?.id || 0;
         let payload = {
-            "AM_Assign_ID": 0,
+            "AM_Assign_ID": id,
             "AM_Assign_Name": values?.name || "",
             "AM_Assign_Details": values?.remarks || "",
-            "AM_Assign_MakeID": values?.make?.value,
+            "AM_Assign_MakeID": JSON.stringify(values?.make),
             "AM_Assign_ModelID": JSON.stringify(values?.model || []),
             "AM_Assign_YearFrom": values?.from | "",
             "AM_Assign_YearTo": values?.to || "",
             "AM_Assign_Product": JSON.stringify(values?.selected_products|| []),
             "AM_Assign_RepairOption": (values.garage && values?.agency) ? 3 : values.garage ? 2 : values.agency ? 1 : null,
-            "AM_Assign_ToUser": values?.user.value,
+            "AM_Assign_ToUser": values?.user.val,
         };
-        let { data } = await instance.post(`/api/AuthorityMatrix/AuthorityMatrix`, payload);
+        let { data } = id ? await instance.put(`/api/AuthorityMatrix/AuthorityMatrix`, payload) : await instance.post(`/api/AuthorityMatrix/AuthorityMatrix`, payload);
         successAlert({ title: "Success", text: data })
         navigate('/admin/rules');
     } catch (error) {
@@ -203,18 +212,19 @@ export const save_initial = (values, navigate) => async dispatch => {
 
 export const save_after = (values, navigate) => async dispatch => {
     try {
+        let id = values?.id || 0;
         let payload = {
-            "AM_Assess_ID": 0,
+            "AM_Assess_ID": id,
             "AM_Assess_Name": values?.name || "",
             "AM_Assess_Details": values?.remarks || "",
             "AM_Assess_Type": values?.type === "claim" ? true : false,
             "AM_Assess_AmountFrom": values?.from || "",
             "AM_Assess_AmountTo": values?.to || "",
             "AM_Assess_AssignType": values?.assign_to.value === 1 ? true : false,
-            "AM_Assess_AssignUser": values?.user?.value || null,
+            "AM_Assess_AssignUser": JSON.stringify(values?.user) || null,
             "AMatrixAssess_Service": values?.selected_services?.map(servs => { return { "AMA_Service_Code": servs.value, "AMA_Service_Type": values?.service_type === "include", } }) || []
         };
-        let { data } = await instance.post(`/api/AuthorityMatrix/InitialAssessment`, payload);
+        let { data } = id ? await instance.put(`/api/AuthorityMatrix/AfterInitialAssessment`, payload) : await instance.post(`/api/AuthorityMatrix/InitialAssessment`, payload);
         successAlert({ title: "Success", text: data })
         navigate('/admin/rules');
     } catch (error) {
@@ -224,6 +234,46 @@ export const save_after = (values, navigate) => async dispatch => {
 
 
 
+export const getInitRuleDetails = (id) => async dispatch => {
+    try {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'rule_loading',value:true}})
+        let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixId?Id=${id}`);
+        dispatch({type: SET_INIT_RULE_DETAILS, payload:data})
+
+    } catch (error) {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'rule_loading',value:false}})
+        console.log(error);
+    }
+}
 
 
+
+
+
+export const getAfterRuleDetails = (id) => async dispatch => {
+    try {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'rule_loading',value:true}})
+        let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixAssessId?Id=${id}`);
+        dispatch({type: SET_AFTER_RULE_DETAILS, payload:data});
+        
+    } catch (error) {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'rule_loading',value:false}})
+        console.log(error);
+    }
+}
+
+
+
+export const deleteRule = (navigate, id, type) => async dispatch => {
+    try {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'deleting',value:true}})
+        let { data } =  type === "1" ? await instance.delete(`/api/AuthorityMatrix/AuthorityMatrix?Id=${id}`) : await instance.delete(`/api/AuthorityMatrix/AuthorityMatrixAssess?Id=${id}`);
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'deleting',value:false}})
+        successAlert({ title: "Success", text: data })
+        navigate('/admin/rules');
+    } catch (error) {
+        dispatch({type:SET_ADD_RULE_ROOT_VALUES, payload:{name:'deleting',value:false}})
+        console.log(error);
+    }
+}
 
