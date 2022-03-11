@@ -22,6 +22,8 @@ import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function Products() {
   //Permission Control
@@ -232,7 +234,7 @@ function Products() {
                       autoComplete="off"
                     />
                     <button type="submit">
-                      <i className="fas fa-search" />
+                    <FontAwesomeIcon icon={faSearch} />
                     </button>
 
                     <select
