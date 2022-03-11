@@ -43,7 +43,8 @@ const initialState = {
             from: 2000,
             to: 2012,
             service_type: "include",
-            selected_services: [{ label: "All Services", value: 0 }],
+            // selected_services: [{ label: "All Services", value: 0 }],
+            selected_services: [],
             assign_to: { label: "Auto", value: 1 },
             user: null,
             remarks: ""
