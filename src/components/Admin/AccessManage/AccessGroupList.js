@@ -5,8 +5,8 @@ import { useSearchParams } from 'react-router-dom';
 
 function AccessGroupList() {
     let [searchParams, setSearchParams] = useSearchParams();
-    const { access_groups, roles } = useSelector(state => state.usersScreenReducer);
-
+    const { access_groups, roles, userValues } = useSelector(state => state.usersScreenReducer);
+    const { search_text } = userValues;
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
 
@@ -39,7 +39,7 @@ function AccessGroupList() {
                                 <li className="table-data-7">Edit</li>
                                 <li className="table-data-7">View</li>
                             </ul>
-                            {access_groups.map((ag) => (
+                            {access_groups.filter((recrd) => recrd.GroupName.toUpperCase().startsWith(search_text.toUpperCase())).map((ag) => (
                                 <ul key={ag.Id} className="ltn__select-availability-table-row">
                                     <li className="table-data-6">
                                         <strong>

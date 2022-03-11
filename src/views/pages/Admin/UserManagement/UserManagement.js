@@ -229,13 +229,15 @@ function UserManagement() {
                                         <button type="submit">
                                             <FontAwesomeIcon icon={faSearch} />
                                         </button>
-                                        <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
-                                            <option disabled value={""}>Search By</option>
-                                            {search_options.map((op) => (
-                                                <option key={op.value} value={op.value}>{op.label}</option>
+                                        {searchParams.get("tab") === "0" &&
+                                            <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
+                                                <option disabled value={""}>Search By</option>
+                                                {search_options.map((op) => (
+                                                    <option key={op.value} value={op.value}>{op.label}</option>
 
-                                            ))}
-                                        </select>
+                                                ))}
+                                            </select>
+                                        }
                                     </form>
 
                                 </div>
@@ -243,17 +245,19 @@ function UserManagement() {
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        <li>
-                                            <div className="short-by text-center">
-                                                <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
-                                                    <option disabled value={""}>Sort By</option>
-                                                    {search_options.map((op) => (
-                                                        <option key={op.value} value={op.value}>{op.label}</option>
+                                        {searchParams.get("tab") === "0" &&
+                                            <li>
+                                                <div className="short-by text-center">
+                                                    <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
+                                                        <option disabled value={""}>Sort By</option>
+                                                        {search_options.map((op) => (
+                                                            <option key={op.value} value={op.value}>{op.label}</option>
 
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </li>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            </li>
+                                        }
 
                                         {/* <li>
                                             <div className="short-by text-center">

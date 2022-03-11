@@ -159,6 +159,36 @@ const ViewProvider = () => {
                     </div>
 
 
+
+                    <div class="ltnd__block-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ltnd__block-item mt-30">
+                                        <div class="ltnd__title ltnd__title-2">
+                                            <h4>Locations</h4>
+                                        </div>
+                                        <div class="ltn__block-item-info">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    {selected_locations?.map(loc => (
+                                                        <div class="garage-details-single-item mb-40">
+                                                            <h6 class="ltnd__title-3 mb-10">{loc?.name || ""}</h6>
+                                                            <ul>
+                                                                <li>{loc?.street_address || ""}</li>
+                                                            </ul>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             }
         </>
