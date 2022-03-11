@@ -186,7 +186,7 @@ const addRuleScreenReducer = (state = initialState, action) => {
         }
 
         case SET_AFTER_RULE_DETAILS : {
-            let payload = action.payload[0];
+            let payload = action.payload;
             let user = {label:`${payload?.UserName || ""}`, value:payload?.AM_Assess_AssignUser || ""};
             let assign_to = payload.AM_Assess_AssignType ?{ label: "Auto", value: 1 }:{ label: "Manual", value: 2 };
             let selected_services = payload.AMatrixAssess_Service.map(srvs=> {return {label:srvs.Service, value:srvs.AMA_Service_Code}});
