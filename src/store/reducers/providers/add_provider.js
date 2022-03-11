@@ -126,8 +126,25 @@ const addProviderScreenReducer = (state = initialState, action) => {
 
 
         case CLEAR_ADD_PROVIDER_STATE: {
-            return { ...initialState };
-        }
+            return {
+                ...state,
+                tab1:{
+                    ...state.tab1,
+                    ...initialState.tab1,
+                    contacts:[]
+                },
+                tab2:{
+                    ...state.tab2,
+                    ...initialState.tab2,
+                    selected_service_types:[] 
+                },
+                tab3:{
+                    ...state.tab3,
+                    ...initialState.tab3,
+                    selected_locations:[]
+                }
+                }
+            };
 
         case CHANGE_TAB: {
             return { ...state, selectedTab: action.payload }
