@@ -161,7 +161,7 @@ const addRuleScreenReducer = (state = initialState, action) => {
             let model = JSON.parse(payload.AM_Assign_ModelID);
             let selected_products = JSON.parse(payload.AM_Assign_Product);
             let make = JSON.parse(payload.AM_Assign_MakeID);
-            let user = {label:`User ${payload?.AM_Assign_ToUser || ""}`, value:payload?.AM_Assign_ToUser || ""};
+            let user = {label:`${payload?.UserName || ""}`, value:payload?.AM_Assign_ToUser || ""};
             return { 
                 ...state,
                 initials:{
@@ -187,9 +187,9 @@ const addRuleScreenReducer = (state = initialState, action) => {
 
         case SET_AFTER_RULE_DETAILS : {
             let payload = action.payload[0];
-            let user = {label:`User ${payload?.AM_Assign_ToUser || ""}`, value:payload?.AM_Assign_ToUser || ""};
+            let user = {label:`${payload?.UserName || ""}`, value:payload?.AM_Assess_AssignUser || ""};
             let assign_to = payload.AM_Assess_AssignType ?{ label: "Auto", value: 1 }:{ label: "Manual", value: 2 };
-            let selected_services = payload.AMatrixAssess_Service.map(srvs=> {return {label:`Service ${srvs.AMA_Service_Code}`, value:srvs.AMA_Service_Code}});
+            let selected_services = payload.AMatrixAssess_Service.map(srvs=> {return {label:srvs.Service, value:srvs.AMA_Service_Code}});
             let service_type = payload.AMatrixAssess_Service[0].AMA_Service_Type ? "include" : 'exclude';
             return { 
                 ...state,

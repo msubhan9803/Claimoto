@@ -198,7 +198,7 @@ export const save_initial = (values, navigate) => async dispatch => {
             "AM_Assign_YearTo": values?.to || "",
             "AM_Assign_Product": JSON.stringify(values?.selected_products|| []),
             "AM_Assign_RepairOption": (values.garage && values?.agency) ? 3 : values.garage ? 2 : values.agency ? 1 : null,
-            "AM_Assign_ToUser": values?.user.val,
+            "AM_Assign_ToUser": values?.user.value,
         };
         let { data } = id ? await instance.put(`/api/AuthorityMatrix/AuthorityMatrix`, payload) : await instance.post(`/api/AuthorityMatrix/AuthorityMatrix`, payload);
         successAlert({ title: "Success", text: data })
