@@ -98,7 +98,8 @@ const initialState = {
         access_group: "",
         name: "",
         modules: [],
-        module: ""
+        module: "",
+        status:false
     },
     modules: [],
     actions: [],
@@ -310,7 +311,8 @@ const usersScreenReducer = (state = initialState, action) => {
                     name: group_details?.GroupName || "",
                     access_group: group_details ? { label: InheritAccessGroup?.GroupName ||  "", value: InheritAccessGroup?.Id || "" } : "",
                     modules: modules.map((mod) => { return { label: mod.ModuleMenuName, value: mod.Id } }),
-                    loading: false
+                    loading: false,
+                    status:group_details?.IsActive || false
                 },
             }
         }

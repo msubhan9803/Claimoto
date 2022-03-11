@@ -26,7 +26,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
     const { accessValues, modules_access_groups, modules_actions, access_groups, actions } = useSelector(state => state.usersScreenReducer);
-    const { access_group, name, modules, module, loading } = accessValues;
+    const { access_group, name, modules, module, loading, status } = accessValues;
     const { register, handleSubmit, formState: { errors }, control } = useForm(
         { mode: "onChange" }
     );
@@ -98,7 +98,32 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
     }, [access_group]);
 
     const _deleteAction = () => {
-        dispatch(deleteGroup(id));
+        //Just for Demo Will change it accordingly
+        let selected_modules = modules.map((mod) => {
+            let module_id = mod.value;
+            let selectedActions = modules_actions.filter(act => act.ModuleId === mod.value && act.status);
+            return {
+                ModuleId: module_id,
+                Actions: selectedActions
+            }
+        });
+
+
+
+
+        // dispatch(deleteGroup(id));
+        let payload = {
+            IsActive:!status,
+            Edit: edit,
+            AccessGroupId: id,
+            GroupName: name,
+            GroupDetails: "",
+            GroupType: "",
+            InheritAccessGroupId: access_group.value,
+            Modules: selected_modules
+        }
+        dispatch(addUpdateAccessGroup(payload));
+
         toggleModal();
         setTimeout(() => {
             dispatch(getAccessRoles());
@@ -111,7 +136,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
             confirmAlert({
                 title: "Are you sure?",
                 text: "",
-                buttonText: "Yes, Deactivate it",
+                buttonText: "Yes, Change it",
                 action: _deleteAction
             });
         }
@@ -304,16 +329,30 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                 <div className="row">
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
+
+                                                            <div className="ltn__table-active-status clearfix">
+
+                                                            </div>
+
+
                                                             <div className="ltnd__left btn-normal">
-                                                                {!view && pre_actions.includes("DELETE") && <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>}
+                                                                {edit && pre_actions.includes("DELETE") &&
+                                                                    <div className="ltn__checkbox-radio-group inline">
+                                                                        <label className="ltn__switch-2">
+                                                                            <input type="checkbox" disabled={view} role="button" onChange={_deleteGroup} checked={status} />
+                                                                            <i className="lever" />
+                                                                        </label>
+                                                                    </div>
+                                                                }
+                                                                {/* {!view && pre_actions.includes("DELETE") && <a onClick={_deleteGroup} className="ltn__color-1" role="button"><i className="ti-trash"></i> Delete</a>} */}
                                                             </div>
                                                             <div className="ltnd__right btn-normal">
-                                                                
-                                                                    <div className="btn-wrapper">
-                                                                <a onClick={toggleModal} role="button" className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a>
-                                                                        {!view &&<button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>}
-                                                                    </div>
-                                                                
+
+                                                                <div className="btn-wrapper">
+                                                                    <a onClick={toggleModal} role="button" className="ltn__color-1"><i className="ti-angle-left"></i> Cancel</a>
+                                                                    {!view && <button type="submit" className="btn theme-btn-1 btn-round-12">Save</button>}
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
