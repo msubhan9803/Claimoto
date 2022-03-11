@@ -74,30 +74,29 @@ const AfterRuleList = () => {
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-5">Name</li>
-                                            <li className="table-data-5">Type</li>
-                                            <li className="table-data-5">Amount</li>
-                                            <li className="table-data-6"> Services Count</li>
+                                            <li className="table-data-2">Type</li>
+                                            <li className="table-data-6">Amount</li>
+                                            <li className="table-data-2"> Services Count</li>
                                             <li className="table-data-10">Assigned To</li>
-                                            <li className="table-data-7">Created Date</li>
+                                            <li className="table-data-10">Created Date</li>
                                             <li className="table-data-7">View</li>
                                             <li className="table-data-7">EDIT</li>
                                         </ul>
                                         {list.filter((recrd) => recrd.AM_Assess_Name.toUpperCase().startsWith(search_text.toUpperCase())).map(record => {
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
-                                                    <li className="table-data-1">
+                                                    <li className="table-data-5">
                                                         <strong>
                                                             {record?.AM_Assess_Name || ""}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-3">{record?.AM_Assess_Type ? "Claim" : "Service"}</li>
-                                                    <li className="table-data-3">{`${record?.AM_Assess_AmountFrom}-${record?.AM_Assess_AmountTo}`}</li>
-                                                    <li className="table-data-4">{record?.Service_Count | ""}</li>
-                                                    <li className="table-data-4">{record?.Service_Count | ""}</li>
-                                                    <li className="table-data-6">
+                                                    <li className="table-data-2">{record?.AM_Assess_Type ? "Claim" : "Service"}</li>
+                                                    <li className="table-data-6">{`$${record?.AM_Assess_AmountFrom?.toFixed(2)}-$${record?.AM_Assess_AmountTo?.toFixed(2)}`}</li>
+                                                    <li className="table-data-2">{record?.Service_Count | ""}</li>
+                                                    <li className="table-data-10">
                                                         {record?.AM_Assess_AssignUser || ""}
                                                     </li>
-                                                    <li className="table-data-6">
+                                                    <li className="table-data-10">
                                                         {formatDateTime(record?.CreatedDate)?.dateTime || ""}
                                                     </li>
                                                     <li className="table-data-7">
