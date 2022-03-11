@@ -221,7 +221,7 @@ export const save_after = (values, navigate) => async dispatch => {
             "AM_Assess_AmountFrom": values?.from || "",
             "AM_Assess_AmountTo": values?.to || "",
             "AM_Assess_AssignType": values?.assign_to.value === 1 ? true : false,
-            "AM_Assess_AssignUser": JSON.stringify(values?.user) || null,
+            "AM_Assess_AssignUser": values?.user.value || null,
             "AMatrixAssess_Service": values?.selected_services?.map(servs => { return { "AMA_Service_Code": servs.value, "AMA_Service_Type": values?.service_type === "include", } }) || []
         };
         let { data } = id ? await instance.put(`/api/AuthorityMatrix/AfterInitialAssessment`, payload) : await instance.post(`/api/AuthorityMatrix/InitialAssessment`, payload);
