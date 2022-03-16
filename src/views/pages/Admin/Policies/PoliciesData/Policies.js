@@ -233,7 +233,7 @@ function Policies() {
                     <li>
                       <div className="short-by text-center">
                         <select onChange={_download} name="sort_name" value={""} className="nice-select">
-                          <option disabled value={""}>Downlaod</option>
+                          <option disabled value={""}>download</option>
                           <option value={1} >
                             CSV
                           </option>
