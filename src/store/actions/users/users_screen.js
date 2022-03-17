@@ -121,6 +121,9 @@ export const getModules = (id) => async dispatch => {
 
 export const getUsers = ({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
+        if(!search_text){search_text = ""}
+        if(!sort_name){sort_name = ""}
+        if(!search_option){search_option = ""}
         dispatch({
             type: SET_USERS_REQUEST,
             payload: true

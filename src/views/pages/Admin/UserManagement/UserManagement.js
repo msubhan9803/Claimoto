@@ -166,7 +166,7 @@ function UserManagement() {
     }, []);
 
     useEffect(() => {
-        if (search_text?.length > 2 && search_option !== "" || search_text === "") {
+        if (search_text?.length > 2 && (search_option !== "" || search_text === "")) {
             dispatch(getUsers({ users_per_page, users_page_index: 1, search_text, search_option, sort_name, sort_type }));
         }
     }, [search_text, search_option, sort_name])
