@@ -33,7 +33,31 @@ instance.interceptors.request.use(
 
 //Error Handling
 instance.interceptors.response.use(
-  res => res,
+  res => {
+    try {
+      //If Response Obj Implemented
+      if (res.data.status) {
+        //If Status is 200
+        if (res.data.status === 200) {
+          //If Not Getting Data
+          if (res.data.data !== null) {
+            //Returing Data
+            return { data: res.data?.data };
+          } else {
+            //Returning Message
+            return { data: res.data?.message };
+          }
+        } else {
+          //Response Obj not Implemented
+          msgAlert({ title: "Server Error", text: res.data?.message || "API Error Contact Support" });
+        }
+      } else {
+        return res;
+      }
+    } catch {
+      return res;
+    }
+  },
   err => {
     if (err.response.status === 500) {
       msgAlert({ title: "Server Error", text: err.response?.data?.Message || "Server Error" });
