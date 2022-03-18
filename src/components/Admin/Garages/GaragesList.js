@@ -80,6 +80,7 @@ const GaragesList = () => {
                                             <li className="table-data-3">POC name</li>
                                             <li className="table-data-4">Contact number</li>
                                             <li className="table-data-6">Garage address</li>
+                                            <li className="table-data-7">Services </li>
                                             <li className="table-data-7">Edit </li>
                                             <li className="table-data-8">Details</li>
                                         </ul>
@@ -97,6 +98,14 @@ const GaragesList = () => {
                                                     <li className="table-data-6">
                                                         {record?.StreetAddress || ""}
                                                     </li>
+                                                    <li className="table-data-7 text-primary">
+                                                        {garage_actions?.includes("VIEW") &&
+                                                            <strong>
+                                                                <Link to={`/admin/view_provider_services/garage/${record.Id}?tab=0`} >Services</Link>
+                                                            </strong>
+                                                        }
+                                                    </li>
+                                                    
                                                     <li className="table-data-7">
                                                         {garage_actions?.includes("UPDATE") &&
                                                             <strong>

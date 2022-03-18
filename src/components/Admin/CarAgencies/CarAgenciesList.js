@@ -81,6 +81,7 @@ function CarAgenciesList() {
                                         <li className="table-data-3">POC name</li>
                                         <li className="table-data-4">Contact number</li>
                                         <li className="table-data-6">Car Agency address</li>
+                                        <li className="table-data-7">Services </li>
                                         <li className="table-data-7">Edit </li>
                                         <li className="table-data-8">Details</li>
                                     </ul>
@@ -96,6 +97,13 @@ function CarAgenciesList() {
                                                 <li className="table-data-3">{record?.FullName || ""}</li>
                                                 <li className="table-data-4">{record?.PhoneNumber || ""}</li>
                                                 <li className="table-data-6">{record?.StreetAddress | ""}</li>
+                                                <li className="table-data-7 text-primary">
+                                                    {car_agency_actions?.includes("VIEW") &&
+                                                        <strong>
+                                                            <Link to={`/admin/view_provider_services/car%20agency/${record.Id}?tab=0`} >Services</Link>
+                                                        </strong>
+                                                    }
+                                                </li>
                                                 <li className="table-data-7">
                                                     {car_agency_actions?.includes("UPDATE") &&
                                                         <strong>

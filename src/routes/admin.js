@@ -23,6 +23,7 @@ import SmtpTimezoneManagement from 'views/pages/Admin/Setting/SmtpTimezoneManage
 import ViewProvider from "components/Admin/Providers/ViewProvider";
 import AddRule from "views/pages/Admin/Rules/AddRule";
 import Rules from "views/pages/Admin/Rules/Rules";
+import ViewProviderServices from "components/Admin/Providers/ViewProviderServices";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -92,6 +93,12 @@ export const adminRoutes = ({ userPermissions }) => {
           name: "View Provider",
           path: "/view_provider/:type/:id",
           component: <ViewProvider />,
+          layout: "admin",
+        },
+        {
+          name: "View Provider Services",
+          path: "/view_provider_services/:type/:id",
+          component: <ViewProviderServices />,
           layout: "admin",
         },
       ]

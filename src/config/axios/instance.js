@@ -6,10 +6,17 @@ import history from 'utils/history';
 import { localStorageVarible } from 'variables';
 
 
+const sleepRequest = (milliseconds, originalRequest) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(instance(originalRequest)), milliseconds);
+  });
+};
+
 
 const instance = axios.create({
   // .. where we make our configurations
   baseURL: process.env.REACT_APP_API_ENVIROMENT,
+  maxRedirects:4,
   headers: {
     Authorization: `Bearer ${localStorage.getItem(localStorageVarible)}`
   }
@@ -35,6 +42,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   res => {
     try {
+
+
       //If Response Obj Implemented
       if (res.data.status) {
         //If Status is 200
@@ -59,6 +68,14 @@ instance.interceptors.response.use(
     }
   },
   err => {
+
+    const { config, response: { status } } = err;
+    const originalRequest = config;
+
+    if (status === 420) {
+      return sleepRequest(1000, originalRequest);
+    }
+
     if (err.response.status === 500) {
       msgAlert({ title: "Server Error", text: err.response?.data?.Message || "Server Error" });
 
