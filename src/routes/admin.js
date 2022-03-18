@@ -24,6 +24,7 @@ import ViewProvider from "components/Admin/Providers/ViewProvider";
 import AddRule from "views/pages/Admin/Rules/AddRule";
 import Rules from "views/pages/Admin/Rules/Rules";
 import ViewProviderServices from "components/Admin/Providers/ViewProviderServices";
+import ViewProviderServicesPrices from "components/Admin/Providers/ServicePrices/ServicePrice";
 
 // import NotFound from 'views/pages/404/404'
 // import DragAndDrop from 'components/DragAndDrop/DrapAndDrop'
@@ -100,6 +101,14 @@ export const adminRoutes = ({ userPermissions }) => {
           path: "/view_provider_services/:type/:id",
           component: <ViewProviderServices />,
           layout: "admin",
+        },
+        {
+          name: "View Provider Services Prices",
+          path: "/view_provider_services_prices/:id",
+          component: <ViewProviderServicesPrices />,
+          layout: "admin",
+
+          
         },
       ]
     },

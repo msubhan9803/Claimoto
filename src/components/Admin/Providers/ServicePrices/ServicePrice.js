@@ -7,8 +7,8 @@ import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { capitalizeFirstLetter } from 'functions';
 import Header from 'components/Header/Header';
 
-const ViewProviderServices = () => {
-    const { type, id } = useParams();
+const ViewProviderServicesPrices = () => {
+    const { id } = useParams();
 
 
     const navigate = useNavigate();
@@ -21,9 +21,9 @@ const ViewProviderServices = () => {
 
     useEffect(() => {
         if (id) {
-            _getProviderServies(id, type);
+            // _getProviderServies(id, type);
         }
-    }, [id, type]);
+    }, [id]);
 
 
 
@@ -51,7 +51,7 @@ const ViewProviderServices = () => {
 
 
 
-                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} />
+                        {/* <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} /> */}
 
 
 
@@ -62,17 +62,14 @@ const ViewProviderServices = () => {
                                 <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
-                                            <li className="table-data-3">Service Code</li>
-                                            <li className="table-data-1">Service Name</li>
-                                            <li className="table-data-1">Service Detail</li>
-                                            <li className="table-data-3">Service Type</li>
-                                            <li className="table-data-5">Make</li>
-                                            <li className="table-data-5">Model </li>
-                                            <li className="table-data-5">Year </li>
-                                            <li className="table-data-4">Unit Cost</li>
-                                            <li className="table-data-5">Discount </li>
-                                            <li className="table-data-7">Edit</li>
-                                            <li className="table-data-7">Delete</li>
+                                            <li className="table-data-3">ID</li>
+                                            <li className="table-data-1">Provider</li>
+                                            <li className="table-data-1">Unit Price</li>
+                                            <li className="table-data-3">Start Date</li>
+                                            <li className="table-data-5">End Date</li>
+                                            <li className="table-data-5">Discount (%)</li>
+                                            <li className="table-data-5">Remarks</li>
+                                            
                                         </ul>
                                         {[1, 2, 3, 5, 6, 7, 8].map(record => {
                                             return (
@@ -93,23 +90,6 @@ const ViewProviderServices = () => {
                                                     <li className="table-data-5">{record?.StreetAddress || "Toyota"}</li>
                                                     <li className="table-data-5">{record?.StreetAddress || "Camry"}</li>
                                                     <li className="table-data-5">{record?.StreetAddress || "2017-18"}</li>
-                                                    <li className="table-data-4 text-primary">
-                                                        <Link to={`/admin/view_provider_services_prices/${record?.Id}`}>
-                                                            {record?.PhoneNumber || "190.00"}
-                                                        </Link>
-                                                    </li>
-                                                    <li className="table-data-5">{record?.StreetAddress || "15.05%"}</li>
-                                                    <li className="table-data-7 text-primary">
-                                                        <strong className='text-primary'>
-                                                            Edit
-                                                        </strong>
-                                                    </li>
-                                                    <li className="table-data-7">
-                                                        <strong className='text-danger'>
-                                                            Delete
-                                                        </strong>
-                                                    </li>
-
                                                 </ul>)
                                         })}
 
@@ -126,4 +106,4 @@ const ViewProviderServices = () => {
 }
 
 
-export default ViewProviderServices;
+export default ViewProviderServicesPrices;
