@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import Garage_Icon from "assets/img/motor/garage-logo.png";
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,31 +6,145 @@ import { setProviderDetails } from 'store/actions/provider';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { capitalizeFirstLetter } from 'functions';
 import Header from 'components/Header/Header';
+import { getProviderServices } from 'store/actions/provider/service';
+import ProviderServiceAddModal from './AddProviderService';
+import { getAllowActions } from 'functions';
 
 const ViewProviderServices = () => {
     const { type, id } = useParams();
+    //Component State
+    let initialState = {
+        openProviderModal: false,
+        openAccessModal: false,
+        edit: false,
+        view: false,
+        id: null
+    }
+    const [comState, setComState] = useState(initialState);
+    let [searchParams, setSearchParams] = useSearchParams();
 
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
-    const _getProviderServies = (id, type) => {
-
+    const _getProviderServies = () => {
+        dispatch(getProviderServices(_getProviderId()))
     }
 
     useEffect(() => {
         if (id) {
-            _getProviderServies(id, type);
+            _getProviderServies();
         }
+
     }, [id, type]);
 
 
 
+    //Permissions Controlling
+    const { permissions } = useSelector(state => state.authReducer);
+
+    let provider_actions = getAllowActions({ permissions, module_name: "AUM" });
+
+
+    //Actions
+    const _handleComActions = () => {
+        // dispatch(getModules());
+        let action = searchParams.get("action");
+        let id = searchParams.get("id");
+        switch (action) {
+            case "add_service":
+                setComState((comState) => ({
+                    ...initialState,
+                    openProviderModal: true,
+                    view: false,
+                    edit: false
+                }));
+                break;
+
+            case "edit_service":
+                setComState((comState) => ({
+                    ...initialState,
+                    openProviderModal: true,
+                    view: false,
+                    edit: true,
+                    id: id
+                }));
+                break;
+
+            default:
+                setComState(initialState);
+                break;
+        }
+
+
+        if (action) {
+            document.body.style.overflow = 'hidden';
+        }
+        else {
+            setTimeout(() => {
+                document.body.style.overflow = 'scroll';
+            }, 300);
+        }
+    }
+
+
+
+    //toggleModal
+    const _toggleModal = (action) => {
+
+        // dispatch(clearInputValues())
+
+        if (searchParams.has("action")) {
+            searchParams.delete("action");
+            searchParams.delete("id");
+            searchParams.delete("edit");
+            setSearchParams(searchParams);
+        }
+        else {
+            searchParams.set("action", action);
+            setSearchParams(searchParams);
+        };
+    }
+
+
+
+
+
+
+    const _getProviderId = () => {
+        switch (type) {
+            case "garage":
+                return 1
+                break;
+
+            case "agency":
+                return 2
+                break;
+
+            case "car agency":
+                return 3
+                break;
+
+            case "surveyor":
+                return 4
+                break;
+
+            default:
+                return 1
+                break;
+        }
+    }
+
+    useEffect(() => {
+        _handleComActions();
+    }, [searchParams]);
 
 
     return (
         <>
+            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_service")} openModal={comState.openProviderModal} />}
+
             {1 + 1 == 3 ?
                 <div style={{ textAlign: "center" }}>
                     <LoaderAnimation />
@@ -51,9 +165,7 @@ const ViewProviderServices = () => {
 
 
 
-                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} />
-
-
+                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} addButtonHandler={() => _toggleModal("add_service")} />
 
 
 
@@ -99,7 +211,7 @@ const ViewProviderServices = () => {
                                                         </Link>
                                                     </li>
                                                     <li className="table-data-5">{record?.StreetAddress || "15.05%"}</li>
-                                                    <li className="table-data-7 text-primary">
+                                                    <li role="button" onClick={() => _toggleModal("edit_service")} className="table-data-7 text-primary">
                                                         <strong className='text-primary'>
                                                             Edit
                                                         </strong>

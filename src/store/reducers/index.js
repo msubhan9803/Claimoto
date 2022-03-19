@@ -12,6 +12,7 @@ import vehiclePartsReducer from 'store/reducers/vehicleParts'
 import settingsReducer from 'store/reducers/settings'
 import rulesScreenReducer from 'store/reducers/rules';
 import addRuleScreenReducer from 'store/reducers/rules/add_rule';
+import providerServicesScreenReducer from 'store/reducers/providers/provider_service';
 
 const rootPersistConfig = {
   key: 'root',
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   settingsReducer: settingsReducer,
   rulesScreenReducer:rulesScreenReducer,
   addRuleScreenReducer:addRuleScreenReducer,
+  providerServicesScreenReducer:providerServicesScreenReducer
   
 
 })

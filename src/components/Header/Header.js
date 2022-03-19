@@ -7,7 +7,7 @@ import ExportComponent from './Export'
 import SortComponent from './Sort'
 
 
-function Header({ name, search_options, search_text, search_option, sort_name }) {
+function Header({ name, search_options, search_text, search_option, sort_name, addButtonHandler }) {
 
 
     const _handleChange = () => {
@@ -65,7 +65,7 @@ function Header({ name, search_options, search_text, search_option, sort_name })
                                         <li>
                                             <div className="btn-wrapper text-center mt-0">
                                                 <a
-                                                    // onClick={() => _toggleModal("add")}
+                                                    onClick={addButtonHandler}
                                                     className="btn theme-btn-1 btn-round-12 zindexNormal">
                                                     Add Service
                                                 </a>
