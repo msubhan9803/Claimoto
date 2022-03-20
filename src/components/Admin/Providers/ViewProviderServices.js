@@ -6,9 +6,10 @@ import { setProviderDetails } from 'store/actions/provider';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { capitalizeFirstLetter } from 'functions';
 import Header from 'components/Header/Header';
-import { getProviderServices } from 'store/actions/provider/service';
+import { getProviderServices, deleteProviderService } from 'store/actions/provider/service';
 import ProviderServiceAddModal from './AddProviderService';
 import { getAllowActions } from 'functions';
+import { confirmAlert } from 'functions';
 
 const ViewProviderServices = () => {
     const { type, id } = useParams();
@@ -111,6 +112,20 @@ const ViewProviderServices = () => {
 
 
 
+    const _deleteAction = (id) => {
+        dispatch(deleteProviderService(id));
+    }
+
+
+    const _deleteUser = (id) => {
+            confirmAlert({
+                title: "Are you sure?",
+                text: "",
+                buttonText: "Yes, Deactivate it",
+                action: _deleteAction(id)
+            });
+    }
+
 
 
     const _getProviderId = () => {
@@ -144,7 +159,7 @@ const ViewProviderServices = () => {
 
     return (
         <>
-            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_service")} openModal={comState.openProviderModal} />}
+            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_service")} openModal={comState.openProviderModal} provider_id={_getProviderId()} />}
 
             {1 + 1 == 3 ?
                 <div style={{ textAlign: "center" }}>
@@ -217,7 +232,7 @@ const ViewProviderServices = () => {
                                                             Edit
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-7">
+                                                    <li role="button" onClick={()=> _deleteUser(record?.Id)} className="table-data-7">
                                                         <strong className='text-danger'>
                                                             Delete
                                                         </strong>

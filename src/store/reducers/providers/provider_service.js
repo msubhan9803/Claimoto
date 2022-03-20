@@ -45,8 +45,8 @@ const initialState = {
         service_code:"",
         service_type:"",
         service:"",
-        make:"",
-        model:"",
+        make:{ label: "All Makes", value: 0 },
+        model:{ label: "All Models", value: 0 },
         from:"",
         to:"",
         unit_cost:0,
@@ -54,7 +54,6 @@ const initialState = {
         remarks:""
 
     },
-    loading:false,
     loading_action:false,
     success:false,
     error:false

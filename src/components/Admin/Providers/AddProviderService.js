@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { Animated } from "react-animated-css";
 import { modalStyle } from 'variables/modalCSS';
 import { useSelector, useDispatch } from 'react-redux';
-import { addService, getMakes, clearInputValues, handleAddProviderServiceInputValue, getModels, getServiceTypes,getServices } from 'store/actions/provider/service';
+import { addService, getMakes, clearInputValues, handleAddProviderServiceInputValue, getModels, getServiceTypes, getServices } from 'store/actions/provider/service';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useForm, Controller } from "react-hook-form";
@@ -20,7 +20,7 @@ import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import Loader from 'components/Loader/Loader';
 
 
-const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => {
+const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id }) => {
 
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
@@ -40,22 +40,15 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
     //Form Validtion
     const formSchema = Yup.object().shape({
         service_code: Yup.string()
-            .required('First Name is mendatory')
-            .min(3, 'First Name must be at 3 char long'),
-        service_name: Yup.string()
-            .required('Last Name is mendatory')
-            .min(3, 'Last Name must be at 3 char long'),
-        password: Yup.string().optional()
-        // .required('Password is mendatory')
-        ,
-        confirm_password: Yup.string()
-            // .required('Password is mendatory')
-            .oneOf([Yup.ref('password')], 'Passwords does not match'),
-        email: Yup.string().email().required("Email is mendatory"),
-        user_name: Yup.string()
-            .required('Username is mendatory')
-            .min(3, 'Username must be at 3 char long'),
-        phone: Yup.string().required("Phone is mendatory"),
+            .required('Service Code is mendatory')
+            .min(3, 'Service Code must be at 3 char long'),
+        from: Yup.string()
+            .required('From is mendatory'),
+        to: Yup.string()
+            .required('To is mendatory'),
+        unit_cost: Yup.string().required("Unit Cost is mendatory"),
+        discount: Yup.string()
+            .required('Discount is mendatory')
 
     });
 
@@ -81,10 +74,10 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
     const _onSubmit = data => {
         if (id) {
             //Update User
-            dispatch(addService({ serviceId: id, ...values }))
+            dispatch(addService({ serviceId: id, provider_id, ...values }))
         } else {
             //Add User
-            dispatch(addService(values));
+            dispatch(addService({ provider_id, ...values }));
         }
         // toggleModal();
     };
@@ -124,7 +117,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                 dispatch(getModels("", value?.value));
                 break;
 
-            case "service_types":
+            case "service_type":
                 //Getttig First Ten services
                 dispatch(getServices("", value?.value));
                 break;
@@ -181,7 +174,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
     useEffect(() => {
         dispatch(getMakes(""));
-        dispatch(getServiceTypes(""));
+        dispatch(getServiceTypes("", provider_id));
 
     }, []);
 
@@ -216,9 +209,10 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="ltnd__edit-table-item">
-                                        <form onSubmit={handleSubmit(_onSubmit)} className="ltnd__form-1" enctype="multipart/form-data">
+                                        <form onSubmit={handleSubmit(_onSubmit)} className="ltnd__form-1">
                                             <div className="row">
                                                 <div className="col-lg-12">
+                                                    <h6 className="ltnd__title-4 mt-2">Service Code *</h6>
                                                     <input type="text"
                                                         autoComplete='off'
                                                         {...register("service_code")}
@@ -243,7 +237,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                         inputValue={comState.values.service_type}
                                                         isDisabled={view}
                                                         components={animatedComponents}
-                                                        options={service_types.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
+                                                        options={service_types.map((option => { return { label: option.Name, value: option.Id } }))}
 
                                                     />
                                                     <ErrorMessage
@@ -266,7 +260,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                         name="service"
                                                         isDisabled={view}
                                                         components={animatedComponents}
-                                                        options={services.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
+                                                        options={services.map((option => { return { label: option.Service, value: option.Id } }))}
 
                                                     />
                                                     <ErrorMessage
@@ -292,7 +286,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                             className="mt-1"
                                                             onChange={(value) => _changeVal({ name: "make", value })}
                                                             // components={animatedComponents}
-                                                            options={[{ label: "All", value: 0 }].concat(makes.map(make => { return { label: make?.MakeName, value: make?.Id } }))}
+                                                            options={[{ label: "All Makes", value: 0 }].concat(makes.map(make => { return { label: make?.MakeName, value: make?.Id } }))}
                                                         />
                                                     </div>
                                                 </div>
@@ -315,6 +309,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">From *</h6>
                                                     <input
                                                         autoComplete='off'
                                                         {...register("from")}
@@ -327,6 +322,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">To *</h6>
                                                     <input
                                                         autoComplete='off'
                                                         {...register("to")}
@@ -341,6 +337,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
 
                                                 <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">Unit Cost *</h6>
                                                     <input
                                                         autoComplete='off'
                                                         {...register("unit_cost")}
@@ -353,6 +350,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">Discount *</h6>
                                                     <input
                                                         autoComplete='off'
                                                         {...register("discount")}
@@ -384,11 +382,12 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
 
                                             {/* <footer className="ltnd__footer-1 fixed-footer-1 bg-white mt-50"> */}
-                                            <div className="container-fluid mt-2">
-                                                <div className="row">
+                                            <div className="container-fluid mt-2 ">
+                                                <div className="row ">
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
-
+                                                            <div className="ltnd__left btn-normal">
+                                                            </div>
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
                                                                     <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
