@@ -9,6 +9,7 @@ const initialState = {
     // page_index: 1,
     count: 0,
     loading: false,
+    list_loading:false,
 
 
     search_options: [
@@ -72,7 +73,9 @@ const providerServicesScreenReducer = (state = initialState, action) => {
         case GET_PROVIDER_SERVICES: {
             return {
                 ...state,
-                list:action.payload
+                list:action.payload,
+                list_loading:false,
+                count:action.payload.length
             }
         }
             break;

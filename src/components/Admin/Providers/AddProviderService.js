@@ -72,12 +72,13 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
     const animatedComponents = makeAnimated();
 
     const _onSubmit = data => {
+        let service_type_id = services.find(srvs => srvs.Id === service.value)?.ServiceTypeId || null;
         if (id) {
             //Update User
-            dispatch(addService({ serviceId: id, provider_id, ...values }))
+            dispatch(addService({ edit_id: id, service_type_id, provider_id, ...values }))
         } else {
             //Add User
-            dispatch(addService({ provider_id, ...values }));
+            dispatch(addService({ provider_id, service_type_id , ...values }));
         }
         // toggleModal();
     };
@@ -117,10 +118,10 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                 dispatch(getModels("", value?.value));
                 break;
 
-            case "service_type":
-                //Getttig First Ten services
-                dispatch(getServices("", value?.value));
-                break;
+            // case "service_type":
+            //     //Getttig First Ten services
+            //     dispatch(getServices("", value?.value));
+            //     break;
 
             default:
                 break;
@@ -174,7 +175,8 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
     useEffect(() => {
         dispatch(getMakes(""));
-        dispatch(getServiceTypes("", provider_id));
+        // dispatch(getServiceTypes("", provider_id));
+        dispatch(getServices("", provider_id));
 
     }, []);
 
@@ -224,7 +226,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
-                                                <div className='col-lg-12 mt-2' >
+                                                {/* <div className='col-lg-12 mt-2' >
                                                     <h6 className="ltnd__title-3 mt-2">Service Type *</h6>
                                                     <Select
                                                         closeMenuOnSelect={true}
@@ -246,7 +248,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         className="errorMsg"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
-                                                </div>
+                                                </div> */}
                                                 <div className="col-lg-12 mt-2">
                                                     <h6 className="ltnd__title-3 mt-2">Service *</h6>
                                                     <Select

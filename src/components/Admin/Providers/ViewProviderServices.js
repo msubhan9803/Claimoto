@@ -93,7 +93,7 @@ const ViewProviderServices = () => {
 
 
     //toggleModal
-    const _toggleModal = (action) => {
+    const _toggleModal = (action, id) => {
 
         // dispatch(clearInputValues())
 
@@ -104,6 +104,9 @@ const ViewProviderServices = () => {
             setSearchParams(searchParams);
         }
         else {
+            if (id) {
+                searchParams.set("id", id);
+            }
             searchParams.set("action", action);
             setSearchParams(searchParams);
         };
@@ -159,7 +162,7 @@ const ViewProviderServices = () => {
 
     return (
         <>
-            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={comState.id} toggleModal={() => _toggleModal("add_service")} openModal={comState.openProviderModal} provider_id={_getProviderId()} />}
+            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')} toggleModal={() => _toggleModal("add_service", null)} openModal={comState.openProviderModal} provider_id={id} />}
 
             {1 + 1 == 3 ?
                 <div style={{ textAlign: "center" }}>
@@ -181,7 +184,7 @@ const ViewProviderServices = () => {
 
 
 
-                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} addButtonHandler={() => _toggleModal("add_service")} />
+                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} addButtonHandler={() => _toggleModal("add_service", null)} />
 
 
 
@@ -227,7 +230,7 @@ const ViewProviderServices = () => {
                                                         </Link>
                                                     </li>
                                                     <li className="table-data-5">{record?.StreetAddress || "15.05%"}</li>
-                                                    <li role="button" onClick={() => _toggleModal("edit_service")} className="table-data-7 text-primary">
+                                                    <li role="button" onClick={() => _toggleModal("edit_service", 1)} className="table-data-7 text-primary">
                                                         <strong className='text-primary'>
                                                             Edit
                                                         </strong>
