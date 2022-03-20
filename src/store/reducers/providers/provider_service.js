@@ -1,4 +1,4 @@
-import { GET_PROVIDER_SERVICES_REQUEST, GET_PROVIDER_SERVICES } from "store/types/providers";
+import { GET_PROVIDER_SERVICES_REQUEST, GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS } from "store/types/providers";
 
 const initialState = {
 
@@ -37,6 +37,27 @@ const initialState = {
     sort_name: "",
 
 
+    service_types:[],
+    services:[],
+    makes:[],
+    models:[],
+    values:{
+        service_code:"",
+        service_type:"",
+        service:"",
+        make:"",
+        model:"",
+        from:"",
+        to:"",
+        unit_cost:0,
+        discount:0,
+        remarks:""
+
+    },
+    loading:false,
+    loading_action:false,
+    success:false,
+    error:false
 
 };
 
@@ -57,6 +78,13 @@ const providerServicesScreenReducer = (state = initialState, action) => {
         }
             break;
 
+        case SET_SERVICE_PROIVDER_GETTERS :{
+            const {name, data} = action.payload;
+            return {
+                ...state,
+                [name]:data
+            }
+        }
 
         default:
             return { ...state };

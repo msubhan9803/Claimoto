@@ -18,7 +18,8 @@ const ViewProviderServices = () => {
         openAccessModal: false,
         edit: false,
         view: false,
-        id: null
+        id: null,
+        services_loading:false,
     }
     const [comState, setComState] = useState(initialState);
     let [searchParams, setSearchParams] = useSearchParams();

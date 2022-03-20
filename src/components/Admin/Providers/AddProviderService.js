@@ -1,10 +1,10 @@
-import React, { useEffect, createRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import Img from 'assets/img/testimonial/1.jpg';
 import Modal from 'react-modal';
 import { Animated } from "react-animated-css";
 import { modalStyle } from 'variables/modalCSS';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleInputValue, deleteUser, clearInputValues, getUsers } from 'store/actions/users/users_screen';
+import { addService, getMakes, clearInputValues, handleAddProviderServiceInputValue, getModels, getServiceTypes,getServices } from 'store/actions/provider/service';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useForm, Controller } from "react-hook-form";
@@ -25,6 +25,18 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
 
+    const [comState, setComState] = useState({
+        values: {
+            make: "",
+            model: "",
+            service: "",
+            service_type: ""
+        }
+    })
+
+
+
+
     //Form Validtion
     const formSchema = Yup.object().shape({
         service_code: Yup.string()
@@ -44,45 +56,24 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
             .required('Username is mendatory')
             .min(3, 'Username must be at 3 char long'),
         phone: Yup.string().required("Phone is mendatory"),
-        // attachment: Yup.mixed()
-        //     .test('fileType', 'Unsupported File Format', function (value) {
-        //         if (!value.length) return true // attachment is optional
-        //         const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
-        //         return SUPPORTED_FORMATS.includes(value.type)
-        //     })
-        //     .test('fileSize', "File Size is too large", value => {
-        //         if (!value.length) return true // attachment is optional
-        //         const sizeInBytes = 500000;//0.5MB
-        //         return value.size <= sizeInBytes;
-        //     })
 
     });
 
     const { register, handleSubmit, formState: { errors }, control } = useForm({ mode: "all", resolver: yupResolver(formSchema) });
-    const imageRef = createRef();
-    const { roles, userValues, access_groups, users_per_page, users_page_index, users_count } = useSelector(state => state.usersScreenReducer);
+    const { values, service_types, services, makes, models, loading_action, loading, success } = useSelector(state => state.providerServicesScreenReducer);
     const dispatch = useDispatch();
     const {
         service_code,
-        service_name,
-        phone,
-        email,
-        user_name,
-        access_role,
-        access_group,
-        selected_image,
-        password,
-        confirm_password,
-        loading,
-        deletingUser,
-        status,
-        search_text,
-        search_option,
-        sort_name,
-        sort_type,
-        loading_action,
-        success
-    } = userValues;
+        service_type,
+        service,
+        make,
+        model,
+        from,
+        to,
+        unit_cost,
+        discount,
+        remarks
+    } = values;
 
 
     const animatedComponents = makeAnimated();
@@ -90,67 +81,15 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
     const _onSubmit = data => {
         if (id) {
             //Update User
-            dispatch(addUser({ UserId: id, ...userValues }))
+            dispatch(addService({ serviceId: id, ...values }))
         } else {
             //Add User
-            dispatch(addUser(userValues));
+            dispatch(addService(values));
         }
         // toggleModal();
     };
 
 
-    const _deleteAction = () => {
-        dispatch(deleteUser(id));
-        toggleModal();
-    }
-
-
-    const _deleteUser = () => {
-        if (id) {
-            confirmAlert({
-                title: "Are you sure?",
-                text: "",
-                buttonText: "Yes, Deactivate it",
-                action: _deleteAction
-            });
-        }
-    }
-
-    const _handleChange = (event) => {
-        let name = event.target.name;
-        let value = event.target.value;
-        dispatch(handleInputValue({ name, value, compnnt: "user" }));
-    }
-
-    const _handleSelect = (name, value) => {
-        dispatch(handleInputValue({ name, value, compnnt: "user" }));
-    }
-
-    const _handleMultipleSelect = (value) => {
-        let name = "access_group";
-        dispatch(handleInputValue({ name, value, compnnt: "user" }));
-    }
-
-    const _onImageChange = (event) => {
-        let s_file = event.target.files[0];
-        let selectedTypes = ["image/png", "image/jpg", "image/jpeg"]
-        if (!selectedTypes.includes(s_file.type)) {
-            msgAlert({ title: "Invalid Image Type", text: "Only Png and Jpeg images are allowed" });
-            imageRef.current.value = "";
-        }
-        else if (s_file.size < 20000) {
-            msgAlert({ title: "Invalid Image Size", text: "Only > 2 MB are allowed" });
-            imageRef.current.value = "";
-        }
-        else {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                let image_type = s_file.type.split('/')[1];
-                dispatch(handleInputValue({ name: "selected_image", value: { Base64: reader.result, Type: image_type, ImageName: s_file.name, file: s_file }, compnnt: "user" }))
-            }
-            reader.readAsDataURL(s_file);
-        }
-    }
 
     const _clearState = () => {
         dispatch(clearInputValues());
@@ -169,11 +108,92 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
 
     useEffect(() => {
+        dispatch(getMakes(""));
         if (success) {
-            dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+            // dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
             toggleModal();
         }
     }, [success]);
+
+
+
+    const _changeVal = ({ name, value }) => {
+        dispatch(handleAddProviderServiceInputValue({ name, value }))
+    }
+
+
+    const _inputChangeHandler = (value, name) => {
+        if (value.length > 1) {
+            switch (name) {
+                case "make":
+                    dispatch(getMakes(value));
+                    _changeVal({ name: "model", value: "" });
+                    break;
+                case "model":
+                    dispatch(getModels(value, make.value));
+
+                    break;
+
+                case "service_type":
+                    dispatch(getServiceTypes(value));
+                    _changeVal({ name: "service", value: "" });
+                    break;
+
+                case "service":
+                    dispatch(getServices(value, service_type.value));
+
+                    break;
+
+
+            }
+        }
+
+        setComState({
+            ...comState,
+            values: {
+                ...comState.values,
+                [name]: value
+            }
+        })
+
+
+    }
+
+
+
+
+    const _handleChange = (event) => {
+        let name = event.target.name;
+
+        let value = event.target.value;
+
+        switch (name) {
+            case "make":
+                //Getttig First Ten Models
+                dispatch(getModels("", value?.value));
+                break;
+
+            case "service_types":
+                //Getttig First Ten Models
+                dispatch(getServices("", value?.value));
+                break;
+
+            default:
+                break;
+        }
+
+        _changeVal({ name, value });
+    }
+
+
+    useEffect(() => {
+        dispatch(getMakes(""));
+        dispatch(getServiceTypes(""));
+
+    }, []);
+
+
+
 
     return (
         <Modal
@@ -217,123 +237,112 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
-                                                <div className="col-lg-12 mt-2">
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("service_name", {
-                                                            required: "Service Name is required.",
-                                                            minLength: {
-                                                                value: 4,
-                                                                message: "Last Name must exceed 5 characters"
-                                                            }
-                                                        })}
-                                                        disabled={view}
-                                                        type="text" onChange={_handleChange} name="service_name" placeholder="Service name " value={service_name} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="service_name"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-12 mt-2">
-                                                    <h6 className="ltnd__title-3 mt-2">Service Details *</h6>
-                                                    <textarea rows="2">
-                                                        
-                                                    </textarea>
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="service_details"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
                                                 <div className='col-lg-12 mt-2' >
                                                     <h6 className="ltnd__title-3 mt-2">Service Type *</h6>
                                                     <Select
                                                         closeMenuOnSelect={true}
-                                                        {...register("access_role")}
-                                                        onChange={(value) => _handleSelect("access_role", value)}
-                                                        value={access_role}
+                                                        {...register("service_type")}
+                                                        onChange={(value) => _changeVal({ name: "service_type", value })}
+                                                        value={service_type}
                                                         className="mt-2"
-                                                        name="access_role"
+                                                        name="service_type"
+                                                        onInputChange={(val) => _inputChangeHandler(val, "service_type")}
+                                                        inputValue={comState.values.service_type}
                                                         isDisabled={view}
                                                         components={animatedComponents}
-                                                        options={roles.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
+                                                        options={service_types.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
 
                                                     />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="access_role"
+                                                        name="service_type"
                                                         className="errorMsg"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
-                                                <div className='col-lg-12 mt-2' >
-                                                    <h6 className="ltnd__title-3 mt-2">Make *</h6>
+                                                <div className="col-lg-12 mt-2">
+                                                    <h6 className="ltnd__title-3 mt-2">Service *</h6>
                                                     <Select
                                                         closeMenuOnSelect={true}
-                                                        {...register("access_role")}
-                                                        onChange={(value) => _handleSelect("access_role", value)}
-                                                        value={access_role}
+                                                        {...register("service")}
+                                                        onChange={(value) => _changeVal({ name: "service", value })}
+                                                        onInputChange={(val) => _inputChangeHandler(val, "make")}
+                                                        inputValue={comState.values.service}
+                                                        value={service}
                                                         className="mt-2"
-                                                        name="access_role"
+                                                        name="service"
                                                         isDisabled={view}
                                                         components={animatedComponents}
-                                                        options={roles.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
+                                                        options={services.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
 
                                                     />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="access_role"
+                                                        name="service"
                                                         className="errorMsg"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
-                                                </div>
-                                                <div className='col-lg-12 mt-2' >
-                                                    <h6 className="ltnd__title-3 mt-2">Model *</h6>
-                                                    <Select
-                                                        closeMenuOnSelect={true}
-                                                        {...register("access_role")}
-                                                        onChange={(value) => _handleSelect("access_role", value)}
-                                                        value={access_role}
-                                                        className="mt-2"
-                                                        name="access_role"
-                                                        isDisabled={view}
-                                                        components={animatedComponents}
-                                                        options={roles.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
 
-                                                    />
+                                                </div>
+
+                                                <div className='col-12'>
+                                                    <div className="form-group">
+                                                        <h6 className="ltnd__title-4 mt-2">Make *</h6>
+                                                        <Select
+                                                            value={make}
+                                                            name="make"
+                                                            inputValue={comState.values.make}
+                                                            placeholder="Select Make"
+                                                            onInputChange={(val) => _inputChangeHandler(val, "make")}
+                                                            formatGroupLabel={"User"}
+                                                            closeMenuOnSelect={true}
+                                                            className="mt-1"
+                                                            onChange={(value) => _changeVal({ name: "make", value })}
+                                                            // components={animatedComponents}
+                                                            options={[{ label: "All", value: 0 }].concat(makes.map(make => { return { label: make?.MakeName, value: make?.Id } }))}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className='col-12 '>
+                                                    <div className="form-group">
+                                                        <h6 className="ltnd__title-4 mt-2">Model *</h6>
+                                                        <Select
+                                                            value={model}
+                                                            name="model"
+                                                            inputValue={comState.values.model}
+                                                            placeholder="Select Model"
+                                                            formatGroupLabel={"model"}
+                                                            onInputChange={(val) => _inputChangeHandler(val, "model")}
+                                                            closeMenuOnSelect={true}
+                                                            className="mt-1"
+                                                            onChange={(value) => _changeVal({ name: "model", value })}
+                                                            isMulti
+                                                            // components={animatedComponents}
+                                                            options={[{ label: "All Models", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6 mt-2">
+                                                    <input
+                                                        autoComplete='off'
+                                                        {...register("from")}
+                                                        disabled={view}
+                                                        type="number" onChange={_handleChange} name="from" placeholder="From" value={from} />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="access_role"
-                                                        className="errorMsg"
+                                                        name="from"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 mt-2">
                                                     <input
                                                         autoComplete='off'
-                                                        {...register("service_details", {
-                                                            required: "Service Details is required."
-                                                        })}
+                                                        {...register("to")}
                                                         disabled={view}
-                                                        type="number" onChange={_handleChange} name="service_details" placeholder="From" value={service_name} />
+                                                        type="number" onChange={_handleChange} name="to" placeholder="To " value={to} />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="service_details"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 mt-2">
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("service_details", {
-                                                            required: "Service Details is required."
-                                                        })}
-                                                        disabled={view}
-                                                        type="number" onChange={_handleChange} name="service_details" placeholder="To " value={service_name} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="service_details"
+                                                        name="to"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
@@ -342,32 +351,40 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                 <div className="col-lg-6 mt-2">
                                                     <input
                                                         autoComplete='off'
-                                                        {...register("service_details", {
-                                                            required: "Service Details is required."
-                                                        })}
+                                                        {...register("unit_cost")}
                                                         disabled={view}
-                                                        type="number" onChange={_handleChange} name="service_details" placeholder="Unit Cost" value={service_name} />
+                                                        type="number" onChange={_handleChange} name="unit_cost" placeholder="Unit Cost" value={unit_cost} />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="service_details"
+                                                        name="unit_cost"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 mt-2">
                                                     <input
                                                         autoComplete='off'
-                                                        {...register("service_details", {
-                                                            required: "Service Details is required."
-                                                        })}
+                                                        {...register("discount")}
                                                         disabled={view}
-                                                        type="number" onChange={_handleChange} name="service_details" placeholder="Discount (%) " value={service_name} />
+                                                        type="number" onChange={_handleChange} name="discount" placeholder="Discount (%) " value={discount} />
                                                     <ErrorMessage
                                                         errors={errors}
-                                                        name="service_details"
+                                                        name="discount"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
 
+
+                                                <div className="col-lg-12 mt-2">
+                                                    <h6 className="ltnd__title-3 mt-2">Remarks</h6>
+                                                    <textarea rows="2">
+                                                        {remarks}
+                                                    </textarea>
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="remarks"
+                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                    />
+                                                </div>
 
 
                                             </div>
@@ -379,24 +396,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                 <div className="row">
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
-
-                                                            {!view && pre_actions.includes("DELETE") &&
-                                                                <div className="ltnd__left btn-normal">
-                                                                    {edit ? deletingUser ?
-                                                                        <Loader />
-                                                                        :
-                                                                        <div className="ltn__table-active-status clearfix">
-                                                                            <div className="ltn__checkbox-radio-group inline">
-                                                                                <label className="ltn__switch-2">
-                                                                                    <input type="checkbox" disabled={view} role="button" onChange={_deleteUser} checked={status === 1 ? true : false} />
-                                                                                    <i className="lever" />
-                                                                                </label>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        : ""}
-                                                                </div>
-                                                            }
 
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
