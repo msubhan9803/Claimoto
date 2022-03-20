@@ -97,56 +97,65 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
 
 
-    useEffect(() => {
-        if (edit && id) {
-            dispatch(getUserDetails(parseInt(id)));
-        }
-        return () => {
-            _clearState();
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (edit && id) {
+    //         dispatch(getUserDetails(parseInt(id)));
+    //     }
+    //     return () => {
+    //         _clearState();
+    //     }
+    // }, []);
 
 
     useEffect(() => {
-        dispatch(getMakes(""));
-        if (success) {
-            // dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-            toggleModal();
-        }
+        // dispatch(getMakes(""));
+        // if (success) {
+        //     // dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+        //     toggleModal();
+        // }
     }, [success]);
 
 
 
     const _changeVal = ({ name, value }) => {
+        switch (name) {
+            case "make":
+                //Getttig First Ten Models
+                dispatch(getModels("", value?.value));
+                break;
+
+            case "service_types":
+                //Getttig First Ten services
+                dispatch(getServices("", value?.value));
+                break;
+
+            default:
+                break;
+        }
+
         dispatch(handleAddProviderServiceInputValue({ name, value }))
     }
 
 
     const _inputChangeHandler = (value, name) => {
-        if (value.length > 1) {
-            switch (name) {
-                case "make":
-                    dispatch(getMakes(value));
-                    _changeVal({ name: "model", value: "" });
-                    break;
-                case "model":
-                    dispatch(getModels(value, make.value));
-
-                    break;
-
-                case "service_type":
-                    dispatch(getServiceTypes(value));
-                    _changeVal({ name: "service", value: "" });
-                    break;
-
-                case "service":
-                    dispatch(getServices(value, service_type.value));
-
-                    break;
-
-
-            }
-        }
+        // if (value.length > 1) {
+        //     switch (name) {
+        //         case "make":
+        //             dispatch(getMakes(value));
+        //             _changeVal({ name: "model", value: "" });
+        //             break;
+        //         case "model":
+        //             dispatch(getModels(value, make.value));
+        //             break;
+        //         case "service_type":
+        //             dispatch(getServiceTypes(value));
+        //             _changeVal({ name: "service", value: "" });
+        //             break;
+        //         case "service":
+        //             dispatch(getServices(value, service_type.value));
+        //             break;
+        //     }
+        // }
 
         setComState({
             ...comState,
@@ -164,23 +173,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
 
     const _handleChange = (event) => {
         let name = event.target.name;
-
         let value = event.target.value;
-
-        switch (name) {
-            case "make":
-                //Getttig First Ten Models
-                dispatch(getModels("", value?.value));
-                break;
-
-            case "service_types":
-                //Getttig First Ten Models
-                dispatch(getServices("", value?.value));
-                break;
-
-            default:
-                break;
-        }
 
         _changeVal({ name, value });
     }
@@ -316,7 +309,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view }) => 
                                                             closeMenuOnSelect={true}
                                                             className="mt-1"
                                                             onChange={(value) => _changeVal({ name: "model", value })}
-                                                            isMulti
                                                             // components={animatedComponents}
                                                             options={[{ label: "All Models", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
                                                         />

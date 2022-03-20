@@ -1,4 +1,4 @@
-import { GET_PROVIDER_SERVICES_REQUEST, GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS } from "store/types/providers";
+import { GET_PROVIDER_SERVICES_REQUEST, GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS, SET_SERVICE_PROIVDER_VALUES } from "store/types/providers";
 
 const initialState = {
 
@@ -83,6 +83,19 @@ const providerServicesScreenReducer = (state = initialState, action) => {
             return {
                 ...state,
                 [name]:data
+            }
+        }
+
+        break;
+
+        case SET_SERVICE_PROIVDER_VALUES : {
+            const {name, value} = action.payload;
+            return {
+                ...state,
+                values:{
+                    ...state.values,
+                    [name]:value
+                }
             }
         }
 
