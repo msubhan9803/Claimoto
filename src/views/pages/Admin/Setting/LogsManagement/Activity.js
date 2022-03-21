@@ -72,7 +72,7 @@ const Activity = () => {
           <div class="row">
             <div class="col-lg-9">
               <div class="ltnd__page-title-area">
-                <h2>Activity</h2>
+                <h2>Audit Logs</h2>
                 <p class="page-back-btn">
                   <Link to="/admin/settings">
                     <i className="icon-left-arrow-1" /> Back

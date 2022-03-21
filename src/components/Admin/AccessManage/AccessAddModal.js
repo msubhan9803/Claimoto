@@ -219,6 +219,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                             <div className="input-item">
                                                 <h6 className="ltnd__title-3">Access Group Name <span className={errors.name && "errorMsg"}>*</span></h6>
                                                 <input disabled={view} type="text"
+                                                className='mt-3'
                                                     aria-invalid={errors.name ? "true" : "false"}
                                                     autoComplete="off"
                                                     {...register("name", {
@@ -248,6 +249,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                     name="access_group"
                                                     value={access_group}
                                                     isDisabled={view}
+                                                    className="mt-3"
                                                     onChange={(event) => _handleSelect(event, "access_group")}
                                                     options={access_groups.filter(ag => ag.IsDefault).map((option => { return { label: option?.GroupName || "", value: option.Id } }))}
                                                     closeMenuOnSelect={true}
@@ -279,6 +281,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                         isMulti
                                                         // isDisabled={view}
                                                         menuPlacement="top"
+                                                        className='mt-3'
                                                         menuIsOpen={false}
                                                         blurInputOnSelect={true}
                                                         components={{ MultiValueLabel: _multiValueLabel }}
@@ -293,6 +296,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                         isMulti
                                                         // isDisabled={view}
                                                         menuPlacement="top"
+                                                        className='mt-3'
                                                         blurInputOnSelect={true}
                                                         components={{ MultiValueLabel: _multiValueLabel }}
                                                         onChange={(event) => _handleSelect(event, "modules")}
@@ -313,7 +317,7 @@ const AccessAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
                                             <div className="row">
                                                 <div className="col-lg-12">
-                                                    <h4>{module?.label || ""}</h4>
+                                                    <h4>{module ? `${module?.label} Actions` : ""} </h4>
                                                     <div className="ltn__checkbox-radio-group inline mt-30">
                                                         {modules_actions.filter(act => act.ModuleId === module.value).map((act) => (
                                                             <label className="ltn__switch-2"><input type="checkbox" disabled={view} onChange={_handleChange} name="actions" value={act.Id} checked={act?.status || false} /> <i className="lever"></i> <span className="text">{_getActionName(act.ActionId)}</span></label>

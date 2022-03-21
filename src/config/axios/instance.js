@@ -73,7 +73,7 @@ instance.interceptors.response.use(
     const originalRequest = config;
 
     if (status === 420) {
-      return sleepRequest(1000, originalRequest);
+      return sleepRequest(5000, originalRequest);
     }
 
     if (err.response.status === 500) {

@@ -62,7 +62,7 @@ function Setting() {
                                 <i className="ti-pulse"></i>
                               </div>
                               <div className="settings-single-item-info">
-                                <h6>Acitivity</h6>
+                                <h6>Audit</h6>
                                 <p>
                                   View activity history and <br /> error logs{" "}
                                 </p>

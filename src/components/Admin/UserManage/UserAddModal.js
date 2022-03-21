@@ -220,7 +220,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                             render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                         /> */}
                                             <h6 className="ltnd__title-3 mt-2">Personal information</h6>
-                                            <div className="row">
+                                            <div className="row mt-2">
                                                 <div className="col-lg-6">
                                                     <input type="text"
                                                         autoComplete='off'
@@ -252,11 +252,11 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                     />
                                                 </div>
                                             </div>
-                                            <h6 className="ltnd__title-3 mt-2">Contact information</h6>
+                                            <h6 className="ltnd__title-3 mt-3">Contact information</h6>
                                             <input
                                                 {...register("phone")}
                                                         disabled={view}
-                                                        type="text" onChange={_handleChange}  name="phone" placeholder="079 079 1189" value={phone} />
+                                                        type="text" onChange={_handleChange} className="mt-2"  name="phone" placeholder="079 079 1189" value={phone} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="phone"
@@ -264,9 +264,9 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                             />
                                             <input
                                                 {...register("user_name")}
-                                                className="mt-2"
+                                                className="mt-3"
                                                 disabled={view}
-                                                type="text" onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
+                                                type="text"  onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="user_name"
@@ -274,7 +274,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                             />
                                             <input
                                                 {...register("email")}
-                                                className="mt-2"
+                                                className="mt-3"
                                                 disabled={view}
                                                 type="email" onChange={_handleChange} name="email" placeholder="Email" value={email} />
                                             <ErrorMessage
@@ -282,11 +282,11 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                 name="email"
                                                 render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                             />
-                                            <h6 className="ltnd__title-3 mt-2">Password Management</h6>
+                                            <h6 className="ltnd__title-3 mt-3">Password Management</h6>
 
                                             <input
                                                 {...register("password")}
-                                                className="mt-2"
+                                                className="mt-3"
                                                 disabled={view}
                                                 type="password" onChange={_handleChange} name="password" placeholder="Password" value={password} />
                                             <ErrorMessage
@@ -297,7 +297,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
                                             <input
                                                 {...register("confirm_password")}
-                                                className="mt-2"
+                                                className="mt-3"
                                                 disabled={view}
                                                 type="password" onChange={_handleChange} name="confirm_password" placeholder="Confirm Password" value={confirm_password} />
                                             <ErrorMessage
@@ -311,13 +311,14 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
 
                                             <div className="input-item">
-                                                <h6 className="ltnd__title-3 mt-2">Access role *</h6>
+                                                <h6 className="ltnd__title-3 mt-4">Access role *</h6>
                                                 <Select
                                                     closeMenuOnSelect={true}
                                                     {...register("access_role")}
                                                     onChange={(value) => _handleSelect("access_role", value)}
                                                     value={access_role}
                                                     name="access_role"
+                                                    className='mt-3'
                                                     isDisabled={view}
                                                     components={animatedComponents}
                                                     options={roles.map((option => { return { label: option.RoleName, value: option.RoleId } }))}
@@ -330,13 +331,14 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                     render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                 />
                                             </div>
-                                            <div className="input-item mt-2">
+                                            <div className="input-item mt-3">
                                                 <h6 className="ltnd__title-3 mb-2">Access Group *</h6>
                                                 <Select
                                                     value={access_group}
                                                     name="access_group"
                                                     closeMenuOnSelect={false}
                                                     isDisabled={view}
+                                                    className="mt-3"
                                                     onChange={_handleMultipleSelect}
                                                     components={animatedComponents}
                                                     isMulti
@@ -352,7 +354,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
 
                                             {/* <footer className="ltnd__footer-1 fixed-footer-1 bg-white mt-50"> */}
-                                            <div className="container-fluid">
+                                            <div className="container-fluid mt-5">
                                                 <div className="row">
                                                     <div className="col-lg-12">
                                                         <div className="ltnd__footer-1-inner pl-0 pr-0">
