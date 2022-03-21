@@ -40,17 +40,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
         service_code: Yup.string()
             .required('Service Code is mendatory')
             .min(3, 'Service Code must be at 3 char long'),
-        from: Yup.string()
-            .required('From is mendatory'),
-        // to: Yup.string()
-        //     .required('To is mendatory'),
-        unit_cost: Yup.string().required("Unit Cost is mendatory"),
-        discount: Yup.string()
-            .required('Discount is mendatory'),
-        start_date: Yup.string()
-            .required('Start Date is mendatory'),
-        end_date: Yup.string()
-            .required('End Date is mendatory'),
         remarks: Yup.string()
         //     .optional(''),
 
@@ -64,15 +53,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
         service_code,
         service_type,
         service,
-        make,
-        model,
-        from,
-        to,
-        unit_cost,
-        discount,
         remarks,
-        start_date,
-        end_date
     } = values;
 
 
@@ -115,15 +96,10 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
     const _changeVal = ({ name, value }) => {
         switch (name) {
-            case "make":
-                //Getttig First Ten Models
-                dispatch(getModels("", value?.value));
+            case "service_type":
+                //Getttig First Ten services
+                dispatch(getServices("", value?.value));
                 break;
-
-            // case "service_type":
-            //     //Getttig First Ten services
-            //     dispatch(getServices("", value?.value));
-            //     break;
 
             default:
                 break;
@@ -136,13 +112,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
     const _inputChangeHandler = (value, name) => {
         // if (value.length > 1) {
         //     switch (name) {
-        //         case "make":
-        //             dispatch(getMakes(value));
-        //             _changeVal({ name: "model", value: "" });
-        //             break;
-        //         case "model":
-        //             dispatch(getModels(value, make.value));
-        //             break;
         //         case "service_type":
         //             dispatch(getServiceTypes(value));
         //             _changeVal({ name: "service", value: "" });
@@ -176,8 +145,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
 
     useEffect(() => {
-        dispatch(getMakes(""));
-        // dispatch(getServiceTypes("", provider_id));
+        dispatch(getServiceTypes("", provider_id));
         dispatch(getServices("", provider_id));
 
     }, []);
@@ -238,7 +206,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
-                                                {/* <div className='col-lg-12 mt-2' >
+                                                <div className='col-lg-12 mt-2' >
                                                     <h6 className="ltnd__title-3 mt-2">Service Type *</h6>
                                                     <Select
                                                         closeMenuOnSelect={true}
@@ -260,7 +228,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         className="errorMsg"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
-                                                </div> */}
+                                                </div>
                                                 <div className="col-lg-12 mt-2">
                                                     <h6 className="ltnd__title-3 mt-2">Service *</h6>
                                                     <Select
@@ -284,122 +252,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
 
-                                                </div>
-
-                                                <div className='col-12'>
-                                                    <div className="form-group">
-                                                        <h6 className="ltnd__title-4 mt-2">Make *</h6>
-                                                        <Select
-                                                            value={make}
-                                                            name="make"
-                                                            inputValue={comState.values.make}
-                                                            placeholder="Select Make"
-                                                            onInputChange={(val) => _inputChangeHandler(val, "make")}
-                                                            formatGroupLabel={"User"}
-                                                            closeMenuOnSelect={true}
-                                                            className="mt-1"
-                                                            onChange={(value) => _changeVal({ name: "make", value })}
-                                                            // components={animatedComponents}
-                                                            options={[{ label: "All Makes", value: 0 }].concat(makes.map(make => { return { label: make?.MakeName, value: make?.Id } }))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className='col-12 '>
-                                                    <div className="form-group">
-                                                        <h6 className="ltnd__title-4 mt-2">Model *</h6>
-                                                        <Select
-                                                            value={model}
-                                                            name="model"
-                                                            inputValue={comState.values.model}
-                                                            placeholder="Select Model"
-                                                            formatGroupLabel={"model"}
-                                                            onInputChange={(val) => _inputChangeHandler(val, "model")}
-                                                            closeMenuOnSelect={true}
-                                                            className="mt-1"
-                                                            onChange={(value) => _changeVal({ name: "model", value })}
-                                                            // components={animatedComponents}
-                                                            options={[{ label: "All Models", value: 0 }].concat(models.map(model => { return { label: model?.ModelName, value: model?.Id } }))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">Year *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("from")}
-                                                        disabled={view}
-                                                        type="number" onChange={_handleChange} name="from" placeholder="Year" value={from} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="from"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-                                                {/* <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">To *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("to")}
-                                                        disabled={view}
-                                                        type="number" onChange={_handleChange} name="to" placeholder="To " value={to} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="to"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div> */}
-                                                <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">Start Date *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("start_date")}
-                                                        disabled={view}
-                                                        type="date" className='form-control' onChange={_handleChange} name="start_date" placeholder="Start_date" value={moment(start_date).format("YYYY-MM-DD")} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="start_date"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">End Date *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("end_date")}
-                                                        disabled={view}
-                                                        type="date" onChange={_handleChange} className="form-control" name="end_date" placeholder="End date" value={moment(end_date).format("YYYY-MM-DD")} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="end_date"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-
-                                                <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">Unit Cost *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("unit_cost")}
-                                                        disabled={view}
-                                                        type="number" onChange={_handleChange} name="unit_cost" placeholder="Unit Cost" value={unit_cost} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="unit_cost"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">Discount *</h6>
-                                                    <input
-                                                        autoComplete='off'
-                                                        {...register("discount")}
-                                                        disabled={view}
-                                                        type="number" onChange={_handleChange} name="discount" placeholder="Discount (%) " value={discount} />
-                                                    <ErrorMessage
-                                                        errors={errors}
-                                                        name="discount"
-                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
-                                                    />
                                                 </div>
 
 

@@ -1,4 +1,4 @@
-import { GET_PROVIDER_SERVICES_REQUEST,CLEAR_PROVIDER_SERVICES_STATE, GET_PROVIDER_SERVICE_DETAILS,  GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS, SET_SERVICE_PROIVDER_VALUES } from "store/types/providers";
+import { GET_PROVIDER_SERVICES_REQUEST_PRICES,CLEAR_PROVIDER_SERVICES_STATE_PRICES, GET_PROVIDER_SERVICE_DETAILS_PRICES,  GET_PROVIDER_SERVICES_PRICES, SET_SERVICE_PROIVDER_GETTERS_PRICES, SET_SERVICE_PROIVDER_VALUES_PRICES } from "store/types/providers";
 
 const initialState = {
 
@@ -14,20 +14,32 @@ const initialState = {
 
     search_options: [
         {
-            label: "Service Code",
-            value: "PSC_Code",
+            label: "Make",
+            value: "MakeName",
         },
         {
-            label: "Service Name",
-            value: "Service",
+            label: "Model",
+            value: "ModelName",
         },
         {
-            label: "Service Details",
-            value: "PSC_Description",
+            label: "Year",
+            value: "Year",
         },
         {
-            label: "Service Type",
-            value: "ServiceTypeName"
+            label: "Unit Cost",
+            value: "Price"
+        },
+        {
+            label: "Discount",
+            value: "Discount"
+        },
+        {
+            label: "Start Date",
+            value: "StartDate"
+        },
+        {
+            label: "End Date",
+            value: "EndDate"
         },
 
     ],
@@ -56,7 +68,8 @@ const initialState = {
         remarks:"",
         start_date:"",
         end_date:"",
-
+        year_all:false,
+        date_all:false
     },
     loading_action:false,
     success:false,
@@ -65,15 +78,15 @@ const initialState = {
 };
 
 
-const providerServicesScreenReducer = (state = initialState, action) => {
+const providerServicesPriceScreenReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case GET_PROVIDER_SERVICES_REQUEST: {
+        case GET_PROVIDER_SERVICES_REQUEST_PRICES: {
             return { ...state, ...action.payload }
         }
             break;
 
-        case GET_PROVIDER_SERVICES: {
+        case GET_PROVIDER_SERVICES_PRICES: {
             return {
                 ...state,
                 list:action.payload,
@@ -83,7 +96,7 @@ const providerServicesScreenReducer = (state = initialState, action) => {
         }
             break;
 
-        case SET_SERVICE_PROIVDER_GETTERS :{
+        case SET_SERVICE_PROIVDER_GETTERS_PRICES :{
             const {name, data} = action.payload;
             return {
                 ...state,
@@ -93,7 +106,7 @@ const providerServicesScreenReducer = (state = initialState, action) => {
 
         break;
 
-        case SET_SERVICE_PROIVDER_VALUES : {
+        case SET_SERVICE_PROIVDER_VALUES_PRICES : {
             const {name, value} = action.payload;
             return {
                 ...state,
@@ -104,7 +117,7 @@ const providerServicesScreenReducer = (state = initialState, action) => {
             }
         }
 
-        case CLEAR_PROVIDER_SERVICES_STATE : {
+        case CLEAR_PROVIDER_SERVICES_STATE_PRICES : {
             return {
                 ...state,
                 values:initialState.values
@@ -112,7 +125,7 @@ const providerServicesScreenReducer = (state = initialState, action) => {
         }
         break;
 
-        case GET_PROVIDER_SERVICE_DETAILS : {
+        case GET_PROVIDER_SERVICE_DETAILS_PRICES : {
             const {PS_Prices,PSC_Code, PSC_Description, ProviderService_Id, ServiceType_Id } = action.payload;
             const {
                 Discount,
@@ -149,4 +162,4 @@ const providerServicesScreenReducer = (state = initialState, action) => {
     }
 }
 
-export default providerServicesScreenReducer;
+export default providerServicesPriceScreenReducer;

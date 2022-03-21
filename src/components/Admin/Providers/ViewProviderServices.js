@@ -239,7 +239,7 @@ const ViewProviderServices = () => {
 
 
 
-                        <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={`${capitalizeFirstLetter(type)}  Services`} handleChange={_handleChange} addButtonHandler={() => _toggleModal("add_service", null)} exportData={_exportData} />
+                        <Header button_name="Add Service" search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={`${capitalizeFirstLetter(type)}  Services`} handleChange={_handleChange} addButtonHandler={() => _toggleModal("add_service", null)} exportData={_exportData} />
 
 
 
@@ -252,11 +252,7 @@ const ViewProviderServices = () => {
                                             <li className="table-data-1">Service Name</li>
                                             <li className="table-data-1">Service Detail</li>
                                             <li className="table-data-3">Service Type</li>
-                                            <li className="table-data-5">Make</li>
-                                            <li className="table-data-5">Model </li>
-                                            <li className="table-data-5">Year </li>
-                                            <li className="table-data-4">Unit Cost</li>
-                                            <li className="table-data-5">Discount </li>
+                                            <li className="table-data-4">Price</li>
                                             <li className="table-data-7">Edit</li>
                                             <li className="table-data-7">Delete</li>
                                         </ul>
@@ -275,15 +271,12 @@ const ViewProviderServices = () => {
                                                     </li>
                                                     <li className="table-data-1">{record?.PSC_Description || ""}</li>
                                                     <li className="table-data-3">{record?.ServiceTypeName || ""}</li>
-                                                    <li className="table-data-5">{record?.MakeName || ""}</li>
-                                                    <li className="table-data-5">{record?.ModelName || ""}</li>
-                                                    <li className="table-data-5">{record?.Year || ""}</li>
+                                                   
                                                     <li className="table-data-4 text-primary">
-                                                        <Link to={`/admin/view_provider_services_prices/${record?.PSC_Id}`}>
-                                                            {record?.Price || ""}
+                                                        <Link to={`/admin/view_provider_services_prices/${type}/${id}/${record?.PSC_Id}`}>
+                                                            Price
                                                         </Link>
                                                     </li>
-                                                    <li className="table-data-5">{`${record?.Discount}%` || ""}</li>
                                                     <li role="button" onClick={() => _toggleModal("edit_service", record?.PSC_Id)} className="table-data-7 text-primary">
                                                         <strong className='text-primary'>
                                                             Edit

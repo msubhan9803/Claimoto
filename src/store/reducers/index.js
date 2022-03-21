@@ -13,6 +13,7 @@ import settingsReducer from 'store/reducers/settings'
 import rulesScreenReducer from 'store/reducers/rules';
 import addRuleScreenReducer from 'store/reducers/rules/add_rule';
 import providerServicesScreenReducer from 'store/reducers/providers/provider_service';
+import providerServicesPriceScreenReducer from 'store/reducers/providers/service_prices';
 
 const rootPersistConfig = {
   key: 'root',
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
   settingsReducer: settingsReducer,
   rulesScreenReducer:rulesScreenReducer,
   addRuleScreenReducer:addRuleScreenReducer,
-  providerServicesScreenReducer:providerServicesScreenReducer
+  providerServicesScreenReducer:providerServicesScreenReducer,
+  providerServicesPriceScreenReducer:providerServicesPriceScreenReducer
   
 
 })

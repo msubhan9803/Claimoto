@@ -104,7 +104,7 @@ export const adminRoutes = ({ userPermissions }) => {
         },
         {
           name: "View Provider Services Prices",
-          path: "/view_provider_services_prices/:id",
+          path: "/view_provider_services_prices/:type/:provider_id/:service_id",
           component: <ViewProviderServicesPrices />,
           layout: "admin",
 

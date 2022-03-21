@@ -4,7 +4,7 @@ import ExportComponent from './Export'
 import SortComponent from './Sort'
 
 
-function Header({ name, search_options, sort_options,  search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
+function Header({button_name, name, search_options, sort_options,  search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
 
 
     return (
@@ -51,7 +51,7 @@ function Header({ name, search_options, sort_options,  search_text, search_optio
                                                 <a
                                                     onClick={addButtonHandler}
                                                     className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    Add Service
+                                                    {button_name}
                                                 </a>
                                             </div>
                                         </li>
