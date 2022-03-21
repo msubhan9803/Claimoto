@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from 'assets/img/logo/logo-icon-1.png';
+import logo from 'assets/img/logo/logo.png';
 export default function Sidebar(props) {
   let { routes, activeRoute } = props;
 
@@ -20,10 +20,10 @@ export default function Sidebar(props) {
                   <span className="logo-text"><img src="img/logo/logo-text-1.png" alt="Text"></span>
               </a> */}
               <a href="index.html">
-                <img src={logo} alt="Icon" />
+                <img src={logo} alt="Icon" height={70} width={300} />
                 {!logo &&
                   <span className="logo-text">
-                    Motor claims<sup>®</sup>
+                    Claimoto<sup>®</sup>
                   </span>
                 }
               </a>

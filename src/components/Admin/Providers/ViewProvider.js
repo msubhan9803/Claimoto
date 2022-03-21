@@ -166,16 +166,17 @@ const ViewProvider = () => {
                                 <div class="col-lg-12">
                                     <div class="ltnd__block-item mt-30">
                                         <div class="ltnd__title ltnd__title-2">
-                                            <h4>Locations</h4>
+                                            <h4>Contacts</h4>
                                         </div>
                                         <div class="ltn__block-item-info">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    {selected_locations?.map(loc => (
+                                                    {contacts?.map(contact => (
                                                         <div class="garage-details-single-item mb-40">
-                                                            <h6 class="ltnd__title-3 mb-10">{loc?.name || ""}</h6>
+                                                            <h6 class="ltnd__title-3 mb-10">{contact?.full_name || ""}</h6>
                                                             <ul>
-                                                                <li>{loc?.street_address || ""}</li>
+                                                                <li>{contact?.email || ""}</li>
+                                                                <li>{contact?.phone || ""}</li>
                                                             </ul>
                                                         </div>
                                                     ))}
