@@ -15,12 +15,13 @@ import Loader from 'components/Loader/Loader';
 import { getAllowActions } from 'functions';
 import { confirmAlert } from 'functions';
 import moment from "moment";
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id }) => {
-
+const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id, getProviderServices, type }) => {
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
+    const navigate = useNavigate();
 
     const [comState, setComState] = useState({
         values: {
@@ -77,14 +78,20 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
     const animatedComponents = makeAnimated();
 
+
+    const _updateRecord = () => {
+        getProviderServices();
+        toggleModal()
+    }
+
     const _onSubmit = data => {
         let service_type_id = services.find(srvs => srvs.Id === service.value)?.ServiceTypeId || null;
         if (id) {
             //Update User
-            dispatch(addService({ edit_id: id, service_type_id, provider_id, ...values }))
+            dispatch(addService({ edit_id: id, service_type_id, provider_id, type, ...values }, _updateRecord))
         } else {
             //Add User
-            dispatch(addService({ provider_id, service_type_id, ...values }));
+            dispatch(addService({ provider_id, service_type_id, type, ...values }, _updateRecord));
         }
     };
 
@@ -398,7 +405,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
                                                 <div className="col-lg-12 mt-2">
                                                     <h6 className="ltnd__title-3 mt-2">Remarks</h6>
-                                                    <textarea  onChange={_handleChange} rows="2" name="remarks">
+                                                    <textarea onChange={_handleChange} rows="2" name="remarks">
                                                         {remarks}
                                                     </textarea>
                                                     <ErrorMessage

@@ -1,19 +1,10 @@
 import React from 'react'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import SearchComponent from './Search'
 import ExportComponent from './Export'
 import SortComponent from './Sort'
 
 
 function Header({ name, search_options, sort_options,  search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
-
-    const _download = () => {
-
-    }
-
-
 
 
     return (

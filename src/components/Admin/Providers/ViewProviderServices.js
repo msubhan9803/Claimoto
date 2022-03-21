@@ -150,6 +150,7 @@ const ViewProviderServices = () => {
 
     const _deleteAction = (id) => {
         dispatch(deleteProviderService(id));
+        _getProviderServies();
     }
 
 
@@ -216,7 +217,7 @@ const ViewProviderServices = () => {
 
     return (
         <>
-            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')} toggleModal={() => _toggleModal("add_service", null)} openModal={comState.openProviderModal} provider_id={id} />}
+            {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')} toggleModal={() => _toggleModal("add_service", null)} openModal={comState.openProviderModal} provider_id={id} getProviderServices={_getProviderServies} />}
 
             {loading_list ?
                 <div style={{ textAlign: "center" }}>

@@ -92,9 +92,9 @@ export const getServices = (text, id) => async dispatch => {
 }
 
 
-export const addService = (payload) => async dispatch => {
+export const addService = (payload, refresh_record) => async dispatch => {
     try {
-        let { provider_id, remarks, edit_id, service, service_type, service_type_id, make, model, discount, from, to, service_code, unit_cost, start_date, end_date } = payload;
+        let { provider_id, remarks, edit_id, service, service_type, service_type_id, make, model, discount, from, to, service_code, unit_cost, start_date, end_date, type } = payload;
 
         let request_payload = {
             "PSC_Id": edit_id || 0,
@@ -104,8 +104,7 @@ export const addService = (payload) => async dispatch => {
             "PSC_Description": remarks,
             "Provider_Id": provider_id,
             "PS_Prices": {
-                "PS_Price_Id": 4,
-                "PSC_Id": 11,
+                "PSC_Id": edit_id || 0,
                 "Make": make.value,
                 "Model": model.value,
                 "Year": from,
@@ -122,6 +121,8 @@ export const addService = (payload) => async dispatch => {
         dispatch({ type: SET_SERVICE_PROIVDER_GETTERS, payload: { data: true, name: "loading" } });
         let { data } = edit_id ? await instance.put(`/api/ProviderServicesContract`, request_payload) : await instance.post(`/api/ProviderServicesContract`, request_payload);
         successAlert({ title: data || "Added Successfully" });
+        refresh_record();
+        // navigate(`/admin/view_provider_services/${type}/${provider_id}`);
         dispatch({ type: SET_SERVICE_PROIVDER_GETTERS, payload: { data: false, name: "loading" } });
     } catch (error) {
         dispatch({ type: SET_SERVICE_PROIVDER_GETTERS, payload: { data: false, name: "loading" } });
