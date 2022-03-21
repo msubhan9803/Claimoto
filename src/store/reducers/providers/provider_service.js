@@ -1,4 +1,4 @@
-import { GET_PROVIDER_SERVICES_REQUEST, GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS, SET_SERVICE_PROIVDER_VALUES } from "store/types/providers";
+import { GET_PROVIDER_SERVICES_REQUEST,CLEAR_PROVIDER_SERVICES_STATE, GET_PROVIDER_SERVICE_DETAILS,  GET_PROVIDER_SERVICES, SET_SERVICE_PROIVDER_GETTERS, SET_SERVICE_PROIVDER_VALUES } from "store/types/providers";
 
 const initialState = {
 
@@ -14,21 +14,42 @@ const initialState = {
 
     search_options: [
         {
-            label: "Name",
-            value: "name",
+            label: "Service Code",
+            value: "PSC_Code",
         },
         {
-            label: "POC",
-            value: "pocname",
+            label: "Service Name",
+            value: "Service",
         },
         {
-            label: "Mobile",
-            value: "contactnumber",
+            label: "Service Details",
+            value: "PSC_Description",
         },
         {
-            label: "Address",
-            value: "Garageaddress"
-        }
+            label: "Service Type",
+            value: "ServiceTypeName"
+        },
+        {
+            label: "Make",
+            value: "MakeName",
+        },
+        {
+            label: "Model",
+            value: "ModelName",
+        },
+        {
+            label: "Year",
+            value: "Year",
+        },
+        {
+            label: "Unit Cost",
+            value: "Price"
+        },
+        {
+            label: "Discount",
+            value: "Discount"
+        },
+
     ],
 
 
@@ -52,7 +73,9 @@ const initialState = {
         to:"",
         unit_cost:0,
         discount:0,
-        remarks:""
+        remarks:"",
+        start_date:"",
+        end_date:"",
 
     },
     loading_action:false,
@@ -101,6 +124,46 @@ const providerServicesScreenReducer = (state = initialState, action) => {
             }
         }
 
+        case CLEAR_PROVIDER_SERVICES_STATE : {
+            return {
+                ...state,
+                values:initialState.values
+            }
+        }
+        break;
+
+        case GET_PROVIDER_SERVICE_DETAILS : {
+            const {PS_Prices,PSC_Code, PSC_Description, ProviderService_Id, ServiceType_Id } = action.payload;
+            const {
+                Discount,
+                End_Date,
+                Make,
+                Model,
+                Price,
+                Start_Date,
+                Year
+            } = PS_Prices;
+            return {
+                ...state,
+                loading:false,
+                values:{
+                    ...state.values,
+                    service_code:PSC_Code,
+                    remarks:PSC_Description,
+                    from: Year,
+                    discount:Discount,
+                    unit_cost:Price,
+                    start_date:new Date(Start_Date),
+                    end_date:new Date(End_Date),
+                    service_type:{label:"Label Required", value:ServiceType_Id},
+                    service:{label:"Label Required", value:ProviderService_Id},
+                    make:{label:"Label Required", value:Make},
+                    model:{label:"Label Required", value:Model},
+
+                }
+            }
+        }
+        break;
         default:
             return { ...state };
     }

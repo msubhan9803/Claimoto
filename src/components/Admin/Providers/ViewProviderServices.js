@@ -1,18 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
-import Garage_Icon from "assets/img/motor/garage-logo.png";
 import { useDispatch, useSelector } from 'react-redux';
-import { setProviderDetails } from 'store/actions/provider';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { capitalizeFirstLetter } from 'functions';
 import Header from 'components/Header/Header';
-import { getProviderServices, deleteProviderService } from 'store/actions/provider/service';
+import { getProviderServices, deleteProviderService, setValuesProviderServices } from 'store/actions/provider/service';
 import ProviderServiceAddModal from './AddProviderService';
 import { getAllowActions } from 'functions';
 import { confirmAlert } from 'functions';
+import { sortingClientSide } from 'functions';
 
 const ViewProviderServices = () => {
     const { type, id } = useParams();
+    const { list, loading_list, search_options, sort_name, search_option, search_text } = useSelector(state => state.providerServicesScreenReducer);
+    const [state, action_dispatch] = useReducer(_reducer, list);
+
+
+    function _reducer(state, action) {
+        switch (action.type) {
+            case 'search':
+                if (search_option !== "" && search_text !== "") {
+                    let new_list = list.filter(srv => srv[search_option].toUpperCase().startsWith(search_text.toUpperCase()));
+                    return new_list;
+                }
+                else {
+                    return list;
+                }
+            case 'sort':
+                if (sort_name === "Year" || sort_name === "Price" || sort_name === "Discount") {
+                    return state.sort(sortingClientSide(sort_name, true, parseInt))
+                } else {
+                    return state.sort(sortingClientSide(sort_name, false, (a) => a.toUpperCase()))
+                }
+            case 'set': {
+                return list;
+            }
+            default:
+                return list;
+        }
+    }
+
+
+    const _exportData = () => {
+        return { header: Object.keys(state), _data: state, file_name: `service_provider` };
+    }
+
+
     //Component State
     let initialState = {
         openProviderModal: false,
@@ -20,7 +53,7 @@ const ViewProviderServices = () => {
         edit: false,
         view: false,
         id: null,
-        services_loading:false,
+        services_loading: false,
     }
     const [comState, setComState] = useState(initialState);
     let [searchParams, setSearchParams] = useSearchParams();
@@ -31,7 +64,7 @@ const ViewProviderServices = () => {
 
 
     const _getProviderServies = () => {
-        dispatch(getProviderServices(_getProviderId()))
+        dispatch(getProviderServices(id))
     }
 
     useEffect(() => {
@@ -121,13 +154,30 @@ const ViewProviderServices = () => {
 
 
     const _deleteUser = (id) => {
-            confirmAlert({
-                title: "Are you sure?",
-                text: "",
-                buttonText: "Yes, Deactivate it",
-                action: _deleteAction(id)
-            });
+        confirmAlert({
+            title: "Are you sure?",
+            text: "",
+            buttonText: "Yes, Deactivate it",
+            action: () => _deleteAction(id)
+        });
     }
+
+
+    const _handleChange = (event) => {
+        event.preventDefault();
+        let name = event.target.name;
+        let value = event.target.value;
+        dispatch(setValuesProviderServices({ name, value }));
+        if (name === "sort_name") {
+            action_dispatch({ type: 'sort' });
+        }
+        else {
+            action_dispatch({ type: 'search' });
+        }
+    }
+
+
+
 
 
 
@@ -159,12 +209,16 @@ const ViewProviderServices = () => {
         _handleComActions();
     }, [searchParams]);
 
+    useEffect(() => {
+        action_dispatch({ type: "set" });
+    }, [list])
+
 
     return (
         <>
             {comState.openProviderModal && <ProviderServiceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')} toggleModal={() => _toggleModal("add_service", null)} openModal={comState.openProviderModal} provider_id={id} />}
 
-            {1 + 1 == 3 ?
+            {loading_list ?
                 <div style={{ textAlign: "center" }}>
                     <LoaderAnimation />
                 </div>
@@ -184,7 +238,7 @@ const ViewProviderServices = () => {
 
 
 
-                        <Header search_options={[]} search_text="" search_option="" name={`${capitalizeFirstLetter(type)}  Services`} addButtonHandler={() => _toggleModal("add_service", null)} />
+                        <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={`${capitalizeFirstLetter(type)}  Services`} handleChange={_handleChange} addButtonHandler={() => _toggleModal("add_service", null)} exportData={_exportData} />
 
 
 
@@ -205,37 +259,36 @@ const ViewProviderServices = () => {
                                             <li className="table-data-7">Edit</li>
                                             <li className="table-data-7">Delete</li>
                                         </ul>
-                                        {[1, 2, 3, 5, 6, 7, 8].map(record => {
+                                        {state.map(record => {
                                             return (
-                                                <ul className="ltn__select-availability-table-row">
+                                                <ul key={record?.PSC_Id} className="ltn__select-availability-table-row">
                                                     <li className="table-data-3">
                                                         <strong>
-                                                            1001
+                                                            {record.PSC_Code}
                                                         </strong>
                                                     </li>
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
-                                                            {record?.Name || "Service 1"}
+                                                            {record?.Service || ""}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-1">{record?.FullName || "Blah Blah Blah ...."}</li>
-                                                    <li className="table-data-3">{record?.FullName || "Type 1"}</li>
-                                                    <li className="table-data-5">{record?.StreetAddress || "Toyota"}</li>
-                                                    <li className="table-data-5">{record?.StreetAddress || "Camry"}</li>
-                                                    <li className="table-data-5">{record?.StreetAddress || "2017-18"}</li>
+                                                    <li className="table-data-1">{record?.PSC_Description || ""}</li>
+                                                    <li className="table-data-3">{record?.ServiceTypeName || ""}</li>
+                                                    <li className="table-data-5">{record?.MakeName || ""}</li>
+                                                    <li className="table-data-5">{record?.ModelName || ""}</li>
+                                                    <li className="table-data-5">{record?.Year || ""}</li>
                                                     <li className="table-data-4 text-primary">
-                                                        <Link to={`/admin/view_provider_services_prices/${record?.Id}`}>
-                                                            {record?.PhoneNumber || "190.00"}
+                                                        <Link to={`/admin/view_provider_services_prices/${record?.PSC_Id}`}>
+                                                            {record?.Price || ""}
                                                         </Link>
                                                     </li>
-                                                    <li className="table-data-5">{record?.StreetAddress || "15.05%"}</li>
-                                                    <li role="button" onClick={() => _toggleModal("edit_service", 1)} className="table-data-7 text-primary">
+                                                    <li className="table-data-5">{`${record?.Discount}%` || ""}</li>
+                                                    <li role="button" onClick={() => _toggleModal("edit_service", record?.PSC_Id)} className="table-data-7 text-primary">
                                                         <strong className='text-primary'>
                                                             Edit
                                                         </strong>
                                                     </li>
-                                                    <li role="button" onClick={()=> _deleteUser(record?.Id)} className="table-data-7">
+                                                    <li role="button" onClick={() => _deleteUser(record?.PSC_Id)} className="table-data-7">
                                                         <strong className='text-danger'>
                                                             Delete
                                                         </strong>

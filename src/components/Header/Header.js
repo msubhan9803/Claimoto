@@ -7,14 +7,7 @@ import ExportComponent from './Export'
 import SortComponent from './Sort'
 
 
-function Header({ name, search_options, search_text, search_option, sort_name, addButtonHandler }) {
-
-
-    const _handleChange = () => {
-
-    }
-
-
+function Header({ name, search_options, sort_options,  search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
 
     const _download = () => {
 
@@ -46,13 +39,13 @@ function Header({ name, search_options, search_text, search_option, sort_name, a
                     <div className="ltn__product-area ltn__product-gutter">
                         <div className="row">
                             <div className="col-lg-5">
-                                <SearchComponent search_options={search_options} search_text={search_text} search_option={search_option} />
+                                <SearchComponent search_options={search_options} search_text={search_text} search_option={search_option} handleChange={handleChange} />
                             </div>
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        <ExportComponent />
-                                        <SortComponent sort_options={[]} sort_name="" />
+                                        <ExportComponent exportData={exportData} />
+                                        <SortComponent sort_options={sort_options} sort_name={sort_name} handleChange={handleChange} />
 
                                         <li>
                                             <div className="btn-wrapper text-center mt-0 d-none">

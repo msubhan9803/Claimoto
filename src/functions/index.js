@@ -92,3 +92,20 @@ export const capitalizeFirstLetter = (string) => {
 export const getAllowActions = ({permissions, module_name}) => {
   return permissions.find(pre=>pre.ModuleSystemName === module_name)?.ModuleActions.map(act=>act.ActionName);
 }
+
+export const sortingClientSide = (field, reverse, primer) => {
+
+  const key = primer ?
+    function(x) {
+      return primer(x[field])
+    } :
+    function(x) {
+      return x[field]
+    };
+
+  reverse = !reverse ? 1 : -1;
+
+  return function(a, b) {
+    return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+  }
+}

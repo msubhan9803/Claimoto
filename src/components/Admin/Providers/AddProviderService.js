@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import Img from 'assets/img/testimonial/1.jpg';
 import Modal from 'react-modal';
 import { Animated } from "react-animated-css";
 import { modalStyle } from 'variables/modalCSS';
 import { useSelector, useDispatch } from 'react-redux';
-import { addService, getMakes, clearInputValues, handleAddProviderServiceInputValue, getModels, getServiceTypes, getServices } from 'store/actions/provider/service';
+import { addService, getMakes, clearInputValues, handleAddProviderServiceInputValue, getModels, getServiceTypes, getServices, getProviderServiceDetails } from 'store/actions/provider/service';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { ErrorMessage } from "@hookform/error-message";
-import { getUserDetails } from 'store/actions/users/users_screen';
-import { msgAlert } from 'functions';
-import { confirmAlert } from 'functions';
-import { addUser } from 'store/actions/users/users_screen';
-import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import Loader from 'components/Loader/Loader';
+import { getAllowActions } from 'functions';
+import { confirmAlert } from 'functions';
+import moment from "moment";
 
 
 const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id }) => {
@@ -44,11 +41,18 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
             .min(3, 'Service Code must be at 3 char long'),
         from: Yup.string()
             .required('From is mendatory'),
-        to: Yup.string()
-            .required('To is mendatory'),
+        // to: Yup.string()
+        //     .required('To is mendatory'),
         unit_cost: Yup.string().required("Unit Cost is mendatory"),
         discount: Yup.string()
-            .required('Discount is mendatory')
+            .required('Discount is mendatory'),
+        start_date: Yup.string()
+            .required('Start Date is mendatory'),
+        end_date: Yup.string()
+            .required('End Date is mendatory'),
+        remarks: Yup.string()
+        //     .optional(''),
+
 
     });
 
@@ -65,7 +69,9 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
         to,
         unit_cost,
         discount,
-        remarks
+        remarks,
+        start_date,
+        end_date
     } = values;
 
 
@@ -78,9 +84,8 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
             dispatch(addService({ edit_id: id, service_type_id, provider_id, ...values }))
         } else {
             //Add User
-            dispatch(addService({ provider_id, service_type_id , ...values }));
+            dispatch(addService({ provider_id, service_type_id, ...values }));
         }
-        // toggleModal();
     };
 
 
@@ -91,24 +96,14 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
 
 
-    // useEffect(() => {
-    //     if (edit && id) {
-    //         dispatch(getUserDetails(parseInt(id)));
-    //     }
-    //     return () => {
-    //         _clearState();
-    //     }
-    // }, []);
-
-
     useEffect(() => {
-        // dispatch(getMakes(""));
-        // if (success) {
-        //     // dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
-        //     toggleModal();
-        // }
-    }, [success]);
-
+        if (edit && id) {
+            dispatch(getProviderServiceDetails(parseInt(id)));
+        }
+        return () => {
+            _clearState();
+        }
+    }, []);
 
 
     const _changeVal = ({ name, value }) => {
@@ -179,6 +174,16 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
         dispatch(getServices("", provider_id));
 
     }, []);
+
+
+    const _closeModal = () => {
+        confirmAlert({
+            title: "Are you sure?",
+            text: "",
+            buttonText: "Go Back",
+            action: toggleModal
+        });
+    }
 
 
 
@@ -310,20 +315,20 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-lg-6 mt-2">
-                                                    <h6 className="ltnd__title-4 mt-2">From *</h6>
+                                                <div className="col-lg-12 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">Year *</h6>
                                                     <input
                                                         autoComplete='off'
                                                         {...register("from")}
                                                         disabled={view}
-                                                        type="number" onChange={_handleChange} name="from" placeholder="From" value={from} />
+                                                        type="number" onChange={_handleChange} name="from" placeholder="Year" value={from} />
                                                     <ErrorMessage
                                                         errors={errors}
                                                         name="from"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
                                                 </div>
-                                                <div className="col-lg-6 mt-2">
+                                                {/* <div className="col-lg-6 mt-2">
                                                     <h6 className="ltnd__title-4 mt-2">To *</h6>
                                                     <input
                                                         autoComplete='off'
@@ -335,8 +340,33 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                         name="to"
                                                         render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
                                                     />
+                                                </div> */}
+                                                <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">Start Date *</h6>
+                                                    <input
+                                                        autoComplete='off'
+                                                        {...register("start_date")}
+                                                        disabled={view}
+                                                        type="date" className='form-control' onChange={_handleChange} name="start_date" placeholder="Start_date" value={moment(start_date).format("YYYY-MM-DD")} />
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="start_date"
+                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                    />
                                                 </div>
-
+                                                <div className="col-lg-6 mt-2">
+                                                    <h6 className="ltnd__title-4 mt-2">End Date *</h6>
+                                                    <input
+                                                        autoComplete='off'
+                                                        {...register("end_date")}
+                                                        disabled={view}
+                                                        type="date" onChange={_handleChange} className="form-control" name="end_date" placeholder="End date" value={moment(end_date).format("YYYY-MM-DD")} />
+                                                    <ErrorMessage
+                                                        errors={errors}
+                                                        name="end_date"
+                                                        render={({ message }) => <p style={{ color: 'red' }}>{message}</p>}
+                                                    />
+                                                </div>
 
                                                 <div className="col-lg-6 mt-2">
                                                     <h6 className="ltnd__title-4 mt-2">Unit Cost *</h6>
@@ -368,7 +398,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
                                                 <div className="col-lg-12 mt-2">
                                                     <h6 className="ltnd__title-3 mt-2">Remarks</h6>
-                                                    <textarea rows="2">
+                                                    <textarea  onChange={_handleChange} rows="2" name="remarks">
                                                         {remarks}
                                                     </textarea>
                                                     <ErrorMessage
@@ -392,7 +422,7 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
                                                             </div>
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
-                                                                    <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
+                                                                    <a onClick={_closeModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
                                                                     {!view ? loading_action ? <Loader /> : <button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button> : ""}
                                                                 </div>
                                                             </div>
