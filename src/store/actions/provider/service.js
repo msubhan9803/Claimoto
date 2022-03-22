@@ -21,10 +21,11 @@ export const getProviderServices = (id) => async dispatch => {
     }
 }
 
-export const deleteProviderService = (id) => async dispatch => {
+export const deleteProviderService = (id, _getProviderServies) => async dispatch => {
     try {
         let { data } = await instance.delete(`/api/ProviderServicesContract/ProviderServicesContract?id=${id}`);
         successAlert({ title: data || "Deleted Successfully" });
+        _getProviderServies();
     } catch (error) {
         console.log(error);
     }

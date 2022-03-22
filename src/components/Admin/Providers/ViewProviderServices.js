@@ -149,8 +149,7 @@ const ViewProviderServices = () => {
 
 
     const _deleteAction = (id) => {
-        dispatch(deleteProviderService(id));
-        _getProviderServies();
+        dispatch(deleteProviderService(id, _getProviderServies));
     }
 
 
