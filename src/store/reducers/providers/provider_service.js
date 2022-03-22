@@ -47,16 +47,7 @@ const initialState = {
         service_code:"",
         service_type:"",
         service:"",
-        make:{ label: "All Makes", value: 0 },
-        model:{ label: "All Models", value: 0 },
-        from:"",
-        to:"",
-        unit_cost:0,
-        discount:0,
         remarks:"",
-        start_date:"",
-        end_date:"",
-
     },
     loading_action:false,
     success:false,
@@ -113,33 +104,16 @@ const providerServicesScreenReducer = (state = initialState, action) => {
         break;
 
         case GET_PROVIDER_SERVICE_DETAILS : {
-            const {PS_Prices,PSC_Code, PSC_Description, ProviderService_Id, ServiceType_Id } = action.payload;
-            const {
-                Discount,
-                End_Date,
-                Make,
-                Model,
-                Price,
-                Start_Date,
-                Year
-            } = PS_Prices;
+            const {PSC_Code, PSC_Description, ServiceId, ServiceTypeId, Service, ServiceTypeName } = action.payload;
             return {
                 ...state,
                 loading:false,
                 values:{
                     ...state.values,
-                    service_code:PSC_Code,
-                    remarks:PSC_Description,
-                    from: Year,
-                    discount:Discount,
-                    unit_cost:Price,
-                    start_date:new Date(Start_Date),
-                    end_date:new Date(End_Date),
-                    service_type:{label:"Label Required", value:ServiceType_Id},
-                    service:{label:"Label Required", value:ProviderService_Id},
-                    make:{label:"Label Required", value:Make},
-                    model:{label:"Label Required", value:Model},
-
+                    service_code:PSC_Code || "",
+                    remarks:PSC_Description || "",
+                    service_type:{label:ServiceTypeName, value:ServiceTypeId} || "",
+                    service:{label:Service, value:ServiceId} || "",
                 }
             }
         }

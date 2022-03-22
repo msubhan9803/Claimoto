@@ -9,6 +9,7 @@ import ServicePriceAddModal from './AddServicePrice';
 import { getAllowActions } from 'functions';
 import { confirmAlert } from 'functions';
 import { sortingClientSide } from 'functions';
+import { formatDateTime } from 'functions';
 
 const ViewProviderServices = () => {
     const { provider_id, type, service_id } = useParams();
@@ -217,7 +218,7 @@ const ViewProviderServices = () => {
 
     return (
         <>
-            {comState.openProviderModal && <ServicePriceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')}  toggleModal={() => _toggleModal("add_price", null)} openModal={comState.openProviderModal} provider_id={provider_id} getProviderServices={_getProviderServiesPrice} />}
+            {comState.openProviderModal && <ServicePriceAddModal pre_actions={provider_actions} view={comState.view} edit={comState.edit} id={searchParams.get('id')}  toggleModal={() => _toggleModal("add_price", null)} openModal={comState.openProviderModal} provider_id={provider_id} service_id={service_id} getProviderServices={_getProviderServiesPrice} />}
 
             {loading_list ?
                 <div style={{ textAlign: "center" }}>
@@ -260,25 +261,23 @@ const ViewProviderServices = () => {
                                         </ul>
                                         {state.map(record => {
                                             return (
-                                                <ul key={record?.PSC_Id} className="ltn__select-availability-table-row">
+                                                <ul key={record?.PS_Price_Id} className="ltn__select-availability-table-row">
                                                     
-                                                    <li className="table-data-5">{record?.MakeName || ""}</li>
-                                                    <li className="table-data-5">{record?.ModelName || ""}</li>
-                                                    <li className="table-data-5">{record?.Year || ""}</li>
+                                                    <li className="table-data-5">{record?.MakeName || "All Makes"}</li>
+                                                    <li className="table-data-5">{record?.ModelName || "All Model"}</li>
+                                                    <li className="table-data-5">{record?.Year || "All Years"}</li>
                                                     <li className="table-data-4 text-primary">
-                                                        <Link to={`/admin/view_provider_services_prices/${record?.PSC_Id}`}>
                                                             {record?.Price || ""}
-                                                        </Link>
                                                     </li>
                                                     <li className="table-data-5">{`${record?.Discount}%` || ""}</li>
-                                                    <li className="table-data-5">{`${record?.Discount}%` || ""}</li>
-                                                    <li className="table-data-5">{`${record?.Discount}%` || ""}</li>
-                                                    <li role="button" onClick={() => _toggleModal("edit_price", record?.PSC_Id)} className="table-data-7 text-primary">
+                                                    <li className="table-data-5">{`${formatDateTime(record?.Start_Date).date}   ` || ""}</li>
+                                                    <li className="table-data-5">{`${formatDateTime(record?.End_Date).date}` || ""}</li>
+                                                    <li role="button" onClick={() => _toggleModal("edit_price", record?.PS_Price_Id)} className="table-data-7 text-primary">
                                                         <strong className='text-primary'>
                                                             Edit
                                                         </strong>
                                                     </li>
-                                                    <li role="button" onClick={() => _deleteUser(record?.PSC_Id)} className="table-data-7">
+                                                    <li role="button" onClick={() => _deleteUser(record?.PS_Price_Id)} className="table-data-7">
                                                         <strong className='text-danger'>
                                                             Delete
                                                         </strong>

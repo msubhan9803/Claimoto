@@ -18,7 +18,7 @@ import moment from "moment";
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id, getProviderServices, type }) => {
+const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider_id, service_id, getProviderServices, type }) => {
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
     const navigate = useNavigate();
@@ -46,19 +46,20 @@ const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider
         unit_cost: Yup.number().required("Unit Cost is mendatory").min(1, "Unit Cost must be greater then 0"),
         discount: Yup.string()
             .required('Discount is mendatory'),
-        start_date: Yup.string().when('date_all', {
-            is: true,
-            then: Yup.string().required("Start Date is mendatory")
-        }),
-        end_date: Yup.string().when('date_all', {
-            is: true,
-            then: Yup.string().required("End Date is mendatory")
-        }),
-
+        // start_date: Yup.string().when('date_all', {
+        //     is: true,
+        //     then: Yup.string().required("Start Date is mendatory")
+        // }),
+        // end_date: Yup.string().when('date_all', {
+        //     is: true,
+        //     then: Yup.string().required("End Date is mendatory")
+        // }),
+        start_date:Yup.string().required("Start Date is mendatory"),
+        end_date:Yup.string().required("End Date is mendatory"),
         remarks: Yup.string(),
         //     .optional(''),
-        date_all: Yup.boolean(),
-        year_all: Yup.boolean()
+        // date_all: Yup.boolean(),
+        // year_all: Yup.boolean()
 
 
     });
@@ -91,13 +92,12 @@ const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider
     }
 
     const _onSubmit = data => {
-        let service_type_id = services.find(srvs => srvs.Id === service.value)?.ServiceTypeId || null;
         if (id) {
             //Update User
-            dispatch(addServicePrice({ edit_id: id, service_type_id, provider_id, type, ...values }, _updateRecord))
+            dispatch(addServicePrice({ edit_id: id, provider_id, service_id, type, ...values }, _updateRecord))
         } else {
             //Add User
-            dispatch(addServicePrice({ provider_id, service_type_id, type, ...values }, _updateRecord));
+            dispatch(addServicePrice({ provider_id, service_id, type, ...values }, _updateRecord));
         }
     };
 
@@ -120,10 +120,24 @@ const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider
 
 
     const _changeVal = ({ name, value }) => {
+        const n_years = 100;
         switch (name) {
             case "make":
                 //Getttig First Ten Models
                 dispatch(getModels("", value?.value));
+                break;
+                
+            case "year_all":
+                let current_year = new Date().getFullYear();
+                let year = value ? current_year : current_year - n_years;
+                dispatch(handleAddProviderServiceInputValue({ name: "from", value: year }));
+                break;
+
+            case "date_all":
+                let end_date = value ? new Date() : new Date(new Date().setFullYear(new Date().getFullYear() + n_years));
+                let start_date = new Date();
+                dispatch(handleAddProviderServiceInputValue({ name: "start_date", value: start_date }));
+                dispatch(handleAddProviderServiceInputValue({ name: "end_date", value: end_date }));
                 break;
             default:
                 break;
@@ -254,8 +268,8 @@ const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider
                                                 </div>
                                                 <div className="col-lg-12 mt-2">
                                                     <div class="form-check form-switch">
-                                                        <label className="form-check-label" for="flexSwitchCheckDefault">Specify Year</label>
-                                                        <input {...register("year_all")} className="form-check-input mt-1" onChange={() => _changeVal({ name: "year_all", value: !year_all })} type="checkbox" id="time_duration" checked={year_all} value={year_all} />
+                                                        <label className="form-check-label" for="year">Specify Year</label>
+                                                        <input  className="form-check-input mt-1" onChange={() => _changeVal({ name: "year_all", value: !year_all })} type="checkbox" id="year" checked={year_all} value={year_all} />
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-12 mt-2">
@@ -286,8 +300,8 @@ const ServicePriceAddModal = ({ openModal, toggleModal, id, edit, view, provider
                                                 </div> */}
                                                 <div className="col-lg-12 mt-2">
                                                     <div class="form-check form-switch">
-                                                        <label className="form-check-label" for="flexSwitchCheckDefault">Time Duration</label>
-                                                        <input {...register("date_all")} className="form-check-input mt-1" onChange={() => _changeVal({ name: "date_all", value: !date_all })} type="checkbox" id="time_duration" checked={date_all} value={date_all} />
+                                                        <label className="form-check-label" for="time_duration">Time Duration</label>
+                                                        <input  className="form-check-input mt-1" onChange={() => _changeVal({ name: "date_all", value: !date_all })} type="checkbox" id="time_duration" checked={date_all} value={date_all} />
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6 mt-2">

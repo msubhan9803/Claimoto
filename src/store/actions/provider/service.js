@@ -81,7 +81,7 @@ export const getServiceTypes = (text, id) => async dispatch => {
 export const getServices = (text, id) => async dispatch => {
     try {
         // let { data } = await instance.get(`api/Provider/ProviderService?ServiceTypeId=${id}`);
-        let { data } = await instance.get(`/api/ProviderServicesContract/Services?ProviderId=${id}`);
+        let { data } = await instance.get(`/api/ProviderServicesContract/Service?ServiceTypeId=${id}`);
         dispatch({
             type: SET_SERVICE_PROIVDER_GETTERS,
             payload: { data: data, name: "services" }
@@ -94,27 +94,16 @@ export const getServices = (text, id) => async dispatch => {
 
 export const addService = (payload, refresh_record) => async dispatch => {
     try {
-        let { provider_id, remarks, edit_id, service, service_type, service_type_id, make, model, discount, from, to, service_code, unit_cost, start_date, end_date, type } = payload;
+        let { provider_id, remarks, edit_id, service, service_type, service_code } = payload;
 
         let request_payload = {
             "PSC_Id": edit_id || 0,
             "ProviderService_Id": service.value,
-            "ServiceType_Id": service_type_id,
+            "ServiceType_Id": service_type.value,
             "PSC_Code": service_code,
             "PSC_Description": remarks,
+            "Remark": remarks,
             "Provider_Id": provider_id,
-            "PS_Prices": {
-                "PSC_Id": edit_id || 0,
-                "Make": make.value,
-                "Model": model.value,
-                "Year": from,
-                "Price": unit_cost,
-                "Start_Date": new Date(start_date),
-                "End_Date": new Date(end_date),
-                "Discount": discount,
-                "Remark": remarks,
-
-            }
         }
 
 

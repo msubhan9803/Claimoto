@@ -1,5 +1,5 @@
 import { GET_PROVIDER_SERVICES_REQUEST_PRICES,CLEAR_PROVIDER_SERVICES_STATE_PRICES, GET_PROVIDER_SERVICE_DETAILS_PRICES,  GET_PROVIDER_SERVICES_PRICES, SET_SERVICE_PROIVDER_GETTERS_PRICES, SET_SERVICE_PROIVDER_VALUES_PRICES } from "store/types/providers";
-
+let current_year = new Date().getFullYear();
 const initialState = {
 
 
@@ -61,15 +61,15 @@ const initialState = {
         service:"",
         make:{ label: "All Makes", value: 0 },
         model:{ label: "All Models", value: 0 },
-        from:"",
-        to:"",
+        from:current_year - 100,
+        to:current_year,
         unit_cost:0,
         discount:0,
         remarks:"",
-        start_date:"",
-        end_date:"",
-        year_all:false,
-        date_all:false
+        start_date:new Date(),
+        end_date:new Date(),
+        year_all:true,
+        date_all:true
     },
     loading_action:false,
     success:false,
@@ -126,7 +126,6 @@ const providerServicesPriceScreenReducer = (state = initialState, action) => {
         break;
 
         case GET_PROVIDER_SERVICE_DETAILS_PRICES : {
-            const {PS_Prices,PSC_Code, PSC_Description, ProviderService_Id, ServiceType_Id } = action.payload;
             const {
                 Discount,
                 End_Date,
@@ -134,24 +133,26 @@ const providerServicesPriceScreenReducer = (state = initialState, action) => {
                 Model,
                 Price,
                 Start_Date,
-                Year
-            } = PS_Prices;
+                Year,
+                Remark,
+                MakeName,
+                ModelName
+            }  = action.payload;
             return {
                 ...state,
                 loading:false,
                 values:{
                     ...state.values,
-                    service_code:PSC_Code,
-                    remarks:PSC_Description,
-                    from: Year,
-                    discount:Discount,
-                    unit_cost:Price,
-                    start_date:new Date(Start_Date),
-                    end_date:new Date(End_Date),
-                    service_type:{label:"Label Required", value:ServiceType_Id},
-                    service:{label:"Label Required", value:ProviderService_Id},
-                    make:{label:"Label Required", value:Make},
-                    model:{label:"Label Required", value:Model},
+                    remarks:Remark || "",
+                    from: Year || "",
+                    discount:Discount || "",
+                    unit_cost:Price || "",
+                    start_date:new Date(Start_Date) || "",
+                    end_date:new Date(End_Date) || "",
+                    make: Make ? {label:MakeName, value:Make} : initialState.values.make,
+                    model: Make ? {label:ModelName, value:Model} : initialState.values.make,
+                    // year_all:Year,
+                    // date_all:Start_Date
 
                 }
             }

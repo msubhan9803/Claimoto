@@ -66,13 +66,12 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
     }
 
     const _onSubmit = data => {
-        let service_type_id = services.find(srvs => srvs.Id === service.value)?.ServiceTypeId || null;
         if (id) {
             //Update User
-            dispatch(addService({ edit_id: id, service_type_id, provider_id, type, ...values }, _updateRecord))
+            dispatch(addService({ edit_id: id, provider_id, type, ...values }, _updateRecord))
         } else {
             //Add User
-            dispatch(addService({ provider_id, service_type_id, type, ...values }, _updateRecord));
+            dispatch(addService({ provider_id, type, ...values }, _updateRecord));
         }
     };
 
@@ -146,8 +145,6 @@ const ProviderServiceAddModal = ({ openModal, toggleModal, id, edit, view, provi
 
     useEffect(() => {
         dispatch(getServiceTypes("", provider_id));
-        dispatch(getServices("", provider_id));
-
     }, []);
 
 

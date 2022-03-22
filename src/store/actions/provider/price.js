@@ -5,14 +5,14 @@
 
 import instance from "config/axios/instance";
 import { successAlert } from "functions";
-import { GET_PROVIDER_SERVICES_REQUEST_PRICES, GET_PROVIDER_SERVICE_DETAILS_PRICES,  GET_PROVIDER_SERVICES_PRICES, SET_SERVICE_PROIVDER_GETTERS_PRICES, SET_SERVICE_PROIVDER_VALUES_PRICES, CLEAR_PROVIDER_SERVICES_STATE_PRICES } from "store/types/providers";
+import { GET_PROVIDER_SERVICES_REQUEST_PRICES, GET_PROVIDER_SERVICE_DETAILS_PRICES, GET_PROVIDER_SERVICES_PRICES, SET_SERVICE_PROIVDER_GETTERS_PRICES, SET_SERVICE_PROIVDER_VALUES_PRICES, CLEAR_PROVIDER_SERVICES_STATE_PRICES } from "store/types/providers";
 
 
 
 export const getProviderServicesPrices = (id) => async dispatch => {
     try {
         dispatch({ type: GET_PROVIDER_SERVICES_REQUEST_PRICES, payload: { loading_list: true } });
-        let { data } = await instance.get(`/api/ProviderServicesContract/ProviderServicesContracts?ProviderId=${id}`);
+        let { data } = await instance.get(`/api/ProviderServicesContract/ProviderServicesContractPrices?Id=${id}`);
         dispatch({ type: GET_PROVIDER_SERVICES_PRICES, payload: data || [] });
         dispatch({ type: GET_PROVIDER_SERVICES_REQUEST_PRICES, payload: { loading_list: false } });
     } catch (error) {
@@ -23,7 +23,7 @@ export const getProviderServicesPrices = (id) => async dispatch => {
 
 export const deleteProviderServicePrice = (id) => async dispatch => {
     try {
-        let { data } = await instance.delete(`/api/ProviderServicesContract/ProviderServicesContract?id=${id}`);
+        let { data } = await instance.delete(`/api/ProviderServicesContract/ProviderServicesContractPrice?Id=${id}`);
         successAlert({ title: data || "Deleted Successfully" });
     } catch (error) {
         console.log(error);
@@ -94,32 +94,24 @@ export const getServices = (text, id) => async dispatch => {
 
 export const addServicePrice = (payload, refresh_record) => async dispatch => {
     try {
-        let { provider_id, remarks, edit_id, service, service_type, service_type_id, make, model, discount, from, to, service_code, unit_cost, start_date, end_date, type } = payload;
+        let { remarks, edit_id, make, model, discount, from, to, unit_cost, start_date, end_date, date_all, year_all, service_id } = payload;
 
         let request_payload = {
-            "PSC_Id": edit_id || 0,
-            "ProviderService_Id": service.value,
-            "ServiceType_Id": service_type_id,
-            "PSC_Code": service_code,
-            "PSC_Description": remarks,
-            "Provider_Id": provider_id,
-            "PS_Prices": {
-                "PSC_Id": edit_id || 0,
-                "Make": make.value,
-                "Model": model.value,
-                "Year": from,
-                "Price": unit_cost,
-                "Start_Date": new Date(start_date),
-                "End_Date": new Date(end_date),
-                "Discount": discount,
-                "Remark": remarks,
-
-            }
+            "PSC_Id": service_id || 0,
+            "PS_Price_Id": edit_id || 0,
+            "Make": make.value,
+            "Model": model.value,
+            "Year": year_all ? 0 : from,
+            "Price": unit_cost,
+            "Start_Date":  new Date(start_date),
+            "End_Date":   new Date(end_date),
+            "Discount": discount,
+            "Remark": remarks,
         }
 
 
         dispatch({ type: SET_SERVICE_PROIVDER_GETTERS_PRICES, payload: { data: true, name: "loading" } });
-        let { data } = edit_id ? await instance.put(`/api/ProviderServicesContract`, request_payload) : await instance.post(`/api/ProviderServicesContract`, request_payload);
+        let { data } = edit_id ? await instance.put(`/api/ProviderServicesContract/ProviderServicesContractPrice`, request_payload) : await instance.post(`/api/ProviderServicesContract/ProviderServicesContractPrice`, request_payload);
         successAlert({ title: data || "Added Successfully" });
         refresh_record();
         // navigate(`/admin/view_provider_services/${type}/${provider_id}`);
@@ -139,7 +131,7 @@ export const handleAddProviderServiceInputValue = ({ name, value }) => async dis
 
 export const clearInputValues = () => async dispatch => {
     try {
-        dispatch({ type: CLEAR_PROVIDER_SERVICES_STATE_PRICES});
+        dispatch({ type: CLEAR_PROVIDER_SERVICES_STATE_PRICES });
     } catch (error) {
         console.log(error);
     }
@@ -149,7 +141,7 @@ export const clearInputValues = () => async dispatch => {
 export const getProviderServicePriceDetails = (id) => async dispatch => {
     try {
         dispatch({ type: GET_PROVIDER_SERVICES_REQUEST_PRICES, payload: { loading: true } });
-        let { data } = await instance.get(`/api/ProviderServicesContract/ProviderServicesContract?Id=${id}`);
+        let { data } = await instance.get(`/api/ProviderServicesContract/ProviderServicesContractPrice?Id=${id}`);
         dispatch({ type: GET_PROVIDER_SERVICE_DETAILS_PRICES, payload: data });
         // dispatch({ type: GET_PROVIDER_SERVICES, payload: data || [] });
     } catch (error) {
@@ -159,7 +151,7 @@ export const getProviderServicePriceDetails = (id) => async dispatch => {
 }
 
 
-export const setValuesProviderServices = ({name, value}) => async dispatch => {
+export const setValuesProviderServices = ({ name, value }) => async dispatch => {
     dispatch({ type: GET_PROVIDER_SERVICES_REQUEST_PRICES, payload: { [name]: value } });
 }
 
