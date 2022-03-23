@@ -89,7 +89,7 @@ const Login = () => {
                     <div className="account-login-inner">
                       <div className="section-title-area mb-30">
                         <h1 className="section-title">
-                          Sign in to Motor claim
+                          Sign in to Claimoto
                         </h1>
                         <p>Enter your details below</p>
                       </div>
