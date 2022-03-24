@@ -33,7 +33,7 @@ function ExportComponent({ exportData }) {
             <li>
                 <div className="short-by text-center">
                     <select onChange={_download} value="" className="nice-select">
-                        <option disabled value={""}>Downlaod</option>
+                        <option disabled value={""}>Download</option>
                         <option value={1} >
                             CSV
                         </option>

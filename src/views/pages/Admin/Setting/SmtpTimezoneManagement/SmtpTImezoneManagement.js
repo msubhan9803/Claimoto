@@ -6,17 +6,20 @@ import {
   GetSmtpConfig,
   HandleSmtpValues,
   UpdateSettingsPart,
+  sendTestEmail
 } from "../../../../../store/actions/settings/index.js";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
+import { event } from "jquery";
 
 const schema = Yup.object().shape({
   HostName: Yup.string().required("Host name is required"),
   UserName: Yup.string().required("User name is required"),
   Password: Yup.string().required("Password is required"),
   PortNo: Yup.string().required("Port is required"),
+  test_email: Yup.string().required("Test Email is required"),
 
   // Email: Yup.string().required("Emailis required"),
   // IsActive: Yup.string().required("IsActiveis required"),
@@ -68,6 +71,7 @@ const SmtpManagement = () => {
     UpdatedBy,
     UpdatedDate,
     UserName,
+    test_email
   } = smptValues;
   const {
     register,
@@ -123,6 +127,12 @@ const SmtpManagement = () => {
 
   const _onSubmit = (data) => {
     dispatch(UpdateSettingsPart(smptValues));
+    // setState(initialState)
+  };
+
+
+  const _onSubmitTestEmail = (data) => {
+    dispatch(sendTestEmail(smptValues));
     // setState(initialState)
   };
 
@@ -303,6 +313,45 @@ const SmtpManagement = () => {
               </div>
             </div>
           </div>
+
+
+          <div class="ltnd__block-area">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="ltnd__block-item mt-30">
+                  <h6 class="ltnd__title-3">Test SMTP Configrations</h6>
+                  <div class="ltn__block-item-info">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="input-item">
+                            <input
+                              type="email"
+                              name="test_email"
+                              value={test_email}
+                              required
+                              onChange={_handleChangeValue}
+                              placeholder="Enter Email"
+                            />
+                          </div>
+                          <div class="input-item mt-2">
+                            <button
+                            type="button"
+                            onClick={_onSubmitTestEmail}
+                              class="btn theme-btn-1 btn-round-12"
+                            >
+                              Send Test Mail
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
 
           <div class="ltnd__block-area">
             <div class="row">

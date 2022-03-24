@@ -37,6 +37,7 @@ const initialState = {
     UpdatedBy: "",
     UpdatedDate: "",
     UserName: "",
+    test_email:""
   },
   timezoneList: [],
   smtpNavigate: false,

@@ -265,3 +265,23 @@ export const SetPageIndex = (pageIndex) => async (dispatch) => {
     console.log("err", err);
   }
 };
+
+
+export const sendTestEmail = (stmp) => async (dispatch) => {
+  let {
+    test_email,
+    HostName,
+    Password,
+    PortNo,
+    SSL_Enabled,
+    UserName
+  } = stmp;
+  try {
+    let res = await instance.get(`api/EmailTemplate/SendEmail?SMTP_Host=${HostName}&Auth_Password=${Password}&Port=${PortNo}&&SSL=${SSL_Enabled}&&ToText=${test_email}&Auth_User=${UserName}`);
+    successAlert({
+      text: res.data,
+      icon: "success",
+    });  } catch (err) {
+    console.log("err", err);
+  }
+}
