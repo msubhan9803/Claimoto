@@ -19,8 +19,8 @@ export default function Sidebar(props) {
                   <img src="img/logo/logo-icon-1.png" alt="Icon"> 
                   <span className="logo-text"><img src="img/logo/logo-text-1.png" alt="Text"></span>
               </a> */}
-              <a href="index.html">
-                <img src={logo} alt="Icon" height={70} width={300} />
+              <a >
+                <img src={logo} alt="Icon"  width={300} />
                 {!logo &&
                   <span className="logo-text">
                     Claimoto<sup>®</sup>

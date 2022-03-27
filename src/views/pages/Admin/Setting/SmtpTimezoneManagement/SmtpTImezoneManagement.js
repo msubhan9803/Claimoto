@@ -328,7 +328,6 @@ const SmtpManagement = () => {
                               type="email"
                               name="test_email"
                               value={test_email}
-                              required
                               onChange={_handleChangeValue}
                               placeholder="Enter Email"
                             />

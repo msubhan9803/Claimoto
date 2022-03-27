@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import motorImg from "assets/img/motor/login-bg-1.png";
+import motorImg from "assets/img/motor/login-bg.png";
 import { setLoginValues } from "store/actions/auth/user";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
