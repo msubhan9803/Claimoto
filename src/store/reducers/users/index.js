@@ -42,6 +42,10 @@ const initialState = {
             label: "Mobile",
             value: "MobileNo",
         },
+        {
+            label:"UserName",
+            value:"UserName"
+        }
     ],
     tabs: [
         {

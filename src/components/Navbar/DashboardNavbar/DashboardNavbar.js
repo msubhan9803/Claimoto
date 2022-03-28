@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import RespHeader from "../../ResponsiveHeader/RespHeader";
 import { Link } from 'react-router-dom'
-import mcIcon from '../../../../assets/img/icons/mc/png/10.png'
+import mcIcon from 'assets/img/icons/mc/png/10.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,7 @@ export default function DashboardNavbar() {
   const dispatch = useDispatch();
   const { FirstName, LastName, Username, Email } = useSelector(state => state.authReducer.user_details);
   const [showProfile, setShowProfile] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const _handleLogout = () => {
     dispatch(handleLogout());
   }
@@ -27,7 +27,6 @@ export default function DashboardNavbar() {
 
   return (
     <React.Fragment>
-      <RespHeader />
       {/* HEADER AREA START */}
       <div className="ltnd__header-area section-bg-5" style={{ padding: '25px' }} >
         {/* ltn__header-top-area start */}
@@ -40,12 +39,14 @@ export default function DashboardNavbar() {
                   <ul>
                     {/*Notifications*/}
                     <li className="ltnd-dropdown">
-                      <a className="toggle" href="#">
+                    <ClickAwayListener  onClickAway={()=> setShowNotifications(false)}>
+                      <div>
+                      <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
                         <i className="far fa-bell" />
                       </a>
-                      <div className="ltnd-dropdown-menu dropdown-menu-notifications">
+                      <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                         <div className="head">
-                          <h4 className="title">Notifications (7)</h4>
+                          <h4 className="title">Notifications (3)</h4>
                         </div>
                         <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
                           <ul>
@@ -57,7 +58,7 @@ export default function DashboardNavbar() {
                                   </div>
                                   <div className="content">
                                     <h6>
-                                      <strong>Yasmin Ali has</strong> viewed the{" "}
+                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
                                       <strong>vehicle 13454</strong>
                                     </h6>
                                     <p className="ltn__color-1">2 mins ago </p>
@@ -73,7 +74,7 @@ export default function DashboardNavbar() {
                                   </div>
                                   <div className="content">
                                     <h6>
-                                      <strong>Yasmin Ali has</strong> viewed the{" "}
+                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
                                       <strong>vehicle 13454</strong>
                                     </h6>
                                     <p className="ltn__color-1">2 mins ago </p>
@@ -89,7 +90,7 @@ export default function DashboardNavbar() {
                                   </div>
                                   <div className="content">
                                     <h6>
-                                      <strong>Yasmin Ali has</strong> viewed the{" "}
+                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
                                       <strong>vehicle 13454</strong>
                                     </h6>
                                     <p className="ltn__color-1">2 mins ago </p>
@@ -100,13 +101,16 @@ export default function DashboardNavbar() {
                           </ul>
                         </div>
                       </div>
+                      </div>
+                        </ClickAwayListener>
                     </li>
                     {/*User Account*/}
                     <li className="ltnd-dropdown ltnd__user-img">
+                    <ClickAwayListener  onClickAway={()=> setShowProfile(false)}>
+                      <div>
                       <a className="toggle" role="button" >
                         <img src={mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
                       </a>
-                        {/* <ClickAwayListener onClickAway={()=> setShowProfile(false)}> */}
                           <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                           <div className="head">
                             <div className="dropdown-menu-user-img">
@@ -155,7 +159,8 @@ export default function DashboardNavbar() {
                             </ul>
                           </div>
                           </div>
-                        {/* </ClickAwayListener> */}
+                          </div>
+                        </ClickAwayListener>
                     </li>
                     {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">

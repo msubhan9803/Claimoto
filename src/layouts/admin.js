@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "components/Sidebar/UserSidebar";
 import UserNavbar from "components/Navbar/UserNavbar/UserNavbar";
-import DashboardNavbar from "components/Admin/Dashboard/DashboardNavbar/DashboardNavbar";
+import DashboardNavbar from "components/Navbar/DashboardNavbar/DashboardNavbar";
 import { adminRoutes } from "../routes/admin";
 import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'

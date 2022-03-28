@@ -60,6 +60,7 @@ function UserList() {
                             <div className="ltn__select-availability-table  d-none d-md-block">
                                 <ul className="ltn__select-availability-table-head">
                                     <li className="table-data-6">Name</li>
+                                    <li className="table-data-6">User Name</li>
                                     <li className="table-data-5">Email</li>
                                     <li className="table-data-5">Mobile number</li>
                                     <li className="table-data-6">Role</li>
@@ -73,6 +74,11 @@ function UserList() {
                                             <strong>
                                                 <img src={user.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${user.ImageUrl}`} alt="" />
                                                 {`${user.FirstName} ${user.LastName}`}
+                                            </strong>
+                                        </li>
+                                        <li className="table-data-6">
+                                            <strong>
+                                                {`${user?.UserName || ""}`}
                                             </strong>
                                         </li>
                                         <li className="table-data-5">{user.Email}</li>
