@@ -106,8 +106,8 @@ export default function DashboardNavbar() {
                       <a className="toggle" role="button" >
                         <img src={mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
                       </a>
-                      <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
-                        <ClickAwayListener onClickAway={setShowProfile(false)}>
+                        {/* <ClickAwayListener onClickAway={()=> setShowProfile(false)}> */}
+                          <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                           <div className="head">
                             <div className="dropdown-menu-user-img">
                               <img src={mcIcon} alt="mC_img" />
@@ -154,8 +154,8 @@ export default function DashboardNavbar() {
 
                             </ul>
                           </div>
-                        </ClickAwayListener>
-                      </div>
+                          </div>
+                        {/* </ClickAwayListener> */}
                     </li>
                     {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">
