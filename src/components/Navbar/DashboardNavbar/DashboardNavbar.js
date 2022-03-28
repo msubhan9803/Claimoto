@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom'
 import mcIcon from 'assets/img/icons/mc/png/10.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPowerOff, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff, faCalendar , faBell} from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from 'store/actions/auth/user';
 import { getCurrentPeriodOfDay } from "functions";
@@ -42,7 +42,7 @@ export default function DashboardNavbar() {
                     <ClickAwayListener  onClickAway={()=> setShowNotifications(false)}>
                       <div>
                       <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
-                        <i className="far fa-bell" />
+                      <FontAwesomeIcon icon={faBell} />
                       </a>
                       <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                         <div className="head">

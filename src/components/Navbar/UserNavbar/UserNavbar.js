@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { handleLogout } from 'store/actions/auth/user';
 import ClickAwayListener from 'react-click-away-listener';
 import mcIcon from 'assets/img/icons/mc/png/10.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPowerOff, faCalendar , faBell} from '@fortawesome/free-solid-svg-icons';
 
 
 function ProductNavbar() {
@@ -38,7 +40,7 @@ function ProductNavbar() {
                                             <ClickAwayListener onClickAway={() => setShowNotifications(false)}>
                                                 <div>
                                                     <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
-                                                        <i style={{ color: "black" }} className="far fa-bell" />
+                                                    <FontAwesomeIcon style={{color:"black"}} icon={faBell} />
                                                     </a>
                                                     <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
