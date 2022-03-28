@@ -45,7 +45,7 @@ export const loginUser = (payload) => async dispatch => {
             dispatch({type: SET_AUTH_VALUES,payload: {loading_login:false}});
             dispatch({
                 type: SET_AUTH,
-                payload: data
+                payload: data?.JWT_Token || null
             })
         }
 

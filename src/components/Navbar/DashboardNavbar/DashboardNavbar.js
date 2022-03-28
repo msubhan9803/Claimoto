@@ -12,7 +12,7 @@ import ClickAwayListener from 'react-click-away-listener';
 export default function DashboardNavbar() {
 
   const dispatch = useDispatch();
-  const { FirstName, LastName, Username, Email } = useSelector(state => state.authReducer.user_details);
+  const { FirstName, LastName, Username, Email, ImageUrl  } = useSelector(state => state.authReducer.user_details);
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const _handleLogout = () => {
@@ -54,7 +54,7 @@ export default function DashboardNavbar() {
                               <div className="ltnd-dropdown-menu-item">
                                 <Link to="/">
                                   <div className="image">
-                                    <img src={mcIcon} alt="mC_img" />
+                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -70,7 +70,7 @@ export default function DashboardNavbar() {
                               <div className="ltnd-dropdown-menu-item">
                                 <Link to="/">
                                   <div className="image">
-                                    <img src={mcIcon} alt="mC_img" />
+                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -86,7 +86,7 @@ export default function DashboardNavbar() {
                               <div className="ltnd-dropdown-menu-item">
                                 <a href="#">
                                   <div className="image">
-                                    <img src={mcIcon} alt="mC_img" />
+                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}`  : mcIcon} alt="mC_img" />
                                   </div>
                                   <div className="content">
                                     <h6>
@@ -109,12 +109,12 @@ export default function DashboardNavbar() {
                     <ClickAwayListener  onClickAway={()=> setShowProfile(false)}>
                       <div>
                       <a className="toggle" role="button" >
-                        <img src={mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
+                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
                       </a>
                           <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                           <div className="head">
                             <div className="dropdown-menu-user-img">
-                              <img src={mcIcon} alt="mC_img" />
+                              <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="mC_img" />
                             </div>
                             <div className="dropdown-menu-user-info">
                               <h6>{`${FirstName} ${LastName}`}</h6>
