@@ -37,7 +37,7 @@ const initialState = {
             short: "PA"
         },
         {
-            label: "Car Agencies",
+            label: "Replacement Agencies",
             id: "ltn__tab_3_3",
             name: "car%20Agencie",
             component: <CarAgenciesList />,

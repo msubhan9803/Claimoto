@@ -1,22 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import RespHeader from "../../ResponsiveHeader/RespHeader";
 import { Link } from 'react-router-dom'
 import mcIcon from '../../../../assets/img/icons/mc/png/10.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from 'store/actions/auth/user';
+import { getCurrentPeriodOfDay } from "functions";
+import ClickAwayListener from 'react-click-away-listener';
 
 
 export default function DashboardNavbar() {
 
   const dispatch = useDispatch();
-
+  const { FirstName, LastName, Username, Email } = useSelector(state => state.authReducer.user_details);
+  const [showProfile, setShowProfile] = useState(false);
   const _handleLogout = () => {
     dispatch(handleLogout());
   }
 
 
+
+  const _toggleUserDetails = () => {
+
+  }
 
   return (
     <React.Fragment>
@@ -32,7 +39,7 @@ export default function DashboardNavbar() {
                 <div className="ltn__top-bar-menu">
                   <ul>
                     {/*Notifications*/}
-                    {/* <li className="ltnd-dropdown">
+                    <li className="ltnd-dropdown">
                       <a className="toggle" href="#">
                         <i className="far fa-bell" />
                       </a>
@@ -93,30 +100,29 @@ export default function DashboardNavbar() {
                           </ul>
                         </div>
                       </div>
-                    </li> */}
+                    </li>
                     {/*User Account*/}
                     <li className="ltnd-dropdown ltnd__user-img">
-                      <Link className="toggle" to="/">
-                        <img src={mcIcon} alt="mC_img" />
-                      </Link>
-                      <div className="ltnd-dropdown-menu dropdown-menu-user">
-                        <div className="head">
-                          <div className="dropdown-menu-user-img">
-                            <img src={mcIcon} alt="mC_img" />
+                      <a className="toggle" role="button" >
+                        <img src={mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
+                      </a>
+                      <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
+                        <ClickAwayListener onClickAway={setShowProfile(false)}>
+                          <div className="head">
+                            <div className="dropdown-menu-user-img">
+                              <img src={mcIcon} alt="mC_img" />
+                            </div>
+                            <div className="dropdown-menu-user-info">
+                              <h6>{`${FirstName} ${LastName}`}</h6>
+                              <p className="dropdown-menu-user-mail">
+                                {Email}
+                              </p>
+
+                            </div>
                           </div>
-                          <div className="dropdown-menu-user-info">
-                            <h6>Yasmin Ali</h6>
-                            <p className="dropdown-menu-user-mail">
-                              yasminali@gmail.com
-                            </p>
-                            <p className="dropdown-menu-user-title">
-                              <strong>Account</strong>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
-                          <ul>
-                            <li>
+                          <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
+                            <ul>
+                              {/* <li>
                               <div className="ltnd-dropdown-menu-item">
                                 <p className="dropdown-menu-user-language">
                                   <strong>Language</strong>
@@ -130,30 +136,33 @@ export default function DashboardNavbar() {
                                   </a>
                                 </div>
                               </div>
-                            </li>
-                            <li>
-                              <div className="ltnd-dropdown-menu-item">
-                                <p>
-                                  <a href="terms-conditions.html">
-                                    Terms and conditions
-                                  </a>
-                                </p>
-                                <p>
-                                  <a href="login.html">Logout</a>
-                                </p>
-                              </div>
-                            </li>
+                            </li> */}
+                              <li>
+                                <div className="ltnd-dropdown-menu-item">
+                                  <p >
+                                    <Link to="/admin/settings/account_preferences"><strong> Account</strong></Link>
+                                  </p>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="ltnd-dropdown-menu-item">
+                                  <p>
+                                    <a onClick={_handleLogout} role="button"><strong>Logout</strong></a>
+                                  </p>
+                                </div>
+                              </li>
 
-                          </ul>
-                        </div>
+                            </ul>
+                          </div>
+                        </ClickAwayListener>
                       </div>
                     </li>
-                    <li className="ltnd-dropdown ltnd__user-img">
+                    {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">
                         <FontAwesomeIcon icon={faPowerOff} />
 
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -166,8 +175,8 @@ export default function DashboardNavbar() {
           <div className="row">
             <div className="col-lg-9">
               <div className="ltnd__page-title-area text-color-white">
-                <p>Good morning</p>
-                <h2>Yasmin Ali</h2>
+                <p>Good {getCurrentPeriodOfDay()}</p>
+                <h2>{`${FirstName} ${LastName}`}</h2>
               </div>
             </div>
             <div className="col-lg-3 align-self-center text-end">

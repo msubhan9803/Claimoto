@@ -7,12 +7,10 @@ import { Provider } from "react-redux";
 import { store, persistor } from "store/store";
 import { PersistGate } from 'redux-persist/integration/react'
 import NotFound from "views/pages/404/404";
+// import 'loader'
+// import 'assets/js/main';
 import 'font-awesome/css/font-awesome.min.css'; 
-
-//Jquery 
-import $ from "jquery";
 import history from "utils/history";
-window.jQuery = window.$ = $;
 require("jquery-nice-select");
 
 

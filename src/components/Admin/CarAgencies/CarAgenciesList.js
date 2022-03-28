@@ -77,10 +77,10 @@ function CarAgenciesList() {
                             <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__car-agencies-table-wrap">
                                 <div className="ltn__select-availability-table  d-none d-md-block">
                                     <ul className="ltn__select-availability-table-head">
-                                        <li className="table-data-1">Car Agency Name</li>
+                                        <li className="table-data-1">Replacement Agency Name</li>
                                         <li className="table-data-3">POC name</li>
                                         <li className="table-data-4">Contact number</li>
-                                        <li className="table-data-6">Car Agency address</li>
+                                        <li className="table-data-6">Replacement Agency address</li>
                                         <li className="table-data-7">Services </li>
                                         <li className="table-data-7">Edit </li>
                                         <li className="table-data-8">Details</li>

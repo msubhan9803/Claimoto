@@ -15,7 +15,7 @@
 11. Default active and hover item active
 12. Product Details Page
 13. Isotope Gallery Active  ( Gallery / Portfolio )
-14. LightCase jQuery Active
+14. LightCase window.jQuery Active
 15. Slider One Active 
 16. Product Slider One
 17. Tab Product Slider One
@@ -48,7 +48,7 @@
 (function($) {
   "use strict";
 
-    jQuery(document).ready(function(){
+    window.jQuery(document).ready(function(){
       
         /* --------------------------------------------------------
             1. Variables
@@ -151,11 +151,11 @@
         
 
         /* Add space for Elementor Menu Anchor link */
-        $( window ).on( 'elementor/frontend/init', function() {
-            elementorFrontend.hooks.addFilter( 'frontend/handlers/menu_anchor/scroll_top_distance', function( scrollTop ) {
-                return scrollTop - 75;
-            });
-        });
+        // $( window ).on( 'elementor/frontend/init', function() {
+        //     elementorFrontend.hooks.addFilter( 'frontend/handlers/menu_anchor/scroll_top_distance', function( scrollTop ) {
+        //         return scrollTop - 75;
+        //     });
+        // });
 
         /* --------------------------------------------------------
             3-2. Category Menu
@@ -207,9 +207,9 @@
 
 
         /* ---------------------------------------------------------
-            4. One Page Navigation ( jQuery Easing Plugin )
+            4. One Page Navigation ( window.jQuery Easing Plugin )
         --------------------------------------------------------- */
-        // jQuery for page scrolling feature - requires jQuery Easing plugin
+        // window.jQuery for page scrolling feature - requires window.jQuery Easing plugin
         $(function() {
             $('a.page-scroll').bind('click', function(event) {
                 var $anchor = $(this);
@@ -251,7 +251,7 @@
         /* ---------------------------------------------------------
             8. wow js init
         --------------------------------------------------------- */
-        new WOW().init();
+        // new window.WOW().init();
 
 
         /* ---------------------------------------------------------
@@ -399,7 +399,7 @@
         });
 
         /* --------------------------------------------------------
-            14. LightCase jQuery Active
+            14. LightCase window.jQuery Active
         --------------------------------------------------------- */
         $('a[data-rel^=lightcase]').lightcase({
             transition: 'elastic', /* none, fade, fadeInline, elastic, scrollTop, scrollRight, scrollBottom, scrollLeft, scrollHorizontal and scrollVertical */
@@ -434,7 +434,7 @@
                 }
             ]
         }).on('afterChange', function(){
-            new WOW().init();
+            // new window.WOW().init();
         });
 
 
@@ -571,7 +571,7 @@
         */
         if($('.ltn__parallax-effect-active').length){
             var scene = $('.ltn__parallax-effect-active').get(0);
-            var parallaxInstance = new Parallax(scene);
+            var parallaxInstance = new  window.Parallax(scene);
         }
 
 
@@ -615,4 +615,4 @@
 
 
   
-})(jQuery);
+})(window.jQuery);

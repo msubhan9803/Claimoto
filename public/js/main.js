@@ -303,8 +303,8 @@
         if ($('.ltnd-dropdown').length) {
             var $ltndDropdown = $('.ltnd-dropdown'),
                 $ltndDropdownMenu = $ltndDropdown.find('.ltnd-dropdown-menu');
-
             $ltndDropdown.on('click', '.toggle', function (e) {
+                console.log('Hello World');
                 e.preventDefault();
                 var $this = $(this);
                 if (!$this.parent().hasClass('show')) {

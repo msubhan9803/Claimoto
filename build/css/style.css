@@ -17643,6 +17643,7 @@ form .ltnd__title-3 {
   position: fixed;
   bottom: 0;
   width: 80%;
+  z-index: 999999 !important;
 }
 
 .ltnd__footer-btn-dropdown-menu {
@@ -17994,6 +17995,11 @@ form .ltnd__title-3 {
 .ltn__select-availability-table-responsive .ltn__select-availability-table-row-responsive-item li span {
   width: 50%;
   float: left;
+}
+.activity-detail-text {
+  width: 100% !important;
+  position: relative !important;
+  word-break: break-word !important;
 }
 
 .ltnd__adding-modal-area .modal-content {
@@ -20124,4 +20130,20 @@ form .ltnd__title-3 {
   position: absolute !important;
   left: 50% !important;
   top: 50% !important;
+}
+
+.rti--tag {
+  background-color: #d9d9d9 !important;
+  padding: 8px !important;
+  border-radius: 12px !important;
+  margin-left: 4px !important;
+  margin-right: 4px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--ltn__secondary-color);
 }
