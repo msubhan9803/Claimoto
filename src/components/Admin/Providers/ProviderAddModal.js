@@ -92,7 +92,7 @@ const ProviderAddModal = ({ openModal, toggleModal }) => {
                                         <h4>Replacement agency</h4>
                                         <p>Lorem ipsum, or lipsum as it is sometimes known</p>
                                         <div className="btn-wrapper text-center mt-0">
-                                            <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/car%20agency" > Add +</Link>
+                                            <Link className="btn theme-btn-1 btn-round-12" to="/admin/add_provider/replacement%20agency" > Add +</Link>
                                         </div>
                                     </div>
                                 </div>

@@ -191,7 +191,7 @@ const ViewProviderServices = () => {
                 return 2
                 break;
 
-            case "car agency":
+            case "replacement agency":
                 return 3
                 break;
 

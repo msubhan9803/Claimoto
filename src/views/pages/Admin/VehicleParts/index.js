@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import {
-  GetVehiclePartById,
-  LoadVehiclePartsList,
   HandleTableInputValue,
   HandleFilterTable,
 } from "../../../../store/actions/vehicleParts";
@@ -15,6 +13,12 @@ import Fuse from "fuse.js";
 import SortArray from "sort-array";
 import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
+
+
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+
 
 const VehicleParts = () => {
 
@@ -131,7 +135,7 @@ const VehicleParts = () => {
                     autoComplete="off"
                   />
                   <button type="submit">
-                    <i className="fas fa-search" />
+                    <FontAwesomeIcon icon={faSearch} />
                   </button>
                   <select
                     name="search_option"
@@ -140,7 +144,7 @@ const VehicleParts = () => {
                     className="select search-options"
                   >
                     <option disabled value={""}>
-                      Options
+                      Search By
                     </option>
                     {search_options.map((op) => (
                       <option key={op.value} value={op.value}>
@@ -163,7 +167,7 @@ const VehicleParts = () => {
                         className="nice-select"
                       >
                         <option disabled value={""}>
-                          Sort
+                          Sort By
                         </option>
                         {search_options.map((op) => (
                           <option key={op.value} value={op.value}>

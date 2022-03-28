@@ -244,7 +244,7 @@ function Products() {
                       className="select search-options"
                     >
                       <option disabled value={""}>
-                        Options
+                        Search By
                       </option>
                       {search_options.map((op) => (
                         <option key={op.value} value={op.value}>

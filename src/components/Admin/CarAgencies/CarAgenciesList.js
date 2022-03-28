@@ -100,7 +100,7 @@ function CarAgenciesList() {
                                                 <li className="table-data-7 text-primary">
                                                     {car_agency_actions?.includes("VIEW") &&
                                                         <strong>
-                                                            <Link to={`/admin/view_provider_services/car%20agency/${record.Id}?tab=0`} >Services</Link>
+                                                            <Link to={`/admin/view_provider_services/replacement%20agency/${record.Id}?tab=0`} >Services</Link>
                                                         </strong>
                                                     }
                                                 </li>

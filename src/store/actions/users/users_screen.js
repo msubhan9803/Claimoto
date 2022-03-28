@@ -166,13 +166,15 @@ export const getUserDetails = (id) => async dispatch => {
 
 export const deleteUser = (id) => async dispatch => {
     try {
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: {success:false, error:""} });
         dispatch({ type: SET_USER_DELETE_REQUEST, payload: true });
         let response = await instance.delete(`api/UserProfile/Del?Id=${id}`);
         dispatch({
             type: SET_USER_DELETE_REQUEST,
             payload: false
         });
-        successAlert({ title: "Success", text: response?.data || "Success" })
+        successAlert({ title: "Success", text: response?.data || "Success" });
+        dispatch({ type: SET_USER_ADD_REQUEST, payload: {success:true, error:""} });
     } catch (error) {
         dispatch({ type: SET_USER_DELETE_REQUEST, payload: false })
         console.log("err", error)

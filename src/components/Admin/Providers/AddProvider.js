@@ -78,7 +78,7 @@ const AddProvider = () => {
                 return agency_actions?.includes(action);
                 break;
 
-            case "car agency":
+            case "replacement agency":
                 return car_agency_actions?.includes(action);
                 break;
 
@@ -104,7 +104,7 @@ const AddProvider = () => {
                 return 2
                 break;
 
-            case "car agency":
+            case "replacement agency":
                 return 3
                 break;
 

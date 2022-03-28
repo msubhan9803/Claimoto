@@ -101,7 +101,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
 
     const _deleteAction = () => {
         dispatch(deleteUser(id));
-        toggleModal();
+        // toggleModal();
     }
 
 
