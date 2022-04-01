@@ -191,7 +191,6 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       "UserName":0,
       "UserId": parseInt(accountObj?.UserId) || "",
       "FirstName": temp?.TenantPrimaryPersonName || "",
-      "LastName": 0,
       "MobileNo": temp?.TenantPrimaryPersonPhone || "",
       "Email": temp?.TenantPrimaryPersonEmail || "",
       "Password": temp?.TenantPrimaryPersonPassword || "",

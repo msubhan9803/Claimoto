@@ -163,7 +163,7 @@ const settingsReducer = (state = initialState, action) => {
         ...state,
         accountValues: {
           TenantLogoPath: userData?.ImageUrl || "",
-          TenantPrimaryPersonName: `${userData?.FirstName || ""}  ${userData?.LastName || ""}`,
+          TenantPrimaryPersonName: `${userData?.FirstName || ""}`,
           TenantPrimaryPersonCountry: "",
           TenantPrimaryPersonEmail: userData?.Email || "",
           TenantPrimaryPersonPhone: userData?.MobileNo || "",
