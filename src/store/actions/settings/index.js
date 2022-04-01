@@ -187,7 +187,21 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       temp.TenantPrimaryPersonPassword = accountObj.ConfirmNewPassword;
     }
 
-    instance.put(`api/Account/UserAccount`, temp).then((res) => {
+    let payload = {
+      "UserName":0,
+      "UserId": parseInt(accountObj?.UserId) || "",
+      "FirstName": temp?.TenantPrimaryPersonName || "",
+      "LastName": 0,
+      "MobileNo": temp?.TenantPrimaryPersonPhone || "",
+      "Email": temp?.TenantPrimaryPersonEmail || "",
+      "Password": temp?.TenantPrimaryPersonPassword || "",
+      "RoleId": 0,
+      "AccessGroupIds": 0,
+      "ImageModel": temp.ImageModel || temp.TenantLogoPath,
+      "Status": 0
+  };
+
+    instance.put(`api/UserAccount`, payload).then((res) => {
       successAlert({
         text: res.data,
         icon: "success",

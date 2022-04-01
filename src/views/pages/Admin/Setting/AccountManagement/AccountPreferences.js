@@ -182,6 +182,7 @@ const AccountPreferences = () => {
     ) {
       dispatch(
         UpdateAccountPart({
+          UserId,
           accountValues,
           UploadedImage,
           ImageName,
