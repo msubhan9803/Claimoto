@@ -397,7 +397,7 @@ const AccountPreferences = () => {
                       <h6 class="ltnd__title-3">Password</h6>
                       <form id="#" action="#" method="#" class="ltnd__form-1">
                         <div class="row">
-                          {/* <div class="col-md-5">
+                          <div class="col-md-5">
                             <div class="input-item">
                               <input
                                 type="password"
@@ -413,7 +413,7 @@ const AccountPreferences = () => {
                                 </p>
                               )}
                             </div>
-                          </div> */}
+                          </div>
                           <div class="col-md-5">
                             <div class="input-item">
                               <input

@@ -188,7 +188,7 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
     }
 
     let payload = {
-      "UserName":0,
+      "UserName": 0,
       "UserId": parseInt(accountObj?.UserId) || "",
       "FirstName": temp?.TenantPrimaryPersonName || "",
       "MobileNo": temp?.TenantPrimaryPersonPhone || "",
@@ -197,8 +197,9 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       "RoleId": 0,
       "AccessGroupIds": 0,
       "ImageModel": temp.ImageModel || temp.TenantLogoPath,
+      "CurrentPassword": accountObj.CurrentPassword || "",
       "Status": 0
-  };
+    };
 
     instance.put(`api/UserAccount`, payload).then((res) => {
       successAlert({
@@ -230,31 +231,31 @@ export const GetAllActivityLogs =
     FromDate,
     ActivityType
   ) =>
-  async (dispatch) => {
-    try {
-      let params = {
-        PageIndex: PageIndex,
-        PageSize: PageSize,
-        SearchText: SearchText,
-        SearchOption: SearchOption,
-        SortType: SortType,
-        SortName: SortName,
-        ToDate: ToDate,
-        FromDate: FromDate,
-        ActivityType: ActivityType,
-      };
+    async (dispatch) => {
+      try {
+        let params = {
+          PageIndex: PageIndex,
+          PageSize: PageSize,
+          SearchText: SearchText,
+          SearchOption: SearchOption,
+          SortType: SortType,
+          SortName: SortName,
+          ToDate: ToDate,
+          FromDate: FromDate,
+          ActivityType: ActivityType,
+        };
 
-      let res = await instance.get(`api/ActivityLogs/Pagination`, {
-        params: params,
-      });
-      dispatch({
-        type: GET_ALL_ACTIVITY_LOGS,
-        payload: res.data,
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+        let res = await instance.get(`api/ActivityLogs/Pagination`, {
+          params: params,
+        });
+        dispatch({
+          type: GET_ALL_ACTIVITY_LOGS,
+          payload: res.data,
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const GetAllActivityById = (activityId) => async (dispatch) => {
   try {
@@ -291,7 +292,8 @@ export const sendTestEmail = (stmp) => async (dispatch) => {
     successAlert({
       text: res.data,
       icon: "success",
-    });  } catch (err) {
+    });
+  } catch (err) {
     console.log("err", err);
   }
 }
