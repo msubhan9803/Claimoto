@@ -139,15 +139,12 @@ export const GetAllCountry = () => async (dispatch) => {
   }
 };
 
-export const GetAccountConfig = () => async (dispatch) => {
+export const GetAccountConfig = (id) => async (dispatch) => {
   try {
-    let res = await instance.get(`api/Account/UserAccount`);
-    res.data.TenantPrimaryPersonTwoFactorPhone =
-      res.data.TenantPrimaryPersonPhone;
-
+    let res = await instance.get(`api/UserProfile/${id}`);
     dispatch({
       type: GET_ACCOUNT_CONFIG,
-      payload: res.data,
+      payload: res,
     });
   } catch (err) {
     console.log("err", err);

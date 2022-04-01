@@ -49,6 +49,7 @@ const AccountPreferences = () => {
     ImageName,
     navigateAccount,
   } = useSelector((state) => state.settingsReducer);
+  const { UserId } = useSelector((state) => state.authReducer.user_details);
   const {
     TenantLogoPath,
     TenantPrimaryPersonName,
@@ -77,7 +78,7 @@ const AccountPreferences = () => {
 
   useEffect(() => {
     dispatch(GetAllCountry());
-    dispatch(GetAccountConfig());
+    dispatch(GetAccountConfig(Number(UserId)));
 
     return () => {
       dispatch({

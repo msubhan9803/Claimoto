@@ -158,9 +158,18 @@ const settingsReducer = (state = initialState, action) => {
 
     // For Account
     case GET_ACCOUNT_CONFIG: {
+      let userData = action.payload.data[0];
       return {
         ...state,
-        accountValues: action.payload,
+        accountValues: {
+          TenantLogoPath: userData?.ImageUrl || "",
+          TenantPrimaryPersonName: `${userData?.FirstName || ""}  ${userData?.LastName || ""}`,
+          TenantPrimaryPersonCountry: "",
+          TenantPrimaryPersonEmail: userData?.Email || "",
+          TenantPrimaryPersonPhone: userData?.MobileNo || "",
+          TenantPrimaryPersonPassword: "",
+          TenantPrimaryPersonTwoFactorPhone: userData?.MobileNo || "",
+        }
       };
     }
 
