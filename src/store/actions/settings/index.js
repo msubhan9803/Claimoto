@@ -198,7 +198,8 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       "AccessGroupIds": 0,
       "ImageModel": temp.ImageModel || temp.TenantLogoPath,
       "CurrentPassword": accountObj.CurrentPassword || "",
-      "Status": 0
+      "Status": 0,
+      "CountryId":temp?.TenantPrimaryPersonCountry || ""
     };
 
     instance.put(`api/UserAccount`, payload).then((res) => {
