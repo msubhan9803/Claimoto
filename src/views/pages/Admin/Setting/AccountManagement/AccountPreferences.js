@@ -176,10 +176,6 @@ const AccountPreferences = () => {
   };
 
   const _onSubmit = (data) => {
-    if (
-      passwordErrors.CurrentPassword === "" &&
-      passwordErrors.ConfirmNewPassword === ""
-    ) {
       dispatch(
         UpdateAccountPart({
           UserId,
@@ -192,7 +188,6 @@ const AccountPreferences = () => {
           ConfirmNewPassword,
         })
       );
-    }
   };
 
   return (
@@ -394,7 +389,7 @@ const AccountPreferences = () => {
               </div>
             </div>
 
-            {/* <div class="ltnd__block-area">
+            <div class="ltnd__block-area">
               <div class="row">
                 <div class="col-lg-12">
                   <div class="ltnd__block-item mt-30">
@@ -402,7 +397,7 @@ const AccountPreferences = () => {
                       <h6 class="ltnd__title-3">Password</h6>
                       <form id="#" action="#" method="#" class="ltnd__form-1">
                         <div class="row">
-                          <div class="col-md-5">
+                          {/* <div class="col-md-5">
                             <div class="input-item">
                               <input
                                 type="password"
@@ -418,7 +413,7 @@ const AccountPreferences = () => {
                                 </p>
                               )}
                             </div>
-                          </div>
+                          </div> */}
                           <div class="col-md-5">
                             <div class="input-item">
                               <input
@@ -454,7 +449,7 @@ const AccountPreferences = () => {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
 
             <div class="ltnd__block-area mb-50">
               <div class="row">
