@@ -104,17 +104,17 @@ const AccountPreferences = () => {
   }, [navigateAccount]);
 
   useEffect(() => {
-    if (CurrentPassword && CurrentPassword !== TenantPrimaryPersonPassword) {
-      setPasswordErrors({
-        ...passwordErrors,
-        CurrentPassword: "Current Password is incorrect",
-      });
-    } else {
-      setPasswordErrors({
-        ...passwordErrors,
-        CurrentPassword: "",
-      });
-    }
+    // if (CurrentPassword && CurrentPassword !== TenantPrimaryPersonPassword) {
+    //   setPasswordErrors({
+    //     ...passwordErrors,
+    //     CurrentPassword: "Current Password is incorrect",
+    //   });
+    // } else {
+    //   setPasswordErrors({
+    //     ...passwordErrors,
+    //     CurrentPassword: "",
+    //   });
+    // }
     if (NewPassword && ConfirmNewPassword) {
       if (NewPassword !== ConfirmNewPassword) {
         setPasswordErrors({
@@ -176,10 +176,6 @@ const AccountPreferences = () => {
   };
 
   const _onSubmit = (data) => {
-    if (
-      passwordErrors.CurrentPassword === "" &&
-      passwordErrors.ConfirmNewPassword === ""
-    ) {
       dispatch(
         UpdateAccountPart({
           UserId,
@@ -192,7 +188,6 @@ const AccountPreferences = () => {
           ConfirmNewPassword,
         })
       );
-    }
   };
 
   return (
