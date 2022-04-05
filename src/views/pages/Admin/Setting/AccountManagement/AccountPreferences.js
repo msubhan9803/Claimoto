@@ -304,7 +304,7 @@ const AccountPreferences = () => {
                                 value={TenantPrimaryPersonName}
                                 {...register("TenantPrimaryPersonName")}
                                 onChange={_handleChangeValue}
-                                placeholder="Enter Name"
+                                placeholder="Enter User Name"
                               />
                               <ErrorMessage
                                 errors={errors}

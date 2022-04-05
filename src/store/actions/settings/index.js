@@ -188,9 +188,10 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
     }
 
     let payload = {
-      "UserName": 0,
+      "UserName": temp?.TenantPrimaryPersonName || "",
       "UserId": parseInt(accountObj?.UserId) || "",
-      "FirstName": temp?.TenantPrimaryPersonName || "",
+      "FirstName":null,
+      "LastName":null,
       "MobileNo": temp?.TenantPrimaryPersonPhone || "",
       "Email": temp?.TenantPrimaryPersonEmail || "",
       "Password": temp?.TenantPrimaryPersonPassword || "",
@@ -198,7 +199,7 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       "AccessGroupIds": 0,
       "ImageModel": temp.ImageModel || temp.TenantLogoPath,
       "CurrentPassword": accountObj.CurrentPassword || "",
-      "Status": 0,
+      "Status": 1,
       "CountryId":temp?.TenantPrimaryPersonCountry || ""
     };
 
