@@ -64,7 +64,7 @@ const Login = () => {
   return (
     <React.Fragment>
       {token ? (
-        <Navigate to="/admin/" />
+        <Navigate to="/claim/" />
       ) : (
         <div className="body-wrapper">
           {/* Body Content Area Start */}
