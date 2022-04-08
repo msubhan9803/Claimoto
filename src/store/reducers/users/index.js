@@ -229,7 +229,7 @@ const usersScreenReducer = (state = initialState, action) => {
                         last_name: user_details.LastName,
                         phone: user_details.MobileNo,
                         email: user_details.Email,
-                        access_role: { label: role.RoleName, value: role.RoleId },
+                        access_role:role ?  { label: role.RoleName, value: role.RoleId } : "",
                         selected_image: user_details.ImageUrl,
                         access_group: user_details.AccessGroupIds?.map(ag => { return { label: ag.AccessGroupName, value: ag.AccessGroupId } }) || [],
                         status: user_details.Status,

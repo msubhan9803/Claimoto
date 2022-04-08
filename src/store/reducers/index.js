@@ -14,6 +14,7 @@ import rulesScreenReducer from 'store/reducers/rules';
 import addRuleScreenReducer from 'store/reducers/rules/add_rule';
 import providerServicesScreenReducer from 'store/reducers/providers/provider_service';
 import providerServicesPriceScreenReducer from 'store/reducers/providers/service_prices';
+import taskListScreenReducer from 'store/reducers/taskList/index';
 
 const rootPersistConfig = {
   key: 'root',
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
   rulesScreenReducer:rulesScreenReducer,
   addRuleScreenReducer:addRuleScreenReducer,
   providerServicesScreenReducer:providerServicesScreenReducer,
-  providerServicesPriceScreenReducer:providerServicesPriceScreenReducer
+  providerServicesPriceScreenReducer:providerServicesPriceScreenReducer,
+  taskListScreenReducer:taskListScreenReducer
   
 
 })
