@@ -41,7 +41,7 @@ function ProductNavbar() {
                                                 <div>
                                                     <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
                                                         <FontAwesomeIcon icon={faBell} style={{ color: "black" }} />
-                                                    </a >
+                                                    </a>
                                                     <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
                                                             <h4 className="title">Notifications (3)</h4>
@@ -99,11 +99,11 @@ function ProductNavbar() {
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                </div >
-                                            </ClickAwayListener >
-                                        </li >
+                                                </div>
+                                            </ClickAwayListener>
+                                        </li>
                                         {/*User Account*/}
-                                        < li className="ltnd-dropdown ltnd__user-img" >
+                                        <li className="ltnd-dropdown ltnd__user-img">
                                             <ClickAwayListener onClickAway={() => setShowProfile(false)}>
                                                 <div>
                                                     <a className="toggle" role="button" >
@@ -159,24 +159,24 @@ function ProductNavbar() {
                                                     </div>
                                                 </div>
                                             </ClickAwayListener>
-                                        </ >
+                                        </li>
                                         {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">
                         <FontAwesomeIcon icon={faPowerOff} />
 
                       </a>
                     </li> */}
-                                    </ul >
-                                </div >
-                            </div >
-                        </div >
-                    </div >
-                </div >
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {/* ltn__header-top-area end */}
 
-            </div >
+            </div>
             {/* HEADER AREA END */}
-        </React.Fragment >
+        </React.Fragment>
     )
 }
 
