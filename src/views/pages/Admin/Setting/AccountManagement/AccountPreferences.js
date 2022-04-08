@@ -49,6 +49,7 @@ const AccountPreferences = () => {
     ImageName,
     navigateAccount,
   } = useSelector((state) => state.settingsReducer);
+  const { UserId } = useSelector((state) => state.authReducer.user_details);
   const {
     TenantLogoPath,
     TenantPrimaryPersonName,
@@ -77,7 +78,7 @@ const AccountPreferences = () => {
 
   useEffect(() => {
     dispatch(GetAllCountry());
-    dispatch(GetAccountConfig());
+    dispatch(GetAccountConfig(Number(UserId)));
 
     return () => {
       dispatch({
@@ -103,17 +104,17 @@ const AccountPreferences = () => {
   }, [navigateAccount]);
 
   useEffect(() => {
-    if (CurrentPassword && CurrentPassword !== TenantPrimaryPersonPassword) {
-      setPasswordErrors({
-        ...passwordErrors,
-        CurrentPassword: "Current Password is incorrect",
-      });
-    } else {
-      setPasswordErrors({
-        ...passwordErrors,
-        CurrentPassword: "",
-      });
-    }
+    // if (CurrentPassword && CurrentPassword !== TenantPrimaryPersonPassword) {
+    //   setPasswordErrors({
+    //     ...passwordErrors,
+    //     CurrentPassword: "Current Password is incorrect",
+    //   });
+    // } else {
+    //   setPasswordErrors({
+    //     ...passwordErrors,
+    //     CurrentPassword: "",
+    //   });
+    // }
     if (NewPassword && ConfirmNewPassword) {
       if (NewPassword !== ConfirmNewPassword) {
         setPasswordErrors({
@@ -175,12 +176,9 @@ const AccountPreferences = () => {
   };
 
   const _onSubmit = (data) => {
-    if (
-      passwordErrors.CurrentPassword === "" &&
-      passwordErrors.ConfirmNewPassword === ""
-    ) {
       dispatch(
         UpdateAccountPart({
+          UserId,
           accountValues,
           UploadedImage,
           ImageName,
@@ -190,7 +188,6 @@ const AccountPreferences = () => {
           ConfirmNewPassword,
         })
       );
-    }
   };
 
   return (
@@ -307,7 +304,7 @@ const AccountPreferences = () => {
                                 value={TenantPrimaryPersonName}
                                 {...register("TenantPrimaryPersonName")}
                                 onChange={_handleChangeValue}
-                                placeholder="Enter Name"
+                                placeholder="Enter User Name"
                               />
                               <ErrorMessage
                                 errors={errors}

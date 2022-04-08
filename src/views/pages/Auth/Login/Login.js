@@ -61,10 +61,25 @@ const Login = () => {
     dispatch(loginUser(data));
   };
 
+  const _navigateUrl = () => {
+    let role = user_details.RoleId;
+    switch (role) {
+
+      case "0":
+        return "/admin/";
+        
+      case "7":
+        return "/claim/";
+
+      default:
+        return "/admin/";
+    }
+  }
+
   return (
     <React.Fragment>
       {token ? (
-        <Navigate to="/admin/" />
+        <Navigate to={_navigateUrl()} />
       ) : (
         <div className="body-wrapper">
           {/* Body Content Area Start */}
@@ -124,10 +139,10 @@ const Login = () => {
                         />
                         <FontAwesomeIcon
                           style={{ marginLeft: "-30px", cursor: "pointer" }}
-                          icon={ showPass ?  faEye : faEyeSlash}
+                          icon={showPass ? faEye : faEyeSlash}
                           onClick={() => setShowPass(!showPass)}
-                          />
-                          
+                        />
+
 
                         {/* <i
                           className={

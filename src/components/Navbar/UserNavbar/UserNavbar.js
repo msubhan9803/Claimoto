@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
 import { handleLogout } from 'store/actions/auth/user';
 import ClickAwayListener from 'react-click-away-listener';
-import mcIcon from 'assets/img/icons/mc/png/10.png'
+import mcIcon from 'assets/img/icons/mc/png/10.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPowerOff, faCalendar , faBell} from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 
 function ProductNavbar() {
@@ -40,8 +40,8 @@ function ProductNavbar() {
                                             <ClickAwayListener onClickAway={() => setShowNotifications(false)}>
                                                 <div>
                                                     <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
-                                                    <FontAwesomeIcon style={{color:"black"}} icon={faBell} />
-                                                    </a>
+                                                        <FontAwesomeIcon icon={faBell} style={{ color: "black" }} />
+                                                    </a >
                                                     <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
                                                             <h4 className="title">Notifications (3)</h4>
@@ -52,7 +52,7 @@ function ProductNavbar() {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <Link to="/">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` :  mcIcon} alt="mC_img" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -68,7 +68,7 @@ function ProductNavbar() {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <Link to="/">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` :  mcIcon} alt="mC_img" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -84,7 +84,7 @@ function ProductNavbar() {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <a href="#">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` :  mcIcon} alt="mC_img" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -99,20 +99,20 @@ function ProductNavbar() {
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </ClickAwayListener>
-                                        </li>
+                                                </div >
+                                            </ClickAwayListener >
+                                        </li >
                                         {/*User Account*/}
-                                        <li className="ltnd-dropdown ltnd__user-img">
+                                        < li className="ltnd-dropdown ltnd__user-img" >
                                             <ClickAwayListener onClickAway={() => setShowProfile(false)}>
                                                 <div>
                                                     <a className="toggle" role="button" >
-                                                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` :  mcIcon} onClick={() => setShowProfile(!showProfile)} alt="mC_img" />
+                                                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="user_image" />
                                                     </a>
                                                     <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
                                                             <div className="dropdown-menu-user-img">
-                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` :  mcIcon} alt="mC_img" />
+                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                             </div>
                                                             <div className="dropdown-menu-user-info">
                                                                 <h6>{`${FirstName} ${LastName}`}</h6>
@@ -159,24 +159,24 @@ function ProductNavbar() {
                                                     </div>
                                                 </div>
                                             </ClickAwayListener>
-                                        </li>
+                                        </ >
                                         {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">
                         <FontAwesomeIcon icon={faPowerOff} />
 
                       </a>
                     </li> */}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    </ul >
+                                </div >
+                            </div >
+                        </div >
+                    </div >
+                </div >
                 {/* ltn__header-top-area end */}
 
-            </div>
+            </div >
             {/* HEADER AREA END */}
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

@@ -139,15 +139,12 @@ export const GetAllCountry = () => async (dispatch) => {
   }
 };
 
-export const GetAccountConfig = () => async (dispatch) => {
+export const GetAccountConfig = (id) => async (dispatch) => {
   try {
-    let res = await instance.get(`api/Account/UserAccount`);
-    res.data.TenantPrimaryPersonTwoFactorPhone =
-      res.data.TenantPrimaryPersonPhone;
-
+    let res = await instance.get(`api/UserProfile/${id}`);
     dispatch({
       type: GET_ACCOUNT_CONFIG,
-      payload: res.data,
+      payload: res,
     });
   } catch (err) {
     console.log("err", err);
@@ -190,7 +187,23 @@ export const UpdateAccountPart = (accountObj) => async (dispatch) => {
       temp.TenantPrimaryPersonPassword = accountObj.ConfirmNewPassword;
     }
 
-    instance.put(`api/Account/UserAccount`, temp).then((res) => {
+    let payload = {
+      "UserName": temp?.TenantPrimaryPersonName || "",
+      "UserId": parseInt(accountObj?.UserId) || "",
+      "FirstName":null,
+      "LastName":null,
+      "MobileNo": temp?.TenantPrimaryPersonPhone || "",
+      "Email": temp?.TenantPrimaryPersonEmail || "",
+      "Password": temp?.TenantPrimaryPersonPassword || "",
+      "RoleId": 0,
+      "AccessGroupIds": 0,
+      "ImageModel": temp.ImageModel || temp.TenantLogoPath,
+      "CurrentPassword": accountObj.CurrentPassword || "",
+      "Status": 1,
+      "CountryId":temp?.TenantPrimaryPersonCountry || ""
+    };
+
+    instance.put(`api/UserAccount`, payload).then((res) => {
       successAlert({
         text: res.data,
         icon: "success",
@@ -220,31 +233,31 @@ export const GetAllActivityLogs =
     FromDate,
     ActivityType
   ) =>
-  async (dispatch) => {
-    try {
-      let params = {
-        PageIndex: PageIndex,
-        PageSize: PageSize,
-        SearchText: SearchText,
-        SearchOption: SearchOption,
-        SortType: SortType,
-        SortName: SortName,
-        ToDate: ToDate,
-        FromDate: FromDate,
-        ActivityType: ActivityType,
-      };
+    async (dispatch) => {
+      try {
+        let params = {
+          PageIndex: PageIndex,
+          PageSize: PageSize,
+          SearchText: SearchText,
+          SearchOption: SearchOption,
+          SortType: SortType,
+          SortName: SortName,
+          ToDate: ToDate,
+          FromDate: FromDate,
+          ActivityType: ActivityType,
+        };
 
-      let res = await instance.get(`api/ActivityLogs/Pagination`, {
-        params: params,
-      });
-      dispatch({
-        type: GET_ALL_ACTIVITY_LOGS,
-        payload: res.data,
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+        let res = await instance.get(`api/ActivityLogs/Pagination`, {
+          params: params,
+        });
+        dispatch({
+          type: GET_ALL_ACTIVITY_LOGS,
+          payload: res.data,
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const GetAllActivityById = (activityId) => async (dispatch) => {
   try {
@@ -281,7 +294,8 @@ export const sendTestEmail = (stmp) => async (dispatch) => {
     successAlert({
       text: res.data,
       icon: "success",
-    });  } catch (err) {
+    });
+  } catch (err) {
     console.log("err", err);
   }
 }

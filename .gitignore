@@ -1,5 +1,4 @@
 node_modules
 build
 .github
-.env
 # package-lock.json
