@@ -65,7 +65,7 @@ const Login = () => {
     let role = user_details.RoleId;
     switch (role) {
 
-      case "0":
+      case "1":
         return "/admin/";
         
       case "7":
