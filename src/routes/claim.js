@@ -5,6 +5,7 @@ import TaskList from "views/pages/ClaimOffice/TasksList/TaskList";
 import Policies from "views/pages/ClaimOffice/Policies/PoliciesData/Policies";
 import VehicalDetail from "views/pages/Admin/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
+import Claimlist from 'views/pages/ClaimOffice/Policies/ClaimList/ClaimList';
 
 export const claimRoutes = ({ userPermissions }) => {
 
@@ -38,19 +39,25 @@ export const claimRoutes = ({ userPermissions }) => {
               {
                 name: "Policies",
                 path: "/policy_detail/:id",
-                component: <PoliciesDetail />,
+                component: <PoliciesDetail type="view" layout="claim" />,
                 layout: "claim",
               },
               {
                 name: "Policies",
                 path: "/vehical_detail/:id",
-                component: <VehicalDetail />,
+                component: <VehicalDetail type="view" layout="claim" />,
                 layout: "claim",
               },
               {
                 name: "Policies",
                 path: "/vehical_detail_view/:id",
-                component: <VehicalDetail />,
+                component: <VehicalDetail type="view_only" layout="claim" />,
+                layout: "claim",
+              },
+              {
+                name: "Policies",
+                path: "/claim_list/:policyId",
+                component: <Claimlist />,
                 layout: "claim",
               }
             ]

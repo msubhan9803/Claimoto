@@ -68,14 +68,3 @@ export const handleLogout  = () => async dispatch => {
     }
 
 }
-
-export const handleLayout  = (value) => async dispatch => {
-    try {
-        dispatch({
-            type: SET_LAYOUT,
-            payload: value
-        })
-    }
-    catch (err) {
-    }
-}

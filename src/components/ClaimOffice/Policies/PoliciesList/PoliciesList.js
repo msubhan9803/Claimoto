@@ -36,7 +36,7 @@ function PoliciesList({ policies }) {
                       <li className="table-data-1">
                         <strong>{p.PolicyNo}</strong>
                       </li>
-                      <li className="table-data-2"></li>
+                      <li className="table-data-2">{p.ProductName}</li>
                       <li className="table-data-3 ltn__color-1"></li>
                       <li className="table-data-4">
                         {moment(p.StartDate).format("LL")}
@@ -67,7 +67,7 @@ function PoliciesList({ policies }) {
                       <li className="table-data-8">
                         <Link
                           className="ltn__secondary-color"
-                          to={`/claim/policy_detail/${p.Id}`}
+                          to={`/claim/claim_list/${p.Id}`}
                         >
                           <strong>Claim Details</strong>
                         </Link>

@@ -8,7 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
-import { loginUser, handleLayout } from "store/actions/auth/user";
+import { loginUser } from "store/actions/auth/user";
 import Loader from "components/Loader/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -40,15 +40,12 @@ const Login = () => {
     if (role) {
       switch (role) {
         case "0":
-          dispatch(handleLayout("admin"));
           break;
 
         case "7":
-          dispatch(handleLayout("claim"));
           break;
 
         default:
-          dispatch(handleLayout("admin"));
           break;
       }
     }
