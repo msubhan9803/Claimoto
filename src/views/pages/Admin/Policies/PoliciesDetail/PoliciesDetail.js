@@ -58,6 +58,7 @@ function PoliciesDetail() {
   const product_names = useSelector((state) => state.policyReducer.prouctNames);
   const { isSuccess } = useSelector((state) => state.policyReducer);
   const policy = useSelector((state) => state.policyReducer.policy);
+  const { layout } = useSelector((state) => state.authReducer);
 
   //    form validation schema
   const formSchema = Yup.object().shape({
@@ -252,7 +253,7 @@ function PoliciesDetail() {
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
                   <p className="page-back-btn" onClick={() => setShow(false)}>
-                    <Link to="/admin/policies">
+                    <Link to={`/${layout}/policies`}>
                       <i className="icon-left-arrow-1" />
                       Back
                     </Link>
@@ -769,7 +770,7 @@ function PoliciesDetail() {
                                   <Link
                                     to={
                                       Url
-                                      ? `/admin/vehical_detail/${params.id}`
+                                      ? `/${layout}/vehical_detail/${params.id}`
                                       : `/admin/vehical_detail_edit/${params.id}`
                                     }
                                     className="btn btn-2 btn-transparent btn-round-12 btn-border"
@@ -951,7 +952,7 @@ function PoliciesDetail() {
 
                       <div className="ltnd__right btn-normal">
                         <div className="btn-wrapper">
-                          <Link to="/admin/policies">
+                          <Link to={`/${layout}/policies`}>
                             <i className="ti-angle-left" /> Back
                           </Link>
                           <button

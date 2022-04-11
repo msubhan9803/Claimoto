@@ -41,6 +41,7 @@ function VehicalDetail() {
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [imageViewerList, setImageViewerList] = useState([]);
   const [currenctImageIndex, setCurrenctImageIndex] = useState(0);
+  const { layout } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   // form validation
@@ -104,7 +105,7 @@ function VehicalDetail() {
   useEffect(() => {
     if (isSuccess) {
       // console.log("==== isSuccess =====");
-      navigate("/admin/policies");
+      navigate(`/${layout}/policies`);
     }
   }, [isSuccess]);
 
@@ -240,10 +241,10 @@ function VehicalDetail() {
                         to={
                           params.id
                             ? checkUrl == "vehical_detail_view"
-                              ? "/admin/policies"
+                              ? `/${layout}/policies`
                               : isVehicleDetailEditUrl
                               ? `/admin/policy_detail_edit/${params.id}`
-                              : `/admin/policy_detail/${params.id}`
+                              : `/${layout}/policy_detail/${params.id}`
                             : "/admin/create_policy"
                         }
                       >
@@ -887,10 +888,10 @@ function VehicalDetail() {
                             to={
                               params.id
                                 ? checkUrl == "vehical_detail_view"
-                                  ? "/admin/policies"
+                                  ? `/${layout}/policies`
                                   : isVehicleDetailEditUrl
                                   ? `/admin/policy_detail_edit/${params.id}`
-                                  : `/admin/policy_detail/${params.id}`
+                                  : `/${layout}/policy_detail/${params.id}`
                                 : "/admin/create_policy"
                             }
                           >

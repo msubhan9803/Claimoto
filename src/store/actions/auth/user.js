@@ -1,6 +1,6 @@
 
 import { REGISTER_USER } from '../../types/types'
-import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH, SET_AUTH_VALUES } from 'store/types/auth'
+import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH, SET_AUTH_VALUES, SET_LAYOUT } from 'store/types/auth'
 import instance from 'config/axios/instance'
 
 
@@ -69,4 +69,13 @@ export const handleLogout  = () => async dispatch => {
 
 }
 
-
+export const handleLayout  = (value) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LAYOUT,
+            payload: value
+        })
+    }
+    catch (err) {
+    }
+}
