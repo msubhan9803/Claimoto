@@ -1,63 +1,18 @@
 import {
-  REGISTER_POLICIES,
   GET_CLAIMS,
-  GET_SINGLE_POLICIES,
-  GET_POLICIES_INPUTS,
-  DELETE_POLICIES,
-  UPDATE_POLICIES,
-  GET_CAR_COLORS,
-  GET_POLICY_MAKE,
-  GET_PRODUCT_NAMES,
-  GET_PRODUCT_BENEFIT_COV,
   CLAIMS_LIST_TABLE_DATA_CHANGE,
   CLAIMS_LIST_TABLE_FILTERING,
+  SET_USERS_LIST,
+  SET_POLICIES_LIST,
+  SET_CLAIMS_LIST,
+  SET_CLAIMS_DETAILS,
+  RESET_CLAIMS_DETAILS,
+  HANDLE_FIELD_CHANGE
 } from "store/types/claims.js";
+
 const initialState = {
   isSuccess: false,
-  productBenft: {},
   allClaims: [],
-  color: [],
-  make: [],
-  model: [],
-  policy: {
-    Id: "",
-    TenantId: 2,
-    CarNumber: "",
-    PolicyType: "",
-    productName: "",
-    PolicyHolderName: "",
-    MakeId: "",
-    ModelId: "",
-    PolicyNo: "",
-    // AnnualPremium: "",
-    DOB: "",
-    ModelName: "",
-    StartDate: "",
-    EndDate: "",
-    Address: "",
-    RegistrationNumber: "",
-    ChassisNumber: "",
-    DrivingLicenseValidity: "",
-    IdentityNo: "",
-    PlateNumber: "",
-    Year: "",
-    ColourId: "",
-    Capacity: "",
-    CoPayPercentage: "",
-    Deductibles: "",
-    IsAgencyRepair: "",
-    ProductId: "",
-    Benefits: "",
-    Image1: "",
-    Image2: "",
-    Image3: "",
-    Image4: "",
-    Image5: "",
-    isLoading: true,
-  },
-  prouctNames: [],
-  Editproduct: {},
-  EidtDat: "",
   filteredClaimsList: [],
   claimsListTableFilterData: {
     search_option: "",
@@ -96,6 +51,77 @@ const initialState = {
       value: "Address",
     },
   ],
+  claimDetails: {
+    ClaimId: 0,
+    ClaimTypeId: 0,
+    PolicyId: 0,
+    PolicyNo: null,
+    PolicyType: null,
+    PolicyValidity: null,
+    MakeId: 0,
+    ModeIld: 0,
+    RepairOption: null,
+    IncidentDate: new Date("2022-03-29T19:00:00.000Z"),
+    AddedByType: "",
+    AddedById: null,
+    InitialComments: "",
+    ClaimStatusId: 0,
+    CarNo: "",
+    SubmissionDate: "",
+    Location: "",
+    Latitude: "",
+    Longitude: "",
+    LocationUrl: "",
+    TenantId: 0,
+    CreatedBy: 0,
+    CreatedDate: "",
+    UpdatedBy: 0,
+    UpdatedDate: "",
+    IsDeleted: true,
+    IsActive: true,
+    ClaimAccidentCarPhotos: [
+      {
+        CACP_Id: 0,
+        ClaimId: 0,
+        PolicyId: 0,
+        MakeId: 0,
+        ModelId: 0,
+        AccidentCarPhotoId: 0,
+        Path: "",
+        ClaimAttachmentId: 0,
+        ClaimPhotoTypeId: 0,
+        TenantId: 0,
+        CreatedBy: 0,
+        CreatedDate: "",
+        UpdatedBy: 0,
+        UpdatedDate: "",
+        IsDeleted: 0,
+        IsActive: 0
+      }
+    ],
+    ClaimDocuments: [
+      {
+        CD_Id: 0,
+        ClaimId: 0,
+        PolicyId: 0,
+        MakeId: 0,
+        ModelId: 0,
+        DocumentTypeId: 0,
+        Path: "",
+        ClaimAttachmentId: 0,
+        TenantId: 0,
+        CreatedBy: 0,
+        CreatedDate: "",
+        UpdatedBy: 0,
+        UpdatedDate: "",
+        IsDeleted: 0,
+        IsActive: 0
+      }
+    ]
+  },
+  usersList: [],
+  policiesList: [],
+  claimsList: [],
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -128,14 +154,42 @@ const policyReducer = (state = initialState, action) => {
         filteredClaimsList: action.payload,
       };
     }
-    //  ***** //
 
-    case REGISTER_POLICIES: {
+    case SET_USERS_LIST: {
       return {
         ...state,
-        ...(state.isSuccess = true),
-        allProducts: [action.payload],
-        policy: initialState.policy,
+        usersList: action.payload,
+      };
+    }
+
+    case SET_POLICIES_LIST: {
+      return {
+        ...state,
+        policiesList: action.payload,
+      };
+    }
+
+    case SET_CLAIMS_LIST: {
+      return {
+        ...state,
+        claimsList: action.payload,
+      };
+    }
+
+    case SET_CLAIMS_DETAILS: {
+      return {
+        ...state,
+        claimDetails: action.payload
+      };
+    }
+
+    case HANDLE_FIELD_CHANGE: {
+      return {
+        ...state,
+        claimDetails: {
+          ...state.claimDetails,
+          [action.payload.name]: action.payload.value
+        }
       };
     }
 
@@ -145,84 +199,11 @@ const policyReducer = (state = initialState, action) => {
         isLoading: action.payload,
       };
     }
-
-    case GET_POLICIES_INPUTS: {
+    case RESET_CLAIMS_DETAILS: {
       return {
         ...state,
-        policy: {
-          ...state.policy,
-          [action.payload.name]: action.payload.value,
-        },
+        claimDetails: initialState.claimDetails
       };
-    }
-    case GET_SINGLE_POLICIES: {
-      return {
-        ...state,
-        policy: {
-          ...state.policy,
-          ...action.payload,
-          isLoading: false,
-        },
-      };
-    }
-
-    case GET_CAR_COLORS: {
-      return {
-        ...state,
-        color: action.payload,
-      };
-    }
-
-    case GET_POLICY_MAKE: {
-      return {
-        ...state,
-        make: action.payload,
-      };
-    }
-
-    case "GET_POLICY_MAKE_MODEL": {
-      return {
-        ...state,
-        model: action.payload,
-      };
-    }
-
-    case GET_PRODUCT_NAMES: {
-      return {
-        ...state,
-        prouctNames: action.payload,
-      };
-    }
-
-    case GET_PRODUCT_BENEFIT_COV: {
-      return {
-        ...state,
-        policy: {
-          ...state.policy,
-          ...action.payload,
-        },
-      };
-    }
-
-    case DELETE_POLICIES: {
-      return {
-        ...state,
-        isSuccess: true,
-
-        allClaims: state.allClaims.filter(
-          (data, index) => index !== action.payload
-        ),
-      };
-    }
-
-    case UPDATE_POLICIES: {
-      return Object.assign({}, state, {
-        ...(state.allClaims = state.allClaims.map((item) => {
-          if (item.id === action.payload.Id) item = action.payload;
-          return item;
-        })),
-        ...(state.isSuccess = true),
-      });
     }
 
     default:

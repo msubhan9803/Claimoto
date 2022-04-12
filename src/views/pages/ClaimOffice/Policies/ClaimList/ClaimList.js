@@ -19,7 +19,8 @@ import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-function Claimlist() {
+function Claimlist(props) {
+  const { layout } = props;
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
   let params = useParams();
@@ -41,12 +42,11 @@ function Claimlist() {
     claims_page_index,
     claims_count,
   } = claimsListTableFilterData;
-  const { layout } = useSelector((state) => state.authReducer);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (params.policyId) {
-      dispatch(GetClaimsByPolicyId(params.policyId, _handleClaimsNotFound));
+      dispatch(GetClaimsByPolicyId(params.policyId));
     }
     dispatch(GetProducType());
   }, []);
@@ -336,19 +336,6 @@ function Claimlist() {
                         </div>
                       </div>
                     </li>
-                    {policy_actions?.includes("INSERT") && (
-                      <li>
-                        <div className="btn-wrapper text-center mt-0">
-                          <Link
-                            to="/admin/create_policy"
-                            className="btn theme-btn-1 btn-round-12"
-                          >
-                            Add +
-                          </Link>
-                          {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
-                        </div>
-                      </li>
-                    )}
                     <li>
                       <div className="btn-wrapper text-center mt-0 d-none">
                         <CSVExport

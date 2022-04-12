@@ -306,19 +306,6 @@ function Policies() {
                         </div>
                       </div>
                     </li>
-                    {policy_actions?.includes("INSERT") && (
-                      <li>
-                        <div className="btn-wrapper text-center mt-0">
-                          <Link
-                            to="/admin/create_policy"
-                            className="btn theme-btn-1 btn-round-12"
-                          >
-                            Add +
-                          </Link>
-                          {/* <button type="submit" className="btn theme-btn-1 btn-round">Add +</button> */}
-                        </div>
-                      </li>
-                    )}
                     <li>
                       <div className="btn-wrapper text-center mt-0 d-none">
                         <CSVExport
@@ -338,6 +325,16 @@ function Policies() {
                         {/* <ExcleExport /> */}
                       </div>
                     </li>
+                      <li>
+                        <div className="btn-wrapper text-center mt-0">
+                          <Link
+                            to="/claim/initiate_claim"
+                            className="btn theme-btn-1 btn-round-12"
+                          >
+                            Initiate Claim
+                          </Link>
+                        </div>
+                      </li>
                   </ul>
                 </div>
               </div>
