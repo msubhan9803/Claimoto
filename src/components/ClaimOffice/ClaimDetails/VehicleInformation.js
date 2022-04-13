@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function VehicleInformation({ type, claimDetails }) {
+export default function VehicleInformation({
+  type,
+  claimDetails,
+  _handleVehicleMakeName,
+  _handleVehicleModeName,
+}) {
   const { MakeId, ModeIld, CarNo } = claimDetails;
 
   return (
@@ -32,14 +37,25 @@ export default function VehicleInformation({ type, claimDetails }) {
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Make</h6>
                     <h6>
-                      <img src="img/icons/mc/png/1.png" alt="#" /> {MakeId}
+                      {_handleVehicleMakeName(MakeId) ? (
+                        <>
+                          <img src={_handleVehicleMakeName(MakeId).Image} />{" "}
+                          {_handleVehicleMakeName(MakeId).MakeName}
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </h6>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Model</h6>
-                    <h6>{ModeIld}</h6>
+                    <h6>
+                      {_handleVehicleModeName(ModeIld)
+                        ? _handleVehicleModeName(ModeIld).ModelName
+                        : ""}
+                    </h6>
                   </div>
                 </div>
               </div>

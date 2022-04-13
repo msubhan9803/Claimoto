@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FooterActions({ type }) {
+export default function FooterActions({ type, submitBtnRef }) {
   return (
     <>
       {type === "create" || type === "edit" ? (
@@ -12,9 +12,9 @@ export default function FooterActions({ type }) {
             <div class="btn-wrapper">
               {/* <a href="product.html"><i class="ti-angle-left"></i> Back</a> */}
               <a href="product.html"> Initial estimate</a>
-              <a href="#" class="btn theme-btn-1 btn-round-12">
+              <button type="submit" class="btn theme-btn-1 btn-round-12" ref={submitBtnRef}>
                 Submitted
-              </a>
+              </button>
             </div>
           </div>
         </div>

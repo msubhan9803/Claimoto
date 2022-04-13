@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-export default function PolicyInformation({ type, claimDetails }) {
+export default function PolicyInformation({ type, claimDetails, _handlePolicyTypeName }) {
   const { PolicyNo, PolicyType, PolicyValidity } = claimDetails;
 
   return (
@@ -25,7 +25,7 @@ export default function PolicyInformation({ type, claimDetails }) {
                 <div class="col-lg-4 col-md-6">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Policy Type</h6>
-                    <h6>{PolicyType}</h6>
+                    <h6>{_handlePolicyTypeName(PolicyType) ? _handlePolicyTypeName(PolicyType).ProductTypeName : ""}</h6>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
