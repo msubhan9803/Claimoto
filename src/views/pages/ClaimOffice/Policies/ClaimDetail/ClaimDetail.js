@@ -17,6 +17,7 @@ import {
   GetClaimsList,
   GetProductDetails,
   ResetClaimDetails,
+  PostClaimDetials,
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -38,6 +39,16 @@ const docType = {
   Registration_Book: 4,
 };
 
+const photoTypeIdList = {
+  Front: 1,
+  LeftRight: 2,
+  FrontLeft: 3,
+  FrontRight: 4,
+  RearLeft: 5,
+  RearRight: 6,
+  Rear: 7,
+};
+
 const ClaimDetail = (props) => {
   const { type, layout } = props;
   const submitBtnRef = useRef();
@@ -53,11 +64,14 @@ const ClaimDetail = (props) => {
   const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld } = claimDetails;
   const formOptions = { resolver: yupResolver(formSchema), mode: "onChange" };
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] = useState("");
+  const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] = useState("");
   const {
     register,
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm(formOptions);
 
@@ -111,7 +125,31 @@ const ClaimDetail = (props) => {
   };
 
   const onSubmit = () => {
+    if (claimDetails.ClaimDocuments.length < 4) {
+      // msgAlert({
+      //   title: "Please upload all documents",
+      //   text: "",
+      //   icon: "error",
+      // });
+      setErrorMessageClaimDocuments("Please upload all documents");
+      return;
+    } else {
+      setErrorMessageClaimDocuments("");
+    }
+
+    if (claimDetails.ClaimAccidentCarPhotos.length < 7) {
+      msgAlert({
+        title: "Please upload all car photos",
+        text: "",
+        icon: "error",
+      });
+      return;
+    } else {
+      setErrorClaimAccidentCarPhotos("");
+    }
+    
     console.log("submitting... : ", claimDetails);
+    dispatch(PostClaimDetials(claimDetails))
   };
 
   const _handleDocumentPush = (file, documentType) => {
@@ -119,7 +157,7 @@ const ClaimDetail = (props) => {
       msgAlert({
         title: "Please fill Claim details first",
         text: "",
-        icon: "error"
+        icon: "error",
       });
       submitBtnRef.current.click();
     } else {
@@ -145,6 +183,64 @@ const ClaimDetail = (props) => {
       let docList = [...claimDetails.ClaimDocuments, temp];
       dispatch(HandleFieldChange("ClaimDocuments", docList));
     }
+  };
+
+  const _handlePhotoPush = (file, photoType) => {
+    if (PolicyId === 0 || MakeId === 0 || ModeIld === 0) {
+      msgAlert({
+        title: "Please fill Claim details first",
+        text: "",
+        icon: "error",
+      });
+      submitBtnRef.current.click();
+    } else {
+      readFileAsDataURL(file).then((base64) => {
+        let index = claimDetails.ClaimAccidentCarPhotos.findIndex(
+          (photo) => photo.ClaimPhotoTypeId === photoTypeIdList[photoType]
+        );
+        if (index === -1) {
+          let temp = {
+            CACP_Id: 0,
+            ClaimId: ClaimId,
+            PolicyId: PolicyId,
+            MakeId: MakeId,
+            ModelId: ModeIld,
+            AccidentCarPhotoId: 0,
+            Path: "",
+            ClaimAttachmentId: 0,
+            ClaimPhotoTypeId: photoTypeIdList[photoType],
+            TenantId: 0,
+            CreatedBy: 0,
+            CreatedDate: "",
+            UpdatedBy: 0,
+            UpdatedDate: "",
+            IsDeleted: 0,
+            IsActive: 0,
+            file: file,
+            base64: base64,
+          };
+
+          let photoList = [...claimDetails.ClaimAccidentCarPhotos, temp];
+          dispatch(HandleFieldChange("ClaimAccidentCarPhotos", photoList));
+        } else {
+          let temp = claimDetails.ClaimAccidentCarPhotos;
+          temp[index].file = file;
+          temp[index].base64 = base64;
+
+          dispatch(HandleFieldChange("ClaimAccidentCarPhotos", temp));
+        }
+      });
+    }
+  };
+
+  const readFileAsDataURL = async (file) => {
+    let result_base64 = await new Promise((resolve) => {
+      let fileReader = new FileReader();
+      fileReader.onload = (e) => resolve(fileReader.result);
+      fileReader.readAsDataURL(file);
+    });
+
+    return result_base64;
   };
 
   return (
@@ -198,7 +294,7 @@ const ClaimDetail = (props) => {
             />
           </div>
 
-          {PolicyNo && (
+          {PolicyNo ? (
             <VehicleInformation
               type={type}
               claimDetails={claimDetails}
@@ -206,14 +302,18 @@ const ClaimDetail = (props) => {
               _handleVehicleMakeName={_handleVehicleMakeName}
               _handleVehicleModeName={_handleVehicleModeName}
             />
+          ) : (
+            ""
           )}
 
-          {CarNo && (
+          {CarNo ? (
             <PolicyInformation
               type={type}
               claimDetails={claimDetails}
               _handlePolicyTypeName={_handlePolicyTypeName}
             />
+          ) : (
+            ""
           )}
 
           {/* Uploaded Documents Section */}
@@ -222,10 +322,17 @@ const ClaimDetail = (props) => {
             claimDetails={claimDetails}
             _handleDocumentPush={_handleDocumentPush}
             docType={docType}
+            error={errorMessageClaimDocuments}
           />
 
           {/* Accident Photo upload */}
-          <CarPhotos type={type} />
+          <CarPhotos
+            type={type}
+            claimDetails={claimDetails}
+            photoTypeIdList={photoTypeIdList}
+            _handlePhotoPush={_handlePhotoPush}
+            error={errorClaimAccidentCarPhotos}
+          />
         </div>
 
         <footer class="ltnd__footer-1 fixed-footer-1">

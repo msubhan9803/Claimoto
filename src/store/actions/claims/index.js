@@ -105,3 +105,40 @@ export const ResetClaimDetails = (name, value) => (dispatch) => {
     console.log("err", err);
   }
 };
+
+// POST /api/Claims
+export const PostClaimDetials = (claimDetials) => async (dispatch) => {
+  try {
+    let payload = claimDetials;
+    delete payload.ClaimAccidentCarPhotos;
+    delete payload.ClaimDocuments;
+    payload.SubmissionDate = new Date();
+    payload.CreatedDate = new Date();
+    payload.UpdatedDate = new Date();
+
+    await instance.post("api/Claims", claimDetials).then(async (res) => {
+      console.log("Posted Claim res: ", res)
+      // let formData = new FormData();
+      // formData.append("Id", res.data);
+      // for (let [key, value] of Object.entries(Imgdata)) {
+      //   formData.append(key, value);
+      // }
+      // await instance
+      //   .post("api/File/Insert", formData)
+      //   .then((res) => {
+      //     dispatch({
+      //       type: REGISTER_POLICIES,
+      //       payload: data,
+      //     });
+      //     SweetAlert({
+      //       text: "Policy are successfully register",
+      //       icon: "Success",
+      //     });
+      //     window.location.href = "/admin/policies";
+      //   })
+      //   .catch((err) => console.log("err FileUpload: ", err));
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};

@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { ErrorMessage } from "@hookform/error-message";
 
 export default function UploadDocuments({
   type,
   claimDetails,
   _handleDocumentPush,
   docType,
+  error,
 }) {
   const ref = useRef();
   const { ClaimDocuments } = claimDetails;
@@ -120,6 +122,8 @@ export default function UploadDocuments({
                 onChange={_onImageChange}
                 ref={ref}
               />
+
+              {error !== "" && <p style={{ color: "red" }}>{error}</p>}
             </div>
           </div>
         </div>

@@ -42,7 +42,7 @@ export default function InitiateClaimInformation({
               <div class="row">
                 <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">User</h6>
+                    <h6 class="ltnd__title-3">User *</h6>
                     <select
                       class="nice-select"
                       name="AddedById"
@@ -70,7 +70,7 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Policy number</h6>
+                    <h6 class="ltnd__title-3">Policy number *</h6>
                     <select
                       class="nice-select"
                       name="PolicyId"
@@ -98,7 +98,7 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Claim Type</h6>
+                    <h6 class="ltnd__title-3">Claim Type *</h6>
                     <select
                       class="nice-select"
                       name="ClaimTypeId"
@@ -126,7 +126,7 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Repair option</h6>
+                    <h6 class="ltnd__title-3">Repair option *</h6>
                     <select
                       class="nice-select"
                       value={RepairOption}
@@ -150,7 +150,7 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Incident date</h6>
+                    <h6 class="ltnd__title-3">Incident date *</h6>
                     <Controller
                       control={control}
                       name="IncidentDate"
@@ -183,7 +183,7 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-12">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Comments</h6>
+                    <h6 class="ltnd__title-3">Comments *</h6>
                     <textarea
                       row="2"
                       type="text"

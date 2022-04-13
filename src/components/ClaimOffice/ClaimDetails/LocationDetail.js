@@ -86,7 +86,7 @@ export default function LocationDetail({
                 className="btn theme-btn-1 btn-round-12"
                 onClick={() => setShowLocationModal(!showLocationModal)}
               >
-                { Location !== "" ? "Update Location" : "Add Location" }
+                {Location !== "" ? "Update Location" : "Add Location"}
               </div>
             </div>
           </div>

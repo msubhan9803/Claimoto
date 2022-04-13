@@ -20146,3 +20146,7 @@ form .ltnd__title-3 {
 .link {
   color: var(--ltn__secondary-color);
 }
+
+.swal2-container  {
+  z-index: 9999999 !important;
+}

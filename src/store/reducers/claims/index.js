@@ -61,7 +61,7 @@ const initialState = {
     MakeId: 0,
     ModeIld: 0,
     RepairOption: 0,
-    IncidentDate: new Date("2022-03-29T19:00:00.000Z"),
+    IncidentDate: new Date(),
     AddedByType: "",
     AddedById: "",
     InitialComments: "",
@@ -79,26 +79,7 @@ const initialState = {
     UpdatedDate: "",
     IsDeleted: true,
     IsActive: true,
-    ClaimAccidentCarPhotos: [
-      {
-        CACP_Id: 0,
-        ClaimId: 0,
-        PolicyId: 0,
-        MakeId: 0,
-        ModelId: 0,
-        AccidentCarPhotoId: 0,
-        Path: "",
-        ClaimAttachmentId: 0,
-        ClaimPhotoTypeId: 0,
-        TenantId: 0,
-        CreatedBy: 0,
-        CreatedDate: "",
-        UpdatedBy: 0,
-        UpdatedDate: "",
-        IsDeleted: 0,
-        IsActive: 0
-      }
-    ],
+    ClaimAccidentCarPhotos: [],
     ClaimDocuments: []
   },
   usersList: [],
