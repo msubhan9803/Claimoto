@@ -10,8 +10,8 @@ import * as Yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
 import { loginUser } from "store/actions/auth/user";
 import Loader from "components/Loader/Loader";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 
 const Login = () => {
@@ -33,6 +33,23 @@ const Login = () => {
   //     }
 
   // }, [token, user_details])
+
+  useEffect(() => {
+    // Setting layout based on user roles
+    let role = user_details?.RoleId;
+    if (role) {
+      switch (role) {
+        case "0":
+          break;
+
+        case "7":
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, [user_details]);
 
   //Show hide Password
   const [showPass, setShowPass] = useState(false);
@@ -67,14 +84,14 @@ const Login = () => {
 
       case "1":
         return "/admin/";
-        
+
       case "7":
         return "/claim/";
 
       default:
         return "/admin/";
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -99,13 +116,10 @@ const Login = () => {
                   {/* <img src={motorImg} style={{ width: "100%", height: "100vh" }} /> */}
                 </div>
                 <div className="col-7">
-
                   <div className="ltnd__login-wrap">
                     <div className="account-login-inner">
                       <div className="section-title-area mb-30">
-                        <h1 className="section-title">
-                          Sign in to Claimoto
-                        </h1>
+                        <h1 className="section-title">Sign in to Claimoto</h1>
                         <p>Enter your details below</p>
                       </div>
                       <form
@@ -143,7 +157,6 @@ const Login = () => {
                           onClick={() => setShowPass(!showPass)}
                         />
 
-
                         {/* <i
                           className={
                             showPass ? "far fa-eye" : "far fa-eye-slash"
@@ -164,22 +177,27 @@ const Login = () => {
                                             Frogot password?
                                         </Link>
                                     </div> */}
-                        {loading_login ? <LoaderAnimation /> :
-
+                        {loading_login ? (
+                          <LoaderAnimation />
+                        ) : (
                           <div className="btn-wrapper mt-30">
-
-
                             <button
                               className="theme-btn-1 btn btn-block w-100 btn-round-12"
                               type="submit"
                               disabled={loading_login}
                             >
-                              <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                }}
+                              >
                                 <span> Sign in </span>
                               </div>
                             </button>
                           </div>
-                        }
+                        )}
 
                         {/* <div className="btn-normal mt-30">
                                         <span>

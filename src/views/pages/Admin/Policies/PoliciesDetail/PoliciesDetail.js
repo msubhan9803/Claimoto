@@ -22,13 +22,12 @@ import Select from "react-select";
 import ReactSelect from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllowActions } from "functions";
-function PoliciesDetail() {
+function PoliciesDetail(props) {
+  const { type, layout } = props;
 
-
-    //Permissions Controlling
-    const { permissions } = useSelector(state => state.authReducer);
-    let policy_actions = getAllowActions({ permissions, module_name: "APO" });
-  
+  //Permissions Controlling
+  const { permissions } = useSelector((state) => state.authReducer);
+  let policy_actions = getAllowActions({ permissions, module_name: "APO" });
 
   // params hook
   let params = useParams();
@@ -170,7 +169,7 @@ function PoliciesDetail() {
     formState: { errors },
     control,
     setValue,
-    getValues
+    getValues,
   } = useForm(formOptions);
   setValue("DOB", params.id ? DOB : DOB);
   setValue("StartDate", params.id ? StartDate : StartDate);
@@ -196,10 +195,10 @@ function PoliciesDetail() {
   function onSubmit() {
     console.log("hellow onsubmit");
     const values = getValues();
-    console.log("values: ", values)
+    console.log("values: ", values);
 
     return navigate(
-      params.id ? `/admin/vehical_detail/${params.id}` : "/admin/create_vehical"
+      params.id ? `/${layout}/vehical_detail/${params.id}` : `/${layout}/create_vehical`
     );
   }
 
@@ -207,9 +206,13 @@ function PoliciesDetail() {
     console.log("hellow next");
 
     return navigate(
-      Url
-        ? `/admin/vehical_detail/${params.id}`
-        : `/admin/vehical_detail_edit/${params.id}`
+      // Url
+      //   ? `/${layout}/vehical_detail/${params.id}`
+      //   : `/admin/vehical_detail_edit/${params.id}`
+
+      type === "view" ?
+      `/${layout}/vehical_detail/${params.id}`
+      : `/${layout}/vehical_detail_edit/${params.id}`
     );
   }
 
@@ -241,6 +244,22 @@ function PoliciesDetail() {
   // let findMake = policy_make.find((m) => m.Id === MakeId)
   let checkBenefit = Array.isArray(Benefit) && Benefit.length;
 
+  const _handleBackButtonClick = () => {
+    return `/${layout}/policies`;
+  };
+
+  const _handleVehicleDetialsButtonClick = () => {
+    // Url
+    // ? `/${layout}/vehical_detail/${params.id}`
+    // : `/admin/vehical_detail_edit/${params.id}`
+
+    if (type === "view") {
+      return `/${layout}/vehical_detail/${params.id}`;
+    } else if (type === "edit") {
+      return `/${layout}/vehical_detail_edit/${params.id}`;
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="body-wrapper">
@@ -252,7 +271,7 @@ function PoliciesDetail() {
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
                   <p className="page-back-btn" onClick={() => setShow(false)}>
-                    <Link to="/admin/policies">
+                    <Link to={_handleBackButtonClick()}>
                       <i className="icon-left-arrow-1" />
                       Back
                     </Link>
@@ -767,11 +786,7 @@ function PoliciesDetail() {
                               {params.id && (
                                 <>
                                   <Link
-                                    to={
-                                      Url
-                                      ? `/admin/vehical_detail/${params.id}`
-                                      : `/admin/vehical_detail_edit/${params.id}`
-                                    }
+                                    to={_handleVehicleDetialsButtonClick()}
                                     className="btn btn-2 btn-transparent btn-round-12 btn-border"
                                   >
                                     Vehicle details
@@ -951,7 +966,7 @@ function PoliciesDetail() {
 
                       <div className="ltnd__right btn-normal">
                         <div className="btn-wrapper">
-                          <Link to="/admin/policies">
+                          <Link to={_handleBackButtonClick()}>
                             <i className="ti-angle-left" /> Back
                           </Link>
                           <button

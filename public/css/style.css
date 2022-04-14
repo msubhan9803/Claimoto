@@ -17693,8 +17693,7 @@ form .ltnd__title-3 {
 /* policies */
 .policies-details-single-info {
 
-  padding-top: 40px;
-  ;
+  /* padding-top: 40px;; */
   /* margin-bottom: 30px; */
 }
 
@@ -17932,17 +17931,17 @@ form .ltnd__title-3 {
 }
 
 .ltnd__policies-table-wrap .table-data-6 {
-  min-width: 205px;
+  min-width: 160px;
 }
 
 .ltnd__policies-table-wrap .table-data-7 {
-  max-width: 80px;
-  min-width: 80px;
+  min-width: 160px;
+  max-width: 160px;
 }
 
 .ltnd__policies-table-wrap .table-data-8 {
-  max-width: 80px;
-  min-width: 80px;
+  min-width: 160px;
+  max-width: 160px;
 }
 
 .ltnd__policies-table-wrap .table-data-9 {
@@ -20146,4 +20145,8 @@ form .ltnd__title-3 {
 
 .link {
   color: var(--ltn__secondary-color);
+}
+
+.swal2-container  {
+  z-index: 9999999 !important;
 }

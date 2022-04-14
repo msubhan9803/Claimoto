@@ -23,7 +23,8 @@ import Carasole from "components/Admin/Carasole/Carasole";
 import { getAllowActions } from "functions";
 import Imageviewer from "../../../../components/Admin/General/ImageViewer.js";
 
-function VehicalDetail() {
+function VehicalDetail(props) {
+  const { type, layout } = props;
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
   let vehicle_actions = getAllowActions({ permissions, module_name: "AVP" });
@@ -104,7 +105,7 @@ function VehicalDetail() {
   useEffect(() => {
     if (isSuccess) {
       // console.log("==== isSuccess =====");
-      navigate("/admin/policies");
+      navigate(`/${layout}/policies`);
     }
   }, [isSuccess]);
 
@@ -209,6 +210,27 @@ function VehicalDetail() {
     setShowImageViewer(!showImageViewer);
   };
 
+  const _handleBackButton = () => {
+    // params.id
+    // ? checkUrl == "vehical_detail_view"
+    //   ? `/${layout}/policies`
+    //   : isVehicleDetailEditUrl
+    //   ? `/admin/policy_detail_edit/${params.id}`
+    //   : `/${layout}/policy_detail/${params.id}`
+    // : "/admin/create_policy"
+
+    if (type === "create") {
+      return `/${layout}/create_policy`;
+    } else if (type === "view") {
+      return `/${layout}/policy_detail/${params.id}`;
+    } else if (type === "view_only") {
+      // url: /${layout}/vehical_detail_view/{id}
+      return `/${layout}/policies`;
+    } else if (type === "edit") {
+      return `/${layout}/policy_detail_edit/${params.id}`;
+    }
+  };
+
   return (
     <React.Fragment>
       {/* <Carasole openModal={isEdit} closeModel={(value) => setIsEdit(value)} /> */}
@@ -236,17 +258,7 @@ function VehicalDetail() {
                 <div className="col-lg-9">
                   <div className="ltnd__page-title-area">
                     <p className="page-back-btn">
-                      <Link
-                        to={
-                          params.id
-                            ? checkUrl == "vehical_detail_view"
-                              ? "/admin/policies"
-                              : isVehicleDetailEditUrl
-                              ? `/admin/policy_detail_edit/${params.id}`
-                              : `/admin/policy_detail/${params.id}`
-                            : "/admin/create_policy"
-                        }
-                      >
+                      <Link to={_handleBackButton()}>
                         <i className="icon-left-arrow-1" /> Back
                       </Link>
                     </p>
@@ -883,17 +895,7 @@ function VehicalDetail() {
 
                       <div className="ltnd__right btn-normal">
                         <div className="btn-wrapper">
-                          <Link
-                            to={
-                              params.id
-                                ? checkUrl == "vehical_detail_view"
-                                  ? "/admin/policies"
-                                  : isVehicleDetailEditUrl
-                                  ? `/admin/policy_detail_edit/${params.id}`
-                                  : `/admin/policy_detail/${params.id}`
-                                : "/admin/create_policy"
-                            }
-                          >
+                          <Link to={_handleBackButton()}>
                             <i className="icon-left-arrow-1" /> Back
                           </Link>
                           {!isView && (

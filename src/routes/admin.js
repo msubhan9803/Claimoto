@@ -263,43 +263,43 @@ export const adminRoutes = ({ userPermissions }) => {
     {
       name: "",
       path: "/create_policy",
-      component: <PoliciesDetail />,
+      component: <PoliciesDetail type="create" layout="admin" />,
       layout: "admin",
     },
     {
       name: "",
       path: "/policy_detail/:id",
-      component: <PoliciesDetail />,
+      component: <PoliciesDetail type="view" layout="admin" />,
       layout: "admin",
     },
     {
       name: "",
       path: "/policy_detail_edit/:id",
-      component: <PoliciesDetail />,
+      component: <PoliciesDetail type="edit" layout="admin" />,
       layout: "admin",
     },
     {
       name: "",
       path: "/create_vehical",
-      component: <VehicalDetail />,
+      component: <VehicalDetail type="create" layout="admin" />,
       layout: "admin",
     },
     {
       name: "",
       path: "/vehical_detail/:id",
-      component: <VehicalDetail />,
+      component: <VehicalDetail type="view" layout="admin" />,// this loads after policy detail view
       layout: "admin",
     },
     {
       name: "",
       path: "/vehical_detail_view/:id",
-      component: <VehicalDetail />,
+      component: <VehicalDetail type="view_only" layout="admin" />,
       layout: "admin",
     },
     {
       name: "",
       path: "/vehical_detail_edit/:id",
-      component: <VehicalDetail />,
+      component: <VehicalDetail type="edit" layout="admin" />,
       layout: "admin",
     },
   ];
