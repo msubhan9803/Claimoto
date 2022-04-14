@@ -109,6 +109,9 @@ export const ResetClaimDetails = (name, value) => (dispatch) => {
 // POST /api/Claims
 export const PostClaimDetials = (claimDetials) => async (dispatch) => {
   try {
+    let claimDocuments = claimDetials.ClaimDocuments;
+    let claimPhotos = claimDocuments.ClaimAccidentCarPhotos;
+
     let payload = claimDetials;
     delete payload.ClaimAccidentCarPhotos;
     delete payload.ClaimDocuments;
@@ -116,27 +119,50 @@ export const PostClaimDetials = (claimDetials) => async (dispatch) => {
     payload.CreatedDate = new Date();
     payload.UpdatedDate = new Date();
 
-    await instance.post("api/Claims", claimDetials).then(async (res) => {
+    await instance.post("api/Claims", payload).then(async (res) => {
       console.log("Posted Claim res: ", res)
-      // let formData = new FormData();
-      // formData.append("Id", res.data);
-      // for (let [key, value] of Object.entries(Imgdata)) {
-      //   formData.append(key, value);
-      // }
-      // await instance
-      //   .post("api/File/Insert", formData)
+
+      for (let index = 0; index < claimDocuments.length; index++) {
+        const doc = claimDocuments[index];
+        let formData = new FormData();
+        formData.append("ClaimId", res.data.ClaimId);
+        formData.append("PolicyId", payload.PolicyId);
+        formData.append("MakeId", payload.MakeId);
+        formData.append("ModelId", payload.ModeIld);
+        formData.append("DocumentTypeId", doc.DocumentTypeId);
+        formData.append("ClaimAttachmentId", doc.DocumentTypeId);
+        formData.append("File", doc.file);
+
+        await instance
+        .post("api/Claims/ClaimAttachment", formData)
+        .then((res) => {
+          console.log("uploaded document with doc Id: ", doc.DocumentTypeId)
+          console.log("res: ", res)
+          console.log("  ====   ")
+        })
+        .catch((err) => console.log("err FileUpload: ", err));
+      }
+
+      // for (let index = 0; index < claimPhotos.length; index++) {
+      //   const doc = claimPhotos[index];
+      //   let formData = new FormData();
+      //   formData.append("ClaimId", res.data.ClaimId);
+      //   formData.append("PolicyId", payload.PolicyId);
+      //   formData.append("MakeId", payload.MakeId);
+      //   formData.append("ModelId", payload.ModeIld);
+      //   formData.append("DocumentTypeId", doc.DocumentTypeId);
+      //   formData.append("ClaimAttachmentId", doc.DocumentTypeId);
+      //   formData.append("File", doc.file);
+
+      //   await instance
+      //   .post("api/Claims/ClaimAttachment", formData)
       //   .then((res) => {
-      //     dispatch({
-      //       type: REGISTER_POLICIES,
-      //       payload: data,
-      //     });
-      //     SweetAlert({
-      //       text: "Policy are successfully register",
-      //       icon: "Success",
-      //     });
-      //     window.location.href = "/admin/policies";
+      //     console.log("uploaded document with doc Id: ", doc.DocumentTypeId)
+      //     console.log("res: ", res)
+      //     console.log("  ====   ")
       //   })
       //   .catch((err) => console.log("err FileUpload: ", err));
+      // }
     });
   } catch (err) {
     console.log("err", err);

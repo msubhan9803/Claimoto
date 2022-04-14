@@ -33,10 +33,11 @@ export default function LocationDetail({
   errors,
   _hanldeLocationSave,
   handleFieldChange,
+  error,
+  setError
 }) {
   const { Location, Latitude, Longitude } = claimDetails;
   const zoom = 7;
-  const [error, setError] = useState("");
 
   const _mapRender = (status) => {
     // if (status === Status.LOADING) return <h3>{status} ..</h3>;
@@ -88,6 +89,8 @@ export default function LocationDetail({
               >
                 {Location !== "" ? "Update Location" : "Add Location"}
               </div>
+
+              {error !== "" && <p style={{ color: "red" }}>{error}</p>}
             </div>
           </div>
         </div>

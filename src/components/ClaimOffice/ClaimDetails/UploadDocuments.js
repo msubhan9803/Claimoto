@@ -28,7 +28,7 @@ export default function UploadDocuments({
 
   const _handleUploadBtnText = (docTypeString) => {
     let docTypeId = docType[docTypeString];
-    let temp = ClaimDocuments.find((doc) => doc.DocumentTypeId === docTypeId);
+    let temp = ClaimDocuments?.find((doc) => doc.DocumentTypeId === docTypeId);
 
     if (temp) {
       if (temp.file || temp.Path) {
@@ -40,7 +40,7 @@ export default function UploadDocuments({
 
   const _getCheckboxState = (docTypeString) => {
     let docTypeId = docType[docTypeString];
-    let temp = ClaimDocuments.find((doc) => doc.DocumentTypeId === docTypeId);
+    let temp = ClaimDocuments?.find((doc) => doc.DocumentTypeId === docTypeId);
     if (temp) {
       return true;
     } else {

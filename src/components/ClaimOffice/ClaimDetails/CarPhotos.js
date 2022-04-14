@@ -44,7 +44,7 @@ export default function CarPhotos({
 
   const getPhotoUrl = (photoTypeString) => {
     let photoTypeId = photoTypeIdList[photoTypeString];
-    for (let index = 0; index < ClaimAccidentCarPhotos.length; index++) {
+    for (let index = 0; index < ClaimAccidentCarPhotos?.length; index++) {
       const photo = ClaimAccidentCarPhotos[index];
       if (photo.ClaimPhotoTypeId === photoTypeId) {
         if (type === "view") {

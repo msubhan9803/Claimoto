@@ -66,6 +66,7 @@ const ClaimDetail = (props) => {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] = useState("");
   const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
   const {
     register,
     control,
@@ -125,12 +126,14 @@ const ClaimDetail = (props) => {
   };
 
   const onSubmit = () => {
+    if (claimDetails.Location == "") {
+      setErrorLocation("Location is requred");
+      return;
+    } else {
+      setErrorLocation("");
+    }
+
     if (claimDetails.ClaimDocuments.length < 4) {
-      // msgAlert({
-      //   title: "Please upload all documents",
-      //   text: "",
-      //   icon: "error",
-      // });
       setErrorMessageClaimDocuments("Please upload all documents");
       return;
     } else {
@@ -291,6 +294,8 @@ const ClaimDetail = (props) => {
               errors={errors}
               _hanldeLocationSave={_hanldeLocationSave}
               handleFieldChange={_handleFieldChange}
+              error={errorLocation}
+              setError={setErrorLocation}
             />
           </div>
 
