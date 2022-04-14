@@ -123,3 +123,15 @@ export const getCurrentPeriodOfDay = () => {
     return 'Evening';
   }
 }
+
+export const checkIfArrayHasEmptyValue = (array) => {
+  if (array.length === 1) {
+    if (array[0] === null) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};

@@ -64,6 +64,37 @@ export const GetClaimsList = () => async (dispatch) => {
   }
 };
 
+// GET /api/Claims/Claim
+export const GetClaimDetails = (claimId) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/Claims/Claim?id=" + claimId);
+    console.log("res", res);
+    let payload = res.data[0];
+    // payload.ClaimAccidentCarPhotos = [null];
+    // payload.ClaimAccidentCarPhotos = [{
+    //   CACP_Id: 1,
+    //   ClaimId: 13,
+    //   PolicyId: 2,
+    //   MakeId: 3,
+    //   ModelId: 4,
+    //   AccidentCarPhotoId: 1,
+    //   Path: "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+    //   ClaimAttachmentId: 1,
+    //   ClaimPhotoTypeId: 1,
+    //   TenantId: 0,
+    //   CreatedBy: 0,
+    //   CreatedDate: "",
+    //   UpdatedBy: 0,
+    //   UpdatedDate: "",
+    //   IsDeleted: 0,
+    //   IsActive: 0
+    // }]
+    dispatch({ type: SET_CLAIMS_DETAILS, payload: payload });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
 // GET /api/Policy/GetProductDetails/{id}
 export const GetProductDetails = (policyId, prevClaimState) => async (dispatch) => {
   try {
@@ -107,10 +138,10 @@ export const ResetClaimDetails = (name, value) => (dispatch) => {
 };
 
 // POST /api/Claims
-export const PostClaimDetials = (claimDetials) => async (dispatch) => {
+export const PostClaimDetials = (claimDetials, layout, setIsLoading, navigate, msgAlert) => async (dispatch) => {
   try {
     let claimDocuments = claimDetials.ClaimDocuments;
-    let claimPhotos = claimDocuments.ClaimAccidentCarPhotos;
+    let claimPhotos = claimDetials.ClaimAccidentCarPhotos;
 
     let payload = claimDetials;
     delete payload.ClaimAccidentCarPhotos;
@@ -137,32 +168,37 @@ export const PostClaimDetials = (claimDetials) => async (dispatch) => {
         .post("api/Claims/ClaimAttachment", formData)
         .then((res) => {
           console.log("uploaded document with doc Id: ", doc.DocumentTypeId)
-          console.log("res: ", res)
-          console.log("  ====   ")
         })
         .catch((err) => console.log("err FileUpload: ", err));
       }
 
-      // for (let index = 0; index < claimPhotos.length; index++) {
-      //   const doc = claimPhotos[index];
-      //   let formData = new FormData();
-      //   formData.append("ClaimId", res.data.ClaimId);
-      //   formData.append("PolicyId", payload.PolicyId);
-      //   formData.append("MakeId", payload.MakeId);
-      //   formData.append("ModelId", payload.ModeIld);
-      //   formData.append("DocumentTypeId", doc.DocumentTypeId);
-      //   formData.append("ClaimAttachmentId", doc.DocumentTypeId);
-      //   formData.append("File", doc.file);
+      for (let index = 0; index < claimPhotos.length; index++) {
+        const doc = claimPhotos[index];
+        let formData = new FormData();
+        formData.append("ClaimId", res.data.ClaimId);
+        formData.append("PolicyId", payload.PolicyId);
+        formData.append("MakeId", payload.MakeId);
+        formData.append("ModelId", payload.ModeIld);
+        formData.append("AccidentCarPhotoId", doc.ClaimPhotoTypeId);
+        formData.append("ClaimAttachmentId", doc.ClaimPhotoTypeId);
+        formData.append("ClaimPhotoTypeId", doc.ClaimPhotoTypeId);
+        formData.append("File", doc.file);
 
-      //   await instance
-      //   .post("api/Claims/ClaimAttachment", formData)
-      //   .then((res) => {
-      //     console.log("uploaded document with doc Id: ", doc.DocumentTypeId)
-      //     console.log("res: ", res)
-      //     console.log("  ====   ")
-      //   })
-      //   .catch((err) => console.log("err FileUpload: ", err));
-      // }
+        await instance
+        .post("api/Claims/ClaimImages", formData)
+        .then((res) => {
+          console.log("uploaded photo with doc Id: ", doc.DocumentTypeId)
+        })
+        .catch((err) => console.log("err FileUpload: ", err));
+      }
+
+      setIsLoading(false);
+      navigate(`/${layout}/policies`);
+      msgAlert({
+        title: "Claim initiated successfully!",
+        text: "",
+        icon: "success",
+      });
     });
   } catch (err) {
     console.log("err", err);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import EmptyPhoto from "../../../assets/img/icons/mc/png/18.png";
+import { checkIfArrayHasEmptyValue } from "functions";
 
 export default function CarPhotos({
   type,
@@ -101,7 +102,7 @@ export default function CarPhotos({
               <strong>{getPhotoTypeToHeading(photoTypeString)}</strong>
             </p>
             <img
-              src={image}
+              src={type === "create" ? image : `${process.env.REACT_APP_API_ENVIROMENT}/${image}`}
               alt="#"
               style={{ maxHeight: "180px", margin: "auto" }}
             />
@@ -121,9 +122,11 @@ export default function CarPhotos({
             </div>
             <div class="ltn__block-item-info ltnd__car-photos-wrap">
               <div class="row">
-                {Object.keys(photoTypeIdList).map((item, index) =>
-                  photoBlock(item)
-                )}
+                {ClaimAccidentCarPhotos && !checkIfArrayHasEmptyValue(ClaimAccidentCarPhotos)
+                  ? Object.keys(photoTypeIdList).map((item, index) =>
+                      photoBlock(item)
+                    )
+                  : ""}
 
                 <input
                   type="file"

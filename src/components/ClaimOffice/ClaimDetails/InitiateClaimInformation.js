@@ -40,7 +40,7 @@ export default function InitiateClaimInformation({
           <div class="ltn__block-item-info">
             <form id="#" action="#" method="#" class="ltnd__form-1">
               <div class="row">
-                <div class="col-md-4">
+                {/* <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">User *</h6>
                     <select
@@ -67,7 +67,7 @@ export default function InitiateClaimInformation({
                       )}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Policy number *</h6>

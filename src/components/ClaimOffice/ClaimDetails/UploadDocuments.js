@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ErrorMessage } from "@hookform/error-message";
+import { checkIfArrayHasEmptyValue } from "functions";
 
 export default function UploadDocuments({
   type,
@@ -111,7 +112,9 @@ export default function UploadDocuments({
             </div>
             <div class="ltn__block-item-info ltnd__policies-details-info">
               <div class="row">
-                {Object.keys(docType).map((item, index) => documentRow(item))}
+                {ClaimDocuments && !checkIfArrayHasEmptyValue(ClaimDocuments)
+                  ? Object.keys(docType).map((item, index) => documentRow(item))
+                  : ""}
               </div>
 
               <input

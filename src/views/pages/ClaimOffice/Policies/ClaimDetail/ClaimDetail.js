@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import InitiateClaimInformation from "components/ClaimOffice/ClaimDetails/InitiateClaimInformation";
 import UploadDocuments from "components/ClaimOffice/ClaimDetails/UploadDocuments";
 import CarPhotos from "components/ClaimOffice/ClaimDetails/CarPhotos";
 import VehicleInformation from "components/ClaimOffice/ClaimDetails/VehicleInformation";
 import PolicyInformation from "components/ClaimOffice/ClaimDetails/PolicyInformation";
 import FooterActions from "components/ClaimOffice/ClaimDetails/FooterActions";
-import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -18,14 +18,19 @@ import {
   GetProductDetails,
   ResetClaimDetails,
   PostClaimDetials,
+  GetClaimDetails,
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
 import LocationDetail from "components/ClaimOffice/ClaimDetails/LocationDetail";
 import { msgAlert } from "functions";
+import jwt_decode from "jwt-decode";
+import { localStorageVarible } from "variables";
+import LoaderAnimation from "components/Loader/AnimatedLoaded";
+import ClaimDetailsViewOnly from 'components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly';
 
 const formSchema = Yup.object().shape({
-  AddedById: Yup.string().required("User is required"),
+  // AddedById: Yup.string().required("User is required"),
   PolicyId: Yup.string().required("Policy number is required"),
   ClaimTypeId: Yup.string().required("Claim Type is required"),
   RepairOption: Yup.string().required("Repair Option is required"),
@@ -51,8 +56,11 @@ const photoTypeIdList = {
 
 const ClaimDetail = (props) => {
   const { type, layout } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const submitBtnRef = useRef();
+  let navigate = useNavigate();
   const dispatch = useDispatch();
+  let params = useParams();
   const { claimDetails, usersList, policiesList, claimsList } = useSelector(
     (state) => state.claimsReducer
   );
@@ -62,10 +70,12 @@ const ClaimDetail = (props) => {
     (state) => state.productReducer.product_Types
   );
   const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld } = claimDetails;
-  const formOptions = { resolver: yupResolver(formSchema), mode: "onChange" };
+  const formOptions = { resolver: yupResolver(formSchema), mode: "all" };
   const [showLocationModal, setShowLocationModal] = useState(false);
-  const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] = useState("");
-  const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] = useState("");
+  const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] =
+    useState("");
+  const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] =
+    useState("");
   const [errorLocation, setErrorLocation] = useState("");
   const {
     register,
@@ -81,12 +91,26 @@ const ClaimDetail = (props) => {
     dispatch(GetPoliciesList());
     dispatch(GetClaimsList());
     dispatch(GetProducType());
-
     dispatch(GetMake());
+
+    if (type === "create") {
+      let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
+      dispatch(HandleFieldChange("AddedById", userDetials.RoleId));
+    }
+
     return () => {
       dispatch(ResetClaimDetails());
     };
   }, []);
+
+  useEffect(() => {
+    // If type is equal to view or edit then load claim details state
+    if (type === "view" || type === "edit") {
+      if (params.id) {
+        dispatch(GetClaimDetails(params.id));
+      }
+    }
+  }, [params.id, type, dispatch]);
 
   useEffect(() => {
     if (PolicyId) dispatch(GetProductDetails(PolicyId, claimDetails));
@@ -150,9 +174,10 @@ const ClaimDetail = (props) => {
     } else {
       setErrorClaimAccidentCarPhotos("");
     }
-    
+
+    setIsLoading(true);
     console.log("submitting... : ", claimDetails);
-    dispatch(PostClaimDetials(claimDetails))
+    dispatch(PostClaimDetials(claimDetails, layout, setIsLoading, navigate, msgAlert));
   };
 
   const _handleDocumentPush = (file, documentType) => {
@@ -246,111 +271,141 @@ const ClaimDetail = (props) => {
     return result_base64;
   };
 
+  const getPageTitle = (type) => {
+    if (type === "view") {
+      return "Claim details";
+    } else if (type === "edit") {
+      return "Update Claim details";
+    } else {
+      return "Submit Claim"
+    }
+  }
+
   return (
-    <div class="body-content-area body-bg-1 pb-80 ml-0">
-      <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-        <div class="ltnd__header-middle-area mt-30">
-          <div class="row">
-            <div class="col-lg-9">
-              <div class="ltnd__page-title-area">
-                <p className="page-back-btn">
-                  <Link to={`/${layout}/policies`}>
-                    <i className="icon-left-arrow-1" />
-                    Back
-                  </Link>
-                </p>
-                <h2>Submit claim</h2>
+    <>
+      {isLoading ? (
+        <LoaderAnimation />
+      ) : (
+        <div class="body-content-area body-bg-1 pb-80 ml-0">
+          <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+            <div class="ltnd__header-middle-area mt-30">
+              <div class="row">
+                <div class="col-lg-9">
+                  <div class="ltnd__page-title-area">
+                    <p className="page-back-btn">
+                      <Link to={`/${layout}/policies`}>
+                        <i className="icon-left-arrow-1" />
+                        Back
+                      </Link>
+                    </p>
+                    <h2>{getPageTitle(type)}</h2>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div class="body-content-area-inner">
-          {/* Initiate Claim Information Form */}
-          <div class="ltnd__block-area">
-            {type === "create" || type === "edit" ? (
-              <InitiateClaimInformation
-                state={claimDetails}
-                usersList={usersList}
-                policiesList={policiesList}
-                claimsList={claimsList}
-                handleFieldChange={_handleFieldChange}
-                HandleFieldChangeAction={HandleFieldChange}
-                register={register}
-                errors={errors}
-                control={control}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div class="body-content-area-inner">
+              {/* Initiate Claim Information Form */}
+              <div class="ltnd__block-area">
+                {type === "create" || type === "edit" ? (
+                  <InitiateClaimInformation
+                    state={claimDetails}
+                    usersList={usersList}
+                    policiesList={policiesList}
+                    claimsList={claimsList}
+                    handleFieldChange={_handleFieldChange}
+                    HandleFieldChangeAction={HandleFieldChange}
+                    register={register}
+                    errors={errors}
+                    control={control}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {type === "create" || type === "edit" ? (
+                  <LocationDetail
+                    showLocationModal={showLocationModal}
+                    setShowLocationModal={setShowLocationModal}
+                    claimDetails={claimDetails}
+                    register={register}
+                    errors={errors}
+                    _hanldeLocationSave={_hanldeLocationSave}
+                    handleFieldChange={_handleFieldChange}
+                    error={errorLocation}
+                    setError={setErrorLocation}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+
+              {PolicyNo ? (
+                <VehicleInformation
+                  type={type}
+                  claimDetails={claimDetails}
+                  policyMakeList={policyMakeList}
+                  _handleVehicleMakeName={_handleVehicleMakeName}
+                  _handleVehicleModeName={_handleVehicleModeName}
+                />
+              ) : (
+                ""
+              )}
+
+              {CarNo ? (
+                <PolicyInformation
+                  type={type}
+                  claimDetails={claimDetails}
+                  _handlePolicyTypeName={_handlePolicyTypeName}
+                />
+              ) : (
+                ""
+              )}
+
+              {type === "view" ? (
+                <ClaimDetailsViewOnly
+                  type={type}
+                  claimDetails={claimDetails}
+                  claimsList={claimsList}
+                />
+              ) : (
+                ""
+              )}
+
+              {/* Uploaded Documents Section */}
+              <UploadDocuments
+                type={type}
+                claimDetails={claimDetails}
+                _handleDocumentPush={_handleDocumentPush}
+                docType={docType}
+                error={errorMessageClaimDocuments}
               />
-            ) : (
-              ""
-            )}
 
-            <LocationDetail
-              showLocationModal={showLocationModal}
-              setShowLocationModal={setShowLocationModal}
-              claimDetails={claimDetails}
-              register={register}
-              errors={errors}
-              _hanldeLocationSave={_hanldeLocationSave}
-              handleFieldChange={_handleFieldChange}
-              error={errorLocation}
-              setError={setErrorLocation}
-            />
-          </div>
-
-          {PolicyNo ? (
-            <VehicleInformation
-              type={type}
-              claimDetails={claimDetails}
-              policyMakeList={policyMakeList}
-              _handleVehicleMakeName={_handleVehicleMakeName}
-              _handleVehicleModeName={_handleVehicleModeName}
-            />
-          ) : (
-            ""
-          )}
-
-          {CarNo ? (
-            <PolicyInformation
-              type={type}
-              claimDetails={claimDetails}
-              _handlePolicyTypeName={_handlePolicyTypeName}
-            />
-          ) : (
-            ""
-          )}
-
-          {/* Uploaded Documents Section */}
-          <UploadDocuments
-            type={type}
-            claimDetails={claimDetails}
-            _handleDocumentPush={_handleDocumentPush}
-            docType={docType}
-            error={errorMessageClaimDocuments}
-          />
-
-          {/* Accident Photo upload */}
-          <CarPhotos
-            type={type}
-            claimDetails={claimDetails}
-            photoTypeIdList={photoTypeIdList}
-            _handlePhotoPush={_handlePhotoPush}
-            error={errorClaimAccidentCarPhotos}
-          />
-        </div>
-
-        <footer class="ltnd__footer-1 fixed-footer-1">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-12">
-                <FooterActions type={type} submitBtnRef={submitBtnRef} />
-              </div>
+              {/* Accident Photo upload */}
+              <CarPhotos
+                type={type}
+                claimDetails={claimDetails}
+                photoTypeIdList={photoTypeIdList}
+                _handlePhotoPush={_handlePhotoPush}
+                error={errorClaimAccidentCarPhotos}
+              />
             </div>
-          </div>
-        </footer>
-      </form>
-    </div>
+
+            <footer class="ltnd__footer-1 fixed-footer-1">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <FooterActions type={type} submitBtnRef={submitBtnRef} />
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </form>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from "react";
-import PoliciesList from "components/ClaimOffice/Policies/PoliciesList/PoliciesList";
+import ClaimList from "components/ClaimOffice/ClaimList/ClaimList";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -368,8 +368,8 @@ function Claimlist(props) {
               <div className="col-lg-12">
                 {/* ltnd__policies-table start */}
                 {/* {policy_actions?.includes("VIEW") ? ( */}
-                <PoliciesList
-                  policies={_getPaginatedResults(filteredClaimsList)}
+                <ClaimList
+                  claims={_getPaginatedResults(filteredClaimsList)}
                 />
                 {/* ) : (
                   <ADAnimation />
