@@ -144,9 +144,7 @@ function Call() {
 
 
 
-                            <div className="ltnd__page-title-area">
-                                <h2>Chat</h2>
-                            </div>
+                          
                             {/* <form className='call-form'>
                                 <label>
                                     AppID:
