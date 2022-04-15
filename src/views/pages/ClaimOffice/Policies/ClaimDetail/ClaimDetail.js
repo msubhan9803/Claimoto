@@ -27,7 +27,7 @@ import { msgAlert } from "functions";
 import jwt_decode from "jwt-decode";
 import { localStorageVarible } from "variables";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
-import ClaimDetailsViewOnly from 'components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly';
+import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly";
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
@@ -177,7 +177,9 @@ const ClaimDetail = (props) => {
 
     setIsLoading(true);
     console.log("submitting... : ", claimDetails);
-    dispatch(PostClaimDetials(claimDetails, layout, setIsLoading, navigate, msgAlert));
+    dispatch(
+      PostClaimDetials(claimDetails, layout, setIsLoading, navigate, msgAlert)
+    );
   };
 
   const _handleDocumentPush = (file, documentType) => {
@@ -277,9 +279,9 @@ const ClaimDetail = (props) => {
     } else if (type === "edit") {
       return "Update Claim details";
     } else {
-      return "Submit Claim"
+      return "Submit Claim";
     }
-  }
+  };
 
   return (
     <>
@@ -299,6 +301,11 @@ const ClaimDetail = (props) => {
                       </span>
                     </p>
                     <h2>{getPageTitle(type)}</h2>
+                  </div>
+                </div>
+                <div class="col-lg-3 align-self-center text-end">
+                  <div class="btn-wrapper mt-0">
+                    <a class="btn btn-2 btn-border border-radius-12">History</a>
                   </div>
                 </div>
               </div>

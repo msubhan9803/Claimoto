@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import EmptyPhoto from "../../../assets/img/icons/mc/png/18.png";
-import { checkIfArrayHasEmptyValue } from "functions";
+import { checkIfArrayHasEmptyValue, msgAlert } from "functions";
 import Imageviewer from "../../Admin/General/ImageViewer";
 
 export default function CarPhotos({
@@ -40,6 +40,22 @@ export default function CarPhotos({
 
   const _onImageChange = (event) => {
     let s_file = event.target.files[0];
+    let selectedTypes = ["image/png", "image/jpg", "image/jpeg"];
+    if (!selectedTypes?.includes(s_file.type)) {
+      msgAlert({
+        title: "Invalid Image Type",
+        text: "Only Png and Jpeg images are allowed",
+      });
+      ref.current.value = "";
+      return;
+    } else if (s_file.size > 2000000) {
+      msgAlert({
+        title: "Invalid Image Size",
+        text: "Only < 2 MB are allowed",
+      });
+      ref.current.value = "";
+      return;
+    }
 
     _handlePhotoPush(s_file, photoTypeState);
     ref.current.value = "";
@@ -100,7 +116,7 @@ export default function CarPhotos({
               class="ltnd__car-photos-item cursor-pointer"
               onClick={() => handleDocumentSave(photoTypeString)}
             >
-              <a href="#">
+              <a>
                 <img src={EmptyPhoto} alt="#" />
               </a>
               <p class="mb-0">
@@ -116,8 +132,7 @@ export default function CarPhotos({
         <div class="col-lg-4">
           <div
             class="ltnd__car-photos-item-wrap cursor-pointer"
-            onClick={() => handleDocumentSave(photoTypeString)}
-            onClick={() => _handleImageViewer(photoTypeString)}
+            onClick={() => type === "create" ? handleDocumentSave(photoTypeString) : _handleImageViewer(photoTypeString)}
           >
             <p>
               <strong>{getPhotoTypeToHeading(photoTypeString)}</strong>
@@ -167,6 +182,7 @@ export default function CarPhotos({
           disableScroll={false}
           backgroundStyle={{
             backgroundColor: "rgba(0,0,0,0.9)",
+            zIndex: 99999999999
           }}
           closeOnClickOutside={true}
         />

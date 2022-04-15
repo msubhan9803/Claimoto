@@ -3,10 +3,10 @@ import ClaimList from "components/ClaimOffice/ClaimList/ClaimList";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetClaimsByPolicyId,
   HandleFilterTable,
   HandleTableInputValue,
-} from "store/actions/policies";
-import { GetClaimsByPolicyId } from "store/actions/claims";
+} from "store/actions/claims";
 
 import { GetProducType } from "store/actions/product";
 import SortArray from "sort-array";
@@ -27,10 +27,11 @@ function Claimlist(props) {
   let policy_actions = getAllowActions({ permissions, module_name: "APO" });
 
   const dispatch = useDispatch();
-  const policies = useSelector((state) => state.policyReducer.allPolicies);
+  const claims = useSelector((state) => state.claimsReducer.allClaims);
   const { isLoading } = useSelector((state) => state.productReducer.product);
-//   const { search_options, policyListTableFilterData, filteredPoliciesList } = useSelector((state) => state.policyReducer);
-  const { search_options, claimsListTableFilterData, filteredClaimsList } = useSelector((state) => state.claimsReducer);
+  //   const { search_options, policyListTableFilterData, filteredPoliciesList } = useSelector((state) => state.policyReducer);
+  const { search_options, claimsListTableFilterData, filteredClaimsList } =
+    useSelector((state) => state.claimsReducer);
   const {
     search_text,
     search_option,
@@ -71,8 +72,8 @@ function Claimlist(props) {
 
   const _exportData = () => {
     return {
-      header: Object.keys(policies),
-      _data: policies,
+      header: Object.keys(claims),
+      _data: claims,
       file_name: `policies`,
     };
   };
@@ -86,7 +87,7 @@ function Claimlist(props) {
         keys: [search_option],
       };
 
-      const fuse = new Fuse(policies, options);
+      const fuse = new Fuse(claims, options);
       let result = fuse.search(search_text);
 
       let tempList = [];
@@ -94,20 +95,21 @@ function Claimlist(props) {
         let item = result[i].item;
         tempList.push(item);
       }
+      console.log("tempList: ", tempList);
 
-      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : policies));
+      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : claims));
       dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
+        type: "CLAIMS_LIST_TABLE_DATA_CHANGE",
         payload: {
-          name: "policies_count",
-          value: tempList.length > 0 ? tempList.length : policies.length,
+          name: "claims_count",
+          value: tempList.length > 0 ? tempList.length : claims.length,
         },
       });
     } else {
-      dispatch(HandleFilterTable(policies));
+      dispatch(HandleFilterTable(claims));
       dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
-        payload: { name: "policies_count", value: policies.length },
+        type: "CLAIMS_LIST_TABLE_DATA_CHANGE",
+        payload: { name: "claims_count", value: claims.length },
       });
     }
   }, [search_text, search_option]);
@@ -115,17 +117,17 @@ function Claimlist(props) {
   // Sort Filter
   useEffect(() => {
     if (sort_name && sort_type) {
-      let tempList = SortArray(policies, {
+      let tempList = SortArray(claims, {
         by: sort_name,
         order: sort_type,
       });
 
-      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : policies));
+      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : claims));
       dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
+        type: "CLAIMS_LIST_TABLE_DATA_CHANGE",
         payload: {
-          name: "policies_count",
-          value: tempList.length > 0 ? tempList.length : policies.length,
+          name: "claims_count",
+          value: tempList.length > 0 ? tempList.length : claims.length,
         },
       });
     }
@@ -153,13 +155,13 @@ function Claimlist(props) {
 
   const _paginatedListHandler = (pageIndex) => {
     dispatch(
-      HandleTableInputValue({ name: "policies_page_index", value: pageIndex })
+      HandleTableInputValue({ name: "claims_page_index", value: pageIndex })
     );
   };
 
   const _handleClaimsNotFound = () => {
     navigate(`/${layout}/policies`);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -194,7 +196,7 @@ function Claimlist(props) {
             <div className="row">
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
-                  <h2>Claim List ({policies.length})</h2>
+                  <h2>Claim List ({claims.length})</h2>
                 </div>
               </div>
               <div className="col-lg-3 align-self-center text-end">
@@ -263,7 +265,7 @@ function Claimlist(props) {
               <div className="col-lg-8">
                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                   <ul>
-                    <li>
+                    {/* <li>
                       <div className="short-by text-center">
                         <select
                           onChange={_download}
@@ -278,7 +280,7 @@ function Claimlist(props) {
                           <option value={2}>Excle</option>
                         </select>
                       </div>
-                    </li>
+                    </li> */}
                     <li>
                       <div className="short-by text-center">
                         <select
@@ -368,9 +370,7 @@ function Claimlist(props) {
               <div className="col-lg-12">
                 {/* ltnd__policies-table start */}
                 {/* {policy_actions?.includes("VIEW") ? ( */}
-                <ClaimList
-                  claims={_getPaginatedResults(filteredClaimsList)}
-                />
+                <ClaimList claims={_getPaginatedResults(filteredClaimsList)} />
                 {/* ) : (
                   <ADAnimation />
                 )} */}
@@ -390,7 +390,6 @@ function Claimlist(props) {
           </div>
         </div>
       </div>
-      {/* } */}
     </React.Fragment>
   );
 }

@@ -66,18 +66,18 @@ export default function UploadDocuments({
     let temp = ClaimDocuments?.find((doc) => doc.DocumentTypeId === docTypeId);
     let s = temp.Path;
     return s.substring(1, s.length);
-  }
+  };
 
   const downloadFIle = (docTypeString) => {
     let link = process.env.REACT_APP_API_ENVIROMENT + getFileUrl(docTypeString);
-    var element = document.createElement('a');
-    element.setAttribute('href', link);
-    element.setAttribute('target', '_blank');
-    element.style.display = 'none';
+    var element = document.createElement("a");
+    element.setAttribute("href", link);
+    element.setAttribute("target", "_blank");
+    element.style.display = "none";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
+  };
 
   const documentRow = (docTypeString) => {
     return (
@@ -94,23 +94,27 @@ export default function UploadDocuments({
             </label>
           </div>
           <div class="btn-wrapper mt-0">
-            {type == "view" && (
-              <a class="ltn__secondary-color--- ml-20 cursor-pointer"
-              onClick={() => downloadFIle(docTypeString)}>
+            {type === "view" && (
+              <a
+                class="ltn__secondary-color--- ml-20 cursor-pointer"
+                onClick={() => downloadFIle(docTypeString)}
+              >
                 <strong>
                   Download <i class="ti-arrow-circle-down"></i>
                 </strong>
               </a>
             )}
-            <a
-              class="ltn__secondary-color--- ml-20 cursor-pointer"
-              onClick={() => handleDocumentSave(docTypeString)}
-            >
-              <strong>
-                {_handleUploadBtnText(docTypeString)}{" "}
-                <i class="ti-arrow-circle-up"></i>
-              </strong>
-            </a>
+            {type !== "view" && (
+              <a
+                class="ltn__secondary-color--- ml-20 cursor-pointer"
+                onClick={() => handleDocumentSave(docTypeString)}
+              >
+                <strong>
+                  {_handleUploadBtnText(docTypeString)}{" "}
+                  <i class="ti-arrow-circle-up"></i>
+                </strong>
+              </a>
+            )}
           </div>
         </div>
         <hr />

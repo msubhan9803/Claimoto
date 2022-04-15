@@ -19,9 +19,9 @@ export default function VehicleInformation({
               </div>
               {type !== "create" && StatusName && (
                 <div class="btn-wrapper mt-0">
-                  <a href="#" class="invoice-btn invoice-btn-3">
+                  <span class="invoice-btn invoice-btn-3">
                     <i class="fas fa-circle"></i> {StatusName}
-                  </a>
+                  </span>
                 </div>
               )}
             </div>

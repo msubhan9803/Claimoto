@@ -31,12 +31,12 @@ const initialState = {
       value: "PolicyNo",
     },
     {
-      label: "Policy holder",
-      value: "PolicyHolderName",
+      label: "Car number",
+      value: "CarNo",
     },
     {
-      label: "Identity",
-      value: "IdentityNo",
+      label: "Claim Type",
+      value: "ClaimTypeName",
     },
     // {
     //   label: "Date of birth",
@@ -46,10 +46,6 @@ const initialState = {
     //   label: "Driving license validity",
     //   value: "DrivingLicenseValidity",
     // },
-    {
-      label: "Address",
-      value: "Address",
-    },
   ],
   claimDetails: {
     ClaimId: 0,
