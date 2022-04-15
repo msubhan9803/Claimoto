@@ -80,7 +80,8 @@ const initialState = {
     IsDeleted: true,
     IsActive: true,
     ClaimAccidentCarPhotos: [],
-    ClaimDocuments: []
+    ClaimDocuments: [],
+    StatusName: ""
   },
   usersList: [],
   policiesList: [],

@@ -50,7 +50,7 @@ function ClaimList({ claims }) {
                         <strong>
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/policy_detail/${p.Id}`}
+                            to={`/claim/policy_detail/${p.PolicyId}`}
                           >
                             Policy details
                           </Link>
@@ -60,7 +60,7 @@ function ClaimList({ claims }) {
                         <strong>
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/vehical_detail_view/${p.Id}`}
+                            to={`/claim/vehical_detail_view/${p.PolicyId}`}
                           >
                             Vehicle details
                           </Link>

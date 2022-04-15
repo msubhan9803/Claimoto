@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import EmptyPhoto from "../../../assets/img/icons/mc/png/18.png";
 import { checkIfArrayHasEmptyValue } from "functions";
+import Imageviewer from "../../Admin/General/ImageViewer";
 
 export default function CarPhotos({
   type,
@@ -12,6 +13,25 @@ export default function CarPhotos({
   const ref = useRef();
   const [photoTypeState, setPhotoTypeState] = useState("");
   const { ClaimAccidentCarPhotos } = claimDetails;
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const [imageViewerList, setImageViewerList] = useState([]);
+  const [currenctImageIndex, setCurrenctImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (
+      ClaimAccidentCarPhotos &&
+      !checkIfArrayHasEmptyValue(ClaimAccidentCarPhotos) &&
+      ClaimAccidentCarPhotos.length > 0
+    ) {
+      let temp = [];
+      for (let index = 0; index < ClaimAccidentCarPhotos.length; index++) {
+        let path = ClaimAccidentCarPhotos[index].Path;
+        path = process.env.REACT_APP_API_ENVIROMENT + path.substring(1, path.length)
+        temp.push(path);
+      }
+      setImageViewerList(temp);
+    }
+  }, [ClaimAccidentCarPhotos]);
 
   const handleDocumentSave = (docType) => {
     setPhotoTypeState(docType);
@@ -97,12 +117,17 @@ export default function CarPhotos({
           <div
             class="ltnd__car-photos-item-wrap cursor-pointer"
             onClick={() => handleDocumentSave(photoTypeString)}
+            onClick={() => _handleImageViewer(photoTypeString)}
           >
             <p>
               <strong>{getPhotoTypeToHeading(photoTypeString)}</strong>
             </p>
             <img
-              src={type === "create" ? image : `${process.env.REACT_APP_API_ENVIROMENT}/${image}`}
+              src={
+                type === "create"
+                  ? image
+                  : `${process.env.REACT_APP_API_ENVIROMENT}${image}`
+              }
               alt="#"
               style={{ maxHeight: "180px", margin: "auto" }}
             />
@@ -112,35 +137,71 @@ export default function CarPhotos({
     }
   };
 
-  return (
-    <div class="ltnd__block-area mb-50">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="ltnd__block-item mt-30">
-            <div class="ltnd__title ltnd__title-2">
-              <h4>Car photos</h4>
-            </div>
-            <div class="ltn__block-item-info ltnd__car-photos-wrap">
-              <div class="row">
-                {ClaimAccidentCarPhotos && !checkIfArrayHasEmptyValue(ClaimAccidentCarPhotos)
-                  ? Object.keys(photoTypeIdList).map((item, index) =>
-                      photoBlock(item)
-                    )
-                  : ""}
+  const _handleImageViewer = (photoTypeString) => {
+    let photoTypeId = photoTypeIdList[photoTypeString];
+    let photoIndex = null;
 
-                <input
-                  type="file"
-                  id="file_2"
-                  name="Image1"
-                  style={{ display: "none" }}
-                  onChange={_onImageChange}
-                  ref={ref}
-                />
+    for (let index = 0; index < ClaimAccidentCarPhotos?.length; index++) {
+      const photo = ClaimAccidentCarPhotos[index];
+      if (photo.ClaimPhotoTypeId === photoTypeId) {
+        photoIndex = index;
+        break;
+      }
+    }
+
+    setCurrenctImageIndex(photoIndex);
+    setShowImageViewer(!showImageViewer);
+  };
+
+  const _handleImageViewerModalClose = () => {
+    setShowImageViewer(!showImageViewer);
+  };
+
+  return (
+    <>
+      {imageViewerList.length > 0 && showImageViewer && (
+        <Imageviewer
+          src={imageViewerList}
+          currentIndex={currenctImageIndex}
+          onClose={_handleImageViewerModalClose}
+          disableScroll={false}
+          backgroundStyle={{
+            backgroundColor: "rgba(0,0,0,0.9)",
+          }}
+          closeOnClickOutside={true}
+        />
+      )}
+
+      <div class="ltnd__block-area mb-50">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ltnd__block-item mt-30">
+              <div class="ltnd__title ltnd__title-2">
+                <h4>Car photos</h4>
+              </div>
+              <div class="ltn__block-item-info ltnd__car-photos-wrap">
+                <div class="row">
+                  {ClaimAccidentCarPhotos &&
+                  !checkIfArrayHasEmptyValue(ClaimAccidentCarPhotos)
+                    ? Object.keys(photoTypeIdList).map((item, index) =>
+                        photoBlock(item)
+                      )
+                    : ""}
+
+                  <input
+                    type="file"
+                    id="file_2"
+                    name="Image1"
+                    style={{ display: "none" }}
+                    onChange={_onImageChange}
+                    ref={ref}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

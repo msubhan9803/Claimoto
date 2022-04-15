@@ -6,7 +6,7 @@ export default function VehicleInformation({
   _handleVehicleMakeName,
   _handleVehicleModeName,
 }) {
-  const { MakeId, ModeIld, CarNo } = claimDetails;
+  const { MakeId, ModeIld, CarNo, StatusName } = claimDetails;
 
   return (
     <div class="ltnd__block-area">
@@ -17,10 +17,10 @@ export default function VehicleInformation({
               <div class="ltnd__title ltnd__title-2">
                 <h4>Vehicle information</h4>
               </div>
-              {type !== "create" && (
+              {type !== "create" && StatusName && (
                 <div class="btn-wrapper mt-0">
                   <a href="#" class="invoice-btn invoice-btn-3">
-                    <i class="fas fa-circle"></i> Ready for delivery
+                    <i class="fas fa-circle"></i> {StatusName}
                   </a>
                 </div>
               )}

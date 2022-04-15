@@ -292,11 +292,11 @@ const ClaimDetail = (props) => {
               <div class="row">
                 <div class="col-lg-9">
                   <div class="ltnd__page-title-area">
-                    <p className="page-back-btn">
-                      <Link to={`/${layout}/policies`}>
+                    <p className="page-back-btn cursor-pointer">
+                      <span onClick={() => window.history.back()}>
                         <i className="icon-left-arrow-1" />
                         Back
-                      </Link>
+                      </span>
                     </p>
                     <h2>{getPageTitle(type)}</h2>
                   </div>

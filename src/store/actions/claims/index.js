@@ -69,26 +69,7 @@ export const GetClaimDetails = (claimId) => async (dispatch) => {
   try {
     let res = await instance.get("api/Claims/Claim?id=" + claimId);
     console.log("res", res);
-    let payload = res.data[0];
-    // payload.ClaimAccidentCarPhotos = [null];
-    // payload.ClaimAccidentCarPhotos = [{
-    //   CACP_Id: 1,
-    //   ClaimId: 13,
-    //   PolicyId: 2,
-    //   MakeId: 3,
-    //   ModelId: 4,
-    //   AccidentCarPhotoId: 1,
-    //   Path: "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
-    //   ClaimAttachmentId: 1,
-    //   ClaimPhotoTypeId: 1,
-    //   TenantId: 0,
-    //   CreatedBy: 0,
-    //   CreatedDate: "",
-    //   UpdatedBy: 0,
-    //   UpdatedDate: "",
-    //   IsDeleted: 0,
-    //   IsActive: 0
-    // }]
+    let payload = res.data;
     dispatch({ type: SET_CLAIMS_DETAILS, payload: payload });
   } catch (err) {
     console.log("err", err);
