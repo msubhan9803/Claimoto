@@ -32,37 +32,14 @@ export default function useAgora(client) {
   }
 
 
-  async function toggleCamera() {
-    if (localVideoTrack && localVideoTrack.isPlaying) {
-      localVideoTrack.stop();
-      localVideoTrack.close();
-      await client.publish([localAudioTrack, null]);
-    } else {
-      const cameraTrack = await AgoraRTC.createCameraVideoTrack();
-      setLocalVideoTrack(cameraTrack);
-      if(client){
-        await client.publish([localAudioTrack, cameraTrack]);
-        (window).videoTrack = cameraTrack;
-      }
-      
-
-
-    }
+  async function toggleCamera(action) {
+    localVideoTrack.setEnabled(action);
   }
 
 
 
-  async function toggleMic() {
-    if (localAudioTrack && localAudioTrack.isPlaying) {
-      localAudioTrack.stop();
-      localAudioTrack.close();
-    } else {
-      const microphoneTrack = await AgoraRTC.createMicrophoneAudioTrack();
-      setLocalAudioTrack(microphoneTrack);
-      if(client){
-        await client.publish([microphoneTrack, localVideoTrack]);
-      }
-    }
+  async function toggleMic(action) {
+      localAudioTrack.setEnabled(action);
   }
 
 

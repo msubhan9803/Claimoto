@@ -24,12 +24,12 @@ function Call() {
 
 
     const handleMicToggle = () => {
-        toggleMic();
+        toggleMic(!audioActive);
         setAudioActive(!audioActive);
     }
 
     const handleVideoToggle = () => {
-        toggleCamera();
+        toggleCamera(!videoActive);
         setVideoActive(!videoActive);
     }
 
@@ -76,21 +76,21 @@ function Call() {
                                                         <img src={full_screen_img} />
                                                     </div>
                                                 </div>
-                                                {/* <div role="button" onClick={() => { handleMicToggle() }} className={!audioActive ? "active_call_action" : "call_action"}>
+                                                <div role="button" onClick={() => { handleMicToggle() }} className={!audioActive ? "active_call_action" : "call_action"}>
                                                     <div className='call_action_img'>
                                                         <img src={mic_mute_img} />
                                                     </div>
-                                                </div> */}
+                                                </div>
                                                 <div role="button" onClick={() => { leave() }} className='call_action'>
                                                     <div className='call_action_call_end_img'>
                                                         <img src={call_end_img} />
                                                     </div>
                                                 </div>
-                                                {/* <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
+                                                <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
                                                     <div className='call_action_img'>
                                                         <img src={off_cam_img} />
                                                     </div>
-                                                </div> */}
+                                                </div>
                                             </div>
                                         </div>
 
@@ -147,7 +147,7 @@ function Call() {
                             <div className="ltnd__page-title-area">
                                 <h2>Chat</h2>
                             </div>
-                            <form className='call-form'>
+                            {/* <form className='call-form'>
                                 <label>
                                     AppID:
                                     <input type='text' name='appid' onChange={(event) => { setAppid(event.target.value) }} />
@@ -164,7 +164,7 @@ function Call() {
                                     <button id='join' type='button' className='btn btn-primary btn-sm' disabled={joinState} onClick={() => { join(appid, channel, token) }}>Join</button>
                                     <button id='leave' type='button' className='btn btn-primary btn-sm' onClick={() => { leave() }}>Leave</button>
                                 </div>
-                            </form>
+                            </form> */}
 
 
                         </div>
