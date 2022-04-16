@@ -79,7 +79,7 @@ function MyTaskList() {
                                     {(provided, snapshot) => {
                                         return (
                                             <div
-                                            style={{height:600, overflow:"auto"}}
+                                            // style={{height:600, overflow:"auto"}}
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
                                             >

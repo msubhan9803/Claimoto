@@ -81,7 +81,8 @@ const Login = () => {
   const _navigateUrl = () => {
     let role = user_details.RoleId;
     switch (role) {
-      case "0":
+
+      case "1":
         return "/admin/";
 
       case "7":

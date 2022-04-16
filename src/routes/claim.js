@@ -7,6 +7,7 @@ import VehicalDetail from "views/pages/Admin/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import Claimlist from 'views/pages/ClaimOffice/Policies/ClaimList/ClaimList';
 import ClaimDetail from 'views/pages/ClaimOffice/Policies/ClaimDetail/ClaimDetail';
+import Call from "views/pages/ClaimOffice/Calls/Call";
 
 export const claimRoutes = ({ userPermissions }) => {
 
@@ -90,5 +91,13 @@ export const claimRoutes = ({ userPermissions }) => {
             layout: "claim",
             short_name: "CD"
         },
+        {
+          name: "Calls",
+          path: "/call",
+          component: <Call />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "CD"
+      },
     ];
 };
