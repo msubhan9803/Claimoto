@@ -7,7 +7,8 @@ import {
   SET_CLAIMS_LIST,
   SET_CLAIMS_DETAILS,
   RESET_CLAIMS_DETAILS,
-  HANDLE_FIELD_CHANGE
+  HANDLE_FIELD_CHANGE,
+  RESET_CLAIMS_LIST_AND_PAGINATION
 } from "store/types/claims.js";
 
 const initialState = {
@@ -163,6 +164,16 @@ const policyReducer = (state = initialState, action) => {
       return {
         ...state,
         claimDetails: initialState.claimDetails
+      };
+    }
+
+    case RESET_CLAIMS_LIST_AND_PAGINATION: {
+      return {
+        ...state,
+        allClaims: initialState.allClaims,
+        filteredClaimsList: initialState.filteredClaimsList,
+        claimsListTableFilterData: initialState.claimsListTableFilterData,
+        claimsList: initialState.claimsList,
       };
     }
 

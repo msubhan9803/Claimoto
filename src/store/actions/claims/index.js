@@ -10,6 +10,7 @@ import {
   SET_CLAIMS_DETAILS,
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
+  RESET_CLAIMS_LIST_AND_PAGINATION
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -113,6 +114,16 @@ export const ResetClaimDetails = (name, value) => (dispatch) => {
   try {
     dispatch({
       type: RESET_CLAIMS_DETAILS,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const ResetClaimListAndPagination = (name, value) => (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_CLAIMS_LIST_AND_PAGINATION,
     });
   } catch (err) {
     console.log("err", err);
