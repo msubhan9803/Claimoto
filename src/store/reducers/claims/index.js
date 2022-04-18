@@ -6,6 +6,7 @@ import {
   SET_POLICIES_LIST,
   SET_CLAIMS_LIST,
   SET_CLAIMS_DETAILS,
+  SET_ACTION_PERMISSIONS,
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
   RESET_CLAIMS_LIST_AND_PAGINATION
@@ -83,6 +84,7 @@ const initialState = {
   usersList: [],
   policiesList: [],
   claimsList: [],
+  claimActionPermissions: {}
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -141,6 +143,13 @@ const policyReducer = (state = initialState, action) => {
       return {
         ...state,
         claimDetails: action.payload
+      };
+    }
+
+    case SET_ACTION_PERMISSIONS: {
+      return {
+        ...state,
+        claimActionPermissions: action.payload
       };
     }
 

@@ -16,6 +16,7 @@ import {
   HandleFieldChange,
   GetClaimsList,
   GetProductDetails,
+  GetClaimActionsByRoleId,
   ResetClaimDetails,
   PostClaimDetials,
   GetClaimDetails,
@@ -54,6 +55,26 @@ const photoTypeIdList = {
   Rear: 7,
 };
 
+const actionButtonsListByStatus = {
+  approve: "Approve",
+  reject: "Reject",
+  assignToGarageAgency: "Assign to garage/agency",
+  call: "Call",
+  leaveAMessage: "Leave a message",
+  scheduleACall: "Schedule a call",
+  history: "History",
+  initialEstimate: "Initial estimate",
+  viewEstimation: "View Estimation",
+  assignToSurveyor: "Assign to surveyor",
+  approveTimeEstimate: "Approve time estimate",
+  assignReplacementCar: "Assign replacement car",
+  readyForDelivery: "Ready for delivery",
+  reassign: "Reassign",
+  finalSettlement: "Final settlement",
+  repairDetails: "Repair details",
+  phoneButton: "Phone Button"
+};
+
 const ClaimDetail = (props) => {
   const { type, layout } = props;
   const [isLoading, setIsLoading] = useState(false);
@@ -61,9 +82,13 @@ const ClaimDetail = (props) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   let params = useParams();
-  const { claimDetails, usersList, policiesList, claimsList } = useSelector(
-    (state) => state.claimsReducer
-  );
+  const {
+    claimDetails,
+    usersList,
+    policiesList,
+    claimsList,
+    claimActionPermissions,
+  } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
   const productTypeList = useSelector(
@@ -85,6 +110,26 @@ const ClaimDetail = (props) => {
     setError,
     formState: { errors },
   } = useForm(formOptions);
+  const [showFooterButtonsState, setShowFooterButtonsState] = useState({
+    approve: false,
+    reject: false,
+    assignToGarageAgency: false,
+    showContact: false,
+    call: false,
+    leaveAMessage: false,
+    scheduleACall: false,
+    history: false,
+    initialEstimate: false,
+    viewEstimation: false,
+    assignToSurveyor: false,
+    approveTimeEstimate: false,
+    assignReplacementCar: false,
+    readyForDelivery: false,
+    reassign: false,
+    finalSettlement: false,
+    repairDetails: false,
+    phoneButton: false
+  });
 
   useEffect(() => {
     dispatch(GetUsersList());
@@ -108,6 +153,8 @@ const ClaimDetail = (props) => {
     if (type === "view" || type === "edit") {
       if (params.id) {
         dispatch(GetClaimDetails(params.id));
+        let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
+        dispatch(GetClaimActionsByRoleId(userDetials.RoleId));
       }
     }
   }, [params.id, type, dispatch]);
@@ -119,6 +166,109 @@ const ClaimDetail = (props) => {
   useEffect(() => {
     if (MakeId) dispatch(GetMakeModel(MakeId));
   }, [MakeId]);
+
+  // Action button useEffect
+  useEffect(() => {
+    if (JSON.stringify(claimActionPermissions) !== "{}") {
+      // hanlde permission buttons
+      let approve = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.approve
+      );
+      let reject = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.reject
+      );
+      let assignToGarageAgency = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.assignToGarageAgency
+      );
+      let initialEstimate = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.initialEstimate
+      );
+      let history = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.history
+      );
+
+      let showContact =
+        claimActionPermissions.OtherAction.includes(
+          actionButtonsListByStatus.call
+        ) &&
+        claimActionPermissions.OtherAction.includes(
+          actionButtonsListByStatus.leaveAMessage
+        ) &&
+        claimActionPermissions.OtherAction.includes(
+          actionButtonsListByStatus.scheduleACall
+        );
+      let call = claimActionPermissions.OtherAction.includes(
+        actionButtonsListByStatus.call
+      );
+      let leaveAMessage = claimActionPermissions.OtherAction.includes(
+        actionButtonsListByStatus.leaveAMessage
+      );
+      let scheduleACall = claimActionPermissions.OtherAction.includes(
+        actionButtonsListByStatus.scheduleACall
+      );
+
+      let viewEstimation = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.viewEstimation
+      );
+
+      let assignToSurveyor = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.assignToSurveyor
+      );
+
+      let approveTimeEstimate = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.approveTimeEstimate
+      );
+
+      let assignReplacementCar = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.assignReplacementCar
+      );
+
+      let readyForDelivery = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.readyForDelivery
+      );
+
+      let reassign = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.reassign
+      );
+
+      let finalSettlement = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.finalSettlement
+      );
+
+      let repairDetails = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.repairDetails
+      );
+
+      let phoneButton = claimActionPermissions.PrimaryAction.includes(
+        actionButtonsListByStatus.phoneButton
+      );
+
+      setShowFooterButtonsState({
+        ...showFooterButtonsState,
+        approve: approve,
+        reject: reject,
+        assignToGarageAgency: assignToGarageAgency,
+
+        showContact: showContact,
+        call: call,
+        leaveAMessage: leaveAMessage,
+        scheduleACall: scheduleACall,
+
+        history: history,
+        initialEstimate: initialEstimate,
+
+        viewEstimation: viewEstimation,
+        assignToSurveyor: assignToSurveyor,
+        approveTimeEstimate: approveTimeEstimate,
+        assignReplacementCar: assignReplacementCar,
+        readyForDelivery: readyForDelivery,
+        reassign: reassign,
+        finalSettlement: finalSettlement,
+        repairDetails: repairDetails,
+        phoneButton: phoneButton
+      });
+    }
+  }, [claimActionPermissions]);
 
   const _handleFieldChange = (e) =>
     dispatch(HandleFieldChange(e.target.name, e.target.value));
@@ -404,7 +554,12 @@ const ClaimDetail = (props) => {
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-lg-12">
-                    <FooterActions type={type} submitBtnRef={submitBtnRef} />
+                    <FooterActions
+                      type={type}
+                      submitBtnRef={submitBtnRef}
+                      claimActionPermissions={claimActionPermissions}
+                      showFooterButtonsState={showFooterButtonsState}
+                    />
                   </div>
                 </div>
               </div>

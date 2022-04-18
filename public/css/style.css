@@ -20150,3 +20150,24 @@ form .ltnd__title-3 {
 .swal2-container  {
   z-index: 9999999 !important;
 }
+
+.dropdown-menu {
+/* .ltnd__footer-btn-dropdown-contact:hover .dropdown-menu { */
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-width: 200px;
+  bottom: 60px;
+  right: 0;
+  background-color: var(--white);
+  z-index: 9;
+  border-radius: 20px;
+  text-align: left;
+  /* -webkit-box-shadow: var(--ltn__box-shadow-4);
+  box-shadow: var(--ltn__box-shadow-4);
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0;
+  visibility: hidden; */
+}
