@@ -278,6 +278,7 @@ hr {
     border-radius: 20px;
     margin: 5px;
     position: relative;
+    height: 50px;
 }
 
 .msg_send_box input {
@@ -295,4 +296,20 @@ hr {
     position: absolute;
     right: 15px;
     top: 15px;
+}
+
+.message p {
+    display: inline-flex; /* keep the background color wrapped tight */
+    padding:5px;color:#ffffff;
+}
+
+.messages {
+    height: 600px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.messages::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }

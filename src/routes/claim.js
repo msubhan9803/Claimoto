@@ -8,6 +8,7 @@ import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDe
 import Claimlist from 'views/pages/ClaimOffice/Policies/ClaimList/ClaimList';
 import ClaimDetail from 'views/pages/ClaimOffice/Policies/ClaimDetail/ClaimDetail';
 import Call from "views/pages/ClaimOffice/Calls/Call";
+import Message from "views/pages/ClaimOffice/Message/Message";
 
 export const claimRoutes = ({ userPermissions }) => {
 
@@ -99,5 +100,13 @@ export const claimRoutes = ({ userPermissions }) => {
           layout: "claim",
           short_name: "CD"
       },
+      {
+        name: "Message",
+        path: "/message",
+        component: <Message />,
+        icon: "ti-layout",
+        layout: "claim",
+        short_name: "MSG"
+    }
     ];
 };

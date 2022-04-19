@@ -10,14 +10,21 @@ import off_cam_img from 'assets/img/call/actions/off_cam.png';
 import send_attachment from 'assets/img/call/actions/send_attachment.png';
 import send_message from 'assets/img/call/actions/send_message.png';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import Message from '../Message/Message';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const client = AgoraRTC.createClient({ codec: 'h264', mode: 'rtc' });
 
 function Call() {
-    const [appid, setAppid] = useState('63a66704256343f9ba018bd8ceaf78db');
-    const [token, setToken] = useState('0065f611f72fa2d48798a9d13cc723447daIACNtcUxk5nJez/FlUup0h5IsOWA4h/r9SqRWzwwrS6taDLRTXgAAAAAEAA7zd8LCWpaYgEAAQAJalpi');
-    const [channel, setChannel] = useState('Test');
-    const { localAudioTrack, localVideoTrack, leave, join, joinState, remoteUsers, toggleCamera, toggleMic } = useAgora(client);
+    const { user_details } = useSelector(state => state.authReducer);
+
+    const [appid, setAppid] = "5f611f72fa2d48798a9d13cc723447da" || process.env.REACT_APP_AGORA_APPID;
+    const [token, setToken] = useState('');
+    const [tokenMessage, setTokenMessage] = useState('');
+    const [accountName, setAccountName] = useState('');
+    const [channel, setChannel] = useState('HelloWorld');
+    const { localAudioTrack, localVideoTrack, leave, join, joinState, remoteUsers, toggleCamera, toggleMic, sendMessage } = useAgora(client);
     const handle = useFullScreenHandle();
     const [audioActive, setAudioActive] = useState(true);
     const [videoActive, setVideoActive] = useState(true);
@@ -29,15 +36,98 @@ function Call() {
     }
 
     const handleVideoToggle = () => {
+        sendMessage()
         toggleCamera(!videoActive);
         setVideoActive(!videoActive);
     }
 
 
+    const _getRTCToken = async () => {
+        return new Promise(async(res, rej) => {
+        let config = {
+            method: 'get',
+            url: `${process.env.REACT_APP_TOKEN_API_ENVIROMENT}/rtc/${channel}/audience/userAccount/${channel}`,
+            headers: {}
+        };
+
+        await axios(config)
+            .then(function (response) {
+                let rtc_token = response.data.rtcToken;
+                res(rtc_token);
+            })
+            .catch(function (error) {
+                rej(error);
+            });
+
+        })
+
+    }
+
+
+    const _getRTMToken = async () => {
+        return new Promise(async (res, rej) => {
+            let config = {
+                method: 'get',
+                url: `${process.env.REACT_APP_TOKEN_API_ENVIROMENT}/rtm/${user_details.UserId}`,
+                headers: {}
+            };
+
+            await axios(config)
+                .then(function (response) {
+                    let rtm_token = response.data.rtmToken;
+                    res(rtm_token);
+                })
+                .catch(function (error) {
+                    rej(error);
+                });
+        })
+
+    }
+
+    const _join = async () => {
+        const [tokenrtc, tokenrtm] = await Promise.all([
+            _getRTCToken(), _getRTMToken()
+        ]);
+        setToken(tokenrtc);
+        setTokenMessage(tokenrtm);
+        let app_id = "5f611f72fa2d48798a9d13cc723447da";
+        join(app_id, channel, "0065f611f72fa2d48798a9d13cc723447daIADcaslitI7wqZ1gQlTasSUi9f7IyYBQzHvI7hiDKZcApHkMd3cAAAAAEAAQvmMDkRdfYgEAAQCRF19i");
+        // join(app_id, channel, tokenrtc);
+    }
+
+    useEffect(() => {
+        setAccountName(user_details.UserId);
+        setChannel("HelloWorld");
+        _join();
+    }, []);
+
     return (
         <React.Fragment>
             <div className="body-wrapper">
                 <div className="container-fluid section-video-call">
+                    {/* <div className='row mb-3'>
+                        <div className="col-4">
+                            <label>
+                                Token Call:
+                                <input type='text' name='token' onChange={(event) => { setToken(event.target.value) }} value={token} />
+                            </label>
+                        </div>
+                        <div className="col-4">
+                            <label>
+                                Account Name:
+                                <input type='text' name='token' onChange={(event) => { setAccountName(event.target.value) }} value={accountName} />
+                            </label>
+                        </div>
+                        <div className="col-4">
+                            <label>
+                                Token Messaging:
+                                <input type='text' name='token' onChange={(event) => { setTokenMessage(event.target.value) }} value={tokenMessage} />
+                            </label>
+                        </div>
+                        <div className="col-12">
+                            <button id='join' type='button' className='btn btn-primary btn-sm mt-2' disabled={joinState} onClick={() => { join(appid, channel, token) }}>Join</button>
+                        </div>
+                    </div> */}
                     <div className="row">
                         <div className="col-lg-8">
                             <div className="ltnd__page-title-area">
@@ -65,34 +155,36 @@ function Call() {
                                                 <hr />
                                                 <p>...</p>
                                             </div>
-                                        : ""}
+                                            : ""}
 
 
                                         {/* Actions */}
-                                        <div className="bottomCenter">
-                                            <div className='call_actions'>
-                                                <div role="button" onClick={() => { handle.active ? handle.exit() : handle.enter() }} className='call_action'>
-                                                    <div className='call_action_img'>
-                                                        <img src={full_screen_img} />
+                                        {joinState &&
+                                            <div className="bottomCenter">
+                                                <div className='call_actions'>
+                                                    <div role="button" onClick={() => { handle.active ? handle.exit() : handle.enter() }} className='call_action'>
+                                                        <div className='call_action_img'>
+                                                            <img src={full_screen_img} />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div role="button" onClick={() => { handleMicToggle() }} className={!audioActive ? "active_call_action" : "call_action"}>
-                                                    <div className='call_action_img'>
-                                                        <img src={mic_mute_img} />
+                                                    <div role="button" onClick={() => { handleMicToggle() }} className={!audioActive ? "active_call_action" : "call_action"}>
+                                                        <div className='call_action_img'>
+                                                            <img src={mic_mute_img} />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div role="button" onClick={() => { leave() }} className='call_action'>
-                                                    <div className='call_action_call_end_img'>
-                                                        <img src={call_end_img} />
+                                                    <div role="button" onClick={() => { leave() }} className='call_action'>
+                                                        <div className='call_action_call_end_img'>
+                                                            <img src={call_end_img} />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
-                                                    <div className='call_action_img'>
-                                                        <img src={off_cam_img} />
+                                                    <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
+                                                        <div className='call_action_img'>
+                                                            <img src={off_cam_img} />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
 
 
                                         {/* Local Video */}
@@ -120,51 +212,7 @@ function Call() {
 
                         </div>
                         <div className="col-lg-4">
-                                <div className='chat-section'>
-                                    <div>
-                                    <h2>Chat</h2>
-                                    </div>
-
-
-
-                                    <div className='chat-actions'>
-                                        <div>
-                                        <div role="button" className={"msg_action"}>
-                                                    <div className='msg_action_img'>
-                                                        <img src={send_attachment} />
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div className='msg_send_box'>
-                                            <input />
-                                            <img role="button" src={send_message} />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                          
-                            {/* <form className='call-form'>
-                                <label>
-                                    AppID:
-                                    <input type='text' name='appid' onChange={(event) => { setAppid(event.target.value) }} />
-                                </label>
-                                <label>
-                                    Token(Optional):
-                                    <input type='text' name='token' onChange={(event) => { setToken(event.target.value) }} />
-                                </label>
-                                <label>
-                                    Channel:
-                                    <input type='text' name='channel' onChange={(event) => { setChannel(event.target.value) }} />
-                                </label>
-                                <div className='button-group'>
-                                    <button id='join' type='button' className='btn btn-primary btn-sm' disabled={joinState} onClick={() => { join(appid, channel, token) }}>Join</button>
-                                    <button id='leave' type='button' className='btn btn-primary btn-sm' onClick={() => { leave() }}>Leave</button>
-                                </div>
-                            </form> */}
-
-
+                            <Message appid={process.env.REACT_APP_AGORA_APPID} token={tokenMessage} accountName={accountName} channel={channel} joinState={joinState} />
                         </div>
                     </div>
                 </div>

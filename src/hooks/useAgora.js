@@ -58,6 +58,12 @@ export default function useAgora(client) {
 
   }
 
+
+  async function sendMessage() {
+    return client.sendMessage({ text: "Hello World" })
+
+  }
+
   useEffect(() => {
     if (!client) return;
     setRemoteUsers(client.remoteUsers);
@@ -97,6 +103,7 @@ export default function useAgora(client) {
     join,
     toggleCamera,
     toggleMic,
+    sendMessage,
     remoteUsers
   };
 }
