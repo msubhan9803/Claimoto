@@ -8,8 +8,10 @@ import {
   SET_POLICIES_LIST,
   SET_CLAIMS_LIST,
   SET_CLAIMS_DETAILS,
+  SET_ACTION_PERMISSIONS,
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
+  RESET_CLAIMS_LIST_AND_PAGINATION,
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -97,6 +99,17 @@ export const GetProductDetails =
     }
   };
 
+// GET /api/Claims/ClaimActions
+export const GetClaimActionsByRoleId = (roleId) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/Claims/ClaimActions?Id=" + roleId);
+    console.log("res", res);
+    dispatch({ type: SET_ACTION_PERMISSIONS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
 export const HandleFieldChange = (name, value) => (dispatch) => {
   try {
     console.log("typeof", typeof value);
@@ -113,6 +126,16 @@ export const ResetClaimDetails = (name, value) => (dispatch) => {
   try {
     dispatch({
       type: RESET_CLAIMS_DETAILS,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const ResetClaimListAndPagination = (name, value) => (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_CLAIMS_LIST_AND_PAGINATION,
     });
   } catch (err) {
     console.log("err", err);

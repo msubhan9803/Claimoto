@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   GetClaimsByPolicyId,
   HandleFilterTable,
+  ResetClaimListAndPagination,
   HandleTableInputValue,
 } from "store/actions/claims";
 
@@ -50,6 +51,10 @@ function Claimlist(props) {
       dispatch(GetClaimsByPolicyId(params.policyId));
     }
     dispatch(GetProducType());
+
+    return () => {
+      dispatch(ResetClaimListAndPagination());
+    };
   }, []);
 
   //Refs
