@@ -21,7 +21,13 @@ const useAgoraRtm = (userName, client, token, accountName, joinState) => {
     }
   };
   useEffect(() => {
-    initRtm();
+    if(joinState){
+      initRtm();
+    }else{
+      if(client){
+        client.logout();
+      }
+    }
     // eslint-disable-next-line consistent-return
   }, [joinState]);
 
@@ -54,10 +60,26 @@ const useAgoraRtm = (userName, client, token, accountName, joinState) => {
       });
   };
 
+
+  const sendChannelImage = async (media) => {
+    channel
+      .sendMessage(media)
+      .then(() => {
+        setCurrentMessage({
+          user: { name: accountName, color },
+          message: "text",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+
   useEffect(() => {
     if (currentMessage) setMessages([...messages, currentMessage]);
   }, [currentMessage]);
 
-  return { sendChannelMessage, messages };
+  return { sendChannelMessage, messages, sendChannelImage };
 };
 export default useAgoraRtm;

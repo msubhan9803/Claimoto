@@ -99,14 +99,6 @@ export const claimRoutes = ({ userPermissions }) => {
           icon: "ti-layout",
           layout: "claim",
           short_name: "CD"
-      },
-      {
-        name: "Message",
-        path: "/message",
-        component: <Message />,
-        icon: "ti-layout",
-        layout: "claim",
-        short_name: "MSG"
-    }
+      }
     ];
 };
