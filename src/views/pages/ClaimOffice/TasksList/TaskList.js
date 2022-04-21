@@ -63,7 +63,7 @@ function TaskList() {
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="ltnd__page-title-area">
-                                    <h2>Task List (67)</h2>
+                                    <h2>Task List</h2>
                                 </div>
                             </div>
                         </div>

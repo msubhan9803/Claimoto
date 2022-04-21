@@ -1,4 +1,5 @@
-import { SET_TASKS_BY_DND } from "store/types/tasks";
+import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS } from "store/types/tasks";
+import instance from "config/axios/instance";
 
 export const syncTasksColumns = (state, screen) => async (dispatch) => {
     try {
@@ -10,3 +11,29 @@ export const syncTasksColumns = (state, screen) => async (dispatch) => {
         console.log("err", err);
     }
 };
+
+
+export const getMyTaskList = (id) => async dispatch => {
+    try {
+        dispatch({ type: GET_MY_TASKS_REQUEST, payload: { loading_list: true } });
+        let { data } = await instance.get(`/api/MyTask/Claims?Id=${id}`);
+        dispatch({ type: GET_MY_TASKS, payload: data || [] });
+        dispatch({ type: GET_MY_TASKS_REQUEST, payload: { loading_list: false } });
+    } catch (error) {
+        dispatch({ type: GET_MY_TASKS_REQUEST, payload: { loading_list: false } });
+        console.log(error);
+    }
+}
+
+
+export const getPendingTaskList = (id) => async dispatch => {
+    try {
+        dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: true } });
+        let { data } = await instance.get(`/api/MyTask/Claims?Id=${id}`);
+        dispatch({ type: GET_PENDING_TASKS, payload: data || [] });
+        dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: false } });
+    } catch (error) {
+        dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: false } });
+        console.log(error);
+    }
+}

@@ -1,55 +1,29 @@
 import React from 'react'
 import { useCallback, useReducer, useEffect, useState } from "react";
-// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import produce from "immer";
 import { useSelector, useDispatch } from 'react-redux';
-import { syncTasksColumns } from 'store/actions/taskList';
 import TrackIcon from "assets/img/icons/mc/png/14.png";
 import BMWIcon from "assets/img/icons/mc/png/11.png";
 import TrackTaskModal from './TrackTaskModal';
+import { getMyTaskList } from 'store/actions/taskList';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { formatDateTime } from 'functions';
+import { Link } from 'react-router-dom';
 
-
-// const dragReducer = produce((draft, action) => {
-//     switch (action.type) {
-//         case "MOVE": {
-//             draft[action.from] = draft[action.from] || [];
-//             draft[action.to] = draft[action.to] || [];
-//             const [removed] = draft[action.from].splice(action.fromIndex, 1);
-//             draft[action.to].splice(action.toIndex, 0, removed);
-//         }
-//     }
-// });
 
 function MyTaskList() {
     const [component, setComponent] = useState({
         openModal: false
     });
-    const { my_tasks, my_tasks_column_names } = useSelector(state => state.taskListScreenReducer);
-    const dispatch_redux = useDispatch();
-    // const [state, dispatch] = useReducer(dragReducer, {
-    //     ...my_tasks
-    // });
-    const [state, setState] = useState({ ...my_tasks })
+    const { my_tasks } = useSelector(state => state.taskListScreenReducer);
+    const { UserId } = useSelector(state => state.authReducer.user_details);
 
-    // const onDragEnd = useCallback((result) => {
-    //     if (result.reason === "DROP") {
-    //         if (!result.destination) {
-    //             return;
-    //         }
-    //         dispatch({
-    //             type: "MOVE",
-    //             from: result.source.droppableId,
-    //             to: result.destination.droppableId,
-    //             fromIndex: result.source.index,
-    //             toIndex: result.destination.index,
-    //         });
-    //     }
-    // }, []);
+    const dispatch = useDispatch();
+    const { list, loading_list } = my_tasks;
 
 
     useEffect(() => {
-        dispatch_redux(syncTasksColumns(state, "my_tasks"));
-    }, [state]);
+        dispatch(getMyTaskList(UserId));
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -70,62 +44,35 @@ function MyTaskList() {
     return (
         <div className="ltn__apartments-tab-content-inner">
             <TrackTaskModal toggleModal={_toggleModal} openModal={component.openModal} />
-            {/* <DragDropContext onDragEnd={onDragEnd} > */}
-            <div style={{ overflowX: "auto", display: "flex", flexDirection: "row" }}>
-                {Object.keys(state).map((k, index) => (
-                    <div className="col-lg-3 col-md-3 col-sm-6" >
-                        <div className={`ltnd__tasks-item-column ltnd__tasks-column-border tasks-border-${index + 1}`}>
-                            <h6>{my_tasks_column_names[index]} ({state[k].length})</h6>
-                            {/* <Droppable droppableId={k} type="PERSON">
-                                    {(provided, snapshot) => {
-                                        return ( */}
-                            <div
-                            // style={{height:600, overflow:"auto"}}
-                            // ref={provided.innerRef}
-                            // {...provided.droppableProps}
-                            >
-                                {state[k]?.map((person, index) => {
-                                    return (
-                                        // <Draggable
-                                        //     key={person.id}
-                                        //     draggableId={person.id}
-                                        //     index={index}
-                                        // >
-                                        //     {(provided, snapshot) => {
-                                        //         return (
-                                        //             <div
-                                        //                 ref={provided.innerRef}
-                                        //                 {...provided.draggableProps}
-                                        //                 {...provided.dragHandleProps}
-                                        //             >
-                                        <div className="ltnd__tasks-item">
-                                            <h6 className="ltnd__product-title"><a href="#"><img src={BMWIcon} alt="#" /> AB-123</a></h6>
-                                            <p className="ltnd__space-between">Policy no. <strong>10/tpl2020/001</strong></p>
-                                            <p className="ltnd__space-between">Claim no. <strong>10/tpl2020/001</strong></p>
-                                            <p className="ltnd__space-between">Claim type <strong>Front glass</strong></p>
-                                            <p className="ltnd__space-between">Incident date <strong>Dec 12, 2021</strong></p>
-                                            <div className="btn-wrapper ltnd__space-between">
-                                                <a className="ltn__secondary-color"  ><strong>Claim details</strong></a>
-                                                <a className="ltn__secondary-color" onClick={_toggleModal} role="button" title="Quick View" ><img src={TrackIcon} alt="#" /> Track</a>
+            {loading_list ? <LoaderAnimation /> :
+                <div style={{ overflowX: "auto", display: "flex", flexDirection: "row" }}>
+                    {list?.map((k, index) => (
+                        <div className="col-lg-3 col-md-3 col-sm-6" >
+                            <div className={`ltnd__tasks-item-column ltnd__tasks-column-border tasks-border-${index + 1}`}>
+                                <h6>{k.ListName} ({k.List.Count})</h6>
+                                <div>
+                                    {k.List.List.map((claim, index) => {
+                                        return (
+                                            <div className="ltnd__tasks-item">
+                                                <h6 className="ltnd__product-title"><a ><img src={`${process.env.REACT_APP_API_ENVIROMENT}${claim?.MakeImage}`} alt="make_image" /> {claim?.CarNo || ""}</a></h6>
+                                                <p className="ltnd__space-between">Policy no. <strong>{claim?.PolicyId || ""}</strong></p>
+                                                <p className="ltnd__space-between">Claim no. <strong>{claim?.ClaimId || ""}</strong></p>
+                                                <p className="ltnd__space-between">Claim type <strong>{claim?.ClaimTypeName || ""}</strong></p>
+                                                <p className="ltnd__space-between">Incident date <strong>{formatDateTime(claim?.IncidentDate || "").date}</strong></p>
+                                                <div className="btn-wrapper ltnd__space-between">
+                                                <Link to={`/claim/claim_detail/${claim.ClaimId}`} lassName="ltn__secondary-color" ><strong>Claim details</strong></Link>
+                                                    <a className="ltn__secondary-color" onClick={_toggleModal} role="button" title="Quick View" ><img src={TrackIcon} alt="#" /> Track</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        // </div>
-                                        // );
-                                        // }
-                                        // }
-                                        // </Draggable>
-                                    );
-                                })}
-                                {/* {provided.placeholder} */}
+
+                                        );
+                                    })|| []}
+                                </div>
                             </div>
-                            );
-                            {/* }} */}
-                            {/* </Droppable> */}
                         </div>
-                    </div>
-                ))}
-            </div>
-            {/* </DragDropContext> */}
+                    ))}
+                </div>
+            }
         </div>
     )
 }
