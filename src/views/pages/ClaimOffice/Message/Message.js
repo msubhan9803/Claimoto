@@ -19,7 +19,8 @@ function Message({ appid, token, channel, joinState, accountName }) {
         client,
         token,
         accountName,
-        joinState
+        joinState,
+        channel
     );
     const submitMessage = (e) => {
         if (e.charCode === 13) {

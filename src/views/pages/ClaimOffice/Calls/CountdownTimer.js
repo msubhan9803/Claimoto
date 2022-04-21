@@ -31,8 +31,8 @@ const CountdownTimer = ({ targetDate, leaveMeeting, toggleTimmer }) => {
     const [days, hours, minutes, seconds] = useCountdown(targetDate, toggleTimmer);
 
     if (days + hours + minutes + seconds <= 0) {
-        leaveMeeting();
-        return "";
+        // leaveMeeting();
+        return "Time Over";
     } else {
         return (
             <ShowCounter

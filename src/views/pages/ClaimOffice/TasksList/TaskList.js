@@ -9,7 +9,6 @@ import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { getInitials, getAfters, handleRulesInputValue } from 'store/actions/rules';
-import DragAndDrop from 'components/DragAndDrop/DrapAndDrop';
 
 function TaskList() {
 
