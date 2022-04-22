@@ -94,6 +94,39 @@ export default function InitiateClaimInformation({
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
+                    <h6 class="ltnd__title-3">Incident date *</h6>
+                    <Controller
+                      control={control}
+                      name="IncidentDate"
+                      value={IncidentDate}
+                      render={({ field }) => (
+                        <DatePicker
+                          placeholderText="DD-MM-YYYY"
+                          dateFormat="dd/MM/yyyy"
+                          onChangeRaw={handleDateChangeRaw}
+                          onChange={(date) => {
+                            return (
+                              field.onChange(date),
+                              dispatch(
+                                HandleFieldChangeAction("IncidentDate", date)
+                              )
+                            );
+                          }}
+                          selected={IncidentDate}
+                        />
+                      )}
+                    />
+                    <ErrorMessage
+                      errors={errors}
+                      name="IncidentDate"
+                      render={({ message }) => (
+                        <p style={{ color: "red" }}>{message}</p>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-item">
                     <h6 class="ltnd__title-3">Region *</h6>
                     <input
                       type="text"
@@ -124,39 +157,6 @@ export default function InitiateClaimInformation({
                       onChange={handleFieldChange}
                       placeholder="Enter Area"
                       required
-                    />
-                    <ErrorMessage
-                      errors={errors}
-                      name="IncidentDate"
-                      render={({ message }) => (
-                        <p style={{ color: "red" }}>{message}</p>
-                      )}
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="input-item">
-                    <h6 class="ltnd__title-3">Incident date *</h6>
-                    <Controller
-                      control={control}
-                      name="IncidentDate"
-                      value={IncidentDate}
-                      render={({ field }) => (
-                        <DatePicker
-                          placeholderText="DD-MM-YYYY"
-                          dateFormat="dd/MM/yyyy"
-                          onChangeRaw={handleDateChangeRaw}
-                          onChange={(date) => {
-                            return (
-                              field.onChange(date),
-                              dispatch(
-                                HandleFieldChangeAction("IncidentDate", date)
-                              )
-                            );
-                          }}
-                          selected={IncidentDate}
-                        />
-                      )}
                     />
                     <ErrorMessage
                       errors={errors}

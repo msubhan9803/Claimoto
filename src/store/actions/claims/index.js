@@ -12,7 +12,7 @@ import {
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
   RESET_CLAIMS_LIST_AND_PAGINATION,
-  SET_USER_PROFILES_LIST
+  SET_USER_PROFILES_LIST,
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -49,6 +49,18 @@ export const GetUsersList = () => async (dispatch) => {
 export const GetPoliciesList = () => async (dispatch) => {
   try {
     let res = await instance.get("api/Policy/Policies");
+    console.log("res", res);
+    dispatch({ type: SET_POLICIES_LIST, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+// GET /api/Policy/Policies
+export const GetPoliciesByCivilId = (civilId) => async (dispatch) => {
+  try {
+    console.log("civilId: ", civilId)
+    let res = await instance.get("api/Claims/Policies?CivialId=" + civilId);
     console.log("res", res);
     dispatch({ type: SET_POLICIES_LIST, payload: res.data });
   } catch (err) {
@@ -112,12 +124,12 @@ export const GetClaimActionsByRoleId = (roleId) => async (dispatch) => {
 };
 
 // GET /api/AuthorityMatrix/UserProfiles
-export const GetCivilIdBySearchVal = (civilIdSearch) => async (dispatch) => {
+export const GetCivilIdBySearchVal = async (civilIdSearch) => {
   try {
-    let res = await instance.get("api/AuthorityMatrix/UserProfiles?SearchText=" + civilIdSearch);
-    console.log("res", res);
-    debugger;
-    dispatch({ type: SET_USER_PROFILES_LIST, payload: res.data });
+    return await instance.get(
+      "api/AuthorityMatrix/UserProfiles?SearchText=" + civilIdSearch
+    );
+    // dispatch({ type: SET_USER_PROFILES_LIST, payload: res.data });
   } catch (err) {
     console.log("err", err);
   }

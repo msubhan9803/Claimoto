@@ -21,7 +21,8 @@ import {
   ResetClaimDetails,
   PostClaimDetials,
   GetClaimDetails,
-  GetCivilIdBySearchVal
+  GetCivilIdBySearchVal,
+  GetPoliciesByCivilId,
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -75,7 +76,7 @@ const actionButtonsListByStatus = {
   reassign: "Reassign",
   finalSettlement: "Final settlement",
   repairDetails: "Repair details",
-  phoneButton: "Phone Button"
+  phoneButton: "Phone Button",
 };
 
 const ClaimDetail = (props) => {
@@ -91,14 +92,23 @@ const ClaimDetail = (props) => {
     policiesList,
     claimsList,
     claimActionPermissions,
-    userProfileList
+    userProfileList,
   } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
   const productTypeList = useSelector(
     (state) => state.productReducer.product_Types
   );
-  const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld, AddedById } = claimDetails;
+  const {
+    PolicyId,
+    ClaimId,
+    PolicyNo,
+    CarNo,
+    MakeId,
+    ModeIld,
+    AddedById,
+    CivilId,
+  } = claimDetails;
   const formOptions = { resolver: yupResolver(formSchema), mode: "all" };
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] =
@@ -106,6 +116,8 @@ const ClaimDetail = (props) => {
   const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] =
     useState("");
   const [errorLocation, setErrorLocation] = useState("");
+  const [selectedUserValue, setSelectedUserValue] = useState(null);
+  const [selectedPolicyValue, setSelectedPolicyValue] = useState(null);
   const {
     register,
     control,
@@ -132,7 +144,7 @@ const ClaimDetail = (props) => {
     reassign: false,
     finalSettlement: false,
     repairDetails: false,
-    phoneButton: false
+    phoneButton: false,
   });
 
   useEffect(() => {
@@ -141,7 +153,6 @@ const ClaimDetail = (props) => {
     dispatch(GetClaimsList());
     dispatch(GetProducType());
     dispatch(GetMake());
-    dispatch(GetCivilIdBySearchVal(""))
 
     if (type === "create") {
       let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
@@ -172,10 +183,10 @@ const ClaimDetail = (props) => {
     if (MakeId) dispatch(GetMakeModel(MakeId));
   }, [MakeId]);
 
-  // useEffect(() => {
-  //   // Get Policy list by Civil Id
-  //   if (AddedById) dispatch(GetCivilIdBySearchVal(AddedById));
-  // }, [AddedById]);
+  useEffect(() => {
+    // Get Policy list by Civil Id
+    if (CivilId) dispatch(GetPoliciesByCivilId(CivilId));
+  }, [CivilId]);
 
   // Action button useEffect
   useEffect(() => {
@@ -275,7 +286,7 @@ const ClaimDetail = (props) => {
         reassign: reassign,
         finalSettlement: finalSettlement,
         repairDetails: repairDetails,
-        phoneButton: phoneButton
+        phoneButton: phoneButton,
       });
     }
   }, [claimActionPermissions]);
@@ -443,6 +454,42 @@ const ClaimDetail = (props) => {
     }
   };
 
+  // handle prolicy Id selection
+  const handlePolicyIdChange = (value) => {
+    setSelectedPolicyValue(value);
+    dispatch(HandleFieldChange("PolicyId", value.value));
+  };
+
+  // handle Civil Id input change event
+  const handleCivilInputChange = (value) => {
+    console.log("handle Civil Id input change event: ", value);
+  };
+
+  // handle Civil Id selection
+  const handleCivilChange = (value) => {
+    setSelectedUserValue(value);
+    dispatch(HandleFieldChange("CivilId", value.userId));
+  };
+
+  const handleUserIdSearch = (inputValue) =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        GetCivilIdBySearchVal(inputValue).then((res) => {
+          let response = res.data;
+          let parsed = [];
+          for (let index = 0; index < response.length; index++) {
+            const profile = response[index];
+            parsed.push({
+              label: profile.UserName,
+              value: profile.UserName,
+              userId: profile.UserId,
+            });
+          }
+          resolve(parsed);
+        });
+      }, 1000);
+    });
+
   return (
     <>
       {isLoading ? (
@@ -485,6 +532,12 @@ const ClaimDetail = (props) => {
                     userProfileList={userProfileList}
                     handleFieldChange={_handleFieldChange}
                     HandleFieldChangeAction={HandleFieldChange}
+                    handleUserIdSearch={handleUserIdSearch}
+                    handleCivilInputChange={handleCivilInputChange}
+                    selectedUserValue={selectedUserValue}
+                    handleCivilChange={handleCivilChange}
+                    handlePolicyIdChange={handlePolicyIdChange}
+                    selectedPolicyValue={selectedPolicyValue}
                     register={register}
                     errors={errors}
                     control={control}

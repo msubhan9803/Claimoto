@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import AsyncSelect from "react-select/async";
 
 export default function InitiateCustomerInformation({
   state,
@@ -16,6 +17,12 @@ export default function InitiateCustomerInformation({
   control,
   HandleFieldChangeAction,
   userProfileList,
+  handleUserIdSearch,
+  selectedUserValue,
+  handleCivilChange,
+  handleCivilInputChange,
+  handlePolicyIdChange,
+  selectedPolicyValue
 }) {
   const {
     AddedById,
@@ -45,32 +52,13 @@ export default function InitiateCustomerInformation({
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Civil ID *</h6>
-                    {/* <select
-                      class="nice-select"
-                      name="AddedById"
-                      {...register("AddedById")}
-                      value={AddedById}
-                      onChange={handleFieldChange}
-                    >
-                      <option value="">--- Please Select --- </option>
-                      {userProfileList.map((item, index) => {
-                        return (
-                          <option value={item.UserId} key={index}>
-                            {item.UserId}
-                          </option>
-                        );
-                      })}
-                    </select> */}
-                    <Select
-                      class="nice-select"
-                      name="AddedById"
-                      value={AddedById}
-                      {...register("AddedById")}
-                      onChange={handleFieldChange}
-                      options={userProfileList.map((item) => ({
-                        value: item.UserId,
-                        label: item.UserId,
-                      }))}
+                    <AsyncSelect
+                      cacheOptions
+                      defaultOptions
+                      value={selectedUserValue}
+                      loadOptions={handleUserIdSearch}
+                      onInputChange={handleCivilInputChange}
+                      onChange={handleCivilChange}
                     />
                     <ErrorMessage
                       errors={errors}
@@ -84,7 +72,7 @@ export default function InitiateCustomerInformation({
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Policy number *</h6>
-                    <select
+                    {/* <select
                       class="nice-select"
                       name="PolicyId"
                       {...register("PolicyId")}
@@ -99,14 +87,27 @@ export default function InitiateCustomerInformation({
                           </option>
                         );
                       })}
-                    </select>
-                    <ErrorMessage
-                      errors={errors}
+                    </select> */}
+                    <Select
+                      class="nice-select"
                       name="PolicyId"
-                      render={({ message }) => (
-                        <p style={{ color: "red" }}>{message}</p>
-                      )}
+                      value={selectedPolicyValue}
+                      {...register("PolicyId")}
+                      onChange={handlePolicyIdChange}
+                      options={policiesList.map((item) => ({
+                        value: item.Id,
+                        label: item.PolicyNo,
+                      }))}
                     />
+                    {policiesList && policiesList.length > 0 && (
+                      <ErrorMessage
+                        errors={errors}
+                        name="PolicyId"
+                        render={({ message }) => (
+                          <p style={{ color: "red" }}>{message}</p>
+                        )}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
