@@ -6,6 +6,7 @@ import AgoraRTM from "agora-rtm-sdk";
 import { dataURLToBlob } from "hooks/agoraFunctions";
 import { imageToBlob } from "hooks/agoraFunctions";
 import { fileOrBlobToDataURL } from "hooks/agoraFunctions";
+import { formatDateTime } from "functions";
 
 const client = AgoraRTM.createInstance("5f611f72fa2d48798a9d13cc723447da");
 
@@ -86,10 +87,14 @@ function Message({ appid, token, channel, joinState, accountName }) {
                             data.user.name == accountName ?
                                 <div key={index} className="message text-light p-1 text-end">
                                     <p className="bg-primary rounded text-light p-1 text-end">{data.message}</p>
+                                    <br />
+                                    <span className="bg-light rounded text-secondary p-1 text-end"><small>{formatDateTime(data.timestamp)?.date || ""}</small></span>
                                 </div>
                                 :
                                 <div key={index} className="message text-secondary p-1 text-start">
                                     <p className="bg-light rounded text-secondary p-1 text-start">{data.message}</p>
+                                    <br />
+                                    <span className="bg-light rounded text-secondary p-1 text-end"><small>{formatDateTime(data.timestamp)?.date || ""}</small></span>
                                 </div>
                         );
                     })}

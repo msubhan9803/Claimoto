@@ -40,7 +40,7 @@ const useAgoraRtm = (userName, client, token, accountName, joinState, channelNam
     const user = await client.getUserAttributes(uid);
     console.log(data);
     if (data.messageType === "TEXT") {
-      const newMessageData = { user, message: data.text };
+      const newMessageData = { user, message: data.text, timestamp: new Date() };
       setCurrentMessage(newMessageData);
     }
   };
@@ -53,6 +53,7 @@ const useAgoraRtm = (userName, client, token, accountName, joinState, channelNam
         setCurrentMessage({
           user: { name: accountName, color },
           message: text,
+          timestamp:new Date()
         });
       })
       .catch((error) => {
