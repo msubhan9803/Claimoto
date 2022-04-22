@@ -12,6 +12,7 @@ import {
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
   RESET_CLAIMS_LIST_AND_PAGINATION,
+  SET_USER_PROFILES_LIST
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -105,6 +106,18 @@ export const GetClaimActionsByRoleId = (roleId) => async (dispatch) => {
     let res = await instance.get("api/Claims/ClaimActions?Id=" + roleId);
     console.log("res", res);
     dispatch({ type: SET_ACTION_PERMISSIONS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+// GET /api/AuthorityMatrix/UserProfiles
+export const GetCivilIdBySearchVal = (civilIdSearch) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/AuthorityMatrix/UserProfiles?SearchText=" + civilIdSearch);
+    console.log("res", res);
+    debugger;
+    dispatch({ type: SET_USER_PROFILES_LIST, payload: res.data });
   } catch (err) {
     console.log("err", err);
   }

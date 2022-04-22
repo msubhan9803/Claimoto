@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import InitiateCustomerInformation from "components/ClaimOffice/ClaimDetails/InitiateCustomerInformation";
 import InitiateClaimInformation from "components/ClaimOffice/ClaimDetails/InitiateClaimInformation";
 import UploadDocuments from "components/ClaimOffice/ClaimDetails/UploadDocuments";
 import CarPhotos from "components/ClaimOffice/ClaimDetails/CarPhotos";
@@ -20,6 +21,7 @@ import {
   ResetClaimDetails,
   PostClaimDetials,
   GetClaimDetails,
+  GetCivilIdBySearchVal
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -47,12 +49,13 @@ const docType = {
 
 const photoTypeIdList = {
   Front: 1,
-  LeftRight: 2,
-  FrontLeft: 3,
-  FrontRight: 4,
-  RearLeft: 5,
-  RearRight: 6,
-  Rear: 7,
+  FrontLeft: 4,
+  FrontRight: 5,
+  Rear: 8,
+  RearLeft: 6,
+  RearRight: 7,
+  Left: 2,
+  Right: 3,
 };
 
 const actionButtonsListByStatus = {
@@ -88,13 +91,14 @@ const ClaimDetail = (props) => {
     policiesList,
     claimsList,
     claimActionPermissions,
+    userProfileList
   } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
   const productTypeList = useSelector(
     (state) => state.productReducer.product_Types
   );
-  const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld } = claimDetails;
+  const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld, AddedById } = claimDetails;
   const formOptions = { resolver: yupResolver(formSchema), mode: "all" };
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] =
@@ -137,6 +141,7 @@ const ClaimDetail = (props) => {
     dispatch(GetClaimsList());
     dispatch(GetProducType());
     dispatch(GetMake());
+    dispatch(GetCivilIdBySearchVal(""))
 
     if (type === "create") {
       let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
@@ -166,6 +171,11 @@ const ClaimDetail = (props) => {
   useEffect(() => {
     if (MakeId) dispatch(GetMakeModel(MakeId));
   }, [MakeId]);
+
+  // useEffect(() => {
+  //   // Get Policy list by Civil Id
+  //   if (AddedById) dispatch(GetCivilIdBySearchVal(AddedById));
+  // }, [AddedById]);
 
   // Action button useEffect
   useEffect(() => {
@@ -467,6 +477,33 @@ const ClaimDetail = (props) => {
               {/* Initiate Claim Information Form */}
               <div class="ltnd__block-area">
                 {type === "create" || type === "edit" ? (
+                  <InitiateCustomerInformation
+                    state={claimDetails}
+                    usersList={usersList}
+                    policiesList={policiesList}
+                    claimsList={claimsList}
+                    userProfileList={userProfileList}
+                    handleFieldChange={_handleFieldChange}
+                    HandleFieldChangeAction={HandleFieldChange}
+                    register={register}
+                    errors={errors}
+                    control={control}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {CarNo ? (
+                  <PolicyInformation
+                    type={type}
+                    claimDetails={claimDetails}
+                    _handlePolicyTypeName={_handlePolicyTypeName}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {type === "create" || type === "edit" ? (
                   <InitiateClaimInformation
                     state={claimDetails}
                     usersList={usersList}
@@ -482,7 +519,7 @@ const ClaimDetail = (props) => {
                   ""
                 )}
 
-                {type === "create" || type === "edit" ? (
+                {/* {type === "create" || type === "edit" ? (
                   <LocationDetail
                     showLocationModal={showLocationModal}
                     setShowLocationModal={setShowLocationModal}
@@ -496,7 +533,7 @@ const ClaimDetail = (props) => {
                   />
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
 
               {PolicyNo ? (
@@ -506,16 +543,6 @@ const ClaimDetail = (props) => {
                   policyMakeList={policyMakeList}
                   _handleVehicleMakeName={_handleVehicleMakeName}
                   _handleVehicleModeName={_handleVehicleModeName}
-                />
-              ) : (
-                ""
-              )}
-
-              {CarNo ? (
-                <PolicyInformation
-                  type={type}
-                  claimDetails={claimDetails}
-                  _handlePolicyTypeName={_handlePolicyTypeName}
                 />
               ) : (
                 ""

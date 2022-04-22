@@ -9,7 +9,8 @@ import {
   SET_ACTION_PERMISSIONS,
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
-  RESET_CLAIMS_LIST_AND_PAGINATION
+  RESET_CLAIMS_LIST_AND_PAGINATION,
+  SET_USER_PROFILES_LIST
 } from "store/types/claims.js";
 
 const initialState = {
@@ -84,7 +85,8 @@ const initialState = {
   usersList: [],
   policiesList: [],
   claimsList: [],
-  claimActionPermissions: {}
+  claimActionPermissions: {},
+  userProfileList: [],
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -136,6 +138,13 @@ const policyReducer = (state = initialState, action) => {
       return {
         ...state,
         claimsList: action.payload,
+      };
+    }
+
+    case SET_USER_PROFILES_LIST: {
+      return {
+        ...state,
+        userProfileList: action.payload,
       };
     }
 
