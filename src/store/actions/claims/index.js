@@ -59,10 +59,9 @@ export const GetPoliciesList = () => async (dispatch) => {
 // GET /api/Policy/Policies
 export const GetPoliciesByCivilId = (civilId) => async (dispatch) => {
   try {
-    console.log("civilId: ", civilId)
     let res = await instance.get("api/Claims/Policies?CivialId=" + civilId);
-    console.log("res", res);
-    dispatch({ type: SET_POLICIES_LIST, payload: res.data });
+    console.log("GetPoliciesByCivilId response: ", res.data)
+    dispatch({ type: SET_POLICIES_LIST, payload: res.data === "Policies not found" ? [] : res.data });
   } catch (err) {
     console.log("err", err);
   }

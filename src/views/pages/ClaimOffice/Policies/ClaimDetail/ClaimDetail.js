@@ -26,17 +26,20 @@ import {
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
+import { getAreas, getCities } from "store/actions/provider";
 import LocationDetail from "components/ClaimOffice/ClaimDetails/LocationDetail";
 import { msgAlert } from "functions";
 import jwt_decode from "jwt-decode";
 import { localStorageVarible } from "variables";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly";
+import CustomerDetailsViewOnly from "components/ClaimOffice/ClaimDetails/CustomerDetailsViewOnly";
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
-  PolicyId: Yup.string().required("Policy number is required"),
   ClaimTypeId: Yup.string().required("Claim Type is required"),
+  Region: Yup.string().required("Region is required"),
+  Area: Yup.string().required("Area is required"),
   RepairOption: Yup.string().required("Repair Option is required"),
   InitialComments: Yup.string().required("Comment is required"),
 });
@@ -47,6 +50,12 @@ const docType = {
   Police_Certificate: 3,
   Registration_Book: 4,
 };
+
+const repairOptions = [
+  { value: 1, title: "Repair By Agency" },
+  { value: 2, title: "Repair By Garage" },
+  { value: 3, title: "Repair By Agency/Garage" },
+];
 
 const photoTypeIdList = {
   Front: 1,
@@ -108,6 +117,7 @@ const ClaimDetail = (props) => {
     ModeIld,
     AddedById,
     CivilId,
+    Region,
   } = claimDetails;
   const formOptions = { resolver: yupResolver(formSchema), mode: "all" };
   const [showLocationModal, setShowLocationModal] = useState(false);
@@ -118,6 +128,8 @@ const ClaimDetail = (props) => {
   const [errorLocation, setErrorLocation] = useState("");
   const [selectedUserValue, setSelectedUserValue] = useState(null);
   const [selectedPolicyValue, setSelectedPolicyValue] = useState(null);
+  const [civilIdError, setCivilIdError] = useState("");
+  const [policyNoError, setPolicyNoError] = useState("");
   const {
     register,
     control,
@@ -146,13 +158,17 @@ const ClaimDetail = (props) => {
     repairDetails: false,
     phoneButton: false,
   });
+  const { tab3 } = useSelector((state) => state.addProviderScreenReducer);
+  const { cities, areas, selected_locations } = tab3;
 
   useEffect(() => {
     dispatch(GetUsersList());
-    dispatch(GetPoliciesList());
+    // dispatch(GetPoliciesList());
     dispatch(GetClaimsList());
     dispatch(GetProducType());
     dispatch(GetMake());
+
+    dispatch(getCities(1));
 
     if (type === "create") {
       let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
@@ -187,6 +203,10 @@ const ClaimDetail = (props) => {
     // Get Policy list by Civil Id
     if (CivilId) dispatch(GetPoliciesByCivilId(CivilId));
   }, [CivilId]);
+
+  useEffect(() => {
+    if (Region) dispatch(getAreas(Region));
+  }, [Region]);
 
   // Action button useEffect
   useEffect(() => {
@@ -321,11 +341,18 @@ const ClaimDetail = (props) => {
   };
 
   const onSubmit = () => {
-    if (claimDetails.Location == "") {
-      setErrorLocation("Location is requred");
+    if (claimDetails.CivilId == "" || claimDetails.CivilId == 0) {
+      setCivilIdError("Civil Id is required");
       return;
     } else {
-      setErrorLocation("");
+      setCivilIdError("");
+    }
+
+    if (claimDetails.PolicyId == "" || claimDetails.PolicyId == 0) {
+      setPolicyNoError("Policy Number is required");
+      return;
+    } else {
+      setPolicyNoError("");
     }
 
     if (claimDetails.ClaimDocuments.length < 4) {
@@ -468,7 +495,9 @@ const ClaimDetail = (props) => {
   // handle Civil Id selection
   const handleCivilChange = (value) => {
     setSelectedUserValue(value);
-    dispatch(HandleFieldChange("CivilId", value.userId));
+    dispatch(HandleFieldChange("CivilId", value.value));
+    dispatch(HandleFieldChange("PolicyId", 0));
+    setSelectedPolicyValue(null);
   };
 
   const handleUserIdSearch = (inputValue) =>
@@ -541,6 +570,18 @@ const ClaimDetail = (props) => {
                     register={register}
                     errors={errors}
                     control={control}
+                    civilIdError={civilIdError}
+                    policyNoError={policyNoError}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {type === "view" ? (
+                  <CustomerDetailsViewOnly
+                    type={type}
+                    claimDetails={claimDetails}
+                    claimsList={claimsList}
                   />
                 ) : (
                   ""
@@ -565,8 +606,11 @@ const ClaimDetail = (props) => {
                     handleFieldChange={_handleFieldChange}
                     HandleFieldChangeAction={HandleFieldChange}
                     register={register}
+                    cities={cities}
+                    areas={areas}
                     errors={errors}
                     control={control}
+                    repairOptions={repairOptions}
                   />
                 ) : (
                   ""
@@ -589,6 +633,17 @@ const ClaimDetail = (props) => {
                 )} */}
               </div>
 
+              {type === "view" ? (
+                <ClaimDetailsViewOnly
+                  type={type}
+                  claimDetails={claimDetails}
+                  claimsList={claimsList}
+                  repairOptions={repairOptions}
+                />
+              ) : (
+                ""
+              )}
+
               {PolicyNo ? (
                 <VehicleInformation
                   type={type}
@@ -596,16 +651,6 @@ const ClaimDetail = (props) => {
                   policyMakeList={policyMakeList}
                   _handleVehicleMakeName={_handleVehicleMakeName}
                   _handleVehicleModeName={_handleVehicleModeName}
-                />
-              ) : (
-                ""
-              )}
-
-              {type === "view" ? (
-                <ClaimDetailsViewOnly
-                  type={type}
-                  claimDetails={claimDetails}
-                  claimsList={claimsList}
                 />
               ) : (
                 ""

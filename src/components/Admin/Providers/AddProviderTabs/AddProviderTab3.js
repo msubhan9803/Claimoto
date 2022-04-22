@@ -61,7 +61,9 @@ const AddProviderTab3 = () => {
 
     const _editLocation = (index) => {
         reset();
+        console.log("selected_locations: ", selected_locations)
         let selected_loc = selected_locations[index];
+        console.log("selected_locations: ", selected_loc)
         dispatch(getCountries());
         dispatch(getCities(selected_loc.country));
         dispatch(getAreas(selected_loc.city));

@@ -22,7 +22,9 @@ export default function InitiateCustomerInformation({
   handleCivilChange,
   handleCivilInputChange,
   handlePolicyIdChange,
-  selectedPolicyValue
+  selectedPolicyValue,
+  civilIdError,
+  policyNoError
 }) {
   const {
     AddedById,
@@ -55,46 +57,27 @@ export default function InitiateCustomerInformation({
                     <AsyncSelect
                       cacheOptions
                       defaultOptions
+                      {...register("CivilId")}
                       value={selectedUserValue}
                       loadOptions={handleUserIdSearch}
                       onInputChange={handleCivilInputChange}
                       onChange={handleCivilChange}
                     />
-                    <ErrorMessage
-                      errors={errors}
-                      name="AddedById"
-                      render={({ message }) => (
-                        <p style={{ color: "red" }}>{message}</p>
-                      )}
-                    />
+                    {civilIdError !== "" && (
+                      <p style={{ color: "red" }}>{civilIdError}</p>
+                    )}
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Policy number *</h6>
-                    {/* <select
-                      class="nice-select"
-                      name="PolicyId"
-                      {...register("PolicyId")}
-                      value={PolicyId}
-                      onChange={handleFieldChange}
-                    >
-                      <option value="">--- Please Select --- </option>
-                      {policiesList.map((item, index) => {
-                        return (
-                          <option value={item.Id} key={index}>
-                            {item.PolicyNo}
-                          </option>
-                        );
-                      })}
-                    </select> */}
                     <Select
                       class="nice-select"
                       name="PolicyId"
                       value={selectedPolicyValue}
                       {...register("PolicyId")}
                       onChange={handlePolicyIdChange}
-                      options={policiesList.map((item) => ({
+                      options={policiesList?.map((item) => ({
                         value: item.Id,
                         label: item.PolicyNo,
                       }))}
@@ -107,6 +90,9 @@ export default function InitiateCustomerInformation({
                           <p style={{ color: "red" }}>{message}</p>
                         )}
                       />
+                    )}
+                    {policyNoError !== "" && (
+                      <p style={{ color: "red" }}>{policyNoError}</p>
                     )}
                   </div>
                 </div>

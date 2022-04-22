@@ -14,7 +14,12 @@ export default function InitiateClaimInformation({
   claimsList,
   control,
   HandleFieldChangeAction,
+  cities,
+  areas,
+  repairOptions,
 }) {
+
+  console.log("repairOptions: ", repairOptions)
   const {
     AddedById,
     PolicyId,
@@ -22,6 +27,8 @@ export default function InitiateClaimInformation({
     RepairOption,
     IncidentDate,
     InitialComments,
+    Region,
+    Area,
   } = state;
   const dispatch = useDispatch();
 
@@ -79,9 +86,11 @@ export default function InitiateClaimInformation({
                       onChange={handleFieldChange}
                     >
                       <option value="">--- Please Select ---</option>
-                      <option value={1}>Repair By Agency </option>
-                      <option value={2}>Repair By Garage </option>
-                      <option value={3}>Repair By Agency/Garage </option>
+                      {repairOptions?.map((option, index) => (
+                        <option key={index} value={option.value}>
+                          {option.title}
+                        </option>
+                      )) || []}
                     </select>
                     <ErrorMessage
                       errors={errors}
@@ -128,18 +137,23 @@ export default function InitiateClaimInformation({
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Region *</h6>
-                    <input
-                      type="text"
-                      {...register("Location")}
-                      name="Location"
-                      value={Location}
+                    <select
+                      class="nice-select"
+                      value={Region}
+                      name="Region"
+                      {...register("Region")}
                       onChange={handleFieldChange}
-                      placeholder="Enter Region"
-                      required
-                    />
+                    >
+                      <option value="">Select Region</option>
+                      {cities?.map((city) => (
+                        <option key={city.id} value={city.Id}>
+                          {city.Name}
+                        </option>
+                      )) || []}
+                    </select>
                     <ErrorMessage
                       errors={errors}
-                      name="IncidentDate"
+                      name="Region"
                       render={({ message }) => (
                         <p style={{ color: "red" }}>{message}</p>
                       )}
@@ -149,18 +163,25 @@ export default function InitiateClaimInformation({
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Area *</h6>
-                    <input
-                      type="text"
-                      {...register("Location")}
-                      name="Location"
-                      value={Location}
+                    <select
+                      class="nice-select"
+                      value={Area}
+                      name="Area"
+                      {...register("Area")}
                       onChange={handleFieldChange}
-                      placeholder="Enter Area"
-                      required
-                    />
+                    >
+                      <option disabled={true} value="">
+                        Select Area
+                      </option>
+                      {areas?.map((area) => (
+                        <option key={area.id} value={area.Id}>
+                          {area.Name}
+                        </option>
+                      )) || ""}
+                    </select>
                     <ErrorMessage
                       errors={errors}
-                      name="IncidentDate"
+                      name="Area"
                       render={({ message }) => (
                         <p style={{ color: "red" }}>{message}</p>
                       )}

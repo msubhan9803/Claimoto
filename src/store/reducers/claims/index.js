@@ -54,6 +54,8 @@ const initialState = {
     ClaimId: 0,
     ClaimTypeId: 0,
     CivilId: 0,
+    Region: 0,
+    Area: 0,
     PolicyId: 0,
     PolicyNo: 0,
     PolicyType: null,
