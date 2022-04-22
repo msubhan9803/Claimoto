@@ -5,6 +5,7 @@ import MediaPlayer from 'components/ClaimOffice/VideoCall/MediaPlayer';
 import call_end_img from 'assets/img/call/actions/call_end.png';
 import full_screen_img from 'assets/img/call/actions/full_screen.png';
 import mic_mute_img from 'assets/img/call/actions/mic_mute.png';
+import recording_img from 'assets/img/call/actions/recording.png';
 import screen_share_img from 'assets/img/call/actions/screen_share.png';
 import off_cam_img from 'assets/img/call/actions/off_cam.png';
 import send_attachment from 'assets/img/call/actions/send_attachment.png';
@@ -105,7 +106,17 @@ function Call() {
         setAccountName(user_details.UserId);
         setChannel("HelloWorld");
         _join();
+
+        return () => {
+            leave();
+            toggleMic(false);
+            toggleCamera(false)
+        };
+
     }, []);
+
+
+   
 
     return (
         <React.Fragment>
@@ -141,7 +152,6 @@ function Call() {
                                 <div className="ltnd__page-title-area">
                                     <h2>Call With Khaled</h2>
                                 </div>
-                                <CountdownTimer targetDate={dateTimeAfterThreeDays} leaveMeeting={() => leave()} toggleTimmer={remoteUsers.length > 0} />
                             </div>
                             <FullScreen handle={handle}>
                                 <div style={{ height: handle.active ? "100%" : "650px", background: "black", borderRadius: "20px" }}>
@@ -157,6 +167,10 @@ function Call() {
                                         {/* Name of User on Call */}
                                         <div className="topleft">
                                             <h3>Khaled</h3>
+                                        </div>
+
+                                        <div className="topright">
+                                            <CountdownTimer targetDate={dateTimeAfterThreeDays} leaveMeeting={() => leave()} toggleTimmer={remoteUsers.length > 0} />
                                         </div>
 
                                         {remoteUsers.length < 1 ?
@@ -197,6 +211,11 @@ function Call() {
                                                 <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
                                                     <div className='call_action_img'>
                                                         <img src={off_cam_img} />
+                                                    </div>
+                                                </div>
+                                                <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
+                                                    <div className='call_action_img'>
+                                                        <img src={recording_img} />
                                                     </div>
                                                 </div>
                                             </div>
