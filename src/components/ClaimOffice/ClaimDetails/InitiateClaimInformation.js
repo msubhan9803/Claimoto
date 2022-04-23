@@ -146,7 +146,7 @@ export default function InitiateClaimInformation({
                     >
                       <option value="">Select Region</option>
                       {cities?.map((city) => (
-                        <option key={city.id} value={city.Id}>
+                        <option key={city.Id} value={city.Id}>
                           {city.Name}
                         </option>
                       )) || []}
@@ -170,11 +170,11 @@ export default function InitiateClaimInformation({
                       {...register("Area")}
                       onChange={handleFieldChange}
                     >
-                      <option disabled={true} value="">
+                      <option disabled="" value="">
                         Select Area
                       </option>
                       {areas?.map((area) => (
-                        <option key={area.id} value={area.Id}>
+                        <option key={area.Id} value={area.Id}>
                           {area.Name}
                         </option>
                       )) || ""}

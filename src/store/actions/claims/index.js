@@ -14,6 +14,7 @@ import {
   RESET_CLAIMS_LIST_AND_PAGINATION,
   SET_USER_PROFILES_LIST,
 } from "store/types/claims";
+import { getAreas } from "store/actions/provider";
 
 // GET /api/Claims/Claims
 export const GetClaimsByPolicyId = (policyId) => async (dispatch) => {
@@ -45,6 +46,16 @@ export const GetUsersList = () => async (dispatch) => {
   }
 };
 
+// GET /api/UserProfile/ByID
+export const GetUserById = async (id) => {
+  try {
+    let res = await instance.get("api/UserProfile/ByID?Id=" + id);
+    return res.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
 // GET /api/Policy/Policies
 export const GetPoliciesList = () => async (dispatch) => {
   try {
@@ -60,8 +71,11 @@ export const GetPoliciesList = () => async (dispatch) => {
 export const GetPoliciesByCivilId = (civilId) => async (dispatch) => {
   try {
     let res = await instance.get("api/Claims/Policies?CivialId=" + civilId);
-    console.log("GetPoliciesByCivilId response: ", res.data)
-    dispatch({ type: SET_POLICIES_LIST, payload: res.data === "Policies not found" ? [] : res.data });
+    console.log("GetPoliciesByCivilId response: ", res.data);
+    dispatch({
+      type: SET_POLICIES_LIST,
+      payload: res.data === "Policies not found" ? [] : res.data,
+    });
   } catch (err) {
     console.log("err", err);
   }
@@ -84,6 +98,11 @@ export const GetClaimDetails = (claimId) => async (dispatch) => {
     let res = await instance.get("api/Claims/Claim?id=" + claimId);
     console.log("res", res);
     let payload = res.data;
+    // For testing Region & Area
+    // payload.Region = 2;
+    // payload.Area = 2;
+    // dispatch(getAreas(payload.Region))
+
     dispatch({ type: SET_CLAIMS_DETAILS, payload: payload });
   } catch (err) {
     console.log("err", err);
@@ -238,6 +257,80 @@ export const PostClaimDetials =
       console.log("err", err);
     }
   };
+
+export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
+  try {
+    let formData = new FormData();
+    formData.append("ClaimId", obj.ClaimId);
+    formData.append("PolicyId", obj.PolicyId);
+    formData.append("MakeId", obj.MakeId);
+    formData.append("ModelId", obj.ModelId);
+    formData.append("DocumentTypeId", obj.DocumentTypeId);
+    formData.append("ClaimAttachmentId", obj.DocumentTypeId);
+    formData.append("File", obj.file);
+
+    await instance
+      .post("api/Claims/ClaimAttachment", formData)
+      .then((res) => {
+        console.log(
+          "uploaded document with doc Id: ",
+          obj.DocumentTypeId
+        );
+        window.location.reload();
+      })
+      .catch((err) => console.log("err FileUpload: ", err));
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const HandleUpdateDocAttatchment = (obj) => async (dispatch) => {
+  try {
+    let formData = new FormData();
+    formData.append("ClaimId", obj.ClaimId);
+    formData.append("PolicyId", obj.PolicyId);
+    formData.append("MakeId", obj.MakeId);
+    formData.append("ModelId", obj.ModelId);
+    formData.append("DocumentTypeId", obj.DocumentTypeId);
+    formData.append("ClaimAttachmentId", obj.DocumentTypeId);
+    formData.append("CD_Id", obj.CD_Id);
+    formData.append("File", obj.file);
+
+    await instance
+      .put("api/Claims/ClaimAttachment", formData)
+      .then((res) => {
+        console.log("Update ClaimAttachment res: ", res);
+        window.location.reload();
+      })
+      .catch((err) => console.log("err FileUpload: ", err));
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const HandleGetUserFile = (path) => {
+  try {
+    const fileName = path.substring(path.lastIndexOf("/") + 1);
+    return fetch(path)
+      .then((response) => response.blob())
+      .then(
+        (blob) =>
+          new File([blob], `${fileName}`, {
+            type: blob.type,
+          })
+      )
+      .then((file) => {
+        let selectedTypes = ["image/png", "image/jpg", "image/jpeg"];
+        if (!selectedTypes?.includes(file.type)) {
+          return file;
+        } else {
+          return null;
+        }
+      });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
 
 export const HandleFilterTable = (filteredList) => (dispatch) => {
   try {

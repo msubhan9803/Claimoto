@@ -23,6 +23,9 @@ import {
   GetClaimDetails,
   GetCivilIdBySearchVal,
   GetPoliciesByCivilId,
+  HandleGetUserFile,
+  GetUserById,
+  HandleUpdateDocAttatchment,
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -201,7 +204,19 @@ const ClaimDetail = (props) => {
 
   useEffect(() => {
     // Get Policy list by Civil Id
-    if (CivilId) dispatch(GetPoliciesByCivilId(CivilId));
+    if (CivilId) {
+      dispatch(GetPoliciesByCivilId(CivilId));
+
+      // **** Download/Fetching Customer Civil/License file if it exists ****
+      // if (selectedUserValue.Civil_IdFront) {
+      //   HandleGetUserFile(selectedUserValue.Civil_IdFront).then((file) => {
+      //     if (file) {
+      //       // _handleDocumentPush(file, 1);
+      //       console.log("Civil Id file: ", file)
+      //     }
+      //   });
+      // }
+    }
   }, [CivilId]);
 
   useEffect(() => {
@@ -389,27 +404,61 @@ const ClaimDetail = (props) => {
       });
       submitBtnRef.current.click();
     } else {
-      let temp = {
-        CD_Id: 0,
-        ClaimId: ClaimId,
-        PolicyId: PolicyId,
-        MakeId: MakeId,
-        ModelId: ModeIld,
-        DocumentTypeId: docType[documentType],
-        Path: "",
-        ClaimAttachmentId: 0,
-        TenantId: 0,
-        CreatedBy: 0,
-        CreatedDate: "",
-        UpdatedBy: 0,
-        UpdatedDate: "",
-        IsDeleted: false,
-        IsActive: false,
-        file: file,
-      };
+      if (type === "create") {
+        let temp = {
+          CD_Id: 0,
+          ClaimId: ClaimId,
+          PolicyId: PolicyId,
+          MakeId: MakeId,
+          ModelId: ModeIld,
+          DocumentTypeId: docType[documentType],
+          Path: "",
+          ClaimAttachmentId: 0,
+          TenantId: 0,
+          CreatedBy: 0,
+          CreatedDate: "",
+          UpdatedBy: 0,
+          UpdatedDate: "",
+          IsDeleted: false,
+          IsActive: false,
+          file: file,
+        };
 
-      let docList = [...claimDetails.ClaimDocuments, temp];
-      dispatch(HandleFieldChange("ClaimDocuments", docList));
+        let docList = [...claimDetails.ClaimDocuments, temp];
+        dispatch(HandleFieldChange("ClaimDocuments", docList));
+      } else {
+        // type === view || type === edit
+        let index = claimDetails.ClaimDocuments.findIndex(
+          (doc) => doc.ClaimAttachmentId === docType[documentType]
+        );
+
+        let temp = claimDetails.ClaimDocuments[index];
+        if (temp) {
+          temp.file = file;
+          temp.ClaimId = ClaimId;
+          dispatch(HandleUpdateDocAttatchment(temp));
+        } else {
+          let temp = {
+            CD_Id: 0,
+            ClaimId: ClaimId,
+            PolicyId: PolicyId,
+            MakeId: MakeId,
+            ModelId: ModeIld,
+            DocumentTypeId: docType[documentType],
+            Path: "",
+            ClaimAttachmentId: 0,
+            TenantId: 0,
+            CreatedBy: 0,
+            CreatedDate: "",
+            UpdatedBy: 0,
+            UpdatedDate: "",
+            IsDeleted: false,
+            IsActive: false,
+            file: file,
+          };
+          dispatch(HandleUpdateDocAttatchment(temp));
+        }
+      }
     }
   };
 
@@ -427,6 +476,7 @@ const ClaimDetail = (props) => {
           (photo) => photo.ClaimPhotoTypeId === photoTypeIdList[photoType]
         );
         if (index === -1) {
+          // Pushing image
           let temp = {
             CACP_Id: 0,
             ClaimId: ClaimId,
@@ -451,6 +501,7 @@ const ClaimDetail = (props) => {
           let photoList = [...claimDetails.ClaimAccidentCarPhotos, temp];
           dispatch(HandleFieldChange("ClaimAccidentCarPhotos", photoList));
         } else {
+          // Updating Image
           let temp = claimDetails.ClaimAccidentCarPhotos;
           temp[index].file = file;
           temp[index].base64 = base64;
@@ -512,6 +563,7 @@ const ClaimDetail = (props) => {
               label: profile.UserName,
               value: profile.UserName,
               userId: profile.UserId,
+              Civil_IdFront: profile.Civil_IdFront,
             });
           }
           resolve(parsed);
@@ -639,6 +691,8 @@ const ClaimDetail = (props) => {
                   claimDetails={claimDetails}
                   claimsList={claimsList}
                   repairOptions={repairOptions}
+                  cities={cities}
+                  areas={areas}
                 />
               ) : (
                 ""

@@ -1,16 +1,27 @@
 import React from "react";
 import moment from "moment";
 
-export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList, repairOptions }) {
-  const { IncidentDate, Location, InitialComments, ClaimTypeId, RepairOption } = claimDetails;
+export default function ClaimDetailsViewOnly({
+  type,
+  claimDetails,
+  claimsList,
+  repairOptions,
+  cities,
+  areas,
+}) {
+  const { IncidentDate, Location, InitialComments, ClaimTypeId, RepairOption, Area, Region } =
+    claimDetails;
 
   const _getClaimTypeName = (claimTypeId) => {
-      if (claimTypeId) {
-          return claimsList.length > 0 ? claimsList.find(claimType => claimType.CT_Id == claimTypeId).ClaimName : "";
-      } else {
-          return "";
-      }
-  }
+    if (claimTypeId) {
+      return claimsList.length > 0
+        ? claimsList.find((claimType) => claimType.CT_Id == claimTypeId)
+            .ClaimName
+        : "";
+    } else {
+      return "";
+    }
+  };
 
   return (
     <div class="ltnd__block-area">
@@ -33,7 +44,12 @@ export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList, r
                 <div class="col-lg-3 col-md-6 mt-2">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Repair option</h6>
-                    <h6>{repairOptions.find(opt => opt.value == RepairOption).title}</h6>
+                    <h6>
+                      {
+                        repairOptions.find((opt) => opt.value == RepairOption)
+                          ?.title
+                      }
+                    </h6>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
@@ -45,13 +61,21 @@ export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList, r
                 <div class="col-lg-3 col-md-6 mt-2">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Region</h6>
-                    <h6>{_getClaimTypeName(ClaimTypeId)}</h6>
+                    <h6>
+                      {Region
+                        ? cities?.find((city) => city.Id === Region)?.Name
+                        : ""}
+                    </h6>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Area</h6>
-                    <h6>{Location}</h6>
+                    <h6>
+                      {Area
+                        ? areas?.find((area) => area.Id === Area)?.Name
+                        : ""}
+                    </h6>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">

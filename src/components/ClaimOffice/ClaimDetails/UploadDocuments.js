@@ -105,7 +105,7 @@ export default function UploadDocuments({
                   </strong>
                 </a>
               )}
-              {type !== "view" && (
+              {type === "view" && (
                 <a
                   class="ltn__secondary-color--- ml-20 cursor-pointer"
                   onClick={() => handleDocumentSave(docTypeString)}
