@@ -9,6 +9,8 @@ import Claimlist from 'views/pages/ClaimOffice/Policies/ClaimList/ClaimList';
 import ClaimDetail from 'views/pages/ClaimOffice/Policies/ClaimDetail/ClaimDetail';
 import Call from "views/pages/ClaimOffice/Calls/Call";
 import Message from "views/pages/ClaimOffice/Message/Message";
+import Agencies from "views/pages/ClaimOffice/Agency/AgencyList/Agencies.js";
+import AgencyDetail from "views/pages/ClaimOffice/Agency/AgencyDetail/AgencyDetail.js";
 
 export const claimRoutes = ({ userPermissions }) => {
 
@@ -79,6 +81,33 @@ export const claimRoutes = ({ userPermissions }) => {
                 name: "Claim Detail",
                 path: "/edit_claim/:id",
                 component: <ClaimDetail type="edit" layout="claim" />,
+                layout: "claim",
+              }
+            ]
+        },
+        {
+            name: "Agencies",
+            path: "/agencies",
+            icon: "ti-clipboard",
+            layout: "claim",
+            collapse: true,
+            views: [
+              {
+                name: "Agencies",
+                path: "/agencies",
+                component: <Agencies />,
+                layout: "claim",
+              },
+              {
+                name: "Agency Detail",
+                path: "/agency_detail/:id",
+                component: <AgencyDetail type="view" layout="claim" />,
+                layout: "claim",
+              },
+              {
+                name: "Agency Edit",
+                path: "/edit_agency/:id",
+                component: <AgencyDetail type="edit" layout="claim" />,
                 layout: "claim",
               }
             ]
