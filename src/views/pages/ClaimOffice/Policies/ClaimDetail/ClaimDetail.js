@@ -449,13 +449,13 @@ const ClaimDetail = (props) => {
           (doc) => doc.ClaimAttachmentId === docType[documentType]
         );
 
-        let temp = claimDetails.ClaimDocuments[index];
-        if (temp) {
-          temp.file = file;
-          temp.ClaimId = ClaimId;
-          dispatch(HandleUpdateDocAttatchment(temp));
+        let claimDocumentsList = [...claimDetails.ClaimDocuments];
+        if (claimDocumentsList[index]) {
+          claimDocumentsList[index].file = file;
+          claimDocumentsList[index].ClaimId = ClaimId;
+          dispatch(HandleUpdateDocAttatchment(claimDocumentsList));
         } else {
-          let temp = {
+          claimDocumentsList[index] = {
             CD_Id: 0,
             ClaimId: ClaimId,
             PolicyId: PolicyId,
@@ -474,7 +474,7 @@ const ClaimDetail = (props) => {
             file: file,
             AlreadyAddedPath: ""
           };
-          dispatch(HandleUpdateDocAttatchment(temp));
+          dispatch(HandleUpdateDocAttatchment(claimDocumentsList));
         }
       }
     }

@@ -282,25 +282,29 @@ export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
   }
 };
 
-export const HandleUpdateDocAttatchment = (obj) => async (dispatch) => {
+export const HandleUpdateDocAttatchment = (claimDocumentsList) => async (dispatch) => {
   try {
-    let formData = new FormData();
-    formData.append("ClaimId", obj.ClaimId);
-    formData.append("PolicyId", obj.PolicyId);
-    formData.append("MakeId", obj.MakeId);
-    formData.append("ModelId", obj.ModelId);
-    formData.append("DocumentTypeId", obj.DocumentTypeId);
-    formData.append("ClaimAttachmentId", obj.DocumentTypeId);
-    formData.append("CD_Id", obj.CD_Id);
-    formData.append("File", obj.file);
+    for (let index = 0; index < claimDocumentsList.length; index++) {
+      const doc = claimDocumentsList[index];
+      let formData = new FormData();
+      formData.append("ClaimId", doc.ClaimId);
+      formData.append("PolicyId", doc.PolicyId);
+      formData.append("MakeId", doc.MakeId);
+      formData.append("ModelId", doc.ModelId);
+      formData.append("DocumentTypeId", doc.DocumentTypeId);
+      formData.append("ClaimAttachmentId", doc.DocumentTypeId);
+      formData.append("AlreadyPath", doc.file ? "" : doc.Path);
+      formData.append("CD_Id", doc.CD_Id);
+      formData.append("File", doc.file);
 
-    await instance
-      .put("api/Claims/ClaimAttachment", formData)
-      .then((res) => {
-        console.log("Update ClaimAttachment res: ", res);
-        window.location.reload();
-      })
-      .catch((err) => console.log("err FileUpload: ", err));
+      await instance
+        .put("api/Claims/ClaimAttachment", formData)
+        .then((res) => {
+          console.log("Update ClaimAttachment res: ", res);
+        })
+        .catch((err) => console.log("err FileUpload: ", err));
+    }
+    window.href.reload();
   } catch (err) {
     console.log("err", err);
   }
