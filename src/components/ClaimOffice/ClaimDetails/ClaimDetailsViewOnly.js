@@ -63,7 +63,7 @@ export default function ClaimDetailsViewOnly({
                     <h6 class="ltnd__title-4">Region</h6>
                     <h6>
                       {Region
-                        ? cities?.find((city) => city.Id === Region)?.Name
+                        ? cities?.find((city) => city.Id === parseInt(Region))?.Name
                         : ""}
                     </h6>
                   </div>
@@ -73,7 +73,7 @@ export default function ClaimDetailsViewOnly({
                     <h6 class="ltnd__title-4">Area</h6>
                     <h6>
                       {Area
-                        ? areas?.find((area) => area.Id === Area)?.Name
+                        ? areas?.find((area) => area.Id === parseInt(Area))?.Name
                         : ""}
                     </h6>
                   </div>

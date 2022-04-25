@@ -23,7 +23,6 @@ import {
   GetClaimDetails,
   GetCivilIdBySearchVal,
   GetPoliciesByCivilId,
-  HandleGetUserFile,
   GetUserById,
   HandleUpdateDocAttatchment,
 } from "store/actions/claims";
@@ -206,16 +205,33 @@ const ClaimDetail = (props) => {
     // Get Policy list by Civil Id
     if (CivilId) {
       dispatch(GetPoliciesByCivilId(CivilId));
+    }
 
-      // **** Download/Fetching Customer Civil/License file if it exists ****
-      // if (selectedUserValue.Civil_IdFront) {
-      //   HandleGetUserFile(selectedUserValue.Civil_IdFront).then((file) => {
-      //     if (file) {
-      //       // _handleDocumentPush(file, 1);
-      //       console.log("Civil Id file: ", file)
-      //     }
-      //   });
-      // }
+    if (CivilId && type === "create") {
+      // **** Setting file of User selected in Civil Id ****
+      if (selectedUserValue.Civil_IdFront) {
+        let temp = {
+          CD_Id: 0,
+          ClaimId: ClaimId,
+          PolicyId: PolicyId,
+          MakeId: MakeId,
+          ModelId: ModeIld,
+          DocumentTypeId: docType["Civil_ID"],
+          Path: "",
+          ClaimAttachmentId: 0,
+          TenantId: 0,
+          CreatedBy: 0,
+          CreatedDate: "",
+          UpdatedBy: 0,
+          UpdatedDate: "",
+          IsDeleted: false,
+          IsActive: false,
+          AlreadyAddedPath: selectedUserValue.Civil_IdFront
+        };
+
+        let docList = [...claimDetails.ClaimDocuments, temp];
+        dispatch(HandleFieldChange("ClaimDocuments", docList));
+      }
     }
   }, [CivilId]);
 
@@ -422,6 +438,7 @@ const ClaimDetail = (props) => {
           IsDeleted: false,
           IsActive: false,
           file: file,
+          AlreadyAddedPath: ""
         };
 
         let docList = [...claimDetails.ClaimDocuments, temp];
@@ -455,6 +472,7 @@ const ClaimDetail = (props) => {
             IsDeleted: false,
             IsActive: false,
             file: file,
+            AlreadyAddedPath: ""
           };
           dispatch(HandleUpdateDocAttatchment(temp));
         }

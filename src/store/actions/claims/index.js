@@ -96,7 +96,7 @@ export const GetClaimsList = () => async (dispatch) => {
 export const GetClaimDetails = (claimId) => async (dispatch) => {
   try {
     let res = await instance.get("api/Claims/Claim?id=" + claimId);
-    console.log("res", res);
+    console.log("GetClaimDetails res", res);
     let payload = res.data;
     // For testing Region & Area
     // payload.Region = 2;
@@ -212,7 +212,8 @@ export const PostClaimDetials =
           formData.append("ModelId", payload.ModeIld);
           formData.append("DocumentTypeId", doc.DocumentTypeId);
           formData.append("ClaimAttachmentId", doc.DocumentTypeId);
-          formData.append("File", doc.file);
+          formData.append("AlreadyAddedPath", doc.AlreadyAddedPath);
+          if (doc.file) formData.append("File", doc.file);
 
           await instance
             .post("api/Claims/ClaimAttachment", formData)
@@ -272,10 +273,7 @@ export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
     await instance
       .post("api/Claims/ClaimAttachment", formData)
       .then((res) => {
-        console.log(
-          "uploaded document with doc Id: ",
-          obj.DocumentTypeId
-        );
+        console.log("uploaded document with doc Id: ", obj.DocumentTypeId);
         window.location.reload();
       })
       .catch((err) => console.log("err FileUpload: ", err));
@@ -303,30 +301,6 @@ export const HandleUpdateDocAttatchment = (obj) => async (dispatch) => {
         window.location.reload();
       })
       .catch((err) => console.log("err FileUpload: ", err));
-  } catch (err) {
-    console.log("err", err);
-  }
-};
-
-export const HandleGetUserFile = (path) => {
-  try {
-    const fileName = path.substring(path.lastIndexOf("/") + 1);
-    return fetch(path)
-      .then((response) => response.blob())
-      .then(
-        (blob) =>
-          new File([blob], `${fileName}`, {
-            type: blob.type,
-          })
-      )
-      .then((file) => {
-        let selectedTypes = ["image/png", "image/jpg", "image/jpeg"];
-        if (!selectedTypes?.includes(file.type)) {
-          return file;
-        } else {
-          return null;
-        }
-      });
   } catch (err) {
     console.log("err", err);
   }

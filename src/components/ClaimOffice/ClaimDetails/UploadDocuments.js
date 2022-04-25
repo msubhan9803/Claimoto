@@ -32,7 +32,7 @@ export default function UploadDocuments({
     let temp = ClaimDocuments?.find((doc) => doc.DocumentTypeId === docTypeId);
 
     if (temp) {
-      if (temp.file || temp.Path) {
+      if (temp.file || temp.Path || temp.AlreadyAddedPath) {
         return "Re-upload";
       }
     }
@@ -105,17 +105,15 @@ export default function UploadDocuments({
                   </strong>
                 </a>
               )}
-              {type === "view" && (
-                <a
-                  class="ltn__secondary-color--- ml-20 cursor-pointer"
-                  onClick={() => handleDocumentSave(docTypeString)}
-                >
-                  <strong>
-                    {_handleUploadBtnText(docTypeString)}{" "}
-                    <i class="ti-arrow-circle-up"></i>
-                  </strong>
-                </a>
-              )}
+              <a
+                class="ltn__secondary-color--- ml-20 cursor-pointer"
+                onClick={() => handleDocumentSave(docTypeString)}
+              >
+                <strong>
+                  {_handleUploadBtnText(docTypeString)}{" "}
+                  <i class="ti-arrow-circle-up"></i>
+                </strong>
+              </a>
             </div>
           </div>
         </div>
