@@ -367,3 +367,15 @@ hr {
     flex-direction: row;
     justify-content: space-between;
 }
+
+.Calendar {
+    /* width: 100% !important; */
+}
+
+.timeslot {
+    border-radius: 50px !important;
+}
+.timeslot span{
+    font-size: 14px;
+    font-weight: 700;
+}

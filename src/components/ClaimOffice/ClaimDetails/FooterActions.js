@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import ClaimLeaveAMessageModal from "../ClaimActions/ClaimLeaveAMessageModal";
+import ClaimScheduleCallModal from "../ClaimActions/ClaimScheduleCallModal";
+import ClaimStatusChangeModal from "../ClaimActions/ClaimStatusChangeModal";
 
 export default function FooterActions({
   type,
@@ -7,8 +10,48 @@ export default function FooterActions({
   showFooterButtonsState,
 }) {
   const [otherCallActions, setOtherCallActions] = useState(false);
+  const initialState = {
+    openModal: false,
+    action: null,
+    scheduleCallModal: false,
+    leaveAMessageModal: false
+  }
+  const [comState, setComState] = useState(initialState);
+
+  const _closeModal = (modal) => {
+    setComState({
+      [modal]: false,
+      action: null
+    })
+  }
+
+  const _openModal = (action) => {
+    setComState({
+      ...initialState,
+      openModal: true,
+      action
+    })
+  }
+
+  const _openScheduleCallModal = () => {
+    setComState({
+      ...initialState,
+      scheduleCallModal: true
+    })
+  }
+
+  const _openLeaveAMessageModal = () => {
+    setComState({
+      ...initialState,
+      leaveAMessageModal: true
+    })
+  }
+
   return (
     <>
+      <ClaimStatusChangeModal action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
+      <ClaimScheduleCallModal toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
+      <ClaimLeaveAMessageModal toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
       {type === "create" || type === "edit" ? (
         <div class="ltnd__footer-1-inner bg-white">
           <div class="ltnd__left btn-normal"></div>
@@ -56,21 +99,11 @@ export default function FooterActions({
                     </a>
                     {otherCallActions && (
                       <div class="dropdown-menu">
-                        {showFooterButtonsState.call && (
-                          <a
-                            onClick={() =>
-                              setOtherCallActions(!otherCallActions)
-                            }
-                          >
-                            Call
-                          </a>
-                        )}
-
                         {showFooterButtonsState.leaveAMessage && (
                           <a
-                            onClick={() =>
-                              setOtherCallActions(!otherCallActions)
-                            }
+                            role="button"
+                            onClick={() => _openLeaveAMessageModal()}
+
                           >
                             leave a message
                           </a>
@@ -78,9 +111,8 @@ export default function FooterActions({
 
                         {showFooterButtonsState.scheduleACall && (
                           <a
-                            onClick={() =>
-                              setOtherCallActions(!otherCallActions)
-                            }
+                            role="button"
+                            onClick={() => _openScheduleCallModal()}
                           >
                             Schedule a call
                           </a>
@@ -130,9 +162,23 @@ export default function FooterActions({
                   </li>
                 )}
 
+                {showFooterButtonsState.leaveAMessage && (
+                  <li>
+                    <a class="ltn__secondary-color--- ltn__color-9---"
+                      role="button"
+                      onClick={() => _openLeaveAMessageModal()}
+                    >
+                      <strong>Leave a Message</strong>
+                    </a>
+                  </li>
+                )}
+
                 {showFooterButtonsState.phoneButton && (
                   <li>
-                    <a class="ltnd__scheduled-item-icon" href="#">
+                    <a class="ltnd__scheduled-item-icon"
+                      role="button"
+                      onClick={() => _openScheduleCallModal()}
+                    >
                       <i class="fas fa-phone-alt"></i>
                     </a>
                   </li>
@@ -141,7 +187,8 @@ export default function FooterActions({
                 {showFooterButtonsState.reject && (
                   <li>
                     <a
-                      href="#"
+                      role="button"
+                      onClick={() => _openModal("reject")}
                       class="btn theme-btn-1--- btn-round-12 btn-danger"
                     >
                       Reject
@@ -151,7 +198,10 @@ export default function FooterActions({
 
                 {showFooterButtonsState.approve && (
                   <li>
-                    <a href="#" class="btn theme-btn-1 btn-round-12">
+                    <a
+                      role="button"
+                      onClick={() => _openModal("approve")}
+                      class="btn theme-btn-1 btn-round-12">
                       Approve
                     </a>
                   </li>

@@ -9,7 +9,13 @@ import {
   SET_ACTION_PERMISSIONS,
   RESET_CLAIMS_DETAILS,
   HANDLE_FIELD_CHANGE,
-  RESET_CLAIMS_LIST_AND_PAGINATION
+  RESET_CLAIMS_LIST_AND_PAGINATION,
+
+  //Claim Actions
+  SET_REJECTION_REASONS,
+  HANDLE_CHANGE_INPUT_STATUS,
+  HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
+  HANDLE_CHANGE_INPUT_LEAVE_MESSAGE
 } from "store/types/claims.js";
 
 const initialState = {
@@ -84,7 +90,27 @@ const initialState = {
   usersList: [],
   policiesList: [],
   claimsList: [],
-  claimActionPermissions: {}
+  claimActionPermissions: {},
+
+
+
+  //Claim Actions
+  rejection_reasons: [],
+  status_change_input_values: {
+    rejection_reason: "",
+    internal_comments: "",
+    external_comments: "",
+    loading:false
+  },
+  schedule_call_input_values:{
+    selectedDay:"",
+    selectedSlot:"",
+    loading:false
+  },
+  leave_message_input_values: {
+    claim_message:"",
+    loading:false
+  }
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -183,6 +209,51 @@ const policyReducer = (state = initialState, action) => {
         filteredClaimsList: initialState.filteredClaimsList,
         claimsListTableFilterData: initialState.claimsListTableFilterData,
         claimsList: initialState.claimsList,
+      };
+    }
+
+
+
+
+    //Claim Actions 
+    case SET_REJECTION_REASONS: {
+      return {
+        ...state,
+        rejection_reasons: action.payload
+      };
+    }
+
+    case HANDLE_CHANGE_INPUT_STATUS: {
+      let { name, value } = action.payload
+      return {
+        ...state,
+        status_change_input_values: {
+          ...state.status_change_input_values,
+          [name]: value
+        }
+      };
+    }
+
+
+    case HANDLE_CHANGE_INPUT_SCHEDULE_CALL: {
+      let { name, value } = action.payload
+      return {
+        ...state,
+        schedule_call_input_values: {
+          ...state.schedule_call_input_values,
+          [name]: value
+        }
+      };
+    }
+
+    case HANDLE_CHANGE_INPUT_LEAVE_MESSAGE : {
+      let { name, value } = action.payload
+      return {
+        ...state,
+        leave_message_input_values: {
+          ...state.leave_message_input_values,
+          [name]: value
+        }
       };
     }
 
