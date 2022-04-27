@@ -104,7 +104,7 @@ export const claimRoutes = ({ userPermissions }) => {
         },
         {
           name: "Agency Detail",
-          path: "/agency_detail/:id",
+          path: "/agencies/agency_detail/:id",
           component: <AgencyDetail type="view" layout="claim" />,
           layout: "claim",
         },
@@ -125,7 +125,7 @@ export const claimRoutes = ({ userPermissions }) => {
         },
         {
           name: "Garage Detail",
-          path: "/garage_detail/:id",
+          path: "/garage/garage_detail/:id",
           component: <AgencyDetail type="view" layout="claim" />,
           layout: "claim",
         },

@@ -1,136 +1,201 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { Link, useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import Garage_Icon from "assets/img/motor/garage-logo.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { setProviderDetails } from 'store/actions/provider';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import MapComponent from 'components/Admin/Providers/Map/MapComponent';
 
-export default function AgencyDetail() {
-  return (
-    <div class="body-bg-1 pb-80">  
-        <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-            <div class="ltnd__header-middle-area mt-30">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="ltnd__page-title-area">
-                            <p class="page-back-btn"><a href="product.html"><i class="icon-left-arrow-1"></i> Back</a></p>
-                          <h2>Liability coverage</h2> 
-                        </div>
-                    </div>
-                    <div class="col-lg-3 align-self-center text-end">
-                        <div class="btn-wrapper btn-inline text-center mt-0">
-                            <a href="#" class="btn theme-btn-1 btn-round-12 btn-2" title="Quick View" data-bs-toggle ="modal" data-bs-target="#adding_modal">
-                                Edit
-                            </a>
-                        </div>
-                        <div class="ltnd__date-area d-none">
-                            <div class="ltn__datepicker">
-                                <div class="ltn_datepicker-title">
-                                    <span>Date</span>
-                                </div>
-                                <div class="input-group date" data-provide="datepicker">
-                                    <input type="text" class="form-control" placeholder="Select Date" />
-                                    <div class="input-group-addon">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
+const AgencyDetail = () => {
+    const { type, id } = useParams();
+
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { addTabs, tab1, tab2, tab3, success, loading, user_loading } = useSelector(state => state.addProviderScreenReducer);
+    const { name, contacts, logo } = tab1;
+    const { selected_service_types } = tab2;
+    const { selected_locations, location_values } = tab3;
+    const { lat, long } = location_values;
+    //Map Defaults
+    const zoom = 7;
+
+    const _setProviderDetails = (id) => {
+        dispatch(setProviderDetails(id));
+    }
+
+
+    useEffect(() => {
+        if (id) {
+            _setProviderDetails(id);
+        }
+    }, [id]);
+
+
+    const _mapRender = (status) => {
+        // if (status === Status.LOADING) return <h3>{status} ..</h3>;
+        // if (status === Status.FAILURE) return <h3>{status} ...</h3>;
+        // return null;
+        return <p>{status}</p>;
+
+    };
+
+
+    return (
+        <>
+            {user_loading ?
+                <div style={{ textAlign: "center" }}>
+                    <LoaderAnimation />
                 </div>
-            </div>
-        </div>
+                :
+                <div class="ltnd__block-area pb-50">
 
-        <div class="body-content-area-inner">
-
-            <div class="ltnd__block-area">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="ltnd__block-item mt-30">
-                            <div class="ltn__block-item-info">
-                                <div class="ltnd__edit-table-logo-title mb-20">
-                                    <div class="ltnd__edit-table-logo">
-                                        <img src="img/icons/mc/png/6.png" alt="#" />
-                                    </div>
-                                    <div class="ltnd__edit-table-title">
-                                        <h3>Agent orange </h3>
-                                        <p class="ltn__color-1">15869</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4">                                        
-                                        <h6 class="ltnd__title-3">Point of contact</h6>
-                                        <h6>Yasmin Ali</h6>
-                                        <p>079 079 1189</p>
-                                    </div>
-                                    <div class="col-lg-8">                                        
-                                        <h6 class="ltnd__title-3">Main HQ</h6>
-                                        <p>Dhahiyat Nakheel <br />
-                                            Prince Nails' bent Asem St، Amman, Jordan <br />
-                                            Apartment 67, 2nd floor  <br />
-                                            Postal code 11710</p>
-                                    </div>
+                    <div class="container" >
+                        <div className='row'>
+                            <div className="col-lg-9">
+                                <div className="ltnd__page-title-area">
+                                    <p onClick={() => navigate(-1)} role="button" className="page-back-btn">
+                                        <i className="icon-left-arrow-1" /> Back
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-5">                        
-                        <div class="google-map ltnd__garage-details-map mt-30">
-                            
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9334.271551495209!2d-73.97198251485975!3d40.668170674982946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25b0456b5a2e7%3A0x68bdf865dda0b669!2sBrooklyn%20Botanic%20Garden%20Shop!5e0!3m2!1sen!2sbd!4v1590597267201!5m2!1sen!2sbd" width="100%" height="100%" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                    
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ltnd__block-area">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ltnd__block-item mt-30">
-                            <div class="ltnd__title ltnd__title-2">
-                                <h4>Services</h4>
-                            </div>
-                            <div class="ltn__block-item-info">
-                                <div class="row">
-                                    <div class="col-lg-12">                                        
-                                        <div class="garage-details-single-item mb-40">
-                                            <h6 class="ltnd__title-3 mb-10">Battery</h6>
-                                            <ul>
-                                                <li>The battery in a car is a rechargeable. It supplies power (electric energy) to the car. Normally this battery is used to help provide power to start the car and then it is used only when extra power is needed. The car battery alone is can't supply power to all the electrical systems. The alternator does this.</li>
-                                            </ul>
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="ltnd__block-item mt-30">
+                                    <div class="ltn__block-item-info">
+                                        <div class="ltnd__edit-table-logo-title mb-20">
+                                            <div class="ltnd__edit-table-logo">
+                                                <img src={logo?.Base64 || typeof logo === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${logo}` || Garage_Icon} alt="#" />
+                                            </div>
+                                            <div class="ltnd__edit-table-title">
+                                                <h3 class="animated fadeIn">{name} </h3>
+                                                <p class="ltn__color-1">15869</p>
+                                            </div>
                                         </div>
-                                        <div class="garage-details-single-item mb-40">
-                                            <h6 class="ltnd__title-3 mb-10">Brakes</h6>
-                                            <ul>
-                                                <li>The battery in a car is a rechargeable. It supplies power (electric energy) to the car. Normally this battery is used to help provide power to start the car and then it is used only when extra power is needed. The car battery alone is can't supply power to all the electrical systems. The alternator does this.</li>
-                                            </ul>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <h6 class="ltnd__title-3">POC</h6>
+                                                <h6>{contacts?.length > 0 ? contacts[0].full_name : ""}</h6>
+                                                <p>{contacts?.length > 0 ? contacts[0].phone : ""}</p>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <h6 class="ltnd__title-3">Main HQ</h6>
+                                                <p>{selected_locations.length > 0 ? selected_locations[0]?.name : ""} <br />
+
+                                                    {selected_locations.length > 0 ? selected_locations[0]?.street_address : ""}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <div class="col-lg-5">
+                                <div class="google-map ltnd__garage-details-map mt-30">
+                                <Wrapper apiKey='AIzaSyASwWi0HKSx9m6NhXKyn-voaZm2YunPtx4' render={_mapRender}>
+                                        <MapComponent height={290} center={{ lat: parseFloat(lat), lng: parseFloat(long) }} zoom={zoom} />
+                                    </Wrapper>
 
-        <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80 d-none">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ltnd__footer-1-inner">
-                            <div class="ltnd__left btn-normal">
-                                <a href="#" class="ltn__color-1"><i class="ti-trash"></i> Delete</a>
-                            </div>
-                            <div class="ltnd__right btn-normal">
-                                <div class="btn-wrapper">
-                                    <a href="product.html" class="ltn__color-1"><i class="ti-angle-left"></i> Back</a>
-                                    <a href="#" class="btn theme-btn-1 btn-round-12">Save</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="ltnd__block-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ltnd__block-item mt-30">
+                                        <div class="ltnd__title ltnd__title-2">
+                                            <h4>Branches</h4>
+                                        </div>
+                                        <div class="ltn__block-item-info">
+                                            <div class="row">
+                                                {selected_locations?.map(loc => (
+                                                    <div class="col-lg-6">
+                                                        <div class="garage-details-single-item mb-40">
+                                                            <h6 class="ltnd__title-3 mb-10">{loc.name}</h6>
+                                                            <p>{loc.street_address}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ltnd__block-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ltnd__block-item mt-30">
+                                        <div class="ltnd__title ltnd__title-2">
+                                            <h4>Services</h4>
+                                        </div>
+                                        <div class="ltn__block-item-info">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    {selected_service_types?.map(serv => (
+                                                        <div class="garage-details-single-item mb-40">
+                                                            <h6 class="ltnd__title-3 mb-10">{serv?.parent_name || ""}</h6>
+                                                            <ul>
+                                                                <li>{serv?.service_name || ""}</li>
+                                                            </ul>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="ltnd__block-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ltnd__block-item mt-30">
+                                        <div class="ltnd__title ltnd__title-2">
+                                            <h4>Contacts</h4>
+                                        </div>
+                                        <div class="ltn__block-item-info">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    {contacts?.map(contact => (
+                                                        <div class="garage-details-single-item mb-40">
+                                                            <h6 class="ltnd__title-3 mb-10">{contact?.full_name || ""}</h6>
+                                                            <ul>
+                                                                <li>{contact?.email || ""}</li>
+                                                                <li>{contact?.phone || ""}</li>
+                                                            </ul>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
-        </footer>
+            }
+        </>
 
-
-    </div>
-  )
+    )
 }
+
+
+export default AgencyDetail;

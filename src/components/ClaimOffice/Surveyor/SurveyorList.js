@@ -75,11 +75,12 @@ const SurveyorList = () => {
                             <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
                                 <div className="ltn__select-availability-table  d-none d-md-block">
                                     <ul className="ltn__select-availability-table-head">
-                                        <li className="table-data-1">Surveyor name</li>
-                                        <li className="table-data-3">POC name</li>
-                                        <li className="table-data-4">Contact number</li>
-                                        <li className="table-data-6">Surveyor address</li>
-                                        <li className="table-data-7">Edit </li>
+                                        <li className="table-data-1">Surveyor</li>
+                                        <li className="table-data-3">Location</li>
+                                        <li className="table-data-4">Assigned claims</li>
+                                        <li className="table-data-6">Pending</li>
+                                        <li className="table-data-6">Under assesment</li>
+                                        <li className="table-data-7">Closed</li>
                                         <li className="table-data-8">Details</li>
                                     </ul>
                                     {list.map(record => {
@@ -92,6 +93,7 @@ const SurveyorList = () => {
                                                     </strong>
                                                 </li>
                                                 <li className="table-data-3">{record?.FullName || ""}</li>
+                                                <li className="table-data-4">{record?.PhoneNumber || ""}</li>
                                                 <li className="table-data-4">{record?.PhoneNumber || ""}</li>
                                                 <li className="table-data-6">
                                                     {record?.StreetAddress || ""}

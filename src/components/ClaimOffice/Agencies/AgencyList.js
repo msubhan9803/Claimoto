@@ -61,12 +61,12 @@ const AgenciesList = () => {
               <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__agencies-table-wrap">
                 <div className="ltn__select-availability-table  d-none d-md-block">
                   <ul className="ltn__select-availability-table-head">
-                    <li className="table-data-1">Agency</li>
-                    <li className="table-data-3">POC name</li>
-                    <li className="table-data-4">Contact number</li>
-                    <li className="table-data-6">Agency address</li>
-                    <li className="table-data-7">Services </li>
-                    <li className="table-data-7">Edit </li>
+                    <li className="table-data-1">Name</li>
+                    <li className="table-data-3">Agency</li>
+                    <li className="table-data-4">Garage</li>
+                    <li className="table-data-6">Pending</li>
+                    <li className="table-data-7">Under assesment</li>
+                    <li className="table-data-7">Closed</li>
                     <li className="table-data-8">Details</li>
                   </ul>
                   {list.map((record) => {
@@ -116,15 +116,13 @@ const AgenciesList = () => {
                           )}
                         </li>
                         <li className="table-data-7">
-                          {agency_actions?.includes("VIEW") && (
-                            <strong>
-                              <Link
-                                to={`/admin/view_provider/agency/${record.Id}?tab=0`}
-                              >
-                                View
-                              </Link>
-                            </strong>
-                          )}
+                          <strong>
+                            <Link
+                              to={`/claim/agencies/agency_detail/${record.Id}`}
+                            >
+                              View
+                            </Link>
+                          </strong>
                         </li>
                       </ul>
                     );
