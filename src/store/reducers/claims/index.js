@@ -15,7 +15,8 @@ import {
   SET_REJECTION_REASONS,
   HANDLE_CHANGE_INPUT_STATUS,
   HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
-  HANDLE_CHANGE_INPUT_LEAVE_MESSAGE
+  HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+  SET_USER_PROFILES_LIST
 } from "store/types/claims.js";
 
 const initialState = {
@@ -58,8 +59,12 @@ const initialState = {
   claimDetails: {
     ClaimId: 0,
     ClaimTypeId: 0,
+    CivilId: 0,
+    Region: 0,
+    Area: 0,
     PolicyId: 0,
     PolicyNo: 0,
+    IdentityNo: "",
     PolicyType: null,
     PolicyValidity: null,
     MakeId: 0,
@@ -110,7 +115,8 @@ const initialState = {
   leave_message_input_values: {
     claim_message:"",
     loading:false
-  }
+  },
+  userProfileList: [],
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -162,6 +168,13 @@ const policyReducer = (state = initialState, action) => {
       return {
         ...state,
         claimsList: action.payload,
+      };
+    }
+
+    case SET_USER_PROFILES_LIST: {
+      return {
+        ...state,
+        userProfileList: action.payload,
       };
     }
 

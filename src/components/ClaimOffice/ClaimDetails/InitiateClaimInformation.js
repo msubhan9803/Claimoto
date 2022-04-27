@@ -14,7 +14,12 @@ export default function InitiateClaimInformation({
   claimsList,
   control,
   HandleFieldChangeAction,
+  cities,
+  areas,
+  repairOptions,
 }) {
+
+  console.log("repairOptions: ", repairOptions)
   const {
     AddedById,
     PolicyId,
@@ -22,6 +27,8 @@ export default function InitiateClaimInformation({
     RepairOption,
     IncidentDate,
     InitialComments,
+    Region,
+    Area,
   } = state;
   const dispatch = useDispatch();
 
@@ -40,62 +47,6 @@ export default function InitiateClaimInformation({
           <div class="ltn__block-item-info">
             <form id="#" action="#" method="#" class="ltnd__form-1">
               <div class="row">
-                {/* <div class="col-md-4">
-                  <div class="input-item">
-                    <h6 class="ltnd__title-3">User *</h6>
-                    <select
-                      class="nice-select"
-                      name="AddedById"
-                      {...register("AddedById")}
-                      value={AddedById}
-                      onChange={handleFieldChange}
-                    >
-                      <option value="">--- Please Select --- </option>
-                      {usersList.map((item, index) => {
-                        return (
-                          <option value={item.UserId} key={index}>
-                            {item.FirstName + " " + item.LastName}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <ErrorMessage
-                      errors={errors}
-                      name="AddedById"
-                      render={({ message }) => (
-                        <p style={{ color: "red" }}>{message}</p>
-                      )}
-                    />
-                  </div>
-                </div> */}
-                <div class="col-md-4">
-                  <div class="input-item">
-                    <h6 class="ltnd__title-3">Policy number *</h6>
-                    <select
-                      class="nice-select"
-                      name="PolicyId"
-                      {...register("PolicyId")}
-                      value={PolicyId}
-                      onChange={handleFieldChange}
-                    >
-                      <option value="">--- Please Select --- </option>
-                      {policiesList.map((item, index) => {
-                        return (
-                          <option value={item.Id} key={index}>
-                            {item.PolicyNo}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <ErrorMessage
-                      errors={errors}
-                      name="PolicyId"
-                      render={({ message }) => (
-                        <p style={{ color: "red" }}>{message}</p>
-                      )}
-                    />
-                  </div>
-                </div>
                 <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Claim Type *</h6>
@@ -135,9 +86,11 @@ export default function InitiateClaimInformation({
                       onChange={handleFieldChange}
                     >
                       <option value="">--- Please Select ---</option>
-                      <option value={1}>Repair By Agency </option>
-                      <option value={2}>Repair By Garage </option>
-                      <option value={3}>Repair By Agency/Garage </option>
+                      {repairOptions?.map((option, index) => (
+                        <option key={index} value={option.value}>
+                          {option.title}
+                        </option>
+                      )) || []}
                     </select>
                     <ErrorMessage
                       errors={errors}
@@ -181,9 +134,63 @@ export default function InitiateClaimInformation({
                     />
                   </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-4">
                   <div class="input-item">
-                    <h6 class="ltnd__title-3">Comments *</h6>
+                    <h6 class="ltnd__title-3">Region *</h6>
+                    <select
+                      class="nice-select"
+                      value={Region}
+                      name="Region"
+                      {...register("Region")}
+                      onChange={handleFieldChange}
+                    >
+                      <option value="">Select Region</option>
+                      {cities?.map((city) => (
+                        <option key={city.Id} value={city.Id}>
+                          {city.Name}
+                        </option>
+                      )) || []}
+                    </select>
+                    <ErrorMessage
+                      errors={errors}
+                      name="Region"
+                      render={({ message }) => (
+                        <p style={{ color: "red" }}>{message}</p>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-item">
+                    <h6 class="ltnd__title-3">Area *</h6>
+                    <select
+                      class="nice-select"
+                      value={Area}
+                      name="Area"
+                      {...register("Area")}
+                      onChange={handleFieldChange}
+                    >
+                      <option disabled="" value="">
+                        Select Area
+                      </option>
+                      {areas?.map((area) => (
+                        <option key={area.Id} value={area.Id}>
+                          {area.Name}
+                        </option>
+                      )) || ""}
+                    </select>
+                    <ErrorMessage
+                      errors={errors}
+                      name="Area"
+                      render={({ message }) => (
+                        <p style={{ color: "red" }}>{message}</p>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div class="col-md-12 mt-4">
+                  <div class="input-item">
+                    <h6 class="ltnd__title-3">How it happened *</h6>
                     <textarea
                       row="2"
                       type="text"

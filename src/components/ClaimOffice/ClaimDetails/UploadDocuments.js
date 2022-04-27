@@ -32,7 +32,7 @@ export default function UploadDocuments({
     let temp = ClaimDocuments?.find((doc) => doc.DocumentTypeId === docTypeId);
 
     if (temp) {
-      if (temp.file || temp.Path) {
+      if (temp.file || temp.Path || temp.AlreadyAddedPath) {
         return "Re-upload";
       }
     }
@@ -81,30 +81,30 @@ export default function UploadDocuments({
 
   const documentRow = (docTypeString) => {
     return (
-      <div class="col-lg-12">
-        <div class="ltnd__space-between">
-          <div class="ltn__checkbox-radio-group inline">
-            <label class="ltn__checkbox">
-              <input
-                type="checkbox"
-                checked={_getCheckboxState(docTypeString)}
-              />{" "}
-              <i class="icon"></i>{" "}
-              <strong>{getDocTypeToHeading(docTypeString)}</strong>
-            </label>
-          </div>
-          <div class="btn-wrapper mt-0">
-            {type === "view" && (
-              <a
-                class="ltn__secondary-color--- ml-20 cursor-pointer"
-                onClick={() => downloadFIle(docTypeString)}
-              >
-                <strong>
-                  Download <i class="ti-arrow-circle-down"></i>
-                </strong>
-              </a>
-            )}
-            {type !== "view" && (
+      <>
+        <div class="col-lg-12">
+          <div class="ltnd__space-between">
+            <div class="ltn__checkbox-radio-group inline">
+              <label class="ltn__checkbox">
+                <input
+                  type="checkbox"
+                  checked={_getCheckboxState(docTypeString)}
+                />{" "}
+                <i class="icon"></i>{" "}
+                <strong>{getDocTypeToHeading(docTypeString)}</strong>
+              </label>
+            </div>
+            <div class="btn-wrapper mt-0">
+              {type === "view" && (
+                <a
+                  class="ltn__secondary-color--- ml-20 cursor-pointer"
+                  onClick={() => downloadFIle(docTypeString)}
+                >
+                  <strong>
+                    Download <i class="ti-arrow-circle-down"></i>
+                  </strong>
+                </a>
+              )}
               <a
                 class="ltn__secondary-color--- ml-20 cursor-pointer"
                 onClick={() => handleDocumentSave(docTypeString)}
@@ -114,11 +114,11 @@ export default function UploadDocuments({
                   <i class="ti-arrow-circle-up"></i>
                 </strong>
               </a>
-            )}
+            </div>
           </div>
         </div>
         <hr />
-      </div>
+      </>
     );
   };
 

@@ -20,7 +20,7 @@ export default function Sidebar(props) {
                   <span className="logo-text"><img src="img/logo/logo-text-1.png" alt="Text"></span>
               </a> */}
               <a >
-                <img src={logo} alt="Icon"  width={300} />
+                <img src={logo} alt="Icon"  width={225} />
                 {!logo &&
                   <span className="logo-text">
                     Claimoto<sup>®</sup>

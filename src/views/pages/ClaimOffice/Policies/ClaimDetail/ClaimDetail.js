@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import InitiateCustomerInformation from "components/ClaimOffice/ClaimDetails/InitiateCustomerInformation";
 import InitiateClaimInformation from "components/ClaimOffice/ClaimDetails/InitiateClaimInformation";
 import UploadDocuments from "components/ClaimOffice/ClaimDetails/UploadDocuments";
 import CarPhotos from "components/ClaimOffice/ClaimDetails/CarPhotos";
@@ -20,20 +21,27 @@ import {
   ResetClaimDetails,
   PostClaimDetials,
   GetClaimDetails,
+  GetCivilIdBySearchVal,
+  GetPoliciesByCivilId,
+  GetUserById,
+  HandleUpdateDocAttatchment,
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
+import { getAreas, getCities } from "store/actions/provider";
 import LocationDetail from "components/ClaimOffice/ClaimDetails/LocationDetail";
 import { msgAlert } from "functions";
 import jwt_decode from "jwt-decode";
 import { localStorageVarible } from "variables";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly";
+import CustomerDetailsViewOnly from "components/ClaimOffice/ClaimDetails/CustomerDetailsViewOnly";
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
-  PolicyId: Yup.string().required("Policy number is required"),
   ClaimTypeId: Yup.string().required("Claim Type is required"),
+  Region: Yup.string().required("Region is required"),
+  Area: Yup.string().required("Area is required"),
   RepairOption: Yup.string().required("Repair Option is required"),
   InitialComments: Yup.string().required("Comment is required"),
 });
@@ -45,14 +53,21 @@ const docType = {
   Registration_Book: 4,
 };
 
+const repairOptions = [
+  { value: 1, title: "Repair By Agency" },
+  { value: 2, title: "Repair By Garage" },
+  { value: 3, title: "Repair By Agency/Garage" },
+];
+
 const photoTypeIdList = {
   Front: 1,
-  LeftRight: 2,
-  FrontLeft: 3,
-  FrontRight: 4,
-  RearLeft: 5,
-  RearRight: 6,
-  Rear: 7,
+  FrontLeft: 4,
+  FrontRight: 5,
+  Rear: 8,
+  RearLeft: 6,
+  RearRight: 7,
+  Left: 2,
+  Right: 3,
 };
 
 const actionButtonsListByStatus = {
@@ -72,7 +87,7 @@ const actionButtonsListByStatus = {
   reassign: "Reassign",
   finalSettlement: "Final settlement",
   repairDetails: "Repair details",
-  phoneButton: "Phone Button"
+  phoneButton: "Phone Button",
 };
 
 const ClaimDetail = (props) => {
@@ -88,13 +103,24 @@ const ClaimDetail = (props) => {
     policiesList,
     claimsList,
     claimActionPermissions,
+    userProfileList,
   } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
   const productTypeList = useSelector(
     (state) => state.productReducer.product_Types
   );
-  const { PolicyId, ClaimId, PolicyNo, CarNo, MakeId, ModeIld } = claimDetails;
+  const {
+    PolicyId,
+    ClaimId,
+    PolicyNo,
+    CarNo,
+    MakeId,
+    ModeIld,
+    AddedById,
+    CivilId,
+    Region,
+  } = claimDetails;
   const formOptions = { resolver: yupResolver(formSchema), mode: "all" };
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [errorMessageClaimDocuments, setErrorMessageClaimDocuments] =
@@ -102,6 +128,10 @@ const ClaimDetail = (props) => {
   const [errorClaimAccidentCarPhotos, setErrorClaimAccidentCarPhotos] =
     useState("");
   const [errorLocation, setErrorLocation] = useState("");
+  const [selectedUserValue, setSelectedUserValue] = useState(null);
+  const [selectedPolicyValue, setSelectedPolicyValue] = useState(null);
+  const [civilIdError, setCivilIdError] = useState("");
+  const [policyNoError, setPolicyNoError] = useState("");
   const {
     register,
     control,
@@ -128,15 +158,19 @@ const ClaimDetail = (props) => {
     reassign: false,
     finalSettlement: false,
     repairDetails: false,
-    phoneButton: false
+    phoneButton: false,
   });
+  const { tab3 } = useSelector((state) => state.addProviderScreenReducer);
+  const { cities, areas, selected_locations } = tab3;
 
   useEffect(() => {
     dispatch(GetUsersList());
-    dispatch(GetPoliciesList());
+    // dispatch(GetPoliciesList());
     dispatch(GetClaimsList());
     dispatch(GetProducType());
     dispatch(GetMake());
+
+    dispatch(getCities(1));
 
     if (type === "create") {
       let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
@@ -166,6 +200,44 @@ const ClaimDetail = (props) => {
   useEffect(() => {
     if (MakeId) dispatch(GetMakeModel(MakeId));
   }, [MakeId]);
+
+  useEffect(() => {
+    // Get Policy list by Civil Id
+    if (CivilId) {
+      dispatch(GetPoliciesByCivilId(CivilId));
+    }
+
+    if (CivilId && type === "create") {
+      // **** Setting file of User selected in Civil Id ****
+      if (selectedUserValue.Civil_IdFront) {
+        let temp = {
+          CD_Id: 0,
+          ClaimId: ClaimId,
+          PolicyId: PolicyId,
+          MakeId: MakeId,
+          ModelId: ModeIld,
+          DocumentTypeId: docType["Civil_ID"],
+          Path: "",
+          ClaimAttachmentId: 0,
+          TenantId: 0,
+          CreatedBy: 0,
+          CreatedDate: "",
+          UpdatedBy: 0,
+          UpdatedDate: "",
+          IsDeleted: false,
+          IsActive: false,
+          AlreadyAddedPath: selectedUserValue.Civil_IdFront
+        };
+
+        let docList = [...claimDetails.ClaimDocuments, temp];
+        dispatch(HandleFieldChange("ClaimDocuments", docList));
+      }
+    }
+  }, [CivilId]);
+
+  useEffect(() => {
+    if (Region) dispatch(getAreas(Region));
+  }, [Region]);
 
   // Action button useEffect
   useEffect(() => {
@@ -265,7 +337,7 @@ const ClaimDetail = (props) => {
         reassign: reassign,
         finalSettlement: finalSettlement,
         repairDetails: repairDetails,
-        phoneButton: phoneButton
+        phoneButton: phoneButton,
       });
     }
   }, [claimActionPermissions]);
@@ -300,11 +372,18 @@ const ClaimDetail = (props) => {
   };
 
   const onSubmit = () => {
-    if (claimDetails.Location == "") {
-      setErrorLocation("Location is requred");
+    if (claimDetails.CivilId == "" || claimDetails.CivilId == 0) {
+      setCivilIdError("Civil Id is required");
       return;
     } else {
-      setErrorLocation("");
+      setCivilIdError("");
+    }
+
+    if (claimDetails.PolicyId == "" || claimDetails.PolicyId == 0) {
+      setPolicyNoError("Policy Number is required");
+      return;
+    } else {
+      setPolicyNoError("");
     }
 
     if (claimDetails.ClaimDocuments.length < 4) {
@@ -341,27 +420,63 @@ const ClaimDetail = (props) => {
       });
       submitBtnRef.current.click();
     } else {
-      let temp = {
-        CD_Id: 0,
-        ClaimId: ClaimId,
-        PolicyId: PolicyId,
-        MakeId: MakeId,
-        ModelId: ModeIld,
-        DocumentTypeId: docType[documentType],
-        Path: "",
-        ClaimAttachmentId: 0,
-        TenantId: 0,
-        CreatedBy: 0,
-        CreatedDate: "",
-        UpdatedBy: 0,
-        UpdatedDate: "",
-        IsDeleted: false,
-        IsActive: false,
-        file: file,
-      };
+      if (type === "create") {
+        let temp = {
+          CD_Id: 0,
+          ClaimId: ClaimId,
+          PolicyId: PolicyId,
+          MakeId: MakeId,
+          ModelId: ModeIld,
+          DocumentTypeId: docType[documentType],
+          Path: "",
+          ClaimAttachmentId: 0,
+          TenantId: 0,
+          CreatedBy: 0,
+          CreatedDate: "",
+          UpdatedBy: 0,
+          UpdatedDate: "",
+          IsDeleted: false,
+          IsActive: false,
+          file: file,
+          AlreadyAddedPath: ""
+        };
 
-      let docList = [...claimDetails.ClaimDocuments, temp];
-      dispatch(HandleFieldChange("ClaimDocuments", docList));
+        let docList = [...claimDetails.ClaimDocuments, temp];
+        dispatch(HandleFieldChange("ClaimDocuments", docList));
+      } else {
+        // type === view || type === edit
+        let index = claimDetails.ClaimDocuments.findIndex(
+          (doc) => doc.ClaimAttachmentId === docType[documentType]
+        );
+
+        let claimDocumentsList = [...claimDetails.ClaimDocuments];
+        if (claimDocumentsList[index]) {
+          claimDocumentsList[index].file = file;
+          claimDocumentsList[index].ClaimId = ClaimId;
+          dispatch(HandleUpdateDocAttatchment(claimDocumentsList));
+        } else {
+          claimDocumentsList[index] = {
+            CD_Id: 0,
+            ClaimId: ClaimId,
+            PolicyId: PolicyId,
+            MakeId: MakeId,
+            ModelId: ModeIld,
+            DocumentTypeId: docType[documentType],
+            Path: "",
+            ClaimAttachmentId: 0,
+            TenantId: 0,
+            CreatedBy: 0,
+            CreatedDate: "",
+            UpdatedBy: 0,
+            UpdatedDate: "",
+            IsDeleted: false,
+            IsActive: false,
+            file: file,
+            AlreadyAddedPath: ""
+          };
+          dispatch(HandleUpdateDocAttatchment(claimDocumentsList));
+        }
+      }
     }
   };
 
@@ -379,6 +494,7 @@ const ClaimDetail = (props) => {
           (photo) => photo.ClaimPhotoTypeId === photoTypeIdList[photoType]
         );
         if (index === -1) {
+          // Pushing image
           let temp = {
             CACP_Id: 0,
             ClaimId: ClaimId,
@@ -403,6 +519,7 @@ const ClaimDetail = (props) => {
           let photoList = [...claimDetails.ClaimAccidentCarPhotos, temp];
           dispatch(HandleFieldChange("ClaimAccidentCarPhotos", photoList));
         } else {
+          // Updating Image
           let temp = claimDetails.ClaimAccidentCarPhotos;
           temp[index].file = file;
           temp[index].base64 = base64;
@@ -432,6 +549,45 @@ const ClaimDetail = (props) => {
       return "Submit Claim";
     }
   };
+
+  // handle prolicy Id selection
+  const handlePolicyIdChange = (value) => {
+    setSelectedPolicyValue(value);
+    dispatch(HandleFieldChange("PolicyId", value.value));
+  };
+
+  // handle Civil Id input change event
+  const handleCivilInputChange = (value) => {
+    console.log("handle Civil Id input change event: ", value);
+  };
+
+  // handle Civil Id selection
+  const handleCivilChange = (value) => {
+    setSelectedUserValue(value);
+    dispatch(HandleFieldChange("CivilId", value.value));
+    dispatch(HandleFieldChange("PolicyId", 0));
+    setSelectedPolicyValue(null);
+  };
+
+  const handleUserIdSearch = (inputValue) =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        GetCivilIdBySearchVal(inputValue).then((res) => {
+          let response = res.data;
+          let parsed = [];
+          for (let index = 0; index < response.length; index++) {
+            const profile = response[index];
+            parsed.push({
+              label: profile.UserName,
+              value: profile.UserName,
+              userId: profile.UserId,
+              Civil_IdFront: profile.Civil_IdFront,
+            });
+          }
+          resolve(parsed);
+        });
+      }, 1000);
+    });
 
   return (
     <>
@@ -467,6 +623,51 @@ const ClaimDetail = (props) => {
               {/* Initiate Claim Information Form */}
               <div class="ltnd__block-area">
                 {type === "create" || type === "edit" ? (
+                  <InitiateCustomerInformation
+                    state={claimDetails}
+                    usersList={usersList}
+                    policiesList={policiesList}
+                    claimsList={claimsList}
+                    userProfileList={userProfileList}
+                    handleFieldChange={_handleFieldChange}
+                    HandleFieldChangeAction={HandleFieldChange}
+                    handleUserIdSearch={handleUserIdSearch}
+                    handleCivilInputChange={handleCivilInputChange}
+                    selectedUserValue={selectedUserValue}
+                    handleCivilChange={handleCivilChange}
+                    handlePolicyIdChange={handlePolicyIdChange}
+                    selectedPolicyValue={selectedPolicyValue}
+                    register={register}
+                    errors={errors}
+                    control={control}
+                    civilIdError={civilIdError}
+                    policyNoError={policyNoError}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {type === "view" ? (
+                  <CustomerDetailsViewOnly
+                    type={type}
+                    claimDetails={claimDetails}
+                    claimsList={claimsList}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {CarNo ? (
+                  <PolicyInformation
+                    type={type}
+                    claimDetails={claimDetails}
+                    _handlePolicyTypeName={_handlePolicyTypeName}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {type === "create" || type === "edit" ? (
                   <InitiateClaimInformation
                     state={claimDetails}
                     usersList={usersList}
@@ -475,14 +676,17 @@ const ClaimDetail = (props) => {
                     handleFieldChange={_handleFieldChange}
                     HandleFieldChangeAction={HandleFieldChange}
                     register={register}
+                    cities={cities}
+                    areas={areas}
                     errors={errors}
                     control={control}
+                    repairOptions={repairOptions}
                   />
                 ) : (
                   ""
                 )}
 
-                {type === "create" || type === "edit" ? (
+                {/* {type === "create" || type === "edit" ? (
                   <LocationDetail
                     showLocationModal={showLocationModal}
                     setShowLocationModal={setShowLocationModal}
@@ -496,8 +700,21 @@ const ClaimDetail = (props) => {
                   />
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
+
+              {type === "view" ? (
+                <ClaimDetailsViewOnly
+                  type={type}
+                  claimDetails={claimDetails}
+                  claimsList={claimsList}
+                  repairOptions={repairOptions}
+                  cities={cities}
+                  areas={areas}
+                />
+              ) : (
+                ""
+              )}
 
               {PolicyNo ? (
                 <VehicleInformation
@@ -506,26 +723,6 @@ const ClaimDetail = (props) => {
                   policyMakeList={policyMakeList}
                   _handleVehicleMakeName={_handleVehicleMakeName}
                   _handleVehicleModeName={_handleVehicleModeName}
-                />
-              ) : (
-                ""
-              )}
-
-              {CarNo ? (
-                <PolicyInformation
-                  type={type}
-                  claimDetails={claimDetails}
-                  _handlePolicyTypeName={_handlePolicyTypeName}
-                />
-              ) : (
-                ""
-              )}
-
-              {type === "view" ? (
-                <ClaimDetailsViewOnly
-                  type={type}
-                  claimDetails={claimDetails}
-                  claimsList={claimsList}
                 />
               ) : (
                 ""
