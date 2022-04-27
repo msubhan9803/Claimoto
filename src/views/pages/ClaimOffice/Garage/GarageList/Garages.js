@@ -17,9 +17,9 @@ import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import AgencyList from "components/ClaimOffice/Agencies/AgencyList";
+import GarageList from "components/ClaimOffice/Garage/GarageList";
 
-function Agencies() {
+function Garage() {
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
   let policy_actions = getAllowActions({ permissions, module_name: "APO" });
@@ -165,7 +165,7 @@ function Agencies() {
             <div className="row">
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
-                  <h2>Agencies ({policies.length})</h2>
+                  <h2>Garage ({policies.length})</h2>
                 </div>
               </div>
               <div className="col-lg-3 align-self-center text-end">
@@ -337,7 +337,7 @@ function Agencies() {
           <div className="select-availability-area pb-4">
             <div className="row">
               <div className="col-lg-12">
-                <AgencyList />
+                <GarageList />
                 {/* ltnd__policies-table start */}
                 {/* {policy_actions?.includes("VIEW") ? ( */}
                   {/* <PoliciesList
@@ -367,4 +367,4 @@ function Agencies() {
   );
 }
 
-export default Agencies;
+export default Garage;
