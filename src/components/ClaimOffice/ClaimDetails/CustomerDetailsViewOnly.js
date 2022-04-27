@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 
 export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList }) {
-  const { CivilId } = claimDetails;
+  const { IdentityNo } = claimDetails;
 
   return (
     <div class="ltnd__block-area">
@@ -19,7 +19,7 @@ export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList })
                 <div class="col-lg-3 col-md-6">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Civil Id</h6>
-                    <h6>{CivilId}</h6>
+                    <h6>{IdentityNo}</h6>
                   </div>
                 </div>
               </div>

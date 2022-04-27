@@ -304,7 +304,7 @@ export const HandleUpdateDocAttatchment = (claimDocumentsList) => async (dispatc
         })
         .catch((err) => console.log("err FileUpload: ", err));
     }
-    window.href.reload();
+    window.location.reload()
   } catch (err) {
     console.log("err", err);
   }

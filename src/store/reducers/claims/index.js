@@ -58,6 +58,7 @@ const initialState = {
     Area: 0,
     PolicyId: 0,
     PolicyNo: 0,
+    IdentityNo: "",
     PolicyType: null,
     PolicyValidity: null,
     MakeId: 0,
