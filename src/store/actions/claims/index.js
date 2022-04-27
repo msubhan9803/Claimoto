@@ -259,10 +259,11 @@ export const PostClaimDetials =
           text: "",
           icon: "success",
         });
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
 export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
   try {
@@ -287,33 +288,34 @@ export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
   }
 };
 
-export const HandleUpdateDocAttatchment = (claimDocumentsList) => async (dispatch) => {
-  try {
-    for (let index = 0; index < claimDocumentsList.length; index++) {
-      const doc = claimDocumentsList[index];
-      let formData = new FormData();
-      formData.append("ClaimId", doc.ClaimId);
-      formData.append("PolicyId", doc.PolicyId);
-      formData.append("MakeId", doc.MakeId);
-      formData.append("ModelId", doc.ModelId);
-      formData.append("DocumentTypeId", doc.DocumentTypeId);
-      formData.append("ClaimAttachmentId", doc.DocumentTypeId);
-      formData.append("AlreadyPath", doc.file ? "" : doc.Path);
-      formData.append("CD_Id", doc.CD_Id);
-      formData.append("File", doc.file);
+export const HandleUpdateDocAttatchment =
+  (claimDocumentsList) => async (dispatch) => {
+    try {
+      for (let index = 0; index < claimDocumentsList.length; index++) {
+        const doc = claimDocumentsList[index];
+        let formData = new FormData();
+        formData.append("ClaimId", doc.ClaimId);
+        formData.append("PolicyId", doc.PolicyId);
+        formData.append("MakeId", doc.MakeId);
+        formData.append("ModelId", doc.ModelId);
+        formData.append("DocumentTypeId", doc.DocumentTypeId);
+        formData.append("ClaimAttachmentId", doc.DocumentTypeId);
+        formData.append("AlreadyPath", doc.file ? "" : doc.Path);
+        formData.append("CD_Id", doc.CD_Id);
+        formData.append("File", doc.file);
 
-      await instance
-        .put("api/Claims/ClaimAttachment", formData)
-        .then((res) => {
-          console.log("Update ClaimAttachment res: ", res);
-        })
-        .catch((err) => console.log("err FileUpload: ", err));
+        await instance
+          .put("api/Claims/ClaimAttachment", formData)
+          .then((res) => {
+            console.log("Update ClaimAttachment res: ", res);
+          })
+          .catch((err) => console.log("err FileUpload: ", err));
+      }
+      window.location.reload();
+    } catch (err) {
+      console.log("err", err);
     }
-    window.location.reload()
-  } catch (err) {
-    console.log("err", err);
-  }
-};
+  };
 
 export const HandleFilterTable = (filteredList) => (dispatch) => {
   try {
@@ -328,23 +330,18 @@ export const HandleFilterTable = (filteredList) => (dispatch) => {
 
 export const HandleTableInputValue =
   ({ name, value }) =>
-    (dispatch) => {
-      try {
-        dispatch({
-          type: CLAIMS_LIST_TABLE_DATA_CHANGE,
-          payload: { name, value },
-        });
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
+  (dispatch) => {
+    try {
+      dispatch({
+        type: CLAIMS_LIST_TABLE_DATA_CHANGE,
+        payload: { name, value },
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
-
-
-
-
-
-//Claim Actions 
+//Claim Actions
 export const getRejectionReasons = () => async (dispatch) => {
   try {
     let res = await instance.get("api/Claims/ClaimRejectionReason");
@@ -352,9 +349,10 @@ export const getRejectionReasons = () => async (dispatch) => {
   } catch (err) {
     console.log("err", err);
   }
-}
+};
 
-export const handleChangeInputStatus = ({ name, value }) =>
+export const handleChangeInputStatus =
+  ({ name, value }) =>
   (dispatch) => {
     try {
       dispatch({
@@ -366,8 +364,8 @@ export const handleChangeInputStatus = ({ name, value }) =>
     }
   };
 
-
-  export const handleChangeInputSchedule = ({ name, value }) =>
+export const handleChangeInputSchedule =
+  ({ name, value }) =>
   (dispatch) => {
     try {
       dispatch({
@@ -379,59 +377,66 @@ export const handleChangeInputStatus = ({ name, value }) =>
     }
   };
 
-
-  
-
-
 export const initialHandleClaim = (values, callback) => async (dispatch) => {
   try {
     let payload = {
-      "ClaimId": values.claimId,
-      "ClaimStatusId": values.statusId,
-      "InternalNote": values.internal_comments,
-      "ExternalNote": values.external_comments,
-      "RejectionReason": values.rejection_reason
-    }
-    dispatch({ type: HANDLE_CHANGE_INPUT_STATUS, payload: { name: "loading", value: true } });
+      ClaimId: values.claimId,
+      ClaimStatusId: values.statusId,
+      InternalNote: values.internal_comments,
+      ExternalNote: values.external_comments,
+      RejectionReason: values.rejection_reason,
+    };
+    dispatch({
+      type: HANDLE_CHANGE_INPUT_STATUS,
+      payload: { name: "loading", value: true },
+    });
     await instance.put("api/Claims/UpdateStatusRejectApprove", payload);
-    dispatch({ type: HANDLE_CHANGE_INPUT_STATUS, payload: { name: "loading", value: false } });
+    dispatch({
+      type: HANDLE_CHANGE_INPUT_STATUS,
+      payload: { name: "loading", value: false },
+    });
     callback();
   } catch (err) {
-    dispatch({ type: HANDLE_CHANGE_INPUT_STATUS, payload: { name: "loading", value: false } });
-    console.log("err", err);
-  }
-}
-
-
-export const handleChangeInputMessage = ({ name, value }) =>
-(dispatch) => {
-  try {
     dispatch({
-      type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
-      payload: { name, value },
+      type: HANDLE_CHANGE_INPUT_STATUS,
+      payload: { name: "loading", value: false },
     });
-  } catch (err) {
     console.log("err", err);
   }
 };
 
-
-
-export const sendMessagePolicyHolder = (values, callback) => async (dispatch) => {
-  try {
-    let payload = {
-      
+export const handleChangeInputMessage =
+  ({ name, value }) =>
+  (dispatch) => {
+    try {
+      dispatch({
+        type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+        payload: { name, value },
+      });
+    } catch (err) {
+      console.log("err", err);
     }
-    dispatch({ type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE, payload: { name: "loading", value: true } });
-    await instance.put("api/Claims/", payload);
-    dispatch({ type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE, payload: { name: "loading", value: false } });
-    callback();
-  } catch (err) {
-    dispatch({ type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE, payload: { name: "loading", value: false } });
-    console.log("err", err);
-  }
-}
+  };
 
-
-
-
+export const sendMessagePolicyHolder =
+  (values, callback) => async (dispatch) => {
+    try {
+      let payload = {};
+      dispatch({
+        type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+        payload: { name: "loading", value: true },
+      });
+      await instance.put("api/Claims/", payload);
+      dispatch({
+        type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+        payload: { name: "loading", value: false },
+      });
+      callback();
+    } catch (err) {
+      dispatch({
+        type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+        payload: { name: "loading", value: false },
+      });
+      console.log("err", err);
+    }
+  };
