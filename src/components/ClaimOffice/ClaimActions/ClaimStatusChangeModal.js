@@ -56,7 +56,7 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action }) => {
     }
 
     const _initialHandle = () => {
-        dispatch(initialHandleClaim({...status_change_input_values, statusId: action === "reject" ? 19 : 11, claimId:params.id}, _initialHandleClaimCallBack));
+        dispatch(initialHandleClaim({...status_change_input_values, statusId: action === "reject" ? 19 : 14, claimId:params.id}, _initialHandleClaimCallBack));
     }
 
     const animatedComponents = makeAnimated();
