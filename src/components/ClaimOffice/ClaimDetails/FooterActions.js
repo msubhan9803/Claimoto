@@ -65,7 +65,7 @@ export default function FooterActions({
                 class="btn theme-btn-1 btn-round-12"
                 ref={submitBtnRef}
               >
-                Submitted
+                Submit
               </button>
             </div>
           </div>

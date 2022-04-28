@@ -63,19 +63,21 @@ export default function CarPhotos({
 
   const getPhotoTypeToHeading = (photoTypeString) => {
     if (photoTypeString === "Front") {
-      return "Front";
-    } else if (photoTypeString === "LeftRight") {
-      return "Left Right";
+      return "Front side";
+    } else if (photoTypeString === "Left") {
+      return "Left side";
+    } else if (photoTypeString === "Right") {
+      return "Right side";
     } else if (photoTypeString === "FrontLeft") {
-      return "Front Left";
+      return "Front Left side";
     } else if (photoTypeString === "FrontRight") {
-      return "Front Right";
+      return "Front Right side";
     } else if (photoTypeString === "RearLeft") {
-      return "Rear Left";
+      return "Rear Left side";
     } else if (photoTypeString === "RearRight") {
-      return "Rear Right";
+      return "Rear Right side";
     } else {
-      return "Rear";
+      return "Rear side";
     }
   };
 
