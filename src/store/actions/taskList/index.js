@@ -1,5 +1,14 @@
-import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS } from "store/types/tasks";
+import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES } from "store/types/tasks";
 import instance from "config/axios/instance";
+
+export const getStatusesOfClaim = () => async (dispatch) => {
+    try {
+        let { data } = await instance.get(`/api/Claims/ClaimStatus`);
+        dispatch({ type: SET_CLAIM_STATUSES, payload: data || [] });
+    } catch (err) {
+        console.log("err", err);
+    }
+};
 
 export const syncTasksColumns = (state, screen) => async (dispatch) => {
     try {

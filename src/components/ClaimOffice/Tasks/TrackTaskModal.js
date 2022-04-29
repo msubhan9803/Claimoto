@@ -6,10 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import makeAnimated from 'react-select/animated';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
+import { getStatusesOfClaim } from 'store/actions/taskList';
 
 
 const TrackTaskModal = ({ openModal, toggleModal }) => {
 
+    const dispatch = useDispatch();
+    const { task_status } = useSelector(state => state.taskListScreenReducer);
 
 
     //Permissions Controlling
@@ -20,6 +23,11 @@ const TrackTaskModal = ({ openModal, toggleModal }) => {
 
 
     const animatedComponents = makeAnimated();
+
+
+    useEffect(() => {
+        dispatch(getStatusesOfClaim());
+    }, []);
 
 
     return (
@@ -44,35 +52,19 @@ const TrackTaskModal = ({ openModal, toggleModal }) => {
                 <div className="modal-body">
                     <div className="ltnd__adding-modal-inner">
                         <div className="section-title-area text-center mb-30---">
-                            <h1 className="section-title">Track - 10/tpl2020/001</h1>
+                            <h1 className="section-title">Track</h1>
                         </div>
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="ltnd__track-modal-item-wrap">
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Claim submitted</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Claim received to insurance company</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Initial approval</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Vechicle assesment</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Car in garage</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
-                                    <div className="ltnd__track-modal-item">
-                                        <h5>Return replacement car</h5>
-                                        <p>Claim submitted by the policy holder</p>
-                                    </div>
+                                    {task_status?.map((status, index) => {
+                                        return (
+                                            <div key={status.StatusId || ""} className={`ltnd__track-modal-item ${index === 3 ? "ltnd__track-modal-item_active" : ""} `}>
+                                                <h5>{status.StatusName || ""}</h5>
+                                                <p>Claim submitted by the policy holder</p>
+                                            </div>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>

@@ -3,7 +3,7 @@ import {
     CHANGE_HANDLER_RULES,
 } from '../../types/rules';
 
-import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS } from "store/types/tasks";
+import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES } from "store/types/tasks";
 
 
 import MyTaskList from 'components/ClaimOffice/Tasks/MyTasks';
@@ -35,7 +35,7 @@ const initialState = {
 
 
     my_tasks: {
-        loading_list:false
+        loading_list: false
     },
     pending_tasks: {
 
@@ -60,6 +60,10 @@ const initialState = {
 
 
 
+    task_status: [
+
+    ]
+
 
 };
 
@@ -67,6 +71,10 @@ const initialState = {
 const taskListScreenReducer = (state = initialState, action) => {
     switch (action.type) {
 
+
+        case SET_CLAIM_STATUSES: {
+            return { ...state, task_status: action.payload }
+        }
 
         case SET_TASKS_BY_DND: {
             return { ...state, [action.payload.screen]: action.payload.state }

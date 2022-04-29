@@ -18547,16 +18547,16 @@ form .ltnd__title-3 {
   background-color: var(--white);
 }
 
-.ltnd__track-modal-item:last-child {
+.ltnd__track-modal-item_active {
   border: none;
 }
 
-.ltnd__track-modal-item:last-child::before {
+.ltnd__track-modal-item_active::before {
   background-color: var(--ltn__color-8);
   border: 4px solid var(--ltn__color-8);
 }
 
-.ltnd__track-modal-item:last-child::after {
+.ltnd__track-modal-item_active::after {
   content: "\f00c";
   left: -8px;
   top: 0px;

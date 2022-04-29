@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const AssignProviderGrid = () => {
-    let { id } = useParams();
+    let { id, claim_id } = useParams();
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
@@ -46,7 +46,7 @@ const AssignProviderGrid = () => {
 
     const _getList = () => {
         dispatch(getAssignProvider({
-            provider_id:id,
+            provider_id: id,
             records_per_page, page_index, search_option,
             search_text,
             sort_type,
@@ -66,7 +66,7 @@ const AssignProviderGrid = () => {
 
 
 
-    
+
 
 
     return (
@@ -80,7 +80,7 @@ const AssignProviderGrid = () => {
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-1">Name</li>
-                                            <li className="table-data-1">Agency</li>
+                                            <li className="table-data-1">POC Name</li>
                                             <li className="table-data-2">Pending</li>
                                             <li className="table-data-2">Under Assesment</li>
                                             <li className="table-data-2">Close</li>
@@ -93,37 +93,37 @@ const AssignProviderGrid = () => {
                                                 <ul className="ltn__select-availability-table-row">
 
                                                     <li className="table-data-1">
-                                                    <strong>
-                                                            <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
-                                                            {record.FullName}
-                                                        </strong>
-                                                        </li>
-                                                    <li className="table-data-1">
                                                         <strong>
                                                             <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
-                                                            {record.Name}
+                                                            {record?.Name || ""}
                                                         </strong>
                                                     </li>
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            {record?.POCName || ""}
+                                                        </strong>
+                                                    </li>
+
                                                     <li className="table-data-2 dot_pending">
                                                         <span class="dot_assign_provider "></span>
-                                                        <b>12</b>
+                                                        <b>{record?.Pending || 0}</b>
                                                     </li>
                                                     <li className="table-data-2 dot_under_assesment">
                                                         <span class="dot_assign_provider "></span>
-                                                        <b>14</b>
+                                                        <b>{record?.Under_Repair || 0}</b>
                                                     </li>
                                                     <li className="table-data-2 dot_close">
                                                         <span class="dot_assign_provider "></span>
-                                                        <b>12</b>
+                                                        <b>{record?.Closed || 0}</b>
                                                     </li>
                                                     <li className="table-data-2 text-primary float-end">
                                                         <strong>
-                                                            <Link to={`/admin/view_provider/garage/${record.Id}?tab=0`} >View Details</Link>
+                                                            <Link to={`/claim/view_assign_details/${id}/${record.AgencyGarageId}`} >View Details</Link>
                                                         </strong>
                                                     </li>
                                                     <li className="table-data-2 text-primary float-end">
                                                         <strong>
-                                                            <Link to={`/claim/assign_to_branch/${record.Id}`}>Assign</Link>
+                                                            <Link to={`/claim/assign_to_branch/${record.AgencyGarageId}/${claim_id}`}>Branches</Link>
                                                         </strong>
                                                     </li>
 

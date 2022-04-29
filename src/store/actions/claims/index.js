@@ -194,76 +194,76 @@ export const ResetClaimListAndPagination = (name, value) => (dispatch) => {
 // POST /api/Claims
 export const PostClaimDetials =
   (claimDetials, layout, setIsLoading, navigate, msgAlert) =>
-  async (dispatch) => {
-    try {
-      let claimDocuments = claimDetials.ClaimDocuments;
-      let claimPhotos = claimDetials.ClaimAccidentCarPhotos;
+    async (dispatch) => {
+      try {
+        let claimDocuments = claimDetials.ClaimDocuments;
+        let claimPhotos = claimDetials.ClaimAccidentCarPhotos;
 
-      let payload = claimDetials;
-      delete payload.ClaimAccidentCarPhotos;
-      delete payload.ClaimDocuments;
-      payload.SubmissionDate = new Date();
-      payload.CreatedDate = new Date();
-      payload.UpdatedDate = new Date();
+        let payload = claimDetials;
+        delete payload.ClaimAccidentCarPhotos;
+        delete payload.ClaimDocuments;
+        payload.SubmissionDate = new Date();
+        payload.CreatedDate = new Date();
+        payload.UpdatedDate = new Date();
 
-      await instance.post("api/Claims", payload).then(async (res) => {
-        console.log("Posted Claim res: ", res);
+        await instance.post("api/Claims", payload).then(async (res) => {
+          console.log("Posted Claim res: ", res);
 
-        for (let index = 0; index < claimDocuments.length; index++) {
-          const doc = claimDocuments[index];
-          let formData = new FormData();
-          formData.append("ClaimId", res.data.ClaimId);
-          formData.append("PolicyId", payload.PolicyId);
-          formData.append("MakeId", payload.MakeId);
-          formData.append("ModelId", payload.ModeIld);
-          formData.append("DocumentTypeId", doc.DocumentTypeId);
-          formData.append("ClaimAttachmentId", doc.DocumentTypeId);
-          formData.append("AlreadyAddedPath", doc.AlreadyAddedPath);
-          if (doc.file) formData.append("File", doc.file);
+          for (let index = 0; index < claimDocuments.length; index++) {
+            const doc = claimDocuments[index];
+            let formData = new FormData();
+            formData.append("ClaimId", res.data.ClaimId);
+            formData.append("PolicyId", payload.PolicyId);
+            formData.append("MakeId", payload.MakeId);
+            formData.append("ModelId", payload.ModeIld);
+            formData.append("DocumentTypeId", doc.DocumentTypeId);
+            formData.append("ClaimAttachmentId", doc.DocumentTypeId);
+            formData.append("AlreadyAddedPath", doc.AlreadyAddedPath);
+            if (doc.file) formData.append("File", doc.file);
 
-          await instance
-            .post("api/Claims/ClaimAttachment", formData)
-            .then((res) => {
-              console.log(
-                "uploaded document with doc Id: ",
-                doc.DocumentTypeId
-              );
-            })
-            .catch((err) => console.log("err FileUpload: ", err));
-        }
+            await instance
+              .post("api/Claims/ClaimAttachment", formData)
+              .then((res) => {
+                console.log(
+                  "uploaded document with doc Id: ",
+                  doc.DocumentTypeId
+                );
+              })
+              .catch((err) => console.log("err FileUpload: ", err));
+          }
 
-        for (let index = 0; index < claimPhotos.length; index++) {
-          const doc = claimPhotos[index];
-          let formData = new FormData();
-          formData.append("ClaimId", res.data.ClaimId);
-          formData.append("PolicyId", payload.PolicyId);
-          formData.append("MakeId", payload.MakeId);
-          formData.append("ModelId", payload.ModeIld);
-          formData.append("AccidentCarPhotoId", doc.ClaimPhotoTypeId);
-          formData.append("ClaimAttachmentId", doc.ClaimPhotoTypeId);
-          formData.append("ClaimPhotoTypeId", doc.ClaimPhotoTypeId);
-          formData.append("File", doc.file);
+          for (let index = 0; index < claimPhotos.length; index++) {
+            const doc = claimPhotos[index];
+            let formData = new FormData();
+            formData.append("ClaimId", res.data.ClaimId);
+            formData.append("PolicyId", payload.PolicyId);
+            formData.append("MakeId", payload.MakeId);
+            formData.append("ModelId", payload.ModeIld);
+            formData.append("AccidentCarPhotoId", doc.ClaimPhotoTypeId);
+            formData.append("ClaimAttachmentId", doc.ClaimPhotoTypeId);
+            formData.append("ClaimPhotoTypeId", doc.ClaimPhotoTypeId);
+            formData.append("File", doc.file);
 
-          await instance
-            .post("api/Claims/ClaimImages", formData)
-            .then((res) => {
-              console.log("uploaded photo with doc Id: ", doc.DocumentTypeId);
-            })
-            .catch((err) => console.log("err FileUpload: ", err));
-        }
+            await instance
+              .post("api/Claims/ClaimImages", formData)
+              .then((res) => {
+                console.log("uploaded photo with doc Id: ", doc.DocumentTypeId);
+              })
+              .catch((err) => console.log("err FileUpload: ", err));
+          }
 
-        setIsLoading(false);
-        navigate(`/${layout}/policies`);
-        msgAlert({
-          title: "Claim initiated successfully!",
-          text: "",
-          icon: "success",
+          setIsLoading(false);
+          navigate(`/${layout}/policies`);
+          msgAlert({
+            title: "Claim initiated successfully!",
+            text: "",
+            icon: "success",
+          });
         });
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const HandleAddDocAttatchment = (obj) => async (dispatch) => {
   try {
@@ -330,16 +330,16 @@ export const HandleFilterTable = (filteredList) => (dispatch) => {
 
 export const HandleTableInputValue =
   ({ name, value }) =>
-  (dispatch) => {
-    try {
-      dispatch({
-        type: CLAIMS_LIST_TABLE_DATA_CHANGE,
-        payload: { name, value },
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+    (dispatch) => {
+      try {
+        dispatch({
+          type: CLAIMS_LIST_TABLE_DATA_CHANGE,
+          payload: { name, value },
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 //Claim Actions
 export const getRejectionReasons = () => async (dispatch) => {
@@ -353,29 +353,29 @@ export const getRejectionReasons = () => async (dispatch) => {
 
 export const handleChangeInputStatus =
   ({ name, value }) =>
-  (dispatch) => {
-    try {
-      dispatch({
-        type: HANDLE_CHANGE_INPUT_STATUS,
-        payload: { name, value },
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+    (dispatch) => {
+      try {
+        dispatch({
+          type: HANDLE_CHANGE_INPUT_STATUS,
+          payload: { name, value },
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const handleChangeInputSchedule =
   ({ name, value }) =>
-  (dispatch) => {
-    try {
-      dispatch({
-        type: HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
-        payload: { name, value },
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+    (dispatch) => {
+      try {
+        dispatch({
+          type: HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
+          payload: { name, value },
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const initialHandleClaim = (values, callback) => async (dispatch) => {
   try {
@@ -407,26 +407,29 @@ export const initialHandleClaim = (values, callback) => async (dispatch) => {
 
 export const handleChangeInputMessage =
   ({ name, value }) =>
-  (dispatch) => {
-    try {
-      dispatch({
-        type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
-        payload: { name, value },
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+    (dispatch) => {
+      try {
+        dispatch({
+          type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+          payload: { name, value },
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
 
 export const sendMessagePolicyHolder =
   (values, callback) => async (dispatch) => {
     try {
-      let payload = {};
+      let payload = {
+        "Claim_Id": values.claim_id,
+        "MSG": values.message,
+      };
       dispatch({
         type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
         payload: { name: "loading", value: true },
       });
-      await instance.put("api/Claims/", payload);
+      await instance.post("api/Claims/ClaimLeaveMessage", payload);
       dispatch({
         type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
         payload: { name: "loading", value: false },

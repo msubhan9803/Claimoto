@@ -8,6 +8,9 @@ import {
     //Get Providers
     GET_ASSIGN_PROVIDER,
 
+    GET_ASSIGN_PROVIDER_BRANCH,
+
+    GET_ASSIGN_PROVIDER_BRANCH_REQUEST
 } from '../../types/claims';
 
 
@@ -21,6 +24,10 @@ const initialState = {
         loading: false
     },
 
+    record_branch: {
+        list: [],
+        loading: false
+    },
 
     search_options: [
         {
@@ -86,19 +93,47 @@ const assignProviderScreenReducer = (state = initialState, action) => {
             break;
 
         case GET_ASSIGN_PROVIDER: {
-            const { ModelProvider, TotalRecord } = action.payload;
+            const { AgencyGarage, Count } = action.payload;
             return {
                 ...state,
                 record:
                 {
                     ...state.record,
-                    list: ModelProvider || [],
-                    count: TotalRecord || 0,
+                    list: AgencyGarage || [],
+                    count: Count || 0,
                     loading: false
                 }
             }
         }
             break;
+
+        case GET_ASSIGN_PROVIDER_BRANCH_REQUEST: {
+            let { bool, list } = action.payload;
+            return {
+                ...state,
+                record_branch:
+                {
+                    ...state.record_branch,
+                    loading: bool,
+                    list
+                }
+            }
+        }
+            break;
+
+        case GET_ASSIGN_PROVIDER_BRANCH: {
+            return {
+                ...state,
+                record_branch:
+                {
+                    ...state.record_branch,
+                    list: action?.payload || [],
+                    loading: false
+                }
+            }
+        }
+            break;
+
 
         case SET_INPUT_VALUES_ASSIGN_PROVIDER_SCREEN: {
             const { name, value } = action.payload;

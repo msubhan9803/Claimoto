@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ClaimLeaveAMessageModal from "../ClaimActions/ClaimLeaveAMessageModal";
 import ClaimScheduleCallModal from "../ClaimActions/ClaimScheduleCallModal";
 import ClaimStatusChangeModal from "../ClaimActions/ClaimStatusChangeModal";
@@ -10,6 +10,7 @@ export default function FooterActions({
   claimActionPermissions,
   showFooterButtonsState,
 }) {
+  const {id} = useParams();
   const [otherCallActions, setOtherCallActions] = useState(false);
   const initialState = {
     openModal: false,
@@ -50,9 +51,9 @@ export default function FooterActions({
 
   return (
     <>
-      <ClaimStatusChangeModal action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
-      <ClaimScheduleCallModal toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
-      <ClaimLeaveAMessageModal toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
+      <ClaimStatusChangeModal claim_id={id} action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
+      <ClaimScheduleCallModal claim_id={id} toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
+      <ClaimLeaveAMessageModal claim_id={id} toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
       {type === "create" || type === "edit" ? (
         <div class="ltnd__footer-1-inner bg-white">
           <div class="ltnd__left btn-normal"></div>
@@ -89,7 +90,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {showFooterButtonsState.showContact && (
+                {/* {showFooterButtonsState.showContact && (
                   <li
                     class="ltnd__footer-btn-dropdown-contact cursor-pointer"
                     onClick={() => setOtherCallActions(!otherCallActions)}
@@ -121,8 +122,8 @@ export default function FooterActions({
                       </div>
                     )}
                   </li>
-                )}
-
+                )} */}
+{/* 
                 {showFooterButtonsState.viewEstimation && (
                   <li>
                     <a class="ltn__secondary-color--- ltn__color-9---" href="#">
@@ -155,12 +156,12 @@ export default function FooterActions({
                       <strong>Repair details</strong>
                     </a>
                   </li>
-                )}
+                )} */}
 
                 {showFooterButtonsState.assignToGarageAgency && (
                   <li>
 
-                    <Link to="/claim/assign_to_provider/1" className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Garage</strong></Link>
+                    <Link to={`/claim/assign_to_provider/1/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Garage</strong></Link>
 
                   </li>
                 )}
@@ -168,7 +169,7 @@ export default function FooterActions({
                 {showFooterButtonsState.assignToGarageAgency && (
                   <li>
 
-                    <Link to="/claim/assign_to_provider/2" className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Agency</strong></Link>
+                    <Link to={`/claim/assign_to_provider/2/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Agency</strong></Link>
 
                   </li>
                 )}
