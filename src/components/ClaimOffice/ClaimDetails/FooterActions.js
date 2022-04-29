@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import ClaimLeaveAMessageModal from "../ClaimActions/ClaimLeaveAMessageModal";
 import ClaimScheduleCallModal from "../ClaimActions/ClaimScheduleCallModal";
 import ClaimStatusChangeModal from "../ClaimActions/ClaimStatusChangeModal";
@@ -130,13 +131,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {showFooterButtonsState.assignToGarageAgency && (
-                  <li>
-                    <a class="ltn__secondary-color--- ltn__color-9---" href="#">
-                      <strong>Assign to garage/agency</strong>
-                    </a>
-                  </li>
-                )}
+
 
                 {showFooterButtonsState.assignToSurveyor && (
                   <li>
@@ -159,6 +154,22 @@ export default function FooterActions({
                     <a class="ltn__secondary-color--- ltn__color-9---" href="#">
                       <strong>Repair details</strong>
                     </a>
+                  </li>
+                )}
+
+                {showFooterButtonsState.assignToGarageAgency && (
+                  <li>
+
+                    <Link to="/claim/assign_to_provider/1" className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Garage</strong></Link>
+
+                  </li>
+                )}
+
+                {showFooterButtonsState.assignToGarageAgency && (
+                  <li>
+
+                    <Link to="/claim/assign_to_provider/2" className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Agency</strong></Link>
+
                   </li>
                 )}
 

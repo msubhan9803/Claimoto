@@ -20171,3 +20171,31 @@ form .ltnd__title-3 {
   opacity: 0;
   visibility: hidden; */
 }
+
+.dot_assign_provider {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:5px;
+}
+.dot_pending b {
+  color: #205BF5;
+}
+.dot_under_assesment b {
+  color: #909FBA;
+
+}
+.dot_close b {
+  color: #11CE8C;
+}
+.dot_pending span {
+  background-color: #205BF5;
+}
+.dot_under_assesment span {
+  background-color: #909FBA;
+
+}
+.dot_close span {
+  background-color: #11CE8C;
+}

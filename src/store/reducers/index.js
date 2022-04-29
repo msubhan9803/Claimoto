@@ -16,6 +16,7 @@ import providerServicesScreenReducer from 'store/reducers/providers/provider_ser
 import providerServicesPriceScreenReducer from 'store/reducers/providers/service_prices';
 import taskListScreenReducer from 'store/reducers/taskList/index';
 import claimsScreenReducer from 'store/reducers/claims/index';
+import assignProviderScreenReducer from './claims/assign';
 
 const rootPersistConfig = {
   key: 'root',
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   providerServicesScreenReducer:providerServicesScreenReducer,
   providerServicesPriceScreenReducer:providerServicesPriceScreenReducer,
   taskListScreenReducer:taskListScreenReducer,
+  assignProviderScreenReducer:assignProviderScreenReducer,
   claimsReducer: claimsScreenReducer
 })
 
