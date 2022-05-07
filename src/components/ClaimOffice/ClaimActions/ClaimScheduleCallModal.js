@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import makeAnimated from 'react-select/animated';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getAllowActions, capitalizeFirstLetter } from 'functions';
-import { handleChangeInputSchedule, scheduleCallHandleClaim } from 'store/actions/claims';
+import { handleChangeInputSchedule, getDaySlots ,scheduleCallHandleClaim , getHourSlots } from 'store/actions/claims';
 import { successAlert } from 'functions';
 
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
@@ -19,8 +19,9 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
     let navigate = useNavigate();
     const claimDetails = useSelector((state) => state.claimsReducer.claimDetails);
     const schedule_call_input_values = useSelector((state) => state.claimsReducer.schedule_call_input_values);
-    const { selectedDay, selectedSlot } = schedule_call_input_values;
-
+    const {day_slots} = useSelector((state) => state.claimsReducer);
+    const { selectedDay, selectedSlot, selectedHourSlot } = schedule_call_input_values;
+    
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
@@ -34,6 +35,15 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
     }, []);
 
     const _handleFieldChange = (name, value) => {
+        if(name === "selectedHourSlot"){
+            dispatch(getHourSlots());
+        }
+        if(name === "selectedDay"){
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let date = new Date(`${value.month}-${value.day}-${value.year}`);
+            let day = days[date.getDay()];
+            dispatch(getDaySlots(day, date));
+        }
         dispatch(handleChangeInputSchedule({ name, value }))
     }
 
@@ -88,7 +98,7 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
                         </div>
                         <div className="row">
 
-                            <div className="col-lg-8 text">
+                            <div className="col-lg-7 text">
                                 <h6 className="ltnd__title-3 mt-2">Date</h6>
                                 <Calendar
                                     style={{ width: "100%" }}
@@ -98,12 +108,12 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
                                     colorPrimary="#0d6efd" // added this
                                 />
                             </div>
-                            <div className="col-lg-4">
-                                <h6 className="ltnd__title-3 mt-2">Time Slots</h6>
+                            <div className="col-lg-5">
+                                <h6 className="ltnd__title-3 mt-2">Hour Slots</h6>
                                 <div className='timeslots'>
-                                    {Array.from(Array(6).keys()).map((i) => (
-                                        <div role="button" onClick={() => _handleFieldChange("selectedSlot",`${9+i}AM - ${10+i}AM`)} className={`timeslot ${selectedSlot === `${9+i}AM - ${10+i}AM` ? "bg-primary text-light" : "bg-light text-secondary"}  text-center p-2 rounded mb-4`}>
-                                            <span>{9+i}AM - {10+i}AM</span>
+                                    {day_slots.map((i) => (
+                                        <div role="button" onClick={() => _handleFieldChange("selectedHourSlot", i)} className={`timeslot ${selectedHourSlot === i ? "bg-primary text-light" : "bg-light text-secondary"}  text-center p-2 rounded mb-4`}>
+                                            <span>{i}</span>
                                         </div>
                                     ))
                                     }

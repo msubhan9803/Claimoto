@@ -10,7 +10,9 @@ import {
 
     GET_ASSIGN_PROVIDER_BRANCH,
 
-    GET_ASSIGN_PROVIDER_BRANCH_REQUEST
+    GET_ASSIGN_PROVIDER_BRANCH_REQUEST,
+
+    
 } from '../../types/claims';
 
 
@@ -28,6 +30,7 @@ const initialState = {
         list: [],
         loading: false
     },
+
 
     search_options: [
         {

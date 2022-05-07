@@ -18,6 +18,7 @@ import {
   HANDLE_CHANGE_INPUT_STATUS,
   HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
   HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+  SET_DAY_SLOTS,
   SET_USER_PROFILES_LIST,
 } from "store/types/claims";
 import { getAreas } from "store/actions/provider";
@@ -443,3 +444,27 @@ export const sendMessagePolicyHolder =
       console.log("err", err);
     }
   };
+
+
+
+//Claim Actions
+export const getDaySlots = (day, date) => async (dispatch) => {
+  try {
+    let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}&Date=${date}`);
+    dispatch({ type: SET_DAY_SLOTS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+
+export const getHourSlots = () => async (dispatch) => {
+  try {
+    // let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}`);
+    // dispatch({ type: SET_HOUR_SLOTS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+ 
+  
