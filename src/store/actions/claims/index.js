@@ -19,9 +19,9 @@ import {
   HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
   HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
   SET_DAY_SLOTS,
+  SET_HOUR_SLOTS,
   SET_USER_PROFILES_LIST,
 } from "store/types/claims";
-import { getAreas } from "store/actions/provider";
 
 // GET /api/Claims/Claims
 export const GetClaimsByPolicyId = (policyId) => async (dispatch) => {
@@ -448,9 +448,12 @@ export const sendMessagePolicyHolder =
 
 
 //Claim Actions
-export const getDaySlots = (day, date) => async (dispatch) => {
+export const getDaySlots = (value) => async (dispatch) => {
   try {
-    let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}&Date=${date}`);
+    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    let date = new Date(`${value.month}-${value.day}-${value.year}`);
+    let _date = `${value.year}-${value.month}-${value.day}`; 
+    let day = days[date.getDay()];    let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}&dateTime=${_date}`);
     dispatch({ type: SET_DAY_SLOTS, payload: res.data });
   } catch (err) {
     console.log("err", err);
@@ -458,10 +461,19 @@ export const getDaySlots = (day, date) => async (dispatch) => {
 };
 
 
-export const getHourSlots = () => async (dispatch) => {
+export const getHourSlots = ({to, from}) => async (dispatch) => {
   try {
-    // let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}`);
-    // dispatch({ type: SET_HOUR_SLOTS, payload: res.data });
+    let res = await instance.get(`api/ScheduledCallsAndChat/SplitWithInterval?IfromTime=${from}&ItoTime=${to}`);
+    dispatch({ type: SET_HOUR_SLOTS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) => {
+  try {
+    let res = await instance.post(`api/ScheduledCallsAndChat/ScheduledCallsAssigned`, payload);
+    callback();
   } catch (err) {
     console.log("err", err);
   }
