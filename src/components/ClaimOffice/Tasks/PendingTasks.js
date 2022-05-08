@@ -8,6 +8,7 @@ import { getMyTaskList } from 'store/actions/taskList';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { formatDateTime } from 'functions';
 import { Link } from 'react-router-dom';
+import { getStatusesOfClaim } from 'store/actions/taskList';
 
 
 function PendingTaskList() {
@@ -34,7 +35,10 @@ function PendingTaskList() {
         };
     }, []);
 
-    const _toggleModal = () => {
+    const _toggleModal = (id) => {
+        if (typeof id === "number") {
+            dispatch(getStatusesOfClaim(id));
+        }
         setComponent({
             ...component,
             openModal: !component.openModal
@@ -61,13 +65,13 @@ function PendingTaskList() {
                                                 <p className="ltnd__space-between">Claim type <strong>{claim?.ClaimTypeName || ""}</strong></p>
                                                 <p className="ltnd__space-between">Incident date <strong>{formatDateTime(claim?.IncidentDate || "").date}</strong></p>
                                                 <div className="btn-wrapper ltnd__space-between">
-                                                <Link to={`/claim/claim_detail/${claim.ClaimId}`} lassName="ltn__secondary-color" ><strong>Claim details</strong></Link>
-                                                    <a className="ltn__secondary-color" onClick={_toggleModal} role="button" title="Quick View" ><img src={TrackIcon} alt="#" /> Track</a>
+                                                    <Link to={`/claim/claim_detail/${claim.ClaimId}`} lassName="ltn__secondary-color" ><strong>Claim details</strong></Link>
+                                                    <a className="ltn__secondary-color" onClick={() => _toggleModal(claim?.ClaimId || "")} role="button" title="Quick View" ><img src={TrackIcon} alt="#" /> Track</a>
                                                 </div>
                                             </div>
 
                                         );
-                                    })|| []}
+                                    }) || []}
                                 </div>
                             </div>
                         </div>

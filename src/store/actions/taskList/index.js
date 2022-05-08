@@ -1,9 +1,9 @@
 import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES } from "store/types/tasks";
 import instance from "config/axios/instance";
 
-export const getStatusesOfClaim = () => async (dispatch) => {
+export const getStatusesOfClaim = (id) => async (dispatch) => {
     try {
-        let { data } = await instance.get(`/api/Claims/ClaimStatus`);
+        let { data } = await instance.get(`/api/Claims/ClaimStatus?Id=${id}`);
         dispatch({ type: SET_CLAIM_STATUSES, payload: data || [] });
     } catch (err) {
         console.log("err", err);

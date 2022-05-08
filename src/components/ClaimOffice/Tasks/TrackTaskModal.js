@@ -26,7 +26,7 @@ const TrackTaskModal = ({ openModal, toggleModal }) => {
 
 
     useEffect(() => {
-        dispatch(getStatusesOfClaim());
+        // dispatch(getStatusesOfClaim());
     }, []);
 
 
@@ -59,9 +59,12 @@ const TrackTaskModal = ({ openModal, toggleModal }) => {
                                 <div className="ltnd__track-modal-item-wrap">
                                     {task_status?.map((status, index) => {
                                         return (
-                                            <div key={status.StatusId || ""} className={`ltnd__track-modal-item ${index === 3 ? "ltnd__track-modal-item_active" : ""} `}>
+                                            <div key={status.StatusId || ""}
+                                                className={`ltnd__track-modal-item ltnd__track-modal-item_active`}
+                                            // className={`ltnd__track-modal-item ${index === 3 ? "ltnd__track-modal-item_active" : ""} `}
+                                            >
                                                 <h5>{status.StatusName || ""}</h5>
-                                                <p>Claim submitted by the policy holder</p>
+                                                <p>{status.StepComments || ""}</p>
                                             </div>
                                         )
                                     })}
