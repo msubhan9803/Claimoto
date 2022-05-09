@@ -59,6 +59,7 @@ const AgenciesList = ({ loading, allProviders }) => {
                         <li className="table-data-7">
                           <strong>
                             <Link
+                              className="ltn__secondary-color"
                               to={`/claim/agencies/agency_detail/${record.AgencyGarageId}`}
                             >
                               View details

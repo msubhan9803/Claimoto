@@ -15,26 +15,30 @@ const initialState = {
     sort_name: "",
     download: "",
     importAs: "",
-    providers_per_page: 2,
+    providers_per_page: 10,
     providers_page_index: 1,
     providers_count: 0
   },
   search_options: [
     {
-      label: "Policy number",
-      value: "PolicyNo",
+      label: "Name",
+      value: "Name",
     },
     {
-      label: "Policy holder",
-      value: "PolicyHolderName",
+      label: "Agency",
+      value: "Agency",
     },
     {
-      label: "Identity",
-      value: "IdentityNo",
+      label: "Pending",
+      value: "Pending",
     },
     {
-      label: "Address",
-      value: "Address",
+      label: "Under Assesment",
+      value: "UnderAssesment",
+    },
+    {
+      label: "Closed",
+      value: "Closed",
     },
   ]
 };

@@ -6,7 +6,7 @@ import { GetProducType } from "store/actions/product";
 import { SetPaginatedAgenciesGarages, HandleTableInputValue } from "store/actions/claimAgencies";
 import SortArray from "sort-array";
 import Fuse from "fuse.js";
-import PaginationFromUI from "components/Pagination/PaginationFromUI";
+import Pagination from "components/Pagination/Pagination";
 import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
@@ -173,7 +173,7 @@ function Agencies() {
                         onChange={_handleChange}
                         className="select search-options"
                       >
-                        <option disabled value={""}>
+                        <option value={""}>
                           Search By
                         </option>
                         {search_options.map((op) => (
@@ -292,6 +292,7 @@ function Agencies() {
               <div className="row">
                 <div className="col-lg-12">
                   <AgencyList loading={isLoading} allProviders={allProviders} />
+
                   {/* ltnd__policies-table start */}
                   {/* {policy_actions?.includes("VIEW") ? ( */}
                   {/* <PoliciesList
@@ -303,7 +304,7 @@ function Agencies() {
 
                   {/* <!-- pagination --> */}
                   {allProviders.length > 0 && (
-                    <PaginationFromUI
+                    <Pagination
                       recordsCount={providers_count}
                       pageIndex={providers_page_index}
                       recordsPerPage={providers_per_page}
