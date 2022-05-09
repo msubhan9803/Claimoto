@@ -212,7 +212,7 @@ function Agencies() {
                             value={sort_name}
                             className="nice-select"
                           >
-                            <option disabled value={""}>
+                            <option value={""}>
                               Sort By
                             </option>
                             {search_options.map((op) => (
