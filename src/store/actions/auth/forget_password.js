@@ -22,7 +22,7 @@ export const sendResetPasswordEmail = (email, callBack) => async dispatch => {
             type: SET_RESET_PASSWORD_VALUES,
             payload: { name: "loading", value: true }
         });      
-        let url =  `${process.env.REACT_APP_SELF_URL}/new_password}`;
+        let url =  `${process.env.REACT_APP_SELF_URL}/new_password`;
         let { data } = await instance.get(`/api/ForgotPassword/SendEmail?Email=${email}&Url=${url}`);
         
         if (data) {
