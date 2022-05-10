@@ -20,6 +20,7 @@ import assignProviderScreenReducer from './claims/assign';
 import claimAgenciesScreenReducer from 'store/reducers/claimAgencies';
 import claimGaragesScreenReducer from 'store/reducers/claimGarages';
 import claimSurveyorsScreenReducer from 'store/reducers/claimSurveyors';
+import forgetPasswordReducer from './auth/forget_password';
 
 const rootPersistConfig = {
   key: 'root',
@@ -33,6 +34,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   authReducer: persistReducer(authPersistConfig, authReducer),
+  forgetPasswordReducer:forgetPasswordReducer,
   usersScreenReducer: usersScreenReducer,
   providersScreenReducer: providersScreenReducer,
   addProviderScreenReducer: addProviderScreenReducer,

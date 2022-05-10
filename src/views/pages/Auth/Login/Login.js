@@ -172,11 +172,11 @@ const Login = () => {
                             <p style={{ color: "red" }}>{message}</p>
                           )}
                         />
-                        {/* <div className="btn-normal">
-                                        <Link to="/reset_password" className="ltn__secondary-color">
-                                            Frogot password?
-                                        </Link>
-                                    </div> */}
+                        <div className="btn-normal">
+                          <Link to="/reset_password" className="ltn__secondary-color">
+                            Frogot password?
+                          </Link>
+                        </div>
                         {loading_login ? (
                           <LoaderAnimation />
                         ) : (
