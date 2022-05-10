@@ -1,6 +1,53 @@
-import React from 'react'
-import logo from 'assets/img/logo/logo.png'
+import React, {useEffect} from 'react';
+import logo from 'assets/img/logo/logo.png';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { ErrorMessage } from "@hookform/error-message";
+import { useSelector, useDispatch } from 'react-redux';
+import { setForgetPasswordValues, sendResetPasswordEmail } from 'store/actions/auth/forget_password';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import goBack from "assets/img/icons/mc/png/goback.png"
+
 function NewPassword() {
+    const { Code } = useParams();
+
+
+
+    const dispatch = useDispatch();
+    const { email, loading } = useSelector(state => state.forgetPasswordReducer.values);
+    const navigate = useNavigate();
+    //Form Validtion
+    const formSchema = Yup.object().shape({
+        password: Yup.string().optional()
+        // .required('Password is mendatory')
+        ,
+        confirm_password: Yup.string()
+            // .required('Password is mendatory')
+            .oneOf([Yup.ref('password')], 'Passwords does not match'),
+    });
+
+    const { register, handleSubmit, formState: { errors }, control } = useForm({ mode: "all", resolver: yupResolver(formSchema) });
+
+    const _handleChange = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        dispatch(setForgetPasswordValues({ name, value }));
+    }
+
+    const _onSubmit = data => {
+        dispatch(sendResetPasswordEmail(email, navigate))
+    };
+
+
+    useEffect(() => {
+        return () => {
+            dispatch(setForgetPasswordValues({ name: "email", value: "" }));
+        };
+    }, []);
+
+
     return (
         <React.Fragment>
             {/* Body main wrapper start */}
@@ -23,11 +70,13 @@ function NewPassword() {
                                         type="password"
                                         name="password"
                                         placeholder="Enter your new password"
+                                        className='mt-2'
                                     />
                                     <input
                                         type="password"
                                         name="password-2"
                                         placeholder="Confrim your new password"
+                                        className='mt-3'
                                     />
                                     <div className="btn-wrapper mt-20">
                                         <button
@@ -35,7 +84,7 @@ function NewPassword() {
                                             type="submit"
                                         >
                                             Reset password
-                </button>
+                                        </button>
                                     </div>
                                 </form>
                             </div>
