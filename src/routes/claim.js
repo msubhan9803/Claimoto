@@ -13,6 +13,9 @@ import Agencies from "views/pages/ClaimOffice/Agency/AgencyList/Agencies.js";
 import AgencyDetail from "views/pages/ClaimOffice/Agency/AgencyDetail/AgencyDetail.js";
 import Garage from "views/pages/ClaimOffice/Garage/GarageList/Garages";
 import Surveyor from "views/pages/ClaimOffice/Surveyor/SurveyorList/Surveyor";
+import ClaimAssignToProvider from "components/ClaimOffice/ClaimActions/ClaimAssignToProvider";
+import ClaimAssignToBranch from "components/ClaimOffice/ClaimActions/ClaimAssignToBranch";
+import ViewProvider from "components/Admin/Providers/ViewProvider";
 
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
@@ -155,11 +158,37 @@ export const claimRoutes = ({ userPermissions }) => {
     //_checkPer("APR") &&
     {
       name: "Tasks",
-      path: "/tasks",
-      component: <TaskList />,
       icon: "ti-layout",
       layout: "claim",
+      path: "/tasks",
       short_name: "CD",
+      collapse: true,
+      views : [
+        {
+          name: "Tasks List",
+          path: "/tasks",
+          component: <TaskList />,
+          layout: "claim",
+        },
+        {
+          name: "Assign To Provider",
+          path: "/assign_to_provider/:id/:claim_id",
+          component: <ClaimAssignToProvider />,
+          layout: "claim",
+        },
+        {
+          name: "Assign To Branch",
+          path: "/assign_to_branch/:id/:claim_id",
+          component: <ClaimAssignToBranch />,
+          layout: "claim",
+        },
+        {
+          name: "View Provider",
+          path: "/view_assign_details/:type/:id",
+          component: <ViewProvider />,
+          layout: "claim",
+        },
+      ]
     },
     {
       name: "Calls",

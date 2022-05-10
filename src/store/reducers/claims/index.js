@@ -16,7 +16,9 @@ import {
   HANDLE_CHANGE_INPUT_STATUS,
   HANDLE_CHANGE_INPUT_SCHEDULE_CALL,
   HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
-  SET_USER_PROFILES_LIST
+  SET_USER_PROFILES_LIST,
+  SET_DAY_SLOTS,
+  SET_HOUR_SLOTS
 } from "store/types/claims.js";
 
 const initialState = {
@@ -105,18 +107,21 @@ const initialState = {
     rejection_reason: "",
     internal_comments: "",
     external_comments: "",
-    loading:false
+    loading: false
   },
-  schedule_call_input_values:{
-    selectedDay:"",
-    selectedSlot:"",
-    loading:false
+  schedule_call_input_values: {
+    selectedDay: "",
+    selectedHourSlot:"",
+    selectedSlot: "",
+    loading: false
   },
   leave_message_input_values: {
-    claim_message:"",
-    loading:false
+    claim_message: "",
+    loading: false
   },
   userProfileList: [],
+  day_slots: [],
+  hour_slots:[]
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -259,7 +264,7 @@ const policyReducer = (state = initialState, action) => {
       };
     }
 
-    case HANDLE_CHANGE_INPUT_LEAVE_MESSAGE : {
+    case HANDLE_CHANGE_INPUT_LEAVE_MESSAGE: {
       let { name, value } = action.payload
       return {
         ...state,
@@ -268,6 +273,20 @@ const policyReducer = (state = initialState, action) => {
           [name]: value
         }
       };
+    }
+
+    case SET_DAY_SLOTS: {
+      return {
+        ...state,
+        day_slots: action.payload,
+      }
+    }
+
+    case SET_HOUR_SLOTS: {
+      return {
+        ...state,
+        hour_slots: action.payload,
+      }
     }
 
     default:

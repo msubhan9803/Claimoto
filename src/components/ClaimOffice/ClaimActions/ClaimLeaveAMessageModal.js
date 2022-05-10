@@ -48,11 +48,14 @@ const ClaimLeaveAMessageModal = ({ openModal, toggleModal }) => {
         toggleModal();
         successAlert({title: "Message Sent Successfully", text:""});
         // navigate("/claim/tasks?tab=0");
-        navigate(0);
+        // navigate(0);
     }
 
     const _initialHandle = () => {
-        let payload = {};
+        let payload = {
+            claim_id:params.id,
+            message:claim_message
+        };
         dispatch(sendMessagePolicyHolder(payload, _initialHandleClaimCallBack));
     }
 

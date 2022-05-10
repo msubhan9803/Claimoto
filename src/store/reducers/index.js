@@ -16,9 +16,13 @@ import providerServicesScreenReducer from 'store/reducers/providers/provider_ser
 import providerServicesPriceScreenReducer from 'store/reducers/providers/service_prices';
 import taskListScreenReducer from 'store/reducers/taskList/index';
 import claimsScreenReducer from 'store/reducers/claims/index';
+<<<<<<< HEAD
 import claimAgenciesScreenReducer from 'store/reducers/claimAgencies';
 import claimGaragesScreenReducer from 'store/reducers/claimGarages';
 import claimSurveyorsScreenReducer from 'store/reducers/claimSurveyors';
+=======
+import assignProviderScreenReducer from './claims/assign';
+>>>>>>> a4c46e78b3b92274c3044f12cbd61bd86a281b25
 
 const rootPersistConfig = {
   key: 'root',
@@ -47,7 +51,8 @@ const rootReducer = combineReducers({
   claimsReducer: claimsScreenReducer,
   claimAgenciesReducer: claimAgenciesScreenReducer,
   claimGaragesReducer: claimGaragesScreenReducer,
-  claimSurveyorsReducer: claimSurveyorsScreenReducer
+  claimSurveyorsReducer: claimSurveyorsScreenReducer,
+  assignProviderScreenReducer:assignProviderScreenReducer
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)
