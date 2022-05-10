@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import logo from 'assets/img/logo/logo.png';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -11,7 +11,7 @@ import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import goBack from "assets/img/icons/mc/png/goback.png"
 
 function NewPassword() {
-    const { Code } = useParams();
+    let [searchParams, setSearchParams] = useSearchParams();
 
 
 
@@ -37,7 +37,7 @@ function NewPassword() {
     }
 
     const _onSubmit = data => {
-        dispatch(setNewPassword({password, Code}, navigate))
+        dispatch(setNewPassword({password, Code:searchParams.get("Code")}, navigate))
     };
 
 
