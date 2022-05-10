@@ -41,3 +41,30 @@ export const sendResetPasswordEmail = (email, callBack) => async dispatch => {
         });  
     }
 }
+
+
+export const setNewPassword = (payload, callBack) => async dispatch => {
+    try {
+        let {password, Code} = payload;
+        dispatch({
+            type: SET_RESET_PASSWORD_VALUES,
+            payload: { name: "loading", value: true }
+        });   
+        let { data } = await instance.put(`/api/ForgotPassword/ResetPassword`, payload);
+        
+        if (data) {
+            dispatch({
+                type: SET_RESET_PASSWORD_VALUES,
+                payload: { name: "loading", value: false }
+            });  
+            callBack("/password_success");
+        }
+
+    }
+    catch (err) {
+        dispatch({
+            type: SET_RESET_PASSWORD_VALUES,
+            payload: { name: "loading", value: false }
+        });  
+    }
+}

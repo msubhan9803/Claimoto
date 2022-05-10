@@ -5,7 +5,9 @@ import { SET_RESET_PASSWORD_VALUES,  } from 'store/types/auth';
 const initialState = {
     values: {
         email: "",
-        loading:""
+        loading:"",
+        password:"",
+        confirm_password:""
     }
 };
 
@@ -27,5 +29,8 @@ const forgetPasswordReducer = (state = initialState, action) => {
             return { ...state };
     }
 }
+
+
+
 
 export default forgetPasswordReducer;

@@ -34,6 +34,7 @@ function ResetPassword() {
 
     useEffect(() => {
         return () => {
+            dispatch(setForgetPasswordValues({ name: "loading", value: false }));
             dispatch(setForgetPasswordValues({ name: "email", value: "" }));
         };
     }, []);
