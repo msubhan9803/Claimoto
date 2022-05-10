@@ -147,11 +147,12 @@ export const GetClaimActionsByRoleId = (roleId) => async (dispatch) => {
   }
 };
 
-// GET /api/AuthorityMatrix/UserProfiles
+// GET /api/AClaims/UserProfiles
 export const GetCivilIdBySearchVal = async (civilIdSearch) => {
   try {
     return await instance.get(
-      "api/AuthorityMatrix/UserProfiles?SearchText=" + civilIdSearch
+      // "api/AuthorityMatrix/UserProfiles?SearchText=" + civilIdSearch
+      "api/Claims/UserProfiles?SearchText=" + civilIdSearch
     );
     // dispatch({ type: SET_USER_PROFILES_LIST, payload: res.data });
   } catch (err) {
