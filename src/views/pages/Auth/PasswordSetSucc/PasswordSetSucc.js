@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 function PasswordSetSuccess() {
     return (
         <React.Fragment>
@@ -17,10 +17,10 @@ function PasswordSetSuccess() {
                                 <div className="section-title-area ">
                                     <h1 className="section-title">
                                         Password has been reset successfully
-              </h1>
+                                    </h1>
                                     <p>
                                         You can now login with your new <br /> password
-              </p>
+                                    </p>
                                 </div>
                                 <div className="btn-wrapper mt-30">
                                     <Link
@@ -29,7 +29,7 @@ function PasswordSetSuccess() {
                                         type="submit"
                                     >
                                         Login
-              </Link>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
