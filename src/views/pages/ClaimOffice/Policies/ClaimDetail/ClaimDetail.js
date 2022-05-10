@@ -188,7 +188,7 @@ const ClaimDetail = (props) => {
       if (params.id) {
         dispatch(GetClaimDetails(params.id));
         let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
-        dispatch(GetClaimActionsByRoleId(userDetials.RoleId));
+        dispatch(GetClaimActionsByRoleId(userDetials.RoleId,params.id));
       }
     }
   }, [params.id, type, dispatch]);
