@@ -74,6 +74,16 @@ export const assignClaimToBranch = (payload) => async dispatch => {
 }
 
 
+export const assignClaimToSurveyor = (payload) => async dispatch => {
+    try {
+        let { data } = await instance.post("/api/Surveyour/SurveyourClaimsAssigned", payload);
+        successAlert({title:"Claim Assigned Successfully"});
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
-import { getAssignProvider, changeHandlerAssignProvider } from 'store/actions/taskList/assign';
+import { getAssignProvider, changeHandlerAssignProvider, assignClaimToSurveyor } from 'store/actions/taskList/assign';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -55,6 +55,13 @@ const AssignProviderGrid = () => {
     }
 
 
+    const _assignClaimToSurveyor = (surveyorId) => {
+        dispatch(assignClaimToSurveyor({
+            SurveyourId:surveyorId,
+            CS_Id:claim_id
+        }))
+    }
+
     useEffect(() => {
         _getList();
     }, [page_index]);
@@ -63,6 +70,8 @@ const AssignProviderGrid = () => {
     useEffect(() => {
         _paginationHandler(1);
     }, []);
+
+
 
 
 
@@ -130,7 +139,7 @@ const AssignProviderGrid = () => {
                                                         <li className="table-data-2 text-primary float-end">
                                                             <strong>
                                                                 <a
-                                                                    // onClick={() => _assignClaimToBranch(record.AgencyGarageId)}
+                                                                    onClick={() => _assignClaimToSurveyor(record.AgencyGarageId)}
                                                                     role="button">Assign</a>
                                                             </strong>
                                                         </li>
