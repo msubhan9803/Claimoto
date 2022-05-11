@@ -59,7 +59,7 @@ export const setNewPassword = (payload, callBack) => async dispatch => {
             ...payload, ...user
         }
 
-        let { data } = await instance.post("api/ForgotPassword/ResetPassword", { updatePasswordUser : _payload});
+        let { data } = await instance.post("api/ForgotPassword/ResetPassword",  _payload);
         
         if (data) {
             dispatch({
