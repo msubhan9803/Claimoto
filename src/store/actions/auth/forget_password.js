@@ -1,7 +1,7 @@
 
 
-import { SET_RESET_PASSWORD_VALUES } from '../../types/auth'
-import instance from 'config/axios/instance'
+import { SET_RESET_PASSWORD_VALUES } from '../../types/auth';
+import instance from 'config/axios/instance';
 import jwtDecode from 'jwt-decode';
 
 
@@ -59,7 +59,7 @@ export const setNewPassword = (payload, callBack) => async dispatch => {
             ...payload, ...user
         }
 
-        let { data } = await instance.post(`/api/ForgotPassword/ResetPassword`, { updatePasswordUser : _payload});
+        let { data } = await instance.post("api/ForgotPassword/ResetPassword", { updatePasswordUser : _payload});
         
         if (data) {
             dispatch({
