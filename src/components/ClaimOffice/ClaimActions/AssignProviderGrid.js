@@ -121,11 +121,20 @@ const AssignProviderGrid = () => {
                                                             <Link to={`/claim/view_assign_details/${id}/${record.AgencyGarageId}`} >View Details</Link>
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-2 text-primary float-end">
-                                                        <strong>
-                                                            <Link to={`/claim/assign_to_branch/${record.AgencyGarageId}/${claim_id}`}>Branches</Link>
-                                                        </strong>
-                                                    </li>
+                                                    {id < 3 ?
+                                                        <li className="table-data-2 text-primary float-end">
+                                                            <strong>
+                                                                <Link to={`/claim/assign_to_branch/${record.AgencyGarageId}/${claim_id}`}>Branches</Link>
+                                                            </strong>
+                                                        </li> :
+                                                        <li className="table-data-2 text-primary float-end">
+                                                            <strong>
+                                                                <a
+                                                                    // onClick={() => _assignClaimToBranch(record.AgencyGarageId)}
+                                                                    role="button">Assign</a>
+                                                            </strong>
+                                                        </li>
+                                                    }
 
 
                                                 </ul>

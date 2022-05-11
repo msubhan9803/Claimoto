@@ -60,6 +60,32 @@ function ClaimAssignToProvider() {
     }, [search_text, search_option, sort_name]);
 
 
+    
+    const _getProviderName = () => {
+        switch (id) {
+            case "1":
+                return "Garages";
+                break;
+
+            case "2":
+                return "Agencies";
+                break;
+
+            case "3":
+                return "Replacement Cars";
+                break;
+
+            case "4":
+                return "Surveyors";
+                break;
+
+            default:
+                return "";
+                break;
+        }
+    }
+
+
 
     return (
         <React.Fragment>
@@ -74,7 +100,7 @@ function ClaimAssignToProvider() {
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="ltnd__page-title-area">
-                                    <h2>{id === "1" ? "Garages" : "Agencies"}</h2>
+                                    <h2>{_getProviderName()}</h2>
                                 </div>
                             </div>
 

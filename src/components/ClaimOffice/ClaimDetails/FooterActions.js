@@ -10,7 +10,7 @@ export default function FooterActions({
   claimActionPermissions,
   showFooterButtonsState,
 }) {
-  const {id} = useParams();
+  const { id } = useParams();
   const [otherCallActions, setOtherCallActions] = useState(false);
   const initialState = {
     openModal: false,
@@ -123,7 +123,7 @@ export default function FooterActions({
                     )}
                   </li>
                 )} */}
-{/* 
+                {/* 
                 {showFooterButtonsState.viewEstimation && (
                   <li>
                     <a class="ltn__secondary-color--- ltn__color-9---" href="#">
@@ -134,13 +134,7 @@ export default function FooterActions({
 
 
 
-                {showFooterButtonsState.assignToSurveyor && (
-                  <li>
-                    <a class="ltn__secondary-color--- ltn__color-9---" href="#">
-                      <strong>Assign to surveyor</strong>
-                    </a>
-                  </li>
-                )}
+                
 
                 {showFooterButtonsState.finalSettlement && (
                   <li>
@@ -157,6 +151,15 @@ export default function FooterActions({
                     </a>
                   </li>
                 )} */}
+
+
+                {/* {showFooterButtonsState.assignToSurveyor && ( */}
+                  <li>
+                    <Link to={`/claim/assign_to_provider/4/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Surveyor</strong></Link>
+
+                  </li>
+                {/* )} */}
+
 
                 {showFooterButtonsState.assignToGarageAgency && (
                   <li>
