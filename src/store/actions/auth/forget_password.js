@@ -52,12 +52,12 @@ export const setNewPassword = (payload, callBack) => async dispatch => {
             payload: { name: "loading", value: true }
         });   
         
-        let _payload = {
+        let updatePasswordUser = {
             ...payload, ...user
         }
 
         let user = jwtDecode(payload.Code);
-        let { data } = await instance.post(`/api/ForgotPassword/ResetPassword`, {_payload});
+        let { data } = await instance.post(`/api/ForgotPassword/ResetPassword`, {updatePasswordUser});
         
         if (data) {
             dispatch({
