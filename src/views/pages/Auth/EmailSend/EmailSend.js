@@ -17,14 +17,14 @@ function EmailSend() {
                                     <h1 className="section-title">Verify your email address</h1>
                                     <p>
                                         You are one step away! Please verify your <br /> email address
-      </p>
+                                    </p>
                                 </div>
                                 <div className="btn-normal mt-25">
                                     <span>
                                         Didn't receive an Email yet?{" "}
                                         <span className="ltn__secondary-color" style={{ fontWeight: '600' }}>
                                             Resend email
-        </span>
+                                        </span>
                                     </span>
                                 </div>
                             </div>
@@ -35,10 +35,10 @@ function EmailSend() {
                 {/* Body Content Area End */}
             </div>
             Body main wrapper end
-    
-    
-    
-</React.Fragment>
+
+
+
+        </React.Fragment>
 
     )
 }
