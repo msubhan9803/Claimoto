@@ -41,7 +41,7 @@ export const AuthRoutes = () => {
             component: <ResetPassword /> ,
             layout: "/",
         }, {
-            path: "/reset_passwordEmail",
+            path: "/reset_password_email",
             component: <RestPassEmail /> ,
             layout: "/",
         }, {

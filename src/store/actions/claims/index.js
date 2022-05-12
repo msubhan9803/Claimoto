@@ -138,9 +138,9 @@ export const GetProductDetails =
   };
 
 // GET /api/Claims/ClaimActions
-export const GetClaimActionsByRoleId = (roleId) => async (dispatch) => {
+export const GetClaimActionsByRoleId = (roleId, claimId) => async (dispatch) => {
   try {
-    let res = await instance.get("api/Claims/ClaimActions?Id=" + roleId);
+    let res = await instance.get(`api/Claims/ClaimActions?RoleId=${roleId}&ClaimId=${claimId}`);
     console.log("res", res);
     dispatch({ type: SET_ACTION_PERMISSIONS, payload: res.data });
   } catch (err) {
