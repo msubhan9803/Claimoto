@@ -1,7 +1,8 @@
 import {
   SET_PAGINATED_REQUEST,
   CHANGE_HANDLER_PROVIDER,
-  PROVIDERS_LIST_TABLE_DATA_CHANGE
+  PROVIDERS_LIST_TABLE_DATA_CHANGE,
+  CLEAR_PROVIDER_LIST_DATA
 } from "store/types/claimAgencies";
 
 const initialState = {
@@ -65,6 +66,13 @@ const claimAgencies = (state = initialState, action) => {
           ...state.providerListTableFilterData,
           [action.payload.name]: action.payload.value,
         },
+      };
+    }
+
+    case CLEAR_PROVIDER_LIST_DATA: {
+      return {
+        ...state,
+        providerListTableFilterData: initialState.providerListTableFilterData
       };
     }
 

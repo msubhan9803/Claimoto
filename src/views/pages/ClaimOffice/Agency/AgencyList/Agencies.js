@@ -3,7 +3,7 @@ import PoliciesList from "components/ClaimOffice/Policies/PoliciesList/PoliciesL
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducType } from "store/actions/product";
-import { SetPaginatedAgenciesGarages, HandleTableInputValue } from "store/actions/claimAgencies";
+import { SetPaginatedAgenciesGarages, HandleTableInputValue, ClearProviderListData } from "store/actions/claimAgencies";
 import SortArray from "sort-array";
 import Fuse from "fuse.js";
 import Pagination from "components/Pagination/Pagination";
@@ -51,6 +51,8 @@ function Agencies() {
       sort_name,
       sort_type
     ));
+    
+    return () => dispatch(ClearProviderListData());
   }, []);
 
   useEffect(() => {

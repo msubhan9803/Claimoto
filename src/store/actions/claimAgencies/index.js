@@ -3,7 +3,8 @@ import { SweetAlert, successAlert } from "functions";
 import {
     SET_PAGINATED_REQUEST,
     CHANGE_HANDLER_PROVIDER,
-    PROVIDERS_LIST_TABLE_DATA_CHANGE
+    PROVIDERS_LIST_TABLE_DATA_CHANGE,
+    CLEAR_PROVIDER_LIST_DATA
 } from "store/types/claimAgencies";
 
 // Get paginated Agencies, Garages & Surveyors list
@@ -17,7 +18,21 @@ export const SetPaginatedAgenciesGarages = (
     sort_type
 ) => async dispatch => {
     try {
-        let { data } = await instance.get(`/api/AgencyGarage/AgencyGarage?PageIndex=${providers_page_index}&PageSize=${providers_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${providerTypeId}`);
+        let sortNameTemp = "";
+        if (sort_name === "Surveyor" || sort_name === "Garage") {
+            sortNameTemp = "Name";
+        } else {
+            sortNameTemp = sort_name;
+        }
+
+        let sortOptionTemp = "";
+        if (search_option === "Surveyor" || search_option === "Garage") {
+            sortOptionTemp = "Name";
+        } else {
+            sortOptionTemp = search_option;
+        }
+
+        let { data } = await instance.get(`/api/AgencyGarage/AgencyGarage?PageIndex=${providers_page_index}&PageSize=${providers_per_page}&SearchText=${search_text}&SearchOption=${sortOptionTemp}&SortType=${sort_type}&SortName=${sortNameTemp}&ProviderTypeId=${providerTypeId}`);
         dispatch({
             type: SET_PAGINATED_REQUEST,
             payload: {
@@ -32,11 +47,19 @@ export const SetPaginatedAgenciesGarages = (
 
 export const HandleTableInputValue = ({ name, value }) => (dispatch) => {
     try {
-        console.log("new name: ", name)
-        console.log("new index: ", value)
         dispatch({
             type: PROVIDERS_LIST_TABLE_DATA_CHANGE,
             payload: { name, value },
+        });
+    } catch (err) {
+        console.log("err", err);
+    }
+};
+
+export const ClearProviderListData = () => (dispatch) => {
+    try {
+        dispatch({
+            type: CLEAR_PROVIDER_LIST_DATA
         });
     } catch (err) {
         console.log("err", err);

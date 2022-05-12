@@ -1,7 +1,7 @@
 import React, { createRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducType } from "store/actions/product";
-import { SetPaginatedAgenciesGarages, HandleTableInputValue } from "store/actions/claimAgencies";
+import { SetPaginatedAgenciesGarages, HandleTableInputValue, ClearProviderListData } from "store/actions/claimAgencies";
 import Pagination from "components/Pagination/Pagination";
 import { getAllowActions } from "functions";
 import ADAnimation from "components/AccessDenied/ADAnimation";
@@ -47,6 +47,8 @@ function Garages() {
       sort_name,
       sort_type
     ));
+    
+    return () => dispatch(ClearProviderListData());
   }, []);
 
   useEffect(() => {
