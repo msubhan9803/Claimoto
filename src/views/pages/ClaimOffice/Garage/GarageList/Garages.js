@@ -235,9 +235,9 @@ function Garages() {
                             <option key={"asc"} value={"asc"}>
                               Ascending
                             </option>
-                            <option key={"desc"} value={"desc"}>
+                            {/* <option key={"desc"} value={"desc"}>
                               Descending
-                            </option>
+                            </option> */}
                           </select>
                         </div>
                       </li>

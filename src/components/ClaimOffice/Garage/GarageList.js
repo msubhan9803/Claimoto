@@ -44,17 +44,21 @@ const GaragesList = ({ loading, allProviders }) => {
                             {record.Name}
                           </strong>
                         </li>
-                        <li className="table-data-3">
+                        <li className="table-data-3 dot_pending">
+                          <span class="dot_assign_provider"></span>
                           {record?.AssignedClaims || ""}
                         </li>
-                        <li className="table-data-4">
-                          {record?.Pending}
+                        <li className="table-data-4 dot_pending">
+                          <span class="dot_assign_provider"></span>
+                          <b>{record?.Pending}</b>
                         </li>
-                        <li className="table-data-6">
-                          {record?.Under_Repair}
+                        <li className="table-data-6 dot_under_assesment">
+                            <span class="dot_assign_provider "></span>
+                            <b>{record?.Under_Repair}</b>
                         </li>
-                        <li className="table-data-6">
-                          {record?.Closed}
+                        <li className="table-data-6 dot_close">
+                          <span class="dot_assign_provider "></span>
+                          <b>{record?.Closed}</b>
                         </li>
                         <li className="table-data-7">
                           <strong>

@@ -48,17 +48,21 @@ const SurveyorList = ({ loading, allProviders }) => {
                         {/* <li className="table-data-3">
                           {record?.POCName || ""}
                         </li> */}
-                        <li className="table-data-4">
-                          {record?.AssignedClaims || ""}
+                        <li className="table-data-4 dot_pending">
+                          <span class="dot_assign_provider"></span>
+                          <b>{record?.AssignedClaims}</b>
                         </li>
-                        <li className="table-data-4">
-                          {record?.Pending}
+                        <li className="table-data-4 dot_pending">
+                          <span class="dot_assign_provider"></span>
+                          <b>{record?.Pending}</b>
                         </li>
-                        <li className="table-data-6">
-                          {record?.Under_Repair}
+                        <li className="table-data-6 dot_under_assesment">
+                            <span class="dot_assign_provider "></span>
+                            <b>{record?.Under_Repair}</b>
                         </li>
-                        <li className="table-data-6">
-                          {record?.Closed}
+                        <li className="table-data-6 dot_close">
+                          <span class="dot_assign_provider "></span>
+                          <b>{record?.Closed}</b>
                         </li>
                         <li className="table-data-7">
                           <strong>

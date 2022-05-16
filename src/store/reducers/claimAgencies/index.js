@@ -25,17 +25,17 @@ const initialState = {
       label: "Name",
       value: "Name",
     },
-    {
-      label: "Agency",
-      value: "Agency",
-    },
+    // {
+    //   label: "Agency",
+    //   value: "Agency",
+    // },
     {
       label: "Pending",
       value: "Pending",
     },
     {
       label: "Under Assesment",
-      value: "UnderAssesment",
+      value: "Under_Repair",
     },
     {
       label: "Closed",

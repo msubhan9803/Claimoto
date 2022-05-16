@@ -25,10 +25,10 @@ const initialState = {
       label: "Surveyor",
       value: "Surveyor",
     },
-    {
-      label: "Location",
-      value: "Location",
-    },
+    // {
+    //   label: "Location",
+    //   value: "Location",
+    // },
     {
       label: "Assigned Claims",
       value: "AssignedClaims",
@@ -39,7 +39,7 @@ const initialState = {
     },
     {
       label: "Under Assesment",
-      value: "UnderAssesment",
+      value: "Under_Repair",
     },
     {
       label: "Closed",

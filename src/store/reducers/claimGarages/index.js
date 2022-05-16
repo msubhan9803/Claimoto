@@ -35,7 +35,7 @@ const initialState = {
     },
     {
       label: "Under Assesment",
-      value: "UnderAssesment",
+      value: "Under_Repair",
     },
     {
       label: "Closed",
