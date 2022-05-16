@@ -10,6 +10,7 @@ export default function FooterActions({
   claimActionPermissions,
   showFooterButtonsState,
 }) {
+  console.log("showFooterButtonsState: ", showFooterButtonsState)
   const {id} = useParams();
   const [otherCallActions, setOtherCallActions] = useState(false);
   const initialState = {

@@ -48,13 +48,13 @@ const GaragesList = ({ loading, allProviders }) => {
                           {record?.AssignedClaims || ""}
                         </li>
                         <li className="table-data-4">
-                          {record?.Pending || ""}
+                          {record?.Pending}
                         </li>
                         <li className="table-data-6">
-                          {record?.Under_Repair || ""}
+                          {record?.Under_Repair}
                         </li>
                         <li className="table-data-6">
-                          {record?.Closed || ""}
+                          {record?.Closed}
                         </li>
                         <li className="table-data-7">
                           <strong>

@@ -23,7 +23,7 @@ const SurveyorList = ({ loading, allProviders }) => {
                 <div className="ltn__select-availability-table  d-none d-md-block">
                   <ul className="ltn__select-availability-table-head">
                     <li className="table-data-1">Surveyor</li>
-                    <li className="table-data-3">Location</li>
+                    {/* <li className="table-data-3">Location</li> */}
                     <li className="table-data-6">Assigned Claims</li>
                     <li className="table-data-6">Pending</li>
                     <li className="table-data-7">Under assesment</li>
@@ -45,20 +45,20 @@ const SurveyorList = ({ loading, allProviders }) => {
                             {record.Name}
                           </strong>
                         </li>
-                        <li className="table-data-3">
+                        {/* <li className="table-data-3">
                           {record?.POCName || ""}
-                        </li>
+                        </li> */}
                         <li className="table-data-4">
                           {record?.AssignedClaims || ""}
                         </li>
                         <li className="table-data-4">
-                          {record?.Pending || ""}
+                          {record?.Pending}
                         </li>
                         <li className="table-data-6">
-                          {record?.Under_Repair || ""}
+                          {record?.Under_Repair}
                         </li>
                         <li className="table-data-6">
-                          {record?.Closed || ""}
+                          {record?.Closed}
                         </li>
                         <li className="table-data-7">
                           <strong>

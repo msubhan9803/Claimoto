@@ -242,6 +242,7 @@ const ClaimDetail = (props) => {
   // Action button useEffect
   useEffect(() => {
     if (JSON.stringify(claimActionPermissions) !== "{}") {
+      console.log("claimActionPermissions: ", claimActionPermissions)
       // hanlde permission buttons
       let approve = claimActionPermissions.PrimaryAction.includes(
         actionButtonsListByStatus.approve
@@ -260,58 +261,59 @@ const ClaimDetail = (props) => {
       );
 
       let showContact =
-        claimActionPermissions.OtherAction.includes(
+        claimActionPermissions?.OtherAction?.includes(
           actionButtonsListByStatus.call
         ) &&
-        claimActionPermissions.OtherAction.includes(
+        claimActionPermissions?.OtherAction?.includes(
           actionButtonsListByStatus.leaveAMessage
         ) &&
-        claimActionPermissions.OtherAction.includes(
+        claimActionPermissions?.OtherAction?.includes(
           actionButtonsListByStatus.scheduleACall
         );
-      let call = claimActionPermissions.OtherAction.includes(
+        console.log("showContact: ", showContact)
+      let call = claimActionPermissions?.OtherAction?.includes(
         actionButtonsListByStatus.call
       );
-      let leaveAMessage = claimActionPermissions.OtherAction.includes(
+      let leaveAMessage = claimActionPermissions?.OtherAction?.includes(
         actionButtonsListByStatus.leaveAMessage
       );
-      let scheduleACall = claimActionPermissions.OtherAction.includes(
+      let scheduleACall = claimActionPermissions?.OtherAction?.includes(
         actionButtonsListByStatus.scheduleACall
       );
 
-      let viewEstimation = claimActionPermissions.PrimaryAction.includes(
+      let viewEstimation = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.viewEstimation
       );
 
-      let assignToSurveyor = claimActionPermissions.PrimaryAction.includes(
+      let assignToSurveyor = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.assignToSurveyor
       );
 
-      let approveTimeEstimate = claimActionPermissions.PrimaryAction.includes(
+      let approveTimeEstimate = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.approveTimeEstimate
       );
 
-      let assignReplacementCar = claimActionPermissions.PrimaryAction.includes(
+      let assignReplacementCar = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.assignReplacementCar
       );
 
-      let readyForDelivery = claimActionPermissions.PrimaryAction.includes(
+      let readyForDelivery = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.readyForDelivery
       );
 
-      let reassign = claimActionPermissions.PrimaryAction.includes(
+      let reassign = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.reassign
       );
 
-      let finalSettlement = claimActionPermissions.PrimaryAction.includes(
+      let finalSettlement = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.finalSettlement
       );
 
-      let repairDetails = claimActionPermissions.PrimaryAction.includes(
+      let repairDetails = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.repairDetails
       );
 
-      let phoneButton = claimActionPermissions.PrimaryAction.includes(
+      let phoneButton = claimActionPermissions?.PrimaryAction?.includes(
         actionButtonsListByStatus.phoneButton
       );
 
