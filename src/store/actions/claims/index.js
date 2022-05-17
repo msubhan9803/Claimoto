@@ -473,7 +473,12 @@ export const getHourSlots = ({to, from}) => async (dispatch) => {
 
 export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) => {
   try {
-    let res = await instance.post(`api/ScheduledCallsAndChat/ScheduledCallsAssigned`, payload);
+    let res;
+    if(payload.SC_Id){
+      res = await instance.put(`/api/ScheduledCallsAndChat/ScheduledCallsReAssigned`, payload);
+    }else{
+      res = await instance.post(`api/ScheduledCallsAndChat/ScheduledCallsAssigned`, payload);
+    }
     callback();
   } catch (err) {
     console.log("err", err);

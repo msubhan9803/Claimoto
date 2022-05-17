@@ -14,7 +14,7 @@ import { Calendar } from "react-modern-calendar-datepicker";
 import { confirmAlert } from 'functions';
 
 
-const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id }) => {
+const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id }) => {
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
@@ -66,11 +66,11 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id }) => {
     const _initialHandle = () => {
         let date = new Date(`${selectedDay.month}-${selectedDay.day}-${selectedDay.year}`);
         let payload ={
-            "ClaimId": params.id,
+            "ClaimId": params.id || claim_id,
             "TimeSlotUser": user_details?.UserId || "",
             "TimeSlot": selectedSlot,
             "TimeSlotDate": date,
-            "SCID":sc_id
+            "SC_Id":sc_id
         }
         dispatch(scheduleCallHandleClaim(payload , _callBack));
     }

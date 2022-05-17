@@ -3,17 +3,17 @@ import carImg from 'assets/img/icons/mc/png/3.png';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { getInitials, changeHandlerRule } from 'store/actions/rules';
 import { formatDateTime } from 'functions';
-import { getScheduleCalls } from 'store/actions/scheduleCalls';
+import { getScheduleCalls, cancelScheduledCall } from 'store/actions/scheduleCalls';
 import ClaimScheduleCallModal from '../ClaimActions/ClaimScheduleCallModal';
 import { confirmAlert } from 'functions';
 
 const ScheduledCallGrid = () => {
-
+    const navigate = useNavigate();
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
     let initial_rules_actions = getAllowActions({ permissions, module_name: "IAR" });
@@ -21,6 +21,7 @@ const ScheduledCallGrid = () => {
         openModal: false,
         action: null,
         claim_id: null,
+        sc_id:null
     }
     const [comState, setComState] = useState(initialState);
 
@@ -76,15 +77,17 @@ const ScheduledCallGrid = () => {
     }
 
 
-    const _openModal = () => {
+    const _openModal = (id, claim_id) => {
         setComState({
             ...initialState,
             openModal: true,
+            sc_id:id,
+            claim_id:claim_id
         })
     }
 
-    const _cancelCallHandler = () => {
-
+    const _cancelCallHandler = (id) => {
+        dispatch(cancelScheduledCall(id, navigate(0)))
     }
 
     const _cancelCall = (id) => {
@@ -93,7 +96,7 @@ const ScheduledCallGrid = () => {
                 title: "Are you sure?",
                 text: "",
                 buttonText: "Yes, Cancel it",
-                action: _cancelCallHandler
+                action: () => _cancelCallHandler(id)
             });
         }
     }
@@ -102,7 +105,7 @@ const ScheduledCallGrid = () => {
 
     return (
         <React.Fragment>
-            <ClaimScheduleCallModal sc_id="" title="Reschedule" claim_id={comState.claim_id} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
+            <ClaimScheduleCallModal sc_id={comState.sc_id} title="Reschedule" claim_id={comState.claim_id} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
 
             {
                 loading ? <LoaderAnimation /> :
@@ -155,7 +158,7 @@ const ScheduledCallGrid = () => {
                                                     </li>
                                                     <li className="table-data-4">
                                                         {!initial_rules_actions?.includes("UPDATE") &&
-                                                            <strong role="button" onClick={_openModal} className='text-primary'>
+                                                            <strong role="button" onClick={()=>_openModal(record?.SC_Id, record?.ClaimId)} className='text-primary'>
                                                                 Reschedule
                                                             </strong>
                                                         }
