@@ -195,8 +195,9 @@ export const claimRoutes = ({ userPermissions }) => {
       name: "Scheduled Calls",
       component: <ScheduledCallList />,
       collapse: true,
-      path: "/scheduled_call",
+      path: "/scheduled_call",  
       icon: "ti-layout",
+      layout: "claim",
       short_name: "CD",
       views: [
         {
