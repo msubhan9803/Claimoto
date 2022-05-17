@@ -11,9 +11,10 @@ import { successAlert } from 'functions';
 
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar } from "react-modern-calendar-datepicker";
+import { confirmAlert } from 'functions';
 
 
-const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
+const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id }) => {
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
@@ -57,7 +58,7 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
         // let userDetails = jwt_decode(localStorage.getItem(localStorageVarible));
         // dispatch(GetClaimActionsByRoleId(userDetails.RoleId));
         toggleModal();
-        successAlert({ title: "Call Scheduled Successfully", text: "" });
+        successAlert({ title: `Call ${sc_id ? "Rescheduled" :"Scheduled"}  Successfully`, text: "" });
         // navigate("/claim/tasks?tab=0");
         navigate(0);
     }
@@ -68,10 +69,12 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
             "ClaimId": params.id,
             "TimeSlotUser": user_details?.UserId || "",
             "TimeSlot": selectedSlot,
-            "TimeSlotDate": date
+            "TimeSlotDate": date,
+            "SCID":sc_id
         }
-            dispatch(scheduleCallHandleClaim(payload , _callBack));
+        dispatch(scheduleCallHandleClaim(payload , _callBack));
     }
+
 
 
         const animatedComponents = makeAnimated();
@@ -99,7 +102,7 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal }) => {
                     <div className="modal-body">
                         <div className="ltnd__adding-modal-inner">
                             <div className="section-title-area text-center mb-30---">
-                                <h1 className="section-title">Schedule a Call</h1>
+                                <h1 className="section-title">{title}</h1>
                             </div>
                             <div className="row">
 

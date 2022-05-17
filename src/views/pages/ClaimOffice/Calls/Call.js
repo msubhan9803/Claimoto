@@ -15,17 +15,19 @@ import Message from '../Message/Message';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CountdownTimer from './CountdownTimer';
+import { useParams } from 'react-router-dom';
+import { capitalizeFirstLetter } from 'functions';
 
 const client = AgoraRTC.createClient({ codec: 'h264', mode: 'rtc' });
 
 function Call() {
-    const { user_details } = useSelector(state => state.authReducer);
 
+    const {username, channel} = useParams();
+    const { user_details } = useSelector(state => state.authReducer);
     const [appid, setAppid] = "5f611f72fa2d48798a9d13cc723447da" || process.env.REACT_APP_AGORA_APPID;
     const [token, setToken] = useState('');
     const [tokenMessage, setTokenMessage] = useState('');
     const [accountName, setAccountName] = useState('');
-    const [channel, setChannel] = useState('HelloWorld');
     const { localAudioTrack, localVideoTrack, leave, join, joinState, remoteUsers, toggleCamera, toggleMic, sendMessage } = useAgora(client);
     const handle = useFullScreenHandle();
     const [audioActive, setAudioActive] = useState(true);
@@ -104,7 +106,6 @@ function Call() {
 
     useEffect(() => {
         setAccountName(user_details.UserId);
-        setChannel("HelloWorld");
         _join();
 
         return () => {
@@ -150,7 +151,7 @@ function Call() {
                         <div className="col-lg-8">
                             <div className='call-header'>
                                 <div className="ltnd__page-title-area">
-                                    <h2>Call With Khaled</h2>
+                                    <h2>Call With {capitalizeFirstLetter(username)}</h2>
                                 </div>
                             </div>
                             <FullScreen handle={handle}>
@@ -166,7 +167,7 @@ function Call() {
 
                                         {/* Name of User on Call */}
                                         <div className="topleft">
-                                            <h3>Khaled</h3>
+                                            <h3>{capitalizeFirstLetter(username)}</h3>
                                         </div>
 
                                         <div className="topright">

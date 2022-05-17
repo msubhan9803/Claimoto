@@ -52,7 +52,7 @@ export default function FooterActions({
   return (
     <>
       <ClaimStatusChangeModal claim_id={id} action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
-      <ClaimScheduleCallModal claim_id={id} toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
+      <ClaimScheduleCallModal sc_id={null} title="Schedule a Call" claim_id={id} toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
       <ClaimLeaveAMessageModal claim_id={id} toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
       {type === "create" || type === "edit" ? (
         <div class="ltnd__footer-1-inner bg-white">
@@ -90,7 +90,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {/* {showFooterButtonsState.showContact && (
+                {showFooterButtonsState.showContact && (
                   <li
                     class="ltnd__footer-btn-dropdown-contact cursor-pointer"
                     onClick={() => setOtherCallActions(!otherCallActions)}
@@ -122,7 +122,7 @@ export default function FooterActions({
                       </div>
                     )}
                   </li>
-                )} */}
+                )}
                 {/* 
                 {showFooterButtonsState.viewEstimation && (
                   <li>
@@ -154,12 +154,17 @@ export default function FooterActions({
 
 
                 {/* {showFooterButtonsState.assignToSurveyor && ( */}
-                  <li>
-                    <Link to={`/claim/assign_to_provider/4/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Surveyor</strong></Link>
+                <li>
+                  <Link to={`/claim/assign_to_provider/4/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Surveyor</strong></Link>
 
-                  </li>
+                </li>
                 {/* )} */}
 
+                {/* {showFooterButtonsState.assignReplacementCar && ( */}
+                <li>
+                  <Link to={`/claim/assign_to_provider/3/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign Replacement Car</strong></Link>
+                </li>
+                {/* )} */}
 
                 {showFooterButtonsState.assignToGarageAgency && (
                   <li>
@@ -177,7 +182,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {showFooterButtonsState.leaveAMessage && (
+                {/* {showFooterButtonsState.leaveAMessage && (
                   <li>
                     <a class="ltn__secondary-color--- ltn__color-9---"
                       role="button"
@@ -186,7 +191,7 @@ export default function FooterActions({
                       <strong>Leave a Message</strong>
                     </a>
                   </li>
-                )}
+                )} */}
 
                 {showFooterButtonsState.phoneButton && (
                   <li>
@@ -230,13 +235,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {showFooterButtonsState.assignReplacementCar && (
-                  <li>
-                    <a href="#" class="btn theme-btn-1 btn-round-12">
-                      Assign replacement car
-                    </a>
-                  </li>
-                )}
+
 
                 {showFooterButtonsState.readyForDelivery && (
                   <li>

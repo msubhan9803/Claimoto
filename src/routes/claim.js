@@ -16,6 +16,7 @@ import Surveyor from "views/pages/ClaimOffice/Surveyor/SurveyorList/Surveyor";
 import ClaimAssignToProvider from "components/ClaimOffice/ClaimActions/ClaimAssignToProvider";
 import ClaimAssignToBranch from "components/ClaimOffice/ClaimActions/ClaimAssignToBranch";
 import ViewProvider from "components/Admin/Providers/ViewProvider";
+import ScheduledCallList from "views/pages/ClaimOffice/ScheduledCalls/ScheduledCalls";
 
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
@@ -163,7 +164,7 @@ export const claimRoutes = ({ userPermissions }) => {
       path: "/tasks",
       short_name: "CD",
       collapse: true,
-      views : [
+      views: [
         {
           name: "Tasks List",
           path: "/tasks",
@@ -191,12 +192,29 @@ export const claimRoutes = ({ userPermissions }) => {
       ]
     },
     {
-      name: "Calls",
-      path: "/call",
-      component: <Call />,
+      name: "Scheduled Calls",
+      component: <ScheduledCallList />,
+      collapse: true,
+      path: "/scheduled_call",
       icon: "ti-layout",
-      layout: "claim",
       short_name: "CD",
+      views: [
+        {
+          name: "Scheduled Calls",
+          path: "/scheduled_call",
+          component: <ScheduledCallList />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "CD",
+        },
+        {
+          name: "Calls",
+          path: "/call/:channel/:username",
+          component: <Call />,
+          layout: "claim",
+        },
+      ]
     },
+
   ];
 };
