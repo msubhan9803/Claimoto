@@ -232,8 +232,8 @@ function Policies() {
               </div>
               <div className="col-lg-8">
                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
-                  <ul>
-                    <li>
+                  <ul style={{ justifyContent: "flex-start" }}>
+                    <li style={{ marginLeft: "5px" }}>
                       <div className="short-by text-center">
                         <select
                           onChange={_download}
@@ -249,7 +249,7 @@ function Policies() {
                         </select>
                       </div>
                     </li>
-                    <li>
+                    <li style={{ marginLeft: "5px" }}>
                       <div className="short-by text-center">
                         <select
                           onChange={_handleChange}
@@ -268,7 +268,7 @@ function Policies() {
                         </select>
                       </div>
                     </li>
-                    <li>
+                    <li style={{ marginLeft: "5px" }}>
                       <div className="short-by text-center">
                         <select
                           onChange={_handleChange}
@@ -288,7 +288,7 @@ function Policies() {
                         </select>
                       </div>
                     </li>
-                    <li>
+                    <li style={{ marginLeft: "5px" }}>
                       <div className="short-by text-center">
                         <div className="short-by-menu">
                           <select
@@ -306,7 +306,7 @@ function Policies() {
                         </div>
                       </div>
                     </li>
-                    <li>
+                    <li style={{ marginLeft: "5px" }}>
                       <div className="btn-wrapper text-center mt-0 d-none">
                         <CSVExport
                           ref={csv_export}
@@ -324,17 +324,22 @@ function Policies() {
 
                         {/* <ExcleExport /> */}
                       </div>
-                    </li>
-                      <li>
-                        <div className="btn-wrapper text-center mt-0">
-                          <Link
-                            to="/claim/initiate_claim"
-                            className="btn theme-btn-1 btn-round-12"
-                          >
-                            Initiate Claim
-                          </Link>
+                      <li style={{ marginLeft: "5px" }}>
+                        <div class="ltn__checkbox-radio-group inline---">
+                          <label class="ltn__switch-2" style={{ margin: "0px" }}><input type="checkbox" /> <i class="lever"></i> <span class="text">Claim list</span></label>
                         </div>
                       </li>
+                    </li>
+                    <li style={{ marginLeft: "10px" }}>
+                      <div className="btn-wrapper text-center mt-0">
+                        <Link
+                          to="/claim/initiate_claim"
+                          className="btn theme-btn-1 btn-round-12"
+                        >
+                          Initiate Claim
+                        </Link>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -348,9 +353,9 @@ function Policies() {
               <div className="col-lg-12">
                 {/* ltnd__policies-table start */}
                 {/* {policy_actions?.includes("VIEW") ? ( */}
-                  <PoliciesList
-                    policies={_getPaginatedResults(filteredPoliciesList)}
-                  />
+                <PoliciesList
+                  policies={_getPaginatedResults(filteredPoliciesList)}
+                />
                 {/* ) : (
                   <ADAnimation />
                 )} */}

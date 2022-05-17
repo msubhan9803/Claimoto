@@ -112,6 +112,7 @@ export default function InitiateClaimInformation({
                         <DatePicker
                           placeholderText="DD-MM-YYYY"
                           dateFormat="dd/MM/yyyy"
+                          maxDate={new Date()}
                           onChangeRaw={handleDateChangeRaw}
                           onChange={(date) => {
                             return (
