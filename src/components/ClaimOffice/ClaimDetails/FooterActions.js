@@ -123,7 +123,7 @@ export default function FooterActions({
                     )}
                   </li>
                 )}
-                {/* 
+                
                 {showFooterButtonsState.viewEstimation && (
                   <li>
                     <a class="ltn__secondary-color--- ltn__color-9---" href="#">
@@ -150,21 +150,21 @@ export default function FooterActions({
                       <strong>Repair details</strong>
                     </a>
                   </li>
-                )} */}
+                )} 
 
 
-                {/* {showFooterButtonsState.assignToSurveyor && ( */}
+                {showFooterButtonsState.assignToSurveyor && (
                 <li>
                   <Link to={`/claim/assign_to_provider/4/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Surveyor</strong></Link>
 
                 </li>
-                {/* )} */}
+                 )}
 
-                {/* {showFooterButtonsState.assignReplacementCar && ( */}
+                {showFooterButtonsState.assignReplacementCar && (
                 <li>
                   <Link to={`/claim/assign_to_provider/3/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign Replacement Car</strong></Link>
                 </li>
-                {/* )} */}
+                )}
 
                 {showFooterButtonsState.assignToGarageAgency && (
                   <li>

@@ -244,19 +244,19 @@ const ClaimDetail = (props) => {
     if (JSON.stringify(claimActionPermissions) !== "{}") {
       console.log("claimActionPermissions: ", claimActionPermissions)
       // hanlde permission buttons
-      let approve = claimActionPermissions.PrimaryAction.includes(
+      let approve = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.approve
       );
-      let reject = claimActionPermissions.PrimaryAction.includes(
+      let reject = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.reject
       );
-      let assignToGarageAgency = claimActionPermissions.PrimaryAction.includes(
+      let assignToGarageAgency = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.assignToGarageAgency
       );
-      let initialEstimate = claimActionPermissions.PrimaryAction.includes(
+      let initialEstimate = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.initialEstimate
       );
-      let history = claimActionPermissions.PrimaryAction.includes(
+      let history = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.history
       );
 

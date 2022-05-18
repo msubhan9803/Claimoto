@@ -58,9 +58,14 @@ const AssignProviderGrid = () => {
     const _assignClaimToSurveyor = (surveyorId) => {
         dispatch(assignClaimToSurveyor({
             SurveyourId:surveyorId,
-            CS_Id:claim_id
+            CS_Id:claim_id,
+            providerId:id,
+            ClaimId: claim_id,
+            ReplacementCarAgencyId: claim_id,
         }))
     }
+
+
 
     useEffect(() => {
         _getList();
@@ -89,7 +94,7 @@ const AssignProviderGrid = () => {
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-1">Name</li>
-                                            <li className="table-data-1">POC Name</li>
+                                            {/* <li className="table-data-1">POC Name</li> */}
                                             <li className="table-data-2">Pending</li>
                                             <li className="table-data-2">Under Assesment</li>
                                             <li className="table-data-2">Close</li>
@@ -107,11 +112,11 @@ const AssignProviderGrid = () => {
                                                             {record?.Name || ""}
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-1">
+                                                    {/* <li className="table-data-1">
                                                         <strong>
                                                             {record?.POCName || ""}
                                                         </strong>
-                                                    </li>
+                                                    </li> */}
 
                                                     <li className="table-data-2 dot_pending">
                                                         <span class="dot_assign_provider "></span>
