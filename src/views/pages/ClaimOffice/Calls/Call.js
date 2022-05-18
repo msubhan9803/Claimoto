@@ -17,11 +17,13 @@ import axios from 'axios';
 import CountdownTimer from './CountdownTimer';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from 'functions';
+import LoaderAnimation from 'components/Loader/AnimatedLoaded';
+import { successAlert } from 'functions';
 
 const client = AgoraRTC.createClient({ codec: 'h264', mode: 'rtc' });
 
 function Call() {
-
+    const [loading , setLoading] = useState(true);
     const {username, channel} = useParams();
     const { user_details } = useSelector(state => state.authReducer);
     const [appid, setAppid] = "5f611f72fa2d48798a9d13cc723447da" || process.env.REACT_APP_AGORA_APPID;
@@ -102,6 +104,7 @@ function Call() {
         let app_id = "5f611f72fa2d48798a9d13cc723447da";
         // join(app_id, channel, "0065f611f72fa2d48798a9d13cc723447daIADcH9WzYl69vIhT1i1hqyOE8QDJcAJpcwXPOwSEnebS7HkMd3ch39v0EADwO5wwiPJgYgEAAQAYr19i");
         join(app_id, channel, tokenrtc);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -121,6 +124,7 @@ function Call() {
 
     return (
         <React.Fragment>
+            {loading ? <LoaderAnimation /> :
             <div className="body-wrapper">
                 <div className="container-fluid section-video-call">
 
@@ -196,7 +200,7 @@ function Call() {
                                                         <img src={mic_mute_img} />
                                                     </div>
                                                 </div>
-                                                {joinState ?
+                                                {/* {joinState ?
                                                     <div role="button" onClick={() => { leave() }} className='call_action'>
                                                         <div className='call_action_call_end_img'>
                                                             <img src={call_end_img} />
@@ -208,13 +212,18 @@ function Call() {
                                                             <img src={call_end_img} />
                                                         </div>
                                                     </div>
-                                                }
+                                                } */}
+                                                <div role="button" onClick={() => { leave() }} className='call_action'>
+                                                        <div className='call_action_call_end_img'>
+                                                            <img src={call_end_img} />
+                                                        </div>
+                                                    </div>
                                                 <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
                                                     <div className='call_action_img'>
                                                         <img src={off_cam_img} />
                                                     </div>
                                                 </div>
-                                                <div role="button" onClick={() => { handleVideoToggle() }} className={!videoActive ? "active_call_action" : "call_action"}>
+                                                <div role="button" onClick={() => { successAlert({title:"In Progress"}) }} className={"call_action"}>
                                                     <div className='call_action_img'>
                                                         <img src={recording_img} />
                                                     </div>
@@ -248,11 +257,11 @@ function Call() {
 
                         </div>
                         <div className="col-lg-4">
-                            <Message appid={process.env.REACT_APP_AGORA_APPID} token={tokenMessage} accountName={accountName} channel={channel} joinState={joinState} />
+                            <Message appid={process.env.REACT_APP_AGORA_APPID} token={tokenMessage} accountName={accountName} channel={channel} joinState={joinState} setLoading={setLoading} />
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
         </React.Fragment>
     )

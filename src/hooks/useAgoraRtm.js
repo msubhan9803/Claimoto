@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import randomColor from "randomcolor";
 
-const useAgoraRtm = (userName, client, token, accountName, joinState, channelName) => {
+const useAgoraRtm = (userName, client, token, accountName, joinState, channelName, setLoading) => {
   const [messages, setMessages] = useState([]);
   const channel = useRef(client.createChannel(channelName)).current;
   const color = useRef(randomColor({ luminosity: "dark" })).current;
@@ -16,6 +16,7 @@ const useAgoraRtm = (userName, client, token, accountName, joinState, channelNam
         name: userName,
         color,
       });
+      // setLoading(false);
     } catch (error) {
       // initRtm();
     }
