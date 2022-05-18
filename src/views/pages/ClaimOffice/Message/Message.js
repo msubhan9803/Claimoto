@@ -12,7 +12,7 @@ const client = AgoraRTM.createInstance("5f611f72fa2d48798a9d13cc723447da");
 
 // const client = AgoraRTM.createInstance(process.env.REACT_APP_AGORA_APPID);
 const randomUseName = "23421323";
-function Message({ appid, token, channel, joinState, accountName }) {
+function Message({ appid, token, channel, joinState, accountName, setLoading }) {
     const attachment_ref = useRef();
     const [textArea, setTextArea] = useState("");
     const { messages, sendChannelMessage, sendChannelImage } = useAgoraRtm(
@@ -21,7 +21,8 @@ function Message({ appid, token, channel, joinState, accountName }) {
         token,
         accountName,
         joinState,
-        channel
+        channel,
+        setLoading
     );
     const submitMessage = (e) => {
         if (e.charCode === 13) {

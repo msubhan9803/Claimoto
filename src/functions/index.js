@@ -81,7 +81,12 @@ export const formatDateTime = (given_date) => {
     .utcOffset(offset)
     .fromNow();
   // .format("DD-MM-YYYY");
-  return { dateTime, date };
+
+  const toAmPM  = moment(now).utcOffset(offset).format("hh:mm A");
+  const toDate  = moment(now).utcOffset(offset).format("DD-MM-YYYY");
+
+  
+  return { dateTime, date, toAmPM, toDate };
 };
 
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
-import { getAssignProvider, changeHandlerAssignProvider } from 'store/actions/taskList/assign';
+import { getAssignProvider, changeHandlerAssignProvider, assignClaimToSurveyor } from 'store/actions/taskList/assign';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -55,6 +55,13 @@ const AssignProviderGrid = () => {
     }
 
 
+    const _assignClaimToSurveyor = (surveyorId) => {
+        dispatch(assignClaimToSurveyor({
+            SurveyourId:surveyorId,
+            CS_Id:claim_id
+        }))
+    }
+
     useEffect(() => {
         _getList();
     }, [page_index]);
@@ -63,6 +70,8 @@ const AssignProviderGrid = () => {
     useEffect(() => {
         _paginationHandler(1);
     }, []);
+
+
 
 
 
@@ -121,11 +130,20 @@ const AssignProviderGrid = () => {
                                                             <Link to={`/claim/view_assign_details/${id}/${record.AgencyGarageId}`} >View Details</Link>
                                                         </strong>
                                                     </li>
-                                                    <li className="table-data-2 text-primary float-end">
-                                                        <strong>
-                                                            <Link to={`/claim/assign_to_branch/${record.AgencyGarageId}/${claim_id}`}>Branches</Link>
-                                                        </strong>
-                                                    </li>
+                                                    {id < 3 ?
+                                                        <li className="table-data-2 text-primary float-end">
+                                                            <strong>
+                                                                <Link to={`/claim/assign_to_branch/${record.AgencyGarageId}/${claim_id}`}>Branches</Link>
+                                                            </strong>
+                                                        </li> :
+                                                        <li className="table-data-2 text-primary float-end">
+                                                            <strong>
+                                                                <a
+                                                                    onClick={() => _assignClaimToSurveyor(record.AgencyGarageId)}
+                                                                    role="button">Assign</a>
+                                                            </strong>
+                                                        </li>
+                                                    }
 
 
                                                 </ul>
