@@ -65,12 +65,19 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id
 
     const _initialHandle = () => {
         let date = new Date(`${selectedDay.month}-${selectedDay.day}-${selectedDay.year}`);
+        let separate_to_and_from = selectedSlot.split(" to ");
+        let to = separate_to_and_from[1];
+        let from = separate_to_and_from[0];
         let payload ={
             "ClaimId": params.id || claim_id,
             "TimeSlotUser": user_details?.UserId || "",
             "TimeSlot": selectedSlot,
             "TimeSlotDate": date,
-            "SC_Id":sc_id
+            "SC_Id":sc_id,
+            "StartTime":to,
+            "EndTime":from,
+            "Date":date,
+            "AssignedTo":user_details?.UserId || "",
         }
         dispatch(scheduleCallHandleClaim(payload , _callBack));
     }
