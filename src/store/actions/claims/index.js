@@ -477,7 +477,7 @@ export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) =
     if(payload.SC_Id){
       res = await instance.put(`/api/ScheduledCallsAndChat/ScheduledCallsReAssigned`, payload);
     }else{
-      res = await instance.post(`api/ScheduledCallsAndChat/ScheduledCallsAssigned`, payload);
+      res = await instance.post(`/api/ScheduledCallsAndChat`, payload);
     }
     callback();
   } catch (err) {
