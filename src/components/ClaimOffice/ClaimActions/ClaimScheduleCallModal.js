@@ -66,8 +66,8 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id
     const _initialHandle = () => {
         let date = new Date(`${selectedDay.month}-${selectedDay.day}-${selectedDay.year}`);
         let separate_to_and_from = selectedSlot.split(" to ");
-        let to = separate_to_and_from[1];
-        let from = separate_to_and_from[0];
+        let to = separate_to_and_from[0];
+        let from = separate_to_and_from[1];
         let payload ={
             "ClaimId": params.id || claim_id,
             "TimeSlotUser": user_details?.UserId || "",
