@@ -87,7 +87,7 @@ const ScheduledCallGrid = () => {
     }
 
     const _cancelCallHandler = (id) => {
-        dispatch(cancelScheduledCall(id, navigate(0)))
+        dispatch(cancelScheduledCall(id, _getList))
     }
 
     const _cancelCall = (id) => {
