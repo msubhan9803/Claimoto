@@ -30,6 +30,10 @@ function ClaimAssignToBranch() {
 
     }
 
+    const _assignClaimToBranchCallback = () => {
+        navigate(`/claim/claim_detail/${claim_id}`);
+    }
+
 
     const _assignClaimToBranch = (branchId) => {
         let payload = {
@@ -37,7 +41,7 @@ function ClaimAssignToBranch() {
             "AgencyGarageId": id,
             "AgencyGarageBranchId": branchId,
         }
-        dispatch(assignClaimToBranch(payload));
+        dispatch(assignClaimToBranch(payload, _assignClaimToBranchCallback));
     }
 
 

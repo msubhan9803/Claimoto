@@ -9,14 +9,14 @@ import { getAllowActions, capitalizeFirstLetter } from 'functions';
 import { getRejectionReasons, handleChangeInputStatus, initialHandleClaim } from 'store/actions/claims';
 import { successAlert } from 'functions';
 import { GetClaimActionsByRoleId } from 'store/actions/claims';
-import { GetClaimDetails } from 'store/actions/claims';
+// import { GetClaimDetails } from 'store/actions/claims';
 import { localStorageVarible } from "variables";
 import jwt_decode from "jwt-decode";
 import { handleChangeInputMessage } from 'store/actions/claims';
 import { sendMessagePolicyHolder } from 'store/actions/claims';
 
 
-const ClaimLeaveAMessageModal = ({ openModal, toggleModal }) => {
+const ClaimLeaveAMessageModal = ({ openModal, toggleModal, getClaimDetails }) => {
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
@@ -42,13 +42,9 @@ const ClaimLeaveAMessageModal = ({ openModal, toggleModal }) => {
     } 
 
     const _initialHandleClaimCallBack = () => {
-        // dispatch(GetClaimDetails(params.id));
-        // let userDetails = jwt_decode(localStorage.getItem(localStorageVarible));
-        // dispatch(GetClaimActionsByRoleId(userDetails.RoleId));
-        toggleModal();
         successAlert({title: "Message Sent Successfully", text:""});
-        // navigate("/claim/tasks?tab=0");
-        // navigate(0);
+        getClaimDetails();
+        toggleModal()
     }
 
     const _initialHandle = () => {

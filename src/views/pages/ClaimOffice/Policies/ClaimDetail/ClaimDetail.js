@@ -182,15 +182,22 @@ const ClaimDetail = (props) => {
     };
   }, []);
 
-  useEffect(() => {
+
+
+  const _getClaimDetails = () => {
     // If type is equal to view or edit then load claim details state
     if (type === "view" || type === "edit") {
       if (params.id) {
         dispatch(GetClaimDetails(params.id));
         let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
-        dispatch(GetClaimActionsByRoleId(userDetials.RoleId,params.id));
+        dispatch(GetClaimActionsByRoleId(userDetials.RoleId, params.id));
       }
     }
+  }
+
+
+  useEffect(() => {
+    _getClaimDetails();
   }, [params.id, type, dispatch]);
 
   useEffect(() => {
@@ -270,7 +277,7 @@ const ClaimDetail = (props) => {
         claimActionPermissions?.OtherAction?.includes(
           actionButtonsListByStatus.scheduleACall
         );
-        console.log("showContact: ", showContact)
+      console.log("showContact: ", showContact)
       let call = claimActionPermissions?.OtherAction?.includes(
         actionButtonsListByStatus.call
       );
@@ -758,6 +765,7 @@ const ClaimDetail = (props) => {
                       submitBtnRef={submitBtnRef}
                       claimActionPermissions={claimActionPermissions}
                       showFooterButtonsState={showFooterButtonsState}
+                      getClaimDetails={_getClaimDetails}
                     />
                   </div>
                 </div>

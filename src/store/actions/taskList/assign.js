@@ -63,23 +63,23 @@ export const getAssignProviderBranches = ({ provider_id }) => async dispatch => 
 
 
 
-export const assignClaimToBranch = (payload) => async dispatch => {
+export const assignClaimToBranch = (payload, callback) => async dispatch => {
     try {
         let { data } = await instance.post("/api/AgencyGarage/AgencyGarage", payload);
         successAlert({ title: "Claim Assigned Successfully" });
-
+        callback();
     } catch (error) {
         console.log(error);
     }
 }
 
 
-export const assignClaimToSurveyor = (payload) => async dispatch => {
+export const assignClaimToSurveyor = (payload, callback) => async dispatch => {
     try {
         let { data } = payload.providerId === "4" ? await instance.post("/api/Surveyour/SurveyourClaimsAssigned", payload) :
             await instance.post("/api/CarReplacement/ReplacementCarAssigned", payload);
         successAlert({ title: "Claim Assigned Successfully" });
-
+        callback();
     } catch (error) {
         console.log(error);
     }

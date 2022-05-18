@@ -14,7 +14,7 @@ import { localStorageVarible } from "variables";
 import jwt_decode from "jwt-decode";
 
 
-const ClaimStatusChangeModal = ({ openModal, toggleModal, action }) => {
+const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetails }) => {
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
@@ -45,14 +45,9 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action }) => {
     } 
 
     const _initialHandleClaimCallBack = () => {
-        // dispatch(GetClaimDetails(params.id));
-        // let userDetails = jwt_decode(localStorage.getItem(localStorageVarible));
-        // dispatch(GetClaimActionsByRoleId(userDetails.RoleId));
+        getClaimDetails()
         toggleModal();
         successAlert({title: "Status Changed Successfully", text:""});
-        // navigate("/claim/tasks?tab=0");
-        navigate(0);
-        console.log("Success");
     }
 
     const _initialHandle = () => {

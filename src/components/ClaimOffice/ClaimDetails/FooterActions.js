@@ -9,6 +9,7 @@ export default function FooterActions({
   submitBtnRef,
   claimActionPermissions,
   showFooterButtonsState,
+  getClaimDetails
 }) {
   const { id } = useParams();
   const [otherCallActions, setOtherCallActions] = useState(false);
@@ -51,9 +52,9 @@ export default function FooterActions({
 
   return (
     <>
-      <ClaimStatusChangeModal claim_id={id} action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
-      <ClaimScheduleCallModal sc_id={null} title="Schedule a Call" claim_id={id} toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
-      <ClaimLeaveAMessageModal claim_id={id} toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
+      <ClaimStatusChangeModal getClaimDetails={getClaimDetails} claim_id={id} action={comState.action} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
+      <ClaimScheduleCallModal getClaimDetails={getClaimDetails} sc_id={null} title="Schedule a Call" claim_id={id} toggleModal={() => _closeModal("scheduleCallModal")} openModal={comState.scheduleCallModal} />
+      <ClaimLeaveAMessageModal getClaimDetails={getClaimDetails} claim_id={id} toggleModal={() => _closeModal("leaveAMessageModal")} openModal={comState.leaveAMessageModal} />
       {type === "create" || type === "edit" ? (
         <div class="ltnd__footer-1-inner bg-white">
           <div class="ltnd__left btn-normal"></div>

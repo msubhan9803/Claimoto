@@ -3,7 +3,7 @@ import carImg from 'assets/img/icons/mc/png/3.png';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { getAssignProvider, changeHandlerAssignProvider, assignClaimToSurveyor } from 'store/actions/taskList/assign';
@@ -12,7 +12,7 @@ import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons
 
 const AssignProviderGrid = () => {
     let { id, claim_id } = useParams();
-
+    const navigate = useNavigate()
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
 
@@ -54,6 +54,9 @@ const AssignProviderGrid = () => {
         }));
     }
 
+    const _assignClaimToSurveyorCallback = () => {
+        navigate(`/claim/claim_detail/${claim_id}`);
+    }
 
     const _assignClaimToSurveyor = (surveyorId) => {
         dispatch(assignClaimToSurveyor({
@@ -62,7 +65,8 @@ const AssignProviderGrid = () => {
             providerId:id,
             ClaimId: claim_id,
             ReplacementCarAgencyId: claim_id,
-        }))
+        }, _assignClaimToSurveyorCallback));
+        
     }
 
 
