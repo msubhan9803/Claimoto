@@ -105,7 +105,7 @@ const ScheduledCallGrid = () => {
 
     return (
         <React.Fragment>
-            <ClaimScheduleCallModal sc_id={comState.sc_id} title="Reschedule" claim_id={comState.claim_id} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
+            <ClaimScheduleCallModal getClaimDetails={_getList} sc_id={comState.sc_id} title="Reschedule" claim_id={comState.claim_id} toggleModal={() => _closeModal("openModal")} openModal={comState.openModal} />
 
             {
                 loading ? <LoaderAnimation /> :
