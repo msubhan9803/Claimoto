@@ -73,7 +73,8 @@ const photoTypeIdList = {
 const actionButtonsListByStatus = {
   approve: "Approve",
   reject: "Reject",
-  assignToGarageAgency: "Assign to garage/agency",
+  assignToGarage: "Assign to garage",
+  assignToAgency: "Assign to agency",
   call: "Call",
   leaveAMessage: "Leave a message",
   scheduleACall: "Schedule a call",
@@ -144,6 +145,7 @@ const ClaimDetail = (props) => {
     approve: false,
     reject: false,
     assignToGarageAgency: false,
+    assignToAgency: false,
     showContact: false,
     call: false,
     leaveAMessage: false,
@@ -257,8 +259,11 @@ const ClaimDetail = (props) => {
       let reject = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.reject
       );
-      let assignToGarageAgency = claimActionPermissions.PrimaryAction?.includes(
-        actionButtonsListByStatus.assignToGarageAgency
+      let assignToGarage = claimActionPermissions.PrimaryAction?.includes(
+        actionButtonsListByStatus.assignToGarage
+      );
+      let assignToAgency = claimActionPermissions.PrimaryAction?.includes(
+        actionButtonsListByStatus.assignToAgency
       );
       let initialEstimate = claimActionPermissions.PrimaryAction?.includes(
         actionButtonsListByStatus.initialEstimate
@@ -328,7 +333,8 @@ const ClaimDetail = (props) => {
         ...showFooterButtonsState,
         approve: approve,
         reject: reject,
-        assignToGarageAgency: assignToGarageAgency,
+        assignToGarage: assignToGarage,
+        assignToAgency: assignToAgency,
 
         showContact: showContact,
         call: call,

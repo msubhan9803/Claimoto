@@ -167,7 +167,7 @@ export default function FooterActions({
                 </li>
                 )}
 
-                {showFooterButtonsState.assignToGarageAgency && (
+                {showFooterButtonsState.assignToGarage && (
                   <li>
 
                     <Link to={`/claim/assign_to_provider/1/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Garage</strong></Link>
@@ -175,7 +175,7 @@ export default function FooterActions({
                   </li>
                 )}
 
-                {showFooterButtonsState.assignToGarageAgency && (
+                {showFooterButtonsState.assignToAgency && (
                   <li>
 
                     <Link to={`/claim/assign_to_provider/2/${id}`} className="ltn__secondary-color--- ltn__color-9---"><strong>Assign to Agency</strong></Link>
