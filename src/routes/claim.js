@@ -37,6 +37,40 @@ export const claimRoutes = ({ userPermissions }) => {
       short_name: "CD",
     },
     {
+      name: "Tasks",
+      icon: "ti-layout",
+      layout: "claim",
+      path: "/tasks",
+      short_name: "CD",
+      collapse: true,
+      views: [
+        {
+          name: "Tasks List",
+          path: "/tasks",
+          component: <TaskList />,
+          layout: "claim",
+        },
+        {
+          name: "Assign To Provider",
+          path: "/assign_to_provider/:id/:claim_id",
+          component: <ClaimAssignToProvider />,
+          layout: "claim",
+        },
+        {
+          name: "Assign To Branch",
+          path: "/assign_to_branch/:id/:claim_id",
+          component: <ClaimAssignToBranch />,
+          layout: "claim",
+        },
+        {
+          name: "View Provider",
+          path: "/view_assign_details/:type/:id",
+          component: <ViewProvider />,
+          layout: "claim",
+        },
+      ]
+    },
+    {
       name: "Policies",
       path: "/policies",
       icon: "ti-clipboard",
@@ -157,40 +191,7 @@ export const claimRoutes = ({ userPermissions }) => {
       ],
     },
     //_checkPer("APR") &&
-    {
-      name: "Tasks",
-      icon: "ti-layout",
-      layout: "claim",
-      path: "/tasks",
-      short_name: "CD",
-      collapse: true,
-      views: [
-        {
-          name: "Tasks List",
-          path: "/tasks",
-          component: <TaskList />,
-          layout: "claim",
-        },
-        {
-          name: "Assign To Provider",
-          path: "/assign_to_provider/:id/:claim_id",
-          component: <ClaimAssignToProvider />,
-          layout: "claim",
-        },
-        {
-          name: "Assign To Branch",
-          path: "/assign_to_branch/:id/:claim_id",
-          component: <ClaimAssignToBranch />,
-          layout: "claim",
-        },
-        {
-          name: "View Provider",
-          path: "/view_assign_details/:type/:id",
-          component: <ViewProvider />,
-          layout: "claim",
-        },
-      ]
-    },
+
     {
       name: "Scheduled Calls",
       component: <ScheduledCallList />,
