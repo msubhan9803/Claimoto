@@ -24,11 +24,11 @@ const SurveyorList = ({ loading, allProviders }) => {
                   <ul className="ltn__select-availability-table-head">
                     <li className="table-data-1">Surveyor</li>
                     {/* <li className="table-data-3">Location</li> */}
-                    <li className="table-data-6">Assigned Claims</li>
-                    <li className="table-data-6">Pending</li>
-                    <li className="table-data-7">Under assesment</li>
-                    <li className="table-data-7">Closed</li>
-                    <li className="table-data-8">Details</li>
+                    <li className="table-data-2">Assigned Claims</li>
+                    <li className="table-data-2">Pending</li>
+                    <li className="table-data-2">Under assesment</li>
+                    <li className="table-data-2">Closed</li>
+                    <li className="table-data-2">Details</li>
                   </ul>
                   {allProviders.map((record) => {
                     return (
@@ -48,23 +48,23 @@ const SurveyorList = ({ loading, allProviders }) => {
                         {/* <li className="table-data-3">
                           {record?.POCName || ""}
                         </li> */}
-                        <li className="table-data-4 dot_pending">
+                        <li className="table-data-2 dot_pending">
                           <span class="dot_assign_provider"></span>
                           <b>{record?.AssignedClaims}</b>
                         </li>
-                        <li className="table-data-4 dot_pending">
+                        <li className="table-data-2 dot_pending">
                           <span class="dot_assign_provider"></span>
                           <b>{record?.Pending}</b>
                         </li>
-                        <li className="table-data-6 dot_under_assesment">
+                        <li className="table-data-2 dot_under_assesment">
                             <span class="dot_assign_provider "></span>
                             <b>{record?.Under_Repair}</b>
                         </li>
-                        <li className="table-data-6 dot_close">
+                        <li className="table-data-2 dot_close">
                           <span class="dot_assign_provider "></span>
                           <b>{record?.Closed}</b>
                         </li>
-                        <li className="table-data-7">
+                        <li className="table-data-2">
                           <strong>
                             <Link
                               className="ltn__secondary-color"

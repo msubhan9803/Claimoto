@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import { checkIfArrayHasEmptyValue } from "functions";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default function UploadDocuments({
   type,
@@ -90,7 +92,9 @@ export default function UploadDocuments({
                   type="checkbox"
                   checked={_getCheckboxState(docTypeString)}
                 />{" "}
-                <i class="icon"></i>{" "}
+                <div class="icon">
+                  <FontAwesomeIcon icon={faCheck} color="white" />
+                </div>
                 <strong>{getDocTypeToHeading(docTypeString)}</strong>
               </label>
             </div>

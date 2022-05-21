@@ -23,11 +23,11 @@ const GaragesList = ({ loading, allProviders }) => {
                 <div className="ltn__select-availability-table  d-none d-md-block">
                   <ul className="ltn__select-availability-table-head">
                     <li className="table-data-1">Garage</li>
-                    <li className="table-data-3">Assigned Claims</li>
-                    <li className="table-data-6">Pending</li>
-                    <li className="table-data-7">Under assesment</li>
-                    <li className="table-data-7">Closed</li>
-                    <li className="table-data-8">Details</li>
+                    <li className="table-data-2">Assigned Claims</li>
+                    <li className="table-data-2">Pending</li>
+                    <li className="table-data-2">Under assesment</li>
+                    <li className="table-data-2">Closed</li>
+                    <li className="table-data-2">Details</li>
                   </ul>
                   {allProviders.map((record) => {
                     return (
@@ -44,23 +44,23 @@ const GaragesList = ({ loading, allProviders }) => {
                             {record.Name}
                           </strong>
                         </li>
-                        <li className="table-data-3 dot_pending">
+                        <li className="table-data-2 dot_pending">
                           <span class="dot_assign_provider"></span>
                           {record?.AssignedClaims || ""}
                         </li>
-                        <li className="table-data-4 dot_pending">
+                        <li className="table-data-2 dot_pending">
                           <span class="dot_assign_provider"></span>
                           <b>{record?.Pending}</b>
                         </li>
-                        <li className="table-data-6 dot_under_assesment">
+                        <li className="table-data-2 dot_under_assesment">
                             <span class="dot_assign_provider "></span>
                             <b>{record?.Under_Repair}</b>
                         </li>
-                        <li className="table-data-6 dot_close">
+                        <li className="table-data-2 dot_close">
                           <span class="dot_assign_provider "></span>
                           <b>{record?.Closed}</b>
                         </li>
-                        <li className="table-data-7">
+                        <li className="table-data-2">
                           <strong>
                             <Link
                               className="ltn__secondary-color"
