@@ -70,7 +70,7 @@ export const RegisterPolicies = (data) => async (dispatch) => {
 
     await instance.post("api/Policy", policyDetail).then(async (res) => {
       let formData = new FormData();
-      formData.append("Id", res.data);
+      formData.append("Id", res.data.Id);
       for (let [key, value] of Object.entries(Imgdata)) {
         formData.append(key, value);
       }
