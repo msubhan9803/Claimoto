@@ -20,8 +20,9 @@ import claimAgenciesScreenReducer from 'store/reducers/claimAgencies';
 import claimGaragesScreenReducer from 'store/reducers/claimGarages';
 import claimSurveyorsScreenReducer from 'store/reducers/claimSurveyors';
 import scheduleCalls from 'store/reducers/scheduleCalls/schedule_calls';
-import assignProviderScreenReducer from './claims/assign';
-import forgetPasswordReducer from './auth/forget_password';
+import assignProviderScreenReducer from 'store/reducers/claims/assign';
+import forgetPasswordReducer from 'store/reducers/auth/forget_password';
+import invoiceScreenReducer from 'store/reducers/invoice';
 
 const rootPersistConfig = {
   key: 'root',
@@ -53,7 +54,8 @@ const rootReducer = combineReducers({
   claimGaragesReducer: claimGaragesScreenReducer,
   claimSurveyorsReducer: claimSurveyorsScreenReducer,
   assignProviderScreenReducer:assignProviderScreenReducer,
-  scheduleCalls:scheduleCalls
+  scheduleCalls:scheduleCalls,
+  invoiceScreenReducer: invoiceScreenReducer,
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

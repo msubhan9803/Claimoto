@@ -18,6 +18,7 @@ import ClaimAssignToProvider from "components/ClaimOffice/ClaimActions/ClaimAssi
 import ClaimAssignToBranch from "components/ClaimOffice/ClaimActions/ClaimAssignToBranch";
 import ViewProvider from "components/Admin/Providers/ViewProvider";
 import ScheduledCallList from "views/pages/ClaimOffice/ScheduledCalls/ScheduledCalls";
+import Invoice from "views/pages/ClaimOffice/Invoice/Invoice";
 
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
@@ -39,7 +40,7 @@ export const claimRoutes = ({ userPermissions }) => {
     },
     {
       name: "Tasks",
-      icon: "ti-layout",
+      icon: "ti-layout-column2",
       layout: "claim",
       path: "/tasks",
       short_name: "CD",
@@ -74,7 +75,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Policies",
       path: "/policies",
-      icon: "ti-clipboard",
+      icon: "ti-shield",
       layout: "claim",
       collapse: true,
       views: [
@@ -137,7 +138,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Agency",
       path: "/agencies",
-      icon: "ti-clipboard",
+      icon: "ti-agenda",
       layout: "claim",
       collapse: true,
       views: [
@@ -158,7 +159,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Garage",
       path: "/garage",
-      icon: "ti-clipboard",
+      icon: "ti-home",
       layout: "claim",
       collapse: true,
       views: [
@@ -179,7 +180,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Surveyor list",
       path: "/surveyor",
-      icon: "ti-clipboard",
+      icon: "ti-id-badge",
       layout: "claim",
       collapse: true,
       views: [
@@ -203,8 +204,8 @@ export const claimRoutes = ({ userPermissions }) => {
       name: "Scheduled Calls",
       component: <ScheduledCallList />,
       collapse: true,
-      path: "/scheduled_call",  
-      icon: "ti-layout",
+      path: "/scheduled_call",
+      icon: "ti-headphone-alt",
       layout: "claim",
       short_name: "CD",
       views: [
@@ -222,6 +223,26 @@ export const claimRoutes = ({ userPermissions }) => {
           component: <Call />,
           layout: "claim",
         },
+      ]
+    },
+    {
+      name: "Invoice",
+      component: <Invoice />,
+      collapse: true,
+      path: "/invoices",
+      icon: "ti-files",
+      layout: "claim",
+      short_name: "CD",
+      views: [
+        {
+          name: "Invoice",
+          path: "/invoices",
+          component: <Invoice />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "INV",
+        },
+
       ]
     },
 
