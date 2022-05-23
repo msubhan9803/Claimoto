@@ -5,7 +5,7 @@ import { _productDetailDotDot } from "functions";
 import { useSelector } from "react-redux";
 import { getAllowActions } from "functions";
 
-function ClaimList({ claims }) {
+function PoliciesList({ policies }) {
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
   let policy_actions = getAllowActions({ permissions, module_name: "APO" });
@@ -21,55 +21,37 @@ function ClaimList({ claims }) {
             <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap">
               <div className="ltn__select-availability-table  d-none d-md-block">
                 <ul className="ltn__select-availability-table-head">
-                  <li className="table-data-1">Policy no.</li>
-                  {/* <li className="table-data-2">Claim no.</li> */}
-                  <li className="table-data-3 ltn__color-1">Car no.</li>
-                  <li className="table-data-3 ltn__color-1">Claim type</li>
-                  <li className="table-data-4">Incident date</li>
-                  <li className="table-data-5">Submission date</li>
-                  <li className="table-data-6"></li>
-                  <li className="table-data-7"></li>
-                  <li className="table-data-8"></li>
+                  <li className="table-data-2">Policy no.</li>
+                  <li className="table-data-2">Claim no.</li>
+                  <li className="table-data-2 ltn__color-1">Car no.</li>
+                  <li className="table-data-2">Claim type</li>
+                  <li className="table-data-2">Incident date</li>
+                  <li className="table-data-2">Submission date</li>
+                  <li className="table-data-1"></li>
                 </ul>
-                {claims?.map((p) => {
+                {policies?.map((p) => {
                   return (
                     <ul className="ltn__select-availability-table-row">
-                      <li className="table-data-1">
+                      <li className="table-data-2">
                         <strong>{p.PolicyNo}</strong>
                       </li>
-                      {/* <li className="table-data-2">{p.ClaimNo}</li> */}
-                      <li className="table-data-3 ltn__color-1">{p.CarNo}</li>
-                      <li className="table-data-3 ltn__color-1">{p.ClaimTypeName}</li>
-                      <li className="table-data-4">
-                        {moment(p.IncidentDate).format("LL")}
+                      <li className="table-data-2">
+                        <strong>{p.PolicyNo}</strong>
                       </li>
-                      <li className="table-data-5">
-                        {moment(p.SubmissionDate).format("LL")}
+                      <li className="table-data-2">
+                        <strong>{p.PolicyNo}</strong>
                       </li>
-                      <li className="table-data-6">
-                        <strong>
-                          <Link
-                            className="ltn__secondary-color"
-                            to={`/claim/policy_detail/${p.PolicyId}`}
-                          >
-                            Policy details
-                          </Link>
-                        </strong>
+                      <li className="table-data-2">{p.ProductName}</li>
+                      <li className="table-data-2">
+                        {moment(p.StartDate).format("LL")}
                       </li>
-                      <li className="table-data-7">
-                        <strong>
-                          <Link
-                            className="ltn__secondary-color"
-                            to={`/claim/vehical_detail_view/${p.PolicyId}`}
-                          >
-                            Vehicle details
-                          </Link>
-                        </strong>
+                      <li className="table-data-2">
+                        {moment(p.EndDate).format("LL")}
                       </li>
-                      <li className="table-data-8">
+                      <li className="table-data-1">
                         <Link
                           className="ltn__secondary-color"
-                          to={`/claim/claim_detail/${p.ClaimId}`}
+                          to={`/claim/claim_list/${p.Id}`}
                         >
                           <strong>Claim Details</strong>
                         </Link>
@@ -86,4 +68,4 @@ function ClaimList({ claims }) {
   );
 }
 
-export default ClaimList;
+export default PoliciesList;

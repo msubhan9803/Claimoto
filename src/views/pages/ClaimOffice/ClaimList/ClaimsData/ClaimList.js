@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from "react";
-import PoliciesList from "components/ClaimOffice/Policies/PoliciesList/PoliciesList";
+import ClaimList from "components/ClaimOffice/ClaimList/ClaimList";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +18,7 @@ import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-function Policies(props) {
+function Claims(props) {
   const { layout } = props;
   //Permissions Controlling
   const { permissions } = useSelector((state) => state.authReducer);
@@ -153,7 +153,7 @@ function Policies(props) {
     );
   };
 
-  const _handleRedirectToClaimList = () => navigate(`/${layout}/claims`);
+  const _handleRedirectToClaimList = () => navigate(`/${layout}/policies`);
 
   return (
     <React.Fragment>
@@ -168,7 +168,7 @@ function Policies(props) {
             <div className="row">
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
-                  <h2>Policies ({policies.length})</h2>
+                  <h2>Claim list ({policies.length})</h2>
                 </div>
               </div>
               <div className="col-lg-3 align-self-center text-end">
@@ -330,7 +330,7 @@ function Policies(props) {
                       </div>
                       <li style={{ marginLeft: "5px" }}>
                         <div class="ltn__checkbox-radio-group inline---">
-                          <label class="ltn__switch-2" style={{ margin: "0px" }}><input type="checkbox" onClick={() => _handleRedirectToClaimList()} /> <i class="lever"></i> <span class="text">Claim list</span></label>
+                          <label class="ltn__switch-2" style={{ margin: "0px" }}><input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} /> <i class="lever"></i> <span class="text">Claim list</span></label>
                         </div>
                       </li>
                     </li>
@@ -357,7 +357,7 @@ function Policies(props) {
               <div className="col-lg-12">
                 {/* ltnd__policies-table start */}
                 {/* {policy_actions?.includes("VIEW") ? ( */}
-                <PoliciesList
+                <ClaimList
                   policies={_getPaginatedResults(filteredPoliciesList)}
                 />
                 {/* ) : (
@@ -384,4 +384,4 @@ function Policies(props) {
   );
 }
 
-export default Policies;
+export default Claims;

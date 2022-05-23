@@ -3,6 +3,7 @@
 import Dashboard from "views/pages/ClaimOffice/Dashboard/DashBoard";
 import TaskList from "views/pages/ClaimOffice/TasksList/TaskList";
 import Policies from "views/pages/ClaimOffice/Policies/PoliciesData/Policies";
+import ClaimList from "views/pages/ClaimOffice/ClaimList/ClaimsData/ClaimList";
 import VehicalDetail from "views/pages/Admin/VehicalDetail/VehicalDetail";
 import PoliciesDetail from "views/pages/Admin/Policies/PoliciesDetail/PoliciesDetail";
 import Claimlist from "views/pages/ClaimOffice/Policies/ClaimList/ClaimList";
@@ -80,7 +81,13 @@ export const claimRoutes = ({ userPermissions }) => {
         {
           name: "Policies",
           path: "/policies",
-          component: <Policies />,
+          component: <Policies layout="claim" />,
+          layout: "claim",
+        },
+        {
+          name: "Claims",
+          path: "/claims",
+          component: <ClaimList layout="claim" />,
           layout: "claim",
         },
         {
