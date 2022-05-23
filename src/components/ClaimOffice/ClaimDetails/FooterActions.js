@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import ClaimLeaveAMessageModal from "../ClaimActions/ClaimLeaveAMessageModal";
 import ClaimScheduleCallModal from "../ClaimActions/ClaimScheduleCallModal";
 import ClaimStatusChangeModal from "../ClaimActions/ClaimStatusChangeModal";
-
+import CallIcon from "assets/img/call/icon.png"
 export default function FooterActions({
   type,
   submitBtnRef,
@@ -200,7 +200,8 @@ export default function FooterActions({
                       role="button"
                       onClick={() => _openScheduleCallModal()}
                     >
-                      <i class="fas fa-phone-alt"></i>
+                                            <img src={CallIcon} />
+
                     </a>
                   </li>
                 )}

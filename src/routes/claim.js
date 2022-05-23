@@ -39,7 +39,7 @@ export const claimRoutes = ({ userPermissions }) => {
     },
     {
       name: "Tasks",
-      icon: "ti-layout",
+      icon: "ti-layout-column2",
       layout: "claim",
       path: "/tasks",
       short_name: "CD",
@@ -74,7 +74,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Policies",
       path: "/policies",
-      icon: "ti-clipboard",
+      icon: "ti-shield",
       layout: "claim",
       collapse: true,
       views: [
@@ -131,7 +131,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Agency",
       path: "/agencies",
-      icon: "ti-clipboard",
+      icon: "ti-agenda",
       layout: "claim",
       collapse: true,
       views: [
@@ -152,7 +152,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Garage",
       path: "/garage",
-      icon: "ti-clipboard",
+      icon: "ti-home",
       layout: "claim",
       collapse: true,
       views: [
@@ -173,7 +173,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Surveyor list",
       path: "/surveyor",
-      icon: "ti-clipboard",
+      icon: "ti-id-badge",
       layout: "claim",
       collapse: true,
       views: [
@@ -198,7 +198,7 @@ export const claimRoutes = ({ userPermissions }) => {
       component: <ScheduledCallList />,
       collapse: true,
       path: "/scheduled_call",
-      icon: "ti-layout",
+      icon: "ti-headphone-alt",
       layout: "claim",
       short_name: "CD",
       views: [
@@ -223,7 +223,7 @@ export const claimRoutes = ({ userPermissions }) => {
       component: <Invoice />,
       collapse: true,
       path: "/invoices",
-      icon: "ti-layout",
+      icon: "ti-files",
       layout: "claim",
       short_name: "CD",
       views: [
