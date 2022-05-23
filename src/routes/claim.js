@@ -17,6 +17,7 @@ import ClaimAssignToProvider from "components/ClaimOffice/ClaimActions/ClaimAssi
 import ClaimAssignToBranch from "components/ClaimOffice/ClaimActions/ClaimAssignToBranch";
 import ViewProvider from "components/Admin/Providers/ViewProvider";
 import ScheduledCallList from "views/pages/ClaimOffice/ScheduledCalls/ScheduledCalls";
+import Invoice from "views/pages/ClaimOffice/Invoice/Invoice";
 
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
@@ -196,7 +197,7 @@ export const claimRoutes = ({ userPermissions }) => {
       name: "Scheduled Calls",
       component: <ScheduledCallList />,
       collapse: true,
-      path: "/scheduled_call",  
+      path: "/scheduled_call",
       icon: "ti-layout",
       layout: "claim",
       short_name: "CD",
@@ -215,6 +216,26 @@ export const claimRoutes = ({ userPermissions }) => {
           component: <Call />,
           layout: "claim",
         },
+      ]
+    },
+    {
+      name: "Invoice",
+      component: <Invoice />,
+      collapse: true,
+      path: "/invoices",
+      icon: "ti-layout",
+      layout: "claim",
+      short_name: "CD",
+      views: [
+        {
+          name: "Invoice",
+          path: "/invoices",
+          component: <Invoice />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "INV",
+        },
+
       ]
     },
 
