@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from "react";
-import ClaimList from "components/ClaimOffice/ClaimList/ClaimList";
+import ClaimList from "components/ClaimOffice/Policies/ClaimList/ClaimList";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

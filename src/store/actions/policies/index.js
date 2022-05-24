@@ -13,6 +13,9 @@ import {
   GET_PRODUCT_BENEFIT_COV,
   POLICIES_LIST_TABLE_FILTERING,
   POLICIES_LIST_TABLE_DATA_CHANGE,
+  GET_CLAIM_LIST_SWITCHED,
+  CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE,
+  CLAIMS_LIST_SWITCHED_TABLE_FILTERING
 } from "store/types/types";
 // import instance from 'config/axios/instance'
 import moment from "moment";
@@ -296,6 +299,40 @@ export const UpdateVehcileImage =
         })
         .catch((err) => console.log("err: ", err));
       // dispatch({ type: GET_SINGLE_POLICIES, payload: res.data });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+// Claim List actions
+
+// Get ClaimsList
+export const GetClaimsList = () => async (dispatch) => {
+  try {
+    let res = await instance.get("api/Claims/AllClaims");
+    console.log("res", res);
+    dispatch({ type: GET_CLAIM_LIST_SWITCHED, payload: res.data });
+    dispatch({
+      type: CLAIMS_LIST_SWITCHED_TABLE_FILTERING,
+      payload: res.data,
+    });
+    dispatch({
+      type: CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE,
+      payload: { name: "policies_count", value: res.data.length },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const HandleClaimListTableInputValue =
+  ({ name, value }) =>
+  (dispatch) => {
+    try {
+      dispatch({
+        type: CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE,
+        payload: { name, value },
+      });
     } catch (err) {
       console.log("err", err);
     }
