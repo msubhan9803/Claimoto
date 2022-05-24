@@ -3,9 +3,8 @@ import ClaimList from "components/ClaimOffice/ClaimList/ClaimList";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  GetPolicies,
-  HandleFilterTable,
-  HandleTableInputValue
+  GetClaimsList,
+  HandleClaimListTableInputValue
 } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
 import SortArray from "sort-array";
@@ -26,10 +25,10 @@ function Claims(props) {
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const policies = useSelector((state) => state.policyReducer.allPolicies);
+  const policies = useSelector((state) => state.claimListsReducer.allPolicies);
   const { isLoading } = useSelector((state) => state.productReducer.product);
   const { search_options, policyListTableFilterData, filteredPoliciesList } =
-    useSelector((state) => state.policyReducer);
+    useSelector((state) => state.claimListsReducer);
   const {
     search_text,
     search_option,
@@ -43,9 +42,63 @@ function Claims(props) {
   } = policyListTableFilterData;
 
   useEffect(() => {
-    dispatch(GetPolicies());
+    dispatch(GetClaimsList());
     dispatch(GetProducType());
   }, []);
+
+  // Search Filter
+  useEffect(() => {
+    if (search_text && search_option) {
+      const options = {
+        // includeScore: true,
+        // Search in `author` and in `tags` array
+        keys: [search_option],
+      };
+
+      const fuse = new Fuse(policies, options);
+      let result = fuse.search(search_text);
+
+      let tempList = [];
+      for (let i = 0; i < result.length; i++) {
+        let item = result[i].item;
+        tempList.push(item);
+      }
+
+      dispatch(HandleClaimListTableInputValue(tempList.length > 0 ? tempList : policies));
+      dispatch({
+        type: "CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE",
+        payload: {
+          name: "policies_count",
+          value: tempList.length > 0 ? tempList.length : policies.length,
+        },
+      });
+    } else {
+      dispatch(HandleClaimListTableInputValue(policies));
+      dispatch({
+        type: "CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE",
+        payload: { name: "policies_count", value: policies.length },
+      });
+    }
+  }, [search_text, search_option]);
+
+  // Sort Filter
+  useEffect(() => {
+    if (sort_name && sort_type) {
+      let tempList = SortArray(policies, {
+        by: sort_name,
+        order: sort_type,
+      });
+
+      dispatch(HandleClaimListTableInputValue(tempList.length > 0 ? tempList : policies));
+      dispatch({
+        type: "CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE",
+        payload: {
+          name: "policies_count",
+          value: tempList.length > 0 ? tempList.length : policies.length,
+        },
+      });
+    }
+  }, [sort_name, sort_type]);
 
   //Refs
   let excle_export = createRef();
@@ -73,64 +126,10 @@ function Claims(props) {
     };
   };
 
-  // Search Filter
-  useEffect(() => {
-    if (search_text && search_option) {
-      const options = {
-        // includeScore: true,
-        // Search in `author` and in `tags` array
-        keys: [search_option],
-      };
-
-      const fuse = new Fuse(policies, options);
-      let result = fuse.search(search_text);
-
-      let tempList = [];
-      for (let i = 0; i < result.length; i++) {
-        let item = result[i].item;
-        tempList.push(item);
-      }
-
-      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : policies));
-      dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
-        payload: {
-          name: "policies_count",
-          value: tempList.length > 0 ? tempList.length : policies.length,
-        },
-      });
-    } else {
-      dispatch(HandleFilterTable(policies));
-      dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
-        payload: { name: "policies_count", value: policies.length },
-      });
-    }
-  }, [search_text, search_option]);
-
-  // Sort Filter
-  useEffect(() => {
-    if (sort_name && sort_type) {
-      let tempList = SortArray(policies, {
-        by: sort_name,
-        order: sort_type,
-      });
-
-      dispatch(HandleFilterTable(tempList.length > 0 ? tempList : policies));
-      dispatch({
-        type: "POLICIES_LIST_TABLE_DATA_CHANGE",
-        payload: {
-          name: "policies_count",
-          value: tempList.length > 0 ? tempList.length : policies.length,
-        },
-      });
-    }
-  }, [sort_name, sort_type]);
-
   const _handleChange = (event) => {
     let name = event.target.name;
     let value = event.target.value;
-    dispatch(HandleTableInputValue({ name, value }));
+    dispatch(HandleClaimListTableInputValue({ name, value }));
   };
 
   const _getPaginatedResults = (records) => {
@@ -144,12 +143,12 @@ function Claims(props) {
   // sort product
   const changeValue = (e) => {
     const { name, value } = e.target;
-    dispatch(HandleTableInputValue(name, value));
+    dispatch(HandleClaimListTableInputValue(name, value));
   };
 
   const _paginatedListHandler = (pageIndex) => {
     dispatch(
-      HandleTableInputValue({ name: "policies_page_index", value: pageIndex })
+      HandleClaimListTableInputValue({ name: "policies_page_index", value: pageIndex })
     );
   };
 
@@ -222,7 +221,7 @@ function Claims(props) {
                       onChange={_handleChange}
                       className="select search-options"
                     >
-                      <option disabled value={""}>
+                      <option value={""}>
                         Search By
                       </option>
                       {search_options.map((op) => (
@@ -261,7 +260,7 @@ function Claims(props) {
                           value={sort_name}
                           className="nice-select"
                         >
-                          <option disabled value={""}>
+                          <option value={""}>
                             Sort By
                           </option>
                           {search_options.map((op) => (
@@ -280,7 +279,7 @@ function Claims(props) {
                           value={sort_type}
                           className="nice-select"
                         >
-                          <option disabled value={""}>
+                          <option value={""}>
                             Sort By
                           </option>
                           <option key={"asc"} value={"asc"}>

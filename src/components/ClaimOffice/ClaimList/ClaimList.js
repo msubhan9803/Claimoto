@@ -22,7 +22,7 @@ function PoliciesList({ policies }) {
               <div className="ltn__select-availability-table  d-none d-md-block">
                 <ul className="ltn__select-availability-table-head">
                   <li className="table-data-2">Policy no.</li>
-                  <li className="table-data-2">Claim no.</li>
+                  {/* <li className="table-data-2">Claim no.</li> */}
                   <li className="table-data-2 ltn__color-1">Car no.</li>
                   <li className="table-data-2">Claim type</li>
                   <li className="table-data-2">Incident date</li>
@@ -33,15 +33,15 @@ function PoliciesList({ policies }) {
                   return (
                     <ul className="ltn__select-availability-table-row">
                       <li className="table-data-2">
-                        <strong>{p.PolicyNo}</strong>
+                        <strong>{p?.PolicyNo}</strong>
                       </li>
+                      {/* <li className="table-data-2">
+                        <strong></strong>
+                      </li> */}
                       <li className="table-data-2">
-                        <strong>{p.PolicyNo}</strong>
+                        <strong>{p?.CarNo}</strong>
                       </li>
-                      <li className="table-data-2">
-                        <strong>{p.PolicyNo}</strong>
-                      </li>
-                      <li className="table-data-2">{p.ProductName}</li>
+                      <li className="table-data-2">{p?.ClaimType}</li>
                       <li className="table-data-2">
                         {moment(p.StartDate).format("LL")}
                       </li>
@@ -51,7 +51,7 @@ function PoliciesList({ policies }) {
                       <li className="table-data-1">
                         <Link
                           className="ltn__secondary-color"
-                          to={`/claim/claim_list/${p.Id}`}
+                          to={`/claim/claim_detail/${p.ClaimId}`}
                         >
                           <strong>Claim Details</strong>
                         </Link>
