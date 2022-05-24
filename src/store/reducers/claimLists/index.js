@@ -1,23 +1,24 @@
 import {
-  GET_CLAIM_LIST_SWITCHED,
-  CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE,
-  CLAIMS_LIST_SWITCHED_TABLE_FILTERING,
-} from "store/types/types";
+  SET_PAGINATED_REQUEST_CLAIM_LIST,
+  CHANGE_HANDLER_PROVIDER,
+  CLAIM_LIST_SWITCHED_TABLE_DATA_CHANGE,
+  CLEAR_PROVIDER_LIST_DATA
+} from "store/types/claimList";
+
 const initialState = {
   isSuccess: false,
-  allPolicies: [],
-  prouctNames: [],
-  filteredPoliciesList: [],
-  policyListTableFilterData: {
+  isLoading: true,
+  allProviders: [],
+  providerListTableFilterData: {
     search_option: "",
     search_text: "",
-    sort_type: "",
+    sort_type: "asc",
     sort_name: "",
     download: "",
     importAs: "",
-    policies_per_page: 10,
-    policies_page_index: 0,
-    policies_count: 0
+    providers_per_page: 10,
+    providers_page_index: 1,
+    providers_count: 0
   },
   search_options: [
     {
@@ -32,20 +33,38 @@ const initialState = {
       label: "Claim Type",
       value: "ClaimType",
     }
-  ],
+  ]
 };
 
-const claimListReducer = (state = initialState, action) => {
+const claimList = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CLAIM_LIST_SWITCHED: {
+    case SET_PAGINATED_REQUEST_CLAIM_LIST: {
       return {
         ...state,
-        policy: initialState.policy,
-        model: [],
-        prouctNames: [],
         isSuccess: false,
         isLoading: false,
-        allPolicies: action.payload,
+        allProviders: action.payload.list,
+        providerListTableFilterData: {
+          ...state.providerListTableFilterData,
+          providers_count: action.payload.count
+        }
+      };
+    }
+
+    case CLAIM_LIST_SWITCHED_TABLE_DATA_CHANGE: {
+      return {
+        ...state,
+        providerListTableFilterData: {
+          ...state.providerListTableFilterData,
+          [action.payload.name]: action.payload.value,
+        },
+      };
+    }
+
+    case CLEAR_PROVIDER_LIST_DATA: {
+      return {
+        ...state,
+        providerListTableFilterData: initialState.providerListTableFilterData
       };
     }
 
@@ -56,26 +75,9 @@ const claimListReducer = (state = initialState, action) => {
       };
     }
 
-    case CLAIMS_LIST_SWITCHED_TABLE_DATA_CHANGE: {
-      return {
-        ...state,
-        policyListTableFilterData: {
-          ...state.policyListTableFilterData,
-          [action.payload.name]: action.payload.value,
-        },
-      };
-    }
-
-    case CLAIMS_LIST_SWITCHED_TABLE_FILTERING: {
-      return {
-        ...state,
-        filteredPoliciesList: action.payload,
-      };
-    }
-
     default:
       return { ...state };
   }
 };
 
-export default claimListReducer;
+export default claimList;
