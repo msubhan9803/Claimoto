@@ -10,6 +10,30 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
 
     const pagesCount = Math.ceil(recordsCount / recordsPerPage);
 
+    const pager = () => {
+        let pagination = [], i = 1;
+
+        while (i <= recordsCount) {
+            if (i <= 3 || //the first three pages
+                i >= recordsCount - 2 || //the last three pages
+                i >= pageIndex - 1 && i <= pageIndex + 1) { //the pageIndex, the page before and after
+                pagination.push({
+                    elem: <a>{i}</a>,
+                    index: i
+                });
+                i++;
+            } else { //any other page should be represented by ...
+                pagination.push({
+                    elem: <div>...</div>,
+                    index: i
+                });
+                //jump to the next page to be linked in the navigation
+                i = i < pageIndex ? pageIndex - 1 : recordsCount - 2;
+            }
+        }
+        console.log("pagination; ", pagination)
+        return pagination;
+    }
 
     return (
         <div className="ltn__pagination-area text-center">
@@ -23,12 +47,26 @@ function Pagination({ recordsCount, pageIndex, recordsPerPage, handler }) {
                                 </a>
                             </li>
                         }
-                        {[...Array(pagesCount)].map((elementInArray, index) => (
-                            <li key={index} className={pageIndex === index + 1 && "active"}>
-                                <a onClick={() => handler(index + 1)} role="button">{index + 1}</a>
-                            </li>
-                        )
-                        )}
+                        {
+                            pagesCount > 20 ?
+                                pager().map((elem, index) => (
+                                    <li
+                                        key={index}
+                                        className={`${pageIndex === elem.index && "active"} cursor-pointer`}
+                                        onClick={() => handler(elem.index)}
+                                    >
+                                        {elem.elem}
+                                    </li>
+                                ))
+                                :
+                                [...Array(pagesCount)].map((elementInArray, index) => (
+                                    <li key={index} className={pageIndex === index + 1 && "active"}>
+                                        <a onClick={() => handler(index + 1)} role="button">{index + 1}</a>
+                                    </li>
+                                )
+                                )
+                        }
+
                         {pageIndex !== pagesCount &&
                             <li>
                                 <a role="button" onClick={() => handler(pageIndex + 1)}>

@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 
-function ProductNavbar() {
+function ProductNavbar({ layout }) {
     const dispatch = useDispatch();
     const { FirstName, LastName, Username, Email, ImageUrl } = useSelector(state => state.authReducer.user_details);
     const [showProfile, setShowProfile] = useState(false);
@@ -142,7 +142,7 @@ function ProductNavbar() {
                                                                 <li>
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <p >
-                                                                            <Link to="/admin/settings/account_preferences"><strong> Account</strong></Link>
+                                                                            <Link to={`/${layout}/settings/account_preferences`}><strong> Account</strong></Link>
                                                                         </p>
                                                                     </div>
                                                                 </li>

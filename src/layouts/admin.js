@@ -55,7 +55,7 @@ export default function Layout() {
             {location.pathname === '/admin/' ?
               <DashboardNavbar />
               :
-              <UserNavbar />
+              <UserNavbar layout="admin" />
             }
 
             <Routes>

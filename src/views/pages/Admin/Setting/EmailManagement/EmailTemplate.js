@@ -120,7 +120,7 @@ const EmailTemplate = () => {
         </div>
       </div>
 
-      <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80">
+      <footer class="ltnd__footer-1 bg-white mt-80">
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-12">

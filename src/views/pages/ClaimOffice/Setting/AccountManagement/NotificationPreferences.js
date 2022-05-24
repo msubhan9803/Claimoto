@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-const NotificationPreferences = () => {
+const NotificationPreferences = ({  layout }) => {
   return (
     <>
       <div class="body-bg-1">
@@ -12,7 +12,7 @@ const NotificationPreferences = () => {
                 <div class="ltnd__page-title-area">
                   <h2>Notification</h2>
                   <p class="page-back-btn">
-                    <Link to="/admin/settings">
+                    <Link to={`/${layout}/settings`}>
                       <i className="icon-left-arrow-1" /> Back
                     </Link>
                   </p>
@@ -158,7 +158,7 @@ const NotificationPreferences = () => {
           </div>
         </div>
 
-        <footer class="ltnd__footer-1 fixed-footer-1 bg-white mt-80">
+        <footer class="ltnd__footer-1 bg-white mt-80">
           <div class="container-fluid">
             <div class="row">
               <div class="col-lg-12">
@@ -166,7 +166,7 @@ const NotificationPreferences = () => {
                   <div class="ltnd__left btn-normal"></div>
                   <div class="ltnd__right btn-normal">
                     <div class="btn-wrapper">
-                      <Link to="/admin/settings">
+                      <Link to={`/${layout}/settings`}>
                         <i className="icon-left-arrow-1" /> Back
                       </Link>
                       <a href="#" class="btn theme-btn-1 btn-round-12">

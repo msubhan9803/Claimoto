@@ -20,6 +20,13 @@ import ViewProvider from "components/Admin/Providers/ViewProvider";
 import ScheduledCallList from "views/pages/ClaimOffice/ScheduledCalls/ScheduledCalls";
 import Invoice from "views/pages/ClaimOffice/Invoice/Invoice";
 
+import Setting from "views/pages/ClaimOffice/Setting/Setting";
+import AccountPreferences from "views/pages/ClaimOffice/Setting/AccountManagement/AccountPreferences.js";
+import NotificationPreferences from "views/pages/ClaimOffice/Setting/AccountManagement/NotificationPreferences.js";
+import Activity from "views/pages/ClaimOffice/Setting/LogsManagement/Activity.js";
+import ActivityDetail from "views/pages/ClaimOffice/Setting/LogsManagement/ActivityDetail.js";
+import Error from "views/pages/ClaimOffice/Setting/LogsManagement/Error.js";
+
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
     let usr_pre =
@@ -245,6 +252,52 @@ export const claimRoutes = ({ userPermissions }) => {
 
       ]
     },
-
+    // _checkPer("ASC") &&
+    {
+      name: "Settings",
+      path: "/settings",
+      icon: "ti-settings",
+      layout: "claim",
+      collapse: true,
+      views: [
+        {
+          name: "Settings",
+          path: "/settings",
+          component: <Setting layout="claim" />,
+          icon: "ti-settings",
+          layout: "claim",
+        },
+        {
+          name: "Account Preferences",
+          path: "/settings/account_preferences",
+          component: <AccountPreferences layout="claim" />,
+          layout: "claim",
+        },
+        {
+          name: "Notification Preferences",
+          path: "/settings/notification_preferences",
+          component: <NotificationPreferences layout="claim" />,
+          layout: "claim",
+        },
+        {
+          name: "Activity",
+          path: "/settings/logs_activity",
+          component: <Activity layout="claim" />,
+          layout: "claim",
+        },
+        {
+          name: "Activity",
+          path: "/settings/logs_activity/:id",
+          component: <ActivityDetail layout="claim" />,
+          layout: "claim",
+        },
+        {
+          name: "Error",
+          path: "/settings/logs_error",
+          component: <Error layout="claim" />,
+          layout: "claim",
+        },
+      ],
+    },
   ];
 };
