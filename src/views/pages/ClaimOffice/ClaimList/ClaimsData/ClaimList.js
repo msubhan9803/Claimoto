@@ -184,8 +184,8 @@ function ClaimList({ layout }) {
                 </div>
                 <div className="col-lg-8">
                   <div className="ltn__shop-options ltnd__shop-options select-list-right">
-                    <ul style={{ justifyContent: "flex-start" }}>
-                      <li style={{ marginLeft: "5px" }}>
+                    <ul>
+                      {/* <li>
                         <div className="short-by text-center">
                           <select
                             onChange={_download}
@@ -200,8 +200,8 @@ function ClaimList({ layout }) {
                             <option value={2}>Excle</option>
                           </select>
                         </div>
-                      </li>
-                      <li style={{ marginLeft: "5px" }}>
+                      </li> */}
+                      <li>
                         <div className="short-by text-center">
                           <select
                             onChange={_handleChange}
@@ -220,7 +220,7 @@ function ClaimList({ layout }) {
                           </select>
                         </div>
                       </li>
-                      <li style={{ marginLeft: "5px" }}>
+                      <li>
                         <div className="short-by text-center">
                           <select
                             onChange={_handleChange}
@@ -240,7 +240,7 @@ function ClaimList({ layout }) {
                           </select>
                         </div>
                       </li>
-                      <li style={{ marginLeft: "5px" }}>
+                      {/* <li>
                         <div className="short-by text-center">
                           <div className="short-by-menu">
                             <select
@@ -257,30 +257,15 @@ function ClaimList({ layout }) {
                             </select>
                           </div>
                         </div>
-                      </li>
-                      <li style={{ marginLeft: "5px" }}>
-                        <div className="btn-wrapper text-center mt-0 d-none">
-                          <CSVExport
-                            ref={csv_export}
-                            data={{
-                              header: _exportData()?.header,
-                              csv_data: _exportData()?._data,
-                            }}
-                            file_name={_exportData()?.file_name || ""}
-                          />
-                          <ExportExcle
-                            ref={excle_export}
-                            data={_exportData()?._data}
-                            file_name={_exportData()?.file_name || ""}
-                          />
-
-                          {/* <ExcleExport /> */}
+                      </li> */}
+                      <li>
+                        <div class="short-by text-center">
+                          <label class="ltn__switch-2 align-items-center" style={{ margin: "0px" }}>
+                            <input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} /> 
+                            <i class="lever"></i> 
+                            <span class="text">Claim list</span>
+                          </label>
                         </div>
-                        <li style={{ marginLeft: "5px" }}>
-                          <div class="ltn__checkbox-radio-group inline---">
-                            <label class="ltn__switch-2" style={{ margin: "0px" }}><input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} /> <i class="lever"></i> <span class="text">Claim list</span></label>
-                          </div>
-                        </li>
                       </li>
                       <li style={{ marginLeft: "10px" }}>
                         <div className="btn-wrapper text-center mt-0">
