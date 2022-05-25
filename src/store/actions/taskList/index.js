@@ -38,7 +38,7 @@ export const getMyTaskList = (id) => async dispatch => {
 export const getPendingTaskList = (id) => async dispatch => {
     try {
         dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: true } });
-        let { data } = await instance.get(`/api/MyTask/Claims?Id=${id}`);
+        let { data } = await instance.get(`/api/MyTask/PendingClaims?Id=${id}`);
         dispatch({ type: GET_PENDING_TASKS, payload: data || [] });
         dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: false } });
     } catch (error) {

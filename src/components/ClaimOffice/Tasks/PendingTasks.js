@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import TrackIcon from "assets/img/icons/mc/png/14.png";
 import BMWIcon from "assets/img/icons/mc/png/11.png";
 import TrackTaskModal from './TrackTaskModal';
-import { getMyTaskList } from 'store/actions/taskList';
+import { getPendingTaskList } from 'store/actions/taskList';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { formatDateTime } from 'functions';
 import { Link } from 'react-router-dom';
@@ -15,15 +15,15 @@ function PendingTaskList() {
     const [component, setComponent] = useState({
         openModal: false
     });
-    const { my_tasks } = useSelector(state => state.taskListScreenReducer);
+    const { pending_tasks } = useSelector(state => state.taskListScreenReducer);
     const { UserId } = useSelector(state => state.authReducer.user_details);
 
     const dispatch = useDispatch();
-    const { list, loading_list } = my_tasks;
+    const { list, loading_list } = pending_tasks;
 
 
     useEffect(() => {
-        dispatch(getMyTaskList(UserId));
+        dispatch(getPendingTaskList(UserId));
     }, []);
 
     useEffect(() => {
@@ -50,7 +50,7 @@ function PendingTaskList() {
             <TrackTaskModal toggleModal={_toggleModal} openModal={component.openModal} />
             {loading_list ? <LoaderAnimation /> :
                 <div style={{ overflowX: "auto", display: "flex", flexDirection: "row" }}>
-                    {list?.reverse().map((k, index) => (
+                    {list?.map((k, index) => (
                         <div className="col-lg-3 col-md-3 col-sm-6" >
                             <div className={`ltnd__tasks-item-column ltnd__tasks-column-border tasks-border-${index + 1}`}>
                                 <h6>{k.ListName} ({k.List.Count})</h6>
