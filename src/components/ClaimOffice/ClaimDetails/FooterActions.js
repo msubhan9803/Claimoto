@@ -98,18 +98,21 @@ export default function FooterActions({
                   >
                     <a class="toggle">
                       <strong>Contact</strong>
-                      <i class="fas fa-ellipsis-v"></i>
+                      <i class="ti-layout-list-thumb-alt"></i>
                     </a>
                     {otherCallActions && (
                       <div class="dropdown-menu">
                         {showFooterButtonsState.leaveAMessage && (
+                          <>
                           <a
                             role="button"
                             onClick={() => _openLeaveAMessageModal()}
 
                           >
-                            leave a message
+                            Leave a message
                           </a>
+                          <hr />
+                          </>
                         )}
 
                         {showFooterButtonsState.scheduleACall && (

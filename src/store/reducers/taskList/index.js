@@ -35,10 +35,12 @@ const initialState = {
 
 
     my_tasks: {
-        loading_list: false
+        loading_list: false,
+        list: []
     },
     pending_tasks: {
-
+        loading_list: false,
+        list: []
     },
 
     search_options: [
@@ -114,7 +116,13 @@ const taskListScreenReducer = (state = initialState, action) => {
         }
 
         case GET_PENDING_TASKS: {
-            return { ...state }
+            return {
+                ...state,
+                pending_tasks: {
+                    ...state.pending_tasks,
+                    list: action.payload
+                }
+            }
         }
 
 
