@@ -17,6 +17,7 @@ import {
   SET_LOGS_PAGE_INDEX
 } from "store/types/settings.js";
 import instance from "config/axios/instance";
+import { localStorageVarible } from "variables";
 
 // For SMTP & Timezone
 export const GetAllTimezones = () => async (dispatch) => {
@@ -244,10 +245,51 @@ export const GetAllActivityLogs =
           SortName: SortName,
           ToDate: ToDate,
           FromDate: FromDate,
-          ActivityType: ActivityType,
+          ActivityType: ActivityType
         };
 
         let res = await instance.get(`api/ActivityLogs/Pagination`, {
+          params: params,
+        });
+        dispatch({
+          type: GET_ALL_ACTIVITY_LOGS,
+          payload: res.data,
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
+
+
+// Activity Log
+export const GetAllActivityLogsByUserId =
+  (
+    PageIndex,
+    PageSize,
+    SearchText,
+    SearchOption,
+    SortType,
+    SortName,
+    ToDate,
+    FromDate,
+    ActivityType
+  ) =>
+    async (dispatch) => {
+      try {
+        let params = {
+          PageIndex: PageIndex,
+          PageSize: PageSize,
+          SearchText: SearchText,
+          SearchOption: SearchOption,
+          SortType: SortType,
+          SortName: SortName,
+          ToDate: ToDate,
+          FromDate: FromDate,
+          ActivityType: ActivityType,
+          Authorization: "Bearer " + localStorage.getItem(localStorageVarible)
+        };
+
+        let res = await instance.get(`api/ActivityLogs`, {
           params: params,
         });
         dispatch({

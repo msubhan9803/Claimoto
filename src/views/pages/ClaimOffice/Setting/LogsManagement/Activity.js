@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  GetAllActivityLogs,
+  GetAllActivityLogsByUserId,
   HandleAccountValuesOuter,
   SetPageIndex
 } from "../../../../../store/actions/settings/index.js";
@@ -30,7 +30,7 @@ const Activity = ({ layout }) => {
   const { ActivityLogs, TotalRecords } = activitesList;
 
   useEffect(() => {
-    dispatch(GetAllActivityLogs());
+    dispatch(GetAllActivityLogsByUserId());
   }, []);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Activity = ({ layout }) => {
       search_text === ""
     ) {
       dispatch(
-        GetAllActivityLogs(
+        GetAllActivityLogsByUserId(
           logs_page_index,
           logs_per_page,
           search_text,
