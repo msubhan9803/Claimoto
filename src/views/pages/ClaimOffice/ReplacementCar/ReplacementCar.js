@@ -1,25 +1,31 @@
 import React, { createRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import PoliciesList from "components/ClaimOffice/Policies/PoliciesList/PoliciesList";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { SetPaginatedAgenciesGarages, HandleTableInputValue, ClearProviderListData } from "store/actions/claimLists";
+import { GetProducType } from "store/actions/product";
+import { SetPaginatedAgenciesGarages, HandleTableInputValue, ClearProviderListData } from "store/actions/claimAgencies";
+import SortArray from "sort-array";
+import Fuse from "fuse.js";
 import Pagination from "components/Pagination/Pagination";
+import { getAllowActions } from "functions";
+import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import ClaimListTable from "components/ClaimOffice/ClaimList/ClaimList";
+import ReplacementCars from "components/ClaimOffice/ReplacementCars/ReplacementCars";
 
-function ClaimList({ layout }) {
-  let providerTypeId = 2; // Agencies Provider primary key
+function ReplacementCar() {
+  let providerTypeId = 3; // Agencies Provider primary key
   const dispatch = useDispatch();
-  const providers = useSelector((state) => state.claimListsReducer.allProviders);
+  const providers = useSelector((state) => state.claimReplacementCarReducer.allProviders);
   const {
     isSuccess,
     isLoading,
     allProviders,
     providerListTableFilterData,
     search_options
-  } = useSelector((state) => state.claimListsReducer);
+  } = useSelector((state) => state.claimReplacementCarReducer);
   const {
     search_text,
     search_option,
@@ -34,10 +40,10 @@ function ClaimList({ layout }) {
   //Refs
   let excle_export = createRef();
   let csv_export = createRef();
-  let navigate = useNavigate();
 
   useEffect(() => {
     dispatch(SetPaginatedAgenciesGarages(
+      providerTypeId,
       providers_per_page,
       providers_page_index,
       search_text,
@@ -45,12 +51,13 @@ function ClaimList({ layout }) {
       sort_name,
       sort_type
     ));
-
+    
     return () => dispatch(ClearProviderListData());
   }, []);
 
   useEffect(() => {
     dispatch(SetPaginatedAgenciesGarages(
+      providerTypeId,
       providers_per_page,
       providers_page_index,
       search_text,
@@ -101,8 +108,6 @@ function ClaimList({ layout }) {
     );
   };
 
-  const _handleRedirectToClaimList = () => navigate(`/${layout}/policies`);
-
   return (
     <React.Fragment>
       {isLoading ?
@@ -116,7 +121,8 @@ function ClaimList({ layout }) {
               <div className="row">
                 <div className="col-lg-9">
                   <div className="ltnd__page-title-area">
-                    <h2>Claim List ({providers.length})</h2>
+                    {/* <h2>Replacement cars ({providers.length})</h2> */}
+                    <h2>Replacement cars (5)</h2>
                   </div>
                 </div>
                 <div className="col-lg-3 align-self-center text-end">
@@ -185,7 +191,7 @@ function ClaimList({ layout }) {
                 <div className="col-lg-8">
                   <div className="ltn__shop-options ltnd__shop-options select-list-right">
                     <ul>
-                      {/* <li>
+                      <li>
                         <div className="short-by text-center">
                           <select
                             onChange={_download}
@@ -200,7 +206,7 @@ function ClaimList({ layout }) {
                             <option value={2}>Excle</option>
                           </select>
                         </div>
-                      </li> */}
+                      </li>
                       <li>
                         <div className="short-by text-center">
                           <select
@@ -228,19 +234,19 @@ function ClaimList({ layout }) {
                             value={sort_type}
                             className="nice-select"
                           >
-                            <option value={""}>
+                            <option disabled value={""}>
                               Sort By
                             </option>
                             <option key={"asc"} value={"asc"}>
                               Ascending
                             </option>
-                            <option key={"desc"} value={"desc"}>
+                            {/* <option key={"desc"} value={"desc"}>
                               Descending
-                            </option>
+                            </option> */}
                           </select>
                         </div>
                       </li>
-                      {/* <li>
+                      <li>
                         <div className="short-by text-center">
                           <div className="short-by-menu">
                             <select
@@ -257,24 +263,24 @@ function ClaimList({ layout }) {
                             </select>
                           </div>
                         </div>
-                      </li> */}
-                      <li>
-                        <div class="short-by text-center">
-                          <label class="ltn__switch-2 align-items-center" style={{ margin: "0px" }}>
-                            <input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} /> 
-                            <i class="lever"></i> 
-                            <span class="text">Claim list</span>
-                          </label>
-                        </div>
                       </li>
-                      <li style={{ marginLeft: "10px" }}>
-                        <div className="btn-wrapper text-center mt-0">
-                          <Link
-                            to="/claim/initiate_claim"
-                            className="btn theme-btn-1 btn-round-12"
-                          >
-                            Initiate Claim
-                          </Link>
+                      <li>
+                        <div className="btn-wrapper text-center mt-0 d-none">
+                          <CSVExport
+                            ref={csv_export}
+                            data={{
+                              header: _exportData()?.header,
+                              csv_data: _exportData()?._data,
+                            }}
+                            file_name={_exportData()?.file_name || ""}
+                          />
+                          <ExportExcle
+                            ref={excle_export}
+                            data={_exportData()?._data}
+                            file_name={_exportData()?.file_name || ""}
+                          />
+
+                          {/* <ExcleExport /> */}
                         </div>
                       </li>
                     </ul>
@@ -288,7 +294,7 @@ function ClaimList({ layout }) {
             <div className="select-availability-area pb-4">
               <div className="row">
                 <div className="col-lg-12">
-                  <ClaimListTable loading={isLoading} policies={allProviders} />
+                  <ReplacementCars loading={isLoading} allProviders={allProviders} />
 
                   {/* ltnd__policies-table start */}
                   {/* {policy_actions?.includes("VIEW") ? ( */}
@@ -319,4 +325,4 @@ function ClaimList({ layout }) {
   );
 }
 
-export default ClaimList;
+export default ReplacementCar;
