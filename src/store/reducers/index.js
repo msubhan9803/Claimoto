@@ -19,6 +19,7 @@ import claimsScreenReducer from 'store/reducers/claims/index';
 import claimAgenciesScreenReducer from 'store/reducers/claimAgencies';
 import claimGaragesScreenReducer from 'store/reducers/claimGarages';
 import claimSurveyorsScreenReducer from 'store/reducers/claimSurveyors';
+import claimReplacementCarScreenReducer from 'store/reducers/claimReplacementCar';
 import claimListsScreenReducer from 'store/reducers/claimLists';
 import scheduleCalls from 'store/reducers/scheduleCalls/schedule_calls';
 import assignProviderScreenReducer from 'store/reducers/claims/assign';
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   claimAgenciesReducer: claimAgenciesScreenReducer,
   claimGaragesReducer: claimGaragesScreenReducer,
   claimSurveyorsReducer: claimSurveyorsScreenReducer,
+  claimReplacementCarReducer: claimReplacementCarScreenReducer,
   claimListsReducer: claimListsScreenReducer,
   assignProviderScreenReducer:assignProviderScreenReducer,
   scheduleCalls:scheduleCalls,

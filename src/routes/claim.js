@@ -14,6 +14,7 @@ import Agencies from "views/pages/ClaimOffice/Agency/AgencyList/Agencies.js";
 import AgencyDetail from "views/pages/ClaimOffice/Agency/AgencyDetail/AgencyDetail.js";
 import Garage from "views/pages/ClaimOffice/Garage/GarageList/Garages";
 import Surveyor from "views/pages/ClaimOffice/Surveyor/SurveyorList/Surveyor";
+import ReplacementCar from "views/pages/ClaimOffice/ReplacementCar/ReplacementCar";
 import ClaimAssignToProvider from "components/ClaimOffice/ClaimActions/ClaimAssignToProvider";
 import ClaimAssignToBranch from "components/ClaimOffice/ClaimActions/ClaimAssignToBranch";
 import ViewProvider from "components/Admin/Providers/ViewProvider";
@@ -200,6 +201,27 @@ export const claimRoutes = ({ userPermissions }) => {
         {
           name: "Surveyor Detail",
           path: "/surveyor_detail/:id",
+          component: <AgencyDetail type="view" layout="claim" />,
+          layout: "claim",
+        },
+      ],
+    },
+    {
+      name: "Replacement Cars",
+      path: "/replacement_cars",
+      icon: "ti-id-badge",
+      layout: "claim",
+      collapse: true,
+      views: [
+        {
+          name: "Replacement Cars",
+          path: "/replacement_cars",
+          component: <ReplacementCar />,
+          layout: "claim",
+        },
+        {
+          name: "Replacement Cars",
+          path: "/replacement_cars/:id",
           component: <AgencyDetail type="view" layout="claim" />,
           layout: "claim",
         },
