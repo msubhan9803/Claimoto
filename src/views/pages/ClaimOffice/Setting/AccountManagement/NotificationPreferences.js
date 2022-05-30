@@ -1,28 +1,30 @@
 import React from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-const NotificationPreferences = ({  layout }) => {
+const NotificationPreferences = ({ layout }) => {
   return (
     <>
-      <div class="body-bg-1">
-        <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-          <div class="ltnd__header-middle-area mt-30">
-            <div class="row">
-              <div class="col-lg-9">
-                <div class="ltnd__page-title-area">
+      <div className="body-bg-1">
+        <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+          <div className="ltnd__header-middle-area mt-30">
+            <div className="row">
+              <div className="col-lg-9">
+                <div className="ltnd__page-title-area">
                   <h2>Notification</h2>
-                  <p class="page-back-btn">
+                  <p className="page-back-btn">
                     <Link to={`/${layout}/settings`}>
                       <i className="icon-left-arrow-1" /> Back
                     </Link>
                   </p>
                 </div>
               </div>
-              <div class="col-lg-3 align-self-center text-end">
-                <div class="btn-wrapper btn-inline text-center mt-0 d-none">
+              <div className="col-lg-3 align-self-center text-end">
+                <div className="btn-wrapper btn-inline text-center mt-0 d-none">
                   <a
                     href="#"
-                    class="btn theme-btn-1 btn-round-12 btn-2"
+                    className="btn theme-btn-1 btn-round-12 btn-2"
                     title="Quick View"
                     data-bs-toggle="modal"
                     data-bs-target="#adding_modal"
@@ -30,19 +32,19 @@ const NotificationPreferences = ({  layout }) => {
                     Edit
                   </a>
                 </div>
-                <div class="ltnd__date-area d-none">
-                  <div class="ltn__datepicker">
-                    <div class="ltn_datepicker-title">
+                <div className="ltnd__date-area d-none">
+                  <div className="ltn__datepicker">
+                    <div className="ltn_datepicker-title">
                       <span>Date</span>
                     </div>
-                    <div class="input-group date" data-provide="datepicker">
+                    <div className="input-group date" data-provide="datepicker">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Select Date"
                       />
-                      <div class="input-group-addon">
-                        <i class="far fa-calendar-alt"></i>
+                      <div className="input-group-addon">
+                        <i className="far fa-calendar-alt"></i>
                       </div>
                     </div>
                   </div>
@@ -51,97 +53,129 @@ const NotificationPreferences = ({  layout }) => {
             </div>
           </div>
         </div>
-        <div class="body-content-area-inner mb-80">
-          <div class="ltnd__block-area">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ltnd__block-item mt-30">
-                  <div class="ltnd__title ltnd__title-2">
+        <div className="body-content-area-inner mb-80">
+          <div className="ltnd__block-area">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="ltnd__block-item mt-30">
+                  <div className="ltnd__title ltnd__title-2">
                     <h4>Notification preferences</h4>
                   </div>
-                  <div class="ltn__block-item-info">
-                    <h6 class="ltnd__title-3">Two-factor authentication </h6>
-
-                    <div class="ltn__checkbox-radio-group inline mt-20 mb-20">
-                      <label class="ltn__switch-2">
-                        <input type="checkbox" checked="" />
-                        <i class="lever"></i>{" "}
-                        <span class="text">
-                          <strong>Enable Two-factor authentication </strong>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-5">
-                        <div class="notification-item mb-30">
-                          <p class="ltn__color-1">Content language</p>
+                  <div className="ltn__block-item-info">
+                    <div className="row">
+                      <div className="col-lg-5">
+                        <div className="notification-item mb-30">
+                          <p className="ltn__color-1">Content language</p>
                           <p>Yasminali@gmail.com</p>
-                          <div class="ltn__checkbox-radio-group inline---">
+                          <div className="ltn__checkbox-radio-group inline---">
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i>{" "}
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
                               Don’t send any email
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" checked="" />{" "}
-                              <i class="icon"></i> Offers
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
+                              Offers
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i>{" "}
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
                               Surveys
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i> Now
-                              on Aurora
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
+                              Now on Aurora
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i>{" "}
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
                               Latest updates
-                            </label>
-                            <label class="ltn__checkbox">
-                              <input type="checkbox" checked="" />{" "}
-                              <i class="icon"></i> Checkbox Active
-                            </label>
-                            <label class="ltn__checkbox">
-                              <input type="checkbox" disabled="" />{" "}
-                              <i class="icon"></i> Checkbox Disabled
                             </label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-5">
-                        <div class="notification-item mb-30">
-                          <p class="ltn__color-1">Content language</p>
-                          <p>
+                      <div className="col-lg-5">
+                        <div className="notification-item mb-30">
+                          <p className="ltn__color-1">Content language</p>
+                          <p className="text-primary">
                             <strong>Add your phone number</strong>
                           </p>
-                          <div class="ltn__checkbox-radio-group inline---">
+                          <div className="ltn__checkbox-radio-group inline---">
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i>{" "}
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
                               Don’t send messages on mobile
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" checked="" />{" "}
-                              <i class="icon"></i> Accounts messages
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
+                              Accounts messages
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i>{" "}
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
                               Aurora information
                             </label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-12">
-                        <div class="notification-item mb-30">
-                          <p class="ltn__color-1">Marketing communication</p>
-                          <div class="ltn__checkbox-radio-group inline--- mb-30">
+                      <div className="col-lg-12">
+                        <div className="notification-item mb-30">
+                          <p className="ltn__color-1">Marketing communication</p>
+                          <div className="ltn__checkbox-radio-group inline--- mb-30">
                             <label class="ltn__checkbox">
-                              <input type="checkbox" /> <i class="icon"></i> Use
-                              my information to send promotional communications
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
+                              Use my information to send promotional communications
                               on thrd party services
                             </label>
                             <label class="ltn__checkbox">
-                              <input type="checkbox" checked="" />{" "}
-                              <i class="icon"></i> Send me newsletters
+                              <input
+                                type="checkbox"
+                              />{" "}
+                              <div class="icon">
+                                <FontAwesomeIcon icon={faCheck} color="white" />
+                              </div>
+                              Note: You will always receive transactional emails
+                              related to your account.
                             </label>
                           </div>
                           <p>
@@ -158,18 +192,18 @@ const NotificationPreferences = ({  layout }) => {
           </div>
         </div>
 
-        <footer class="ltnd__footer-1 bg-white mt-80">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ltnd__footer-1-inner">
-                  <div class="ltnd__left btn-normal"></div>
-                  <div class="ltnd__right btn-normal">
-                    <div class="btn-wrapper">
+        <footer className="ltnd__footer-1 bg-white mt-80">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="ltnd__footer-1-inner">
+                  <div className="ltnd__left btn-normal"></div>
+                  <div className="ltnd__right btn-normal">
+                    <div className="btn-wrapper">
                       <Link to={`/${layout}/settings`}>
                         <i className="icon-left-arrow-1" /> Back
                       </Link>
-                      <a href="#" class="btn theme-btn-1 btn-round-12">
+                      <a href="#" className="btn theme-btn-1 btn-round-12">
                         Save
                       </a>
                     </div>
