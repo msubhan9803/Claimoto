@@ -422,6 +422,10 @@ function PoliciesDetail(props) {
                                       );
                                     }}
                                     selected={params.id ? DateB : DOB}
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
                                   />
                                 )}
                               />
@@ -520,6 +524,10 @@ function PoliciesDetail(props) {
                                       );
                                     }}
                                     selected={params.id ? StartD : StartDate}
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
                                   />
                                 )}
                               />
@@ -552,6 +560,10 @@ function PoliciesDetail(props) {
                                       );
                                     }}
                                     selected={params.id ? EndD : EndDate}
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
                                   />
                                 )}
                               />
@@ -722,6 +734,10 @@ function PoliciesDetail(props) {
                                     selected={
                                       params.id ? DrivL : DrivingLicenseValidity
                                     }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
                                   />
                                 )}
                               />
