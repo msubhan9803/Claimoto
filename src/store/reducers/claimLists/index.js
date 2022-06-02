@@ -22,17 +22,25 @@ const initialState = {
   },
   search_options: [
     {
-      label: "Policy number",
-      value: "PolicyNo",
+      label: "Claim type",
+      value: "Claimtype",
     },
     {
-      label: "Car number",
-      value: "CarNo",
+      label: "Policy no",
+      value: "Policyno",
     },
     {
-      label: "Claim Type",
-      value: "ClaimType",
-    }
+      label: "Car no",
+      value: "Carno",
+    },
+    {
+      label: "Incident date",
+      value: "Incidentdate",
+    },
+    {
+      label: "Submission date",
+      value: "Submissiondate",
+    },
   ]
 };
 
