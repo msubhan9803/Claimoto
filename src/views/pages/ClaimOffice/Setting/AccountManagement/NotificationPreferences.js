@@ -174,8 +174,7 @@ const NotificationPreferences = ({ layout }) => {
                               <div class="icon">
                                 <FontAwesomeIcon icon={faCheck} color="white" />
                               </div>
-                              Note: You will always receive transactional emails
-                              related to your account.
+                              Send me newsletters
                             </label>
                           </div>
                           <p>
