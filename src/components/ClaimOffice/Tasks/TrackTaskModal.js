@@ -9,7 +9,7 @@ import { getAllowActions } from 'functions';
 import { getStatusesOfClaim } from 'store/actions/taskList';
 
 
-const TrackTaskModal = ({ openModal, toggleModal }) => {
+const TrackTaskModal = ({ openModal, toggleModal, title }) => {
 
     const dispatch = useDispatch();
     const { task_status } = useSelector(state => state.taskListScreenReducer);
@@ -52,7 +52,7 @@ const TrackTaskModal = ({ openModal, toggleModal }) => {
                 <div className="modal-body">
                     <div className="ltnd__adding-modal-inner">
                         <div className="section-title-area text-center mb-30---">
-                            <h1 className="section-title">Track</h1>
+                            <h1 className="section-title">{title ? title : "Track" }</h1>
                         </div>
                         <div className="row">
                             <div className="col-lg-12">

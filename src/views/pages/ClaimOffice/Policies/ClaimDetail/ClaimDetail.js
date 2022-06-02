@@ -36,6 +36,8 @@ import { localStorageVarible } from "variables";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetailsViewOnly";
 import CustomerDetailsViewOnly from "components/ClaimOffice/ClaimDetails/CustomerDetailsViewOnly";
+import { getStatusesOfClaim } from 'store/actions/taskList';
+import TrackTaskModal from 'components/ClaimOffice/Tasks/TrackTaskModal';
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
@@ -164,6 +166,9 @@ const ClaimDetail = (props) => {
   });
   const { tab3 } = useSelector((state) => state.addProviderScreenReducer);
   const { cities, areas, selected_locations } = tab3;
+  const [component, setComponent] = useState({
+    openModal: false
+  });
 
   useEffect(() => {
     dispatch(GetUsersList());
@@ -604,17 +609,29 @@ const ClaimDetail = (props) => {
       }, 1000);
     });
 
+  const _toggleModal = (id) => {
+    if (typeof id === "number") {
+      dispatch(getStatusesOfClaim(id));
+    }
+    setComponent({
+      ...component,
+      openModal: !component.openModal
+    })
+  }
+
   return (
     <>
       {isLoading ? (
         <LoaderAnimation />
       ) : (
-        <div class="body-content-area body-bg-1 pb-80 ml-0">
-          <div class="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-            <div class="ltnd__header-middle-area mt-30">
-              <div class="row">
-                <div class="col-lg-9">
-                  <div class="ltnd__page-title-area">
+        <div className="body-content-area body-bg-1 pb-80 ml-0">
+          <TrackTaskModal toggleModal={_toggleModal} openModal={component.openModal} title="History" />
+
+          <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
+            <div className="ltnd__header-middle-area mt-30">
+              <div className="row">
+                <div className="col-lg-9">
+                  <div className="ltnd__page-title-area">
                     <p className="page-back-btn cursor-pointer">
                       <span onClick={() => window.history.back()}>
                         <i className="icon-left-arrow-1" />
@@ -624,19 +641,28 @@ const ClaimDetail = (props) => {
                     <h2>{getPageTitle(type)}</h2>
                   </div>
                 </div>
-                <div class="col-lg-3 align-self-center text-end">
-                  <div class="btn-wrapper mt-0">
-                    <a class="btn btn-2 btn-border border-radius-12">History</a>
-                  </div>
-                </div>
+                {
+                  type !== "create" && (
+                    <div className="col-lg-3 align-self-center text-end">
+                      <div className="btn-wrapper mt-0">
+                        <button
+                          className="btn btn-2 btn-border border-radius-12"
+                          onClick={() => _toggleModal(parseInt(params.id))}
+                        >
+                          History
+                        </button>
+                      </div>
+                    </div>
+                  )
+                }
               </div>
             </div>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div class="body-content-area-inner">
+            <div className="body-content-area-inner">
               {/* Initiate Claim Information Form */}
-              <div class="ltnd__block-area">
+              <div className="ltnd__block-area">
                 {type === "create" || type === "edit" ? (
                   <InitiateCustomerInformation
                     state={claimDetails}
@@ -762,10 +788,10 @@ const ClaimDetail = (props) => {
               />
             </div>
 
-            <footer class="ltnd__footer-1 fixed-footer-1">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-lg-12">
+            <footer className="ltnd__footer-1 fixed-footer-1">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-lg-12">
                     <FooterActions
                       type={type}
                       submitBtnRef={submitBtnRef}
