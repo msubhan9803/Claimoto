@@ -8,8 +8,9 @@ import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { getInitials, getAfters, handleRulesInputValue } from 'store/actions/rules';
 import ScheduledCallGrid from 'components/ClaimOffice/ScheduledCalls/ScheduledCallsGrid';
+import Header from 'components/Header/Header';
+import { handleRootScheduleInputValue } from 'store/actions/scheduleCalls';
 
 function ScheduledCallList() {
 
@@ -25,7 +26,7 @@ function ScheduledCallList() {
 
 
     //Redux State
-    const { tabs, search_options, search_option, search_text, sort_type, sort_name, initials, afters } = useSelector(state => state.rulesScreenReducer);
+    const { tabs, search_options, search_option, search_text, sort_type, sort_name, initials, afters } = useSelector(state => state.scheduleCalls);
 
 
 
@@ -43,35 +44,13 @@ function ScheduledCallList() {
 
 
 
-    const _getRulesList = () => {
-        let records_per_page = 10;
-        let page_index = 1;
-        switch (searchParams.get("tab")) {
-            case "initial":
-                records_per_page = initials.records_per_page;
-                page_index = initials.page_index;
-                dispatch(getInitials({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-
-            case "after":
-                records_per_page = afters.records_per_page;
-                page_index = afters.page_index;
-                dispatch(getAfters({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-
-            default:
-                dispatch(getAfters({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-        }
-    }
-
 
 
 
     const _handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        dispatch(handleRulesInputValue({ name, value }));
+        dispatch(handleRootScheduleInputValue({ name, value }));
     }
 
 
@@ -92,73 +71,16 @@ function ScheduledCallList() {
         <React.Fragment>
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-                    <div className="ltnd__header-middle-area mt-30">
-                        <div className="row">
-                            <div className="col-lg-9">
-                                <div className="ltnd__page-title-area">
-                                    <h2>Scheduled Calls </h2>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                   
                     {/* header-middle-area end */}
 
                 </div>
                 {/* <!-- Body Content Area Inner Start --> */}
 
                 <div className="body-content-area-inner">
-                    {/* PRODUCT AREA START */}
-                    <div className="ltn__product-area ltn__product-gutter">
-                        <div className="row">
-                            <div className="col-lg-5">
-                                <div className="ltn__search-widget ltnd__product-search-widget mb-30">
-                                    <form action="#" _lpchecked={1}>
-                                        <input
-                                            type="text"
-                                            name="search_text"
-                                            placeholder="Search ..."
-                                            onChange={_handleChange}
-                                            className=""
-                                            value={search_text}
-                                        />
-                                        <button type="submit">
-                                            <FontAwesomeIcon icon={faSearch} />
-                                        </button>
-                                        {/* <select name="search_option" value={search_option} onChange={_handleChange} className='select search-options'>
-                                            <option disabled value={""}>Search By</option>
-                                            {search_options.map((op) => (
-                                                <option key={op.value} value={op.value}>{op.label}</option>
+                    
+                <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Scheduled Calls"} handleChange={_handleChange} />
 
-                                            ))}
-                                        </select> */}
-                                    </form>
-
-                                </div>
-                            </div>
-                            <div className="col-lg-7">
-                                <div className="ltn__shop-options ltnd__shop-options select-list-right">
-                                    <ul>
-                                        {/* <li>
-                                            <div className="short-by text-center">
-                                                <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
-                                                    <option disabled value={""}>Sort By</option>
-                                                    {search_options.map((op) => (
-                                                        <option key={op.value} value={op.value}>{op.label}</option>
-
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </li> */}
-                                        <li>
-                                            
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* PRODUCT AREA END */}
 
                     {/* SELECT AVAILABILITY AREA START */}
                     <div className="select-availability-area pb-120">

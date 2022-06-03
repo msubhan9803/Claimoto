@@ -102,6 +102,51 @@ const ScheduledCallGrid = () => {
     }
 
 
+    const _returnColumn = (record) => {
+        return (
+            <ul key={record?.SC_Id} className="ltn__select-availability-table-row">
+                <li className="table-data-5">
+                    <strong>
+                        {record?.PolicyNo || ""}
+                    </strong>
+                </li>
+                <li className="table-data-5">{`${record?.ClaimId || ""}`}</li>
+                <li className="table-data-5">{`${record?.PolicyHolderName || ""}`}</li>
+                <li className="table-data-10">{`${record?.MakeName || ""}`}</li>
+                <li className="table-data-4">
+                    {formatDateTime(record?.StartTime).toAmPM || ""}
+                </li>
+                <li className="table-data-4">
+                    {formatDateTime(record?.Date).toDate || ""}
+                </li>
+                <li className="table-data-4">
+                    {!initial_rules_actions?.includes("UPDATE") &&
+                        <strong>
+                            <Link to={`/claim/call/${record?.ChannelId}/${record?.PolicyHolderName}`} >Join Call</Link>
+                        </strong>
+                    }
+                </li>
+                <li className="table-data-4">
+                    {!initial_rules_actions?.includes("VIEW") &&
+                        <strong className='text-danger' role="button" onClick={() => _cancelCall(record?.SC_Id)}>
+                            Cancel
+                        </strong>
+                    }
+                </li>
+                <li className="table-data-4">
+                    {!initial_rules_actions?.includes("UPDATE") &&
+                        <strong role="button" onClick={()=>_openModal(record?.SC_Id, record?.ClaimId)} className='text-primary'>
+                            Reschedule
+                        </strong>
+                    }
+                </li>
+                
+
+            </ul>
+        )
+    }
+
+
 
     return (
         <React.Fragment>
@@ -125,50 +170,14 @@ const ScheduledCallGrid = () => {
                                             <li className="table-data-4"></li>
                                             <li className="table-data-4"></li>
                                         </ul>
-                                        {list?.map((record, index) => {
-                                            return (
-                                                <ul key={record?.SC_Id} className="ltn__select-availability-table-row">
-                                                    <li className="table-data-5">
-                                                        <strong>
-                                                            {record?.PolicyNo || ""}
-                                                        </strong>
-                                                    </li>
-                                                    <li className="table-data-5">{`${record?.ClaimId || ""}`}</li>
-                                                    <li className="table-data-5">{`${record?.PolicyHolderName || ""}`}</li>
-                                                    <li className="table-data-10">{`${record?.MakeName || ""}`}</li>
-                                                    <li className="table-data-4">
-                                                        {formatDateTime(record?.StartTime).toAmPM || ""}
-                                                    </li>
-                                                    <li className="table-data-4">
-                                                        {formatDateTime(record?.Date).toDate || ""}
-                                                    </li>
-                                                    <li className="table-data-4">
-                                                        {!initial_rules_actions?.includes("UPDATE") &&
-                                                            <strong>
-                                                                <Link to={`/claim/call/${record?.ChannelId}/${record?.PolicyHolderName}`} >Join Call</Link>
-                                                            </strong>
-                                                        }
-                                                    </li>
-                                                    <li className="table-data-4">
-                                                        {!initial_rules_actions?.includes("VIEW") &&
-                                                            <strong className='text-danger' role="button" onClick={() => _cancelCall(record?.SC_Id)}>
-                                                                Cancel
-                                                            </strong>
-                                                        }
-                                                    </li>
-                                                    <li className="table-data-4">
-                                                        {!initial_rules_actions?.includes("UPDATE") &&
-                                                            <strong role="button" onClick={()=>_openModal(record?.SC_Id, record?.ClaimId)} className='text-primary'>
-                                                                Reschedule
-                                                            </strong>
-                                                        }
-                                                    </li>
-                                                    
 
-                                                </ul>
-                                            )
-                                        }
-                                        )}
+
+                                        {search_text && search_option ? list.filter((recrd) => recrd[search_option]?.toString()?.toUpperCase()?.startsWith(search_text.toUpperCase())).map((record, index) => {
+                                                return _returnColumn(record)
+                                            }) : list.map((record, index) => {
+                                                return _returnColumn(record)
+                                            }) || []}
+
                                     </div>
                                 </div>
                             </div>

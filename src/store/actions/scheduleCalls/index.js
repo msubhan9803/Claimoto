@@ -38,3 +38,8 @@ export const cancelScheduledCall = (id, Callback) => async dispatch => {
         console.log(error);
     }
 }
+
+
+export const handleRootScheduleInputValue = ({name, value }) => async dispatch => {
+    dispatch({ type: SET_SCHEDULE_CALL_ROOT_VALUES, payload: { name, value } });
+}

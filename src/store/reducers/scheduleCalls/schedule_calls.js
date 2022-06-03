@@ -16,13 +16,30 @@ const initialState = {
     
     search_options: [
         {
-            label: "Name",
-            value: "Name",
+            label: "Policy Name",
+            value: "PolicyNo",
         },
         {
-            label: "Amount",
-            value: "amount",
-        }
+            label: "Claim Id",
+            value: "ClaimId",
+        },
+        {
+            label: "Policy Holder Name",
+            value: "PolicyHolderName",
+        },
+        {
+            label: "Make Name",
+            value: "MakeName",
+        },
+        {
+            label: "Start Time",
+            value: "StartTime",
+        },
+        {
+            label: "Date",
+            value: "Date",
+        },
+
     ],
 
 
