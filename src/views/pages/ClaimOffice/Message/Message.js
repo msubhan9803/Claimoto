@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import send_attachment from 'assets/img/call/actions/send_attachment.png';
 import send_message from 'assets/img/call/actions/send_message.png';
 import useAgoraRtm from "hooks/useAgoraRtm";
@@ -13,6 +13,7 @@ const client = AgoraRTM.createInstance("5f611f72fa2d48798a9d13cc723447da");
 // const client = AgoraRTM.createInstance(process.env.REACT_APP_AGORA_APPID);
 const randomUseName = "23421323";
 function Message({ appid, token, channel, joinState, accountName, setLoading }) {
+    const msgRef = useRef();
     const attachment_ref = useRef();
     const [textArea, setTextArea] = useState("");
     const { messages, sendChannelMessage, sendChannelImage } = useAgoraRtm(
@@ -38,6 +39,15 @@ function Message({ appid, token, channel, joinState, accountName, setLoading }) 
         sendChannelMessage(textArea);
         setTextArea("");
     }
+
+
+    useEffect(() => {
+        msgRef.current.scrollTo({
+            top: msgRef.current.scrollHeight,
+            behavior: 'smooth',
+        })
+        
+    }, [messages]);
 
 
 
@@ -82,7 +92,7 @@ function Message({ appid, token, channel, joinState, accountName, setLoading }) 
                 <div>
                     <h2>Chat</h2>
                 </div>
-                <div className='messages' id='log'>
+                <div ref={msgRef} className='messages' id='log'>
                     {messages.map((data, index) => {
                         return (
                             data.user.name == accountName ?

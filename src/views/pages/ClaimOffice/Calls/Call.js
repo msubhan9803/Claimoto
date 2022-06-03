@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { successAlert } from 'functions';
+import { msgAlert } from 'functions';
 
 const client = AgoraRTC.createClient({ codec: 'h264', mode: 'rtc' });
 
@@ -53,6 +54,11 @@ function Call() {
     }
 
 
+
+    const _meetingTimeOut = () => {
+        leave();
+        msgAlert({title:"Time Over", text:"Meeting time Over" });
+    }
     const _getRTCToken = async () => {
         return new Promise(async (res, rej) => {
             let config = {
@@ -175,7 +181,7 @@ function Call() {
                                         </div>
 
                                         <div className="topright">
-                                            <CountdownTimer targetDate={dateTimeAfterThreeDays} leaveMeeting={() => leave()} toggleTimmer={remoteUsers.length > 0} />
+                                            <CountdownTimer targetDate={dateTimeAfterThreeDays} leaveMeeting={_meetingTimeOut} toggleTimmer={remoteUsers.length > 0} />
                                         </div>
 
                                         {remoteUsers.length < 1 ?
