@@ -18,10 +18,10 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
-    const {rejection_reasons} = useSelector((state) => state.claimsReducer);
+    const { rejection_reasons } = useSelector((state) => state.claimsReducer);
     const status_change_input_values = useSelector((state) => state.claimsReducer.status_change_input_values);
-    const {rejection_reason, internal_comments, external_comments} = status_change_input_values;
-    
+    const { rejection_reason, internal_comments, external_comments } = status_change_input_values;
+
 
     //Permissions Controlling
     const { permissions } = useSelector(state => state.authReducer);
@@ -31,9 +31,9 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
             dispatch(getRejectionReasons());
         }
         return () => {
-            dispatch(handleChangeInputStatus({name :"rejection_reason", value : ""}))
-            dispatch(handleChangeInputStatus({name : "internal_comments", value : ""}))
-            dispatch(handleChangeInputStatus({name : "external_comments", value: ""}))
+            dispatch(handleChangeInputStatus({ name: "rejection_reason", value: "" }))
+            dispatch(handleChangeInputStatus({ name: "internal_comments", value: "" }))
+            dispatch(handleChangeInputStatus({ name: "external_comments", value: "" }))
 
         }
     }, [action]);
@@ -41,17 +41,17 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
     const _handleFieldChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
-        dispatch(handleChangeInputStatus({name, value}))
-    } 
+        dispatch(handleChangeInputStatus({ name, value }))
+    }
 
     const _initialHandleClaimCallBack = () => {
         getClaimDetails()
         toggleModal();
-        successAlert({title: "Status Changed Successfully", text:""});
+        successAlert({ title: "Status Changed Successfully", text: "" });
     }
 
     const _initialHandle = () => {
-        dispatch(initialHandleClaim({...status_change_input_values, statusId: action === "reject" ? 19 : 11, claimId:params.id}, _initialHandleClaimCallBack));
+        dispatch(initialHandleClaim({ ...status_change_input_values, statusId: action === "reject" ? 19 : 11, claimId: params.id }, _initialHandleClaimCallBack));
     }
 
     const animatedComponents = makeAnimated();
@@ -91,6 +91,7 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
                                         value={rejection_reason}
                                         onChange={_handleFieldChange}
                                     >
+                                        <option value={""}>Select a Rejection Reason</option>
                                         {rejection_reasons?.map((reason, index) => (
                                             <option value={reason.Reason}> {reason.Reason} </option>
 
@@ -104,7 +105,7 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
                                 <h6 className="ltnd__title-3 mt-2">Internal Comments</h6>
                                 <textarea
                                     onChange={_handleFieldChange}
-                                    rows="1" 
+                                    rows="1"
                                     value={internal_comments}
                                     name="internal_comments">
 

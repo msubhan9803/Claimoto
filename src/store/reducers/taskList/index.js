@@ -30,11 +30,11 @@ const initialState = {
             short: "Pending Tasks"
         },
         {
-            label: "Complete Tasks",
+            label: "Completed Tasks",
             id: "ltn__tab_3_3",
             name: "complete_task",
             component: <CompletedTaskList />,
-            short: "Complete Tasks"
+            short: "Completed Tasks"
         },
     ],
 
