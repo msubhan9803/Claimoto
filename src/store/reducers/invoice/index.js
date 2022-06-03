@@ -13,13 +13,13 @@ import {
 const initialState = {
 
     tabs: [
-        {
-            label: "Service List Admin",
-            id: "ltn__tab_3_1",
-            name: "service%20List",
-            component: <ServiceListAdmin />,
-            short: "SL"
-        },
+        // {
+        //     label: "Service List Admin",
+        //     id: "ltn__tab_3_1",
+        //     name: "service%20List",
+        //     component: <ServiceListAdmin />,
+        //     short: "SL"
+        // },
         {
             label: "State of Account",
             id: "ltn__tab_3_2",

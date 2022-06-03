@@ -234,7 +234,7 @@ export const claimRoutes = ({ userPermissions }) => {
     {
       name: "Replacement Cars",
       path: "/replacement_cars",
-      icon: "ti-id-badge",
+      icon: "ti-car",
       layout: "claim",
       collapse: true,
       views: [
