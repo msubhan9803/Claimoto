@@ -1,4 +1,4 @@
-import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES } from "store/types/tasks";
+import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES, CHANGE_ROOT_TASKS_SCREEN } from "store/types/tasks";
 import instance from "config/axios/instance";
 
 export const getStatusesOfClaim = (id) => async (dispatch) => {
@@ -45,4 +45,9 @@ export const getPendingTaskList = (id) => async dispatch => {
         dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: false } });
         console.log(error);
     }
+}
+
+
+export const changeTasksRootValues = ({key, val }) => async dispatch => {
+    dispatch({ type: CHANGE_ROOT_TASKS_SCREEN, payload: { key, val } });
 }

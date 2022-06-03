@@ -3,11 +3,12 @@ import {
     CHANGE_HANDLER_RULES,
 } from '../../types/rules';
 
-import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES } from "store/types/tasks";
+import { SET_TASKS_BY_DND, GET_MY_TASKS_REQUEST, GET_MY_TASKS, GET_PENDING_TASKS_REQUEST, GET_PENDING_TASKS, SET_CLAIM_STATUSES, CHANGE_ROOT_TASKS_SCREEN } from "store/types/tasks";
 
 
 import MyTaskList from 'components/ClaimOffice/Tasks/MyTasks';
 import PendingTaskList from 'components/ClaimOffice/Tasks/PendingTasks';
+import CompletedTaskList from 'components/ClaimOffice/Tasks/CompletedTasks';
 
 
 
@@ -22,11 +23,18 @@ const initialState = {
             short: "My Tasks"
         },
         {
-            label: "Pending Tasks",
+            label: "Pending & Follow-up Tasks",
             id: "ltn__tab_3_2",
             name: "pending_task",
             component: <PendingTaskList />,
             short: "Pending Tasks"
+        },
+        {
+            label: "Complete Tasks",
+            id: "ltn__tab_3_3",
+            name: "complete_task",
+            component: <CompletedTaskList />,
+            short: "Complete Tasks"
         },
     ],
 
@@ -45,12 +53,25 @@ const initialState = {
 
     search_options: [
         {
-            label: "Name",
-            value: "Name",
+            label: "Policy Id",
+            value: "PolicyId",
         },
         {
-            label: "Amount",
-            value: "amount",
+            label: "Claim Id",
+            value: "ClaimId",
+        },
+        {
+            label: "Claim Type",
+            value: "ClaimTypeName",
+        },
+        // {
+        //     label: "Incident Date",
+        //     value: "IncidentDate",
+        // },
+        {
+            label: "Car Number",
+            value: "CarNo",
+
         }
     ],
 
@@ -144,6 +165,16 @@ const taskListScreenReducer = (state = initialState, action) => {
         }
             break;
 
+
+        case CHANGE_ROOT_TASKS_SCREEN: {
+            let { key, val } = action.payload;
+
+            return {
+                ...state,
+                [key]: val,
+            }
+        }
+            break;
 
 
 

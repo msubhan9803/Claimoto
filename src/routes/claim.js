@@ -81,6 +81,31 @@ export const claimRoutes = ({ userPermissions }) => {
       ]
     },
     {
+      name: "Scheduled Calls",
+      component: <ScheduledCallList />,
+      collapse: true,
+      path: "/scheduled_call",
+      icon: "ti-headphone-alt",
+      layout: "claim",
+      short_name: "CD",
+      views: [
+        {
+          name: "Scheduled Calls",
+          path: "/scheduled_call",
+          component: <ScheduledCallList />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "CD",
+        },
+        {
+          name: "Calls",
+          path: "/call/:channel/:username",
+          component: <Call />,
+          layout: "claim",
+        },
+      ]
+    },
+    {
       name: "Policies",
       path: "/policies",
       icon: "ti-shield",
@@ -229,31 +254,7 @@ export const claimRoutes = ({ userPermissions }) => {
     },
     //_checkPer("APR") &&
 
-    {
-      name: "Scheduled Calls",
-      component: <ScheduledCallList />,
-      collapse: true,
-      path: "/scheduled_call",
-      icon: "ti-headphone-alt",
-      layout: "claim",
-      short_name: "CD",
-      views: [
-        {
-          name: "Scheduled Calls",
-          path: "/scheduled_call",
-          component: <ScheduledCallList />,
-          icon: "ti-layout",
-          layout: "claim",
-          short_name: "CD",
-        },
-        {
-          name: "Calls",
-          path: "/call/:channel/:username",
-          component: <Call />,
-          layout: "claim",
-        },
-      ]
-    },
+
     {
       name: "Invoice",
       component: <Invoice />,

@@ -8,7 +8,8 @@ import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { getInitials, getAfters, handleRulesInputValue } from 'store/actions/rules';
+import Header from 'components/Header/Header';
+import { changeTasksRootValues } from 'store/actions/taskList';
 
 function TaskList() {
 
@@ -43,10 +44,16 @@ function TaskList() {
 
 
 
+
+
+
+
+
+
     const _handleChange = (event) => {
-        let name = event.target.name;
-        let value = event.target.value;
-        dispatch(handleRulesInputValue({ name, value }));
+        let key = event.target.name;
+        let val = event.target.value;
+        dispatch(changeTasksRootValues({ key, val }));
     }
 
 
@@ -58,46 +65,14 @@ function TaskList() {
     return (
         <React.Fragment>
             <div className="body-wrapper">
-                <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-                    <div className="ltnd__header-middle-area mt-30">
-                        <div className="row">
-                            <div className="col-lg-9">
-                                <div className="ltnd__page-title-area">
-                                    <h2>Task List</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* header-middle-area end */}
-
-                </div>
-                {/* <!-- Body Content Area Inner Start --> */}
 
                 <div className="body-content-area-inner">
                     {/* PRODUCT AREA START */}
-                    <div className="ltn__product-area ltn__product-gutter">
-                        <div className="row">
-                            <div className="col-lg-5">
-                                <div className="ltn__search-widget ltnd__product-search-widget mb-30">
-                                    <form action="#" _lpchecked={1}>
-                                        <input
-                                            type="text"
-                                            name="search_text"
-                                            placeholder="Search ..."
-                                            onChange={_handleChange}
-                                            className=""
-                                            value={search_text}
-                                        />
-                                        <button type="submit">
-                                            <FontAwesomeIcon icon={faSearch} />
-                                        </button>
-                                    </form>
+                    <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Task List"} handleChange={_handleChange} />
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* PRODUCT AREA END */}
+
+
+
 
                     {/* SELECT AVAILABILITY AREA START */}
                     <div className="select-availability-area pb-120">

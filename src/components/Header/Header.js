@@ -4,7 +4,7 @@ import ExportComponent from './Export'
 import SortComponent from './Sort'
 
 
-function Header({button_name, name, search_options, sort_options,  search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
+function Header({ button_name, name, search_options, sort_options, search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
 
 
     return (
@@ -35,7 +35,7 @@ function Header({button_name, name, search_options, sort_options,  search_text, 
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        <ExportComponent exportData={exportData} />
+                                        {exportData && <ExportComponent exportData={exportData} />}
                                         <SortComponent sort_options={sort_options} sort_name={sort_name} handleChange={handleChange} />
 
                                         <li>
@@ -47,13 +47,15 @@ function Header({button_name, name, search_options, sort_options,  search_text, 
                                             </div>
                                         </li>
                                         <li>
-                                            <div className="btn-wrapper text-center mt-0">
-                                                <a
-                                                    onClick={addButtonHandler}
-                                                    className="btn theme-btn-1 btn-round-12 zindexNormal">
-                                                    {button_name}
-                                                </a>
-                                            </div>
+                                            {button_name &&
+                                                <div className="btn-wrapper text-center mt-0">
+                                                    <a
+                                                        onClick={addButtonHandler}
+                                                        className="btn theme-btn-1 btn-round-12 zindexNormal">
+                                                        {button_name}
+                                                    </a>
+                                                </div>
+                                            }
                                         </li>
                                     </ul>
                                 </div>
