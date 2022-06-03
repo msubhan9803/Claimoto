@@ -18,7 +18,7 @@ import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 function Claimlist(props) {
   const { layout } = props;
@@ -47,15 +47,19 @@ function Claimlist(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (params.policyId) {
-      dispatch(GetClaimsByPolicyId(params.policyId));
-    }
-    dispatch(GetProducType());
+    _handleDataFetching();
 
     return () => {
       dispatch(ResetClaimListAndPagination());
     };
   }, []);
+
+  const _handleDataFetching = () => {
+    if (params.policyId) {
+      dispatch(GetClaimsByPolicyId(params.policyId));
+    }
+    dispatch(GetProducType());
+  }
 
   //Refs
   let excle_export = createRef();
@@ -167,6 +171,10 @@ function Claimlist(props) {
   const _handleClaimsNotFound = () => {
     navigate(`/${layout}/policies`);
   };
+
+  const _handleGridRefresh = () => {
+    _handleDataFetching();
+  }
 
   return (
     <React.Fragment>
@@ -286,6 +294,18 @@ function Claimlist(props) {
                         </select>
                       </div>
                     </li> */}
+                    <li>
+                      <div
+                        className="short-by text-center cursor-pointer"
+                        style={{ width: "32px" }}
+                        data-toggle="tooltip"
+                        data-placement="left"
+                        title="Refresh"
+                        onClick={_handleGridRefresh}
+                      >
+                        <FontAwesomeIcon icon={faArrowRotateRight} />
+                      </div>
+                    </li>
                     <li>
                       <div className="short-by text-center">
                         <select

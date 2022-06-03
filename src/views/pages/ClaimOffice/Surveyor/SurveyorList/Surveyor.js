@@ -12,7 +12,7 @@ import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import SurveyorList from "components/ClaimOffice/Surveyor/SurveyorList";
 
 function Surveyor() {
@@ -42,6 +42,12 @@ function Surveyor() {
   let csv_export = createRef();
 
   useEffect(() => {
+    _handleDataFetching();
+
+    return () => dispatch(ClearProviderListData());
+  }, []);
+
+  const _handleDataFetching = () => {
     dispatch(SetPaginatedAgenciesGarages(
       providerTypeId,
       providers_per_page,
@@ -51,9 +57,7 @@ function Surveyor() {
       sort_name,
       sort_type
     ));
-    
-    return () => dispatch(ClearProviderListData());
-  }, []);
+  }
 
   useEffect(() => {
     dispatch(SetPaginatedAgenciesGarages(
@@ -107,6 +111,10 @@ function Surveyor() {
       HandleTableInputValue({ name: "providers_page_index", value: pageIndex })
     );
   };
+
+  const _handleGridRefresh = () => {
+    _handleDataFetching();
+  }
 
   return (
     <React.Fragment>
@@ -190,6 +198,18 @@ function Surveyor() {
                 <div className="col-lg-8">
                   <div className="ltn__shop-options ltnd__shop-options select-list-right">
                     <ul>
+                      <li>
+                        <div
+                          className="short-by text-center cursor-pointer"
+                          style={{ width: "32px" }}
+                          data-toggle="tooltip"
+                          data-placement="left"
+                          title="Refresh"
+                          onClick={_handleGridRefresh}
+                        >
+                          <FontAwesomeIcon icon={faArrowRotateRight} />
+                        </div>
+                      </li>
                       <li>
                         <div className="short-by text-center">
                           <select
