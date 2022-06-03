@@ -1225,8 +1225,8 @@ label.checkbox-inline {
 }
 
 .ltn__checkbox .icon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   display: block;
   position: absolute;
   left: 0;
@@ -1235,13 +1235,14 @@ label.checkbox-inline {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   border: 2px solid #CFDCE6;
-  border-radius: 2px;
+  border-radius: 5px;
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
+  text-align: center;
 }
 
-.ltn__checkbox .icon::before {
+/* .ltn__checkbox .icon::before {
   content: "\f26b";
   font-family: "Material-Design-Iconic-Font";
   display: block;
@@ -1258,7 +1259,7 @@ label.checkbox-inline {
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
-}
+} */
 
 .ltn__checkbox.primary input:checked+.icon {
   background-color: #428bfa;
@@ -17831,6 +17832,7 @@ form .ltnd__title-3 {
 ---------------------------------------------------- */
 .ltn__select-availability-table-wrap {
   overflow-y: auto;
+  min-height: 800px;
 }
 
 .ltn__select-availability-table-wrap .tower-name {

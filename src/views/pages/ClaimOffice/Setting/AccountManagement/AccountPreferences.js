@@ -451,7 +451,7 @@ const AccountPreferences = ({ layout }) => {
               </div>
             </div>
 
-            <div class="ltnd__block-area mb-50">
+            {/* <div class="ltnd__block-area mb-50">
               <div class="row">
                 <div class="col-lg-12">
                   <div class="ltnd__block-item mt-30">
@@ -516,7 +516,7 @@ const AccountPreferences = ({ layout }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <footer class="ltnd__footer-1 bg-white mt-80">

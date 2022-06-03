@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function VehicleInformation({
   type,
@@ -20,7 +22,7 @@ export default function VehicleInformation({
               {type !== "create" && StatusName && (
                 <div class="btn-wrapper mt-0">
                   <span class="invoice-btn invoice-btn-3">
-                    <i class="fas fa-circle"></i> {StatusName}
+                   {StatusName} &nbsp; &nbsp; <FontAwesomeIcon icon={faCircle} size="sm" />
                   </span>
                 </div>
               )}

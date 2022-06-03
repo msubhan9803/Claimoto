@@ -146,7 +146,7 @@ export default function CarPhotos({
                   : `${process.env.REACT_APP_API_ENVIROMENT}${image}`
               }
               alt="#"
-              style={{ maxHeight: "180px", margin: "auto" }}
+              style={{ maxHeight: "180px", margin: "auto", borderRadius: "5px" }}
             />
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function CarPhotos({
           <div class="col-lg-12">
             <div class="ltnd__block-item mt-30">
               <div class="ltnd__title ltnd__title-2">
-                <h4>Car photos</h4>
+                <h4>Claim photos</h4>
               </div>
               <div class="ltn__block-item-info ltnd__car-photos-wrap">
                 <div class="row">

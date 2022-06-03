@@ -9,7 +9,7 @@ export default function ClaimDetailsViewOnly({
   cities,
   areas,
 }) {
-  const { IncidentDate, Location, InitialComments, ClaimTypeId, RepairOption, Area, Region } =
+  const { ClaimId, IncidentDate, Location, InitialComments, ClaimTypeId, RepairOption, Area, Region } =
     claimDetails;
 
   const _getClaimTypeName = (claimTypeId) => {
@@ -37,6 +37,12 @@ export default function ClaimDetailsViewOnly({
               <div class="row">
                 <div class="col-lg-3 col-md-6 mt-2">
                   <div class="policies-details-single-info">
+                    <h6 class="ltnd__title-4">Claim Id</h6>
+                    <h6>{ClaimId}</h6>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-2">
+                  <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Claim type</h6>
                     <h6>{_getClaimTypeName(ClaimTypeId)}</h6>
                   </div>
@@ -55,7 +61,7 @@ export default function ClaimDetailsViewOnly({
                 <div class="col-lg-3 col-md-6 mt-2">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Incident date</h6>
-                    <h6>{moment(IncidentDate).format("LL")}</h6>
+                    <h6 data-toggle="tooltip" data-placement="left" title={moment(IncidentDate).format("LL")}>{moment(IncidentDate).fromNow()}</h6>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">

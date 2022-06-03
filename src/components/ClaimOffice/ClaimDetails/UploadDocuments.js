@@ -35,7 +35,7 @@ export default function UploadDocuments({
 
     if (temp) {
       if (temp.file || temp.Path || temp.AlreadyAddedPath) {
-        return "Re-upload";
+        return "Re-Upload";
       }
     }
     return "Upload";
@@ -84,38 +84,38 @@ export default function UploadDocuments({
   const documentRow = (docTypeString) => {
     return (
       <>
-        <div class="col-lg-12">
-          <div class="ltnd__space-between">
-            <div class="ltn__checkbox-radio-group inline">
-              <label class="ltn__checkbox">
+        <div className="col-lg-12">
+          <div className="ltnd__space-between">
+            <div className="ltn__checkbox-radio-group inline">
+              <label className="ltn__checkbox">
                 <input
                   type="checkbox"
                   checked={_getCheckboxState(docTypeString)}
                 />{" "}
-                <div class="icon">
+                <div className="icon">
                   <FontAwesomeIcon icon={faCheck} color="white" />
                 </div>
-                <strong>{getDocTypeToHeading(docTypeString)}</strong>
+                <strong style={{ marginLeft: "8px" }}>{getDocTypeToHeading(docTypeString)}</strong>
               </label>
             </div>
-            <div class="btn-wrapper mt-0">
+            <div className="btn-wrapper mt-0">
               {type === "view" && (
                 <a
-                  class="ltn__secondary-color--- ml-20 cursor-pointer"
+                  className="ltn__secondary-color--- ml-20 cursor-pointer"
                   onClick={() => downloadFIle(docTypeString)}
                 >
                   <strong>
-                    Download <i class="ti-arrow-circle-down"></i>
+                    Download <i className="ti-arrow-circle-down"></i>
                   </strong>
                 </a>
               )}
               <a
-                class="ltn__secondary-color--- ml-20 cursor-pointer"
+                className="ltn__secondary-color--- ml-20 cursor-pointer"
                 onClick={() => handleDocumentSave(docTypeString)}
               >
                 <strong>
                   {_handleUploadBtnText(docTypeString)}{" "}
-                  <i class="ti-arrow-circle-up"></i>
+                  <i className="ti-arrow-circle-up"></i>
                 </strong>
               </a>
             </div>
@@ -127,17 +127,17 @@ export default function UploadDocuments({
   };
 
   return (
-    <div class="ltnd__block-area">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="ltnd__block-item mt-30">
-            <div class="ltnd__space-between">
-              <div class="ltnd__title ltnd__title-2">
-                <h4>Uploaded documents</h4>
+    <div className="ltnd__block-area">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="ltnd__block-item mt-30">
+            <div className="ltnd__space-between">
+              <div className="ltnd__title ltnd__title-2">
+                <h4>Documents</h4>
               </div>
             </div>
-            <div class="ltn__block-item-info ltnd__policies-details-info">
-              <div class="row">
+            <div className="ltn__block-item-info ltnd__policies-details-info">
+              <div className="row">
                 {ClaimDocuments && !checkIfArrayHasEmptyValue(ClaimDocuments)
                   ? Object.keys(docType).map((item, index) => documentRow(item))
                   : ""}
