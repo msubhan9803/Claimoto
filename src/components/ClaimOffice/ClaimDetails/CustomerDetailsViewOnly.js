@@ -2,8 +2,6 @@ import React from "react";
 import moment from "moment";
 
 export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList }) {
-  const { IdentityNo } = claimDetails;
-
   return (
     <div class="ltnd__block-area">
       <div class="row">
@@ -19,7 +17,25 @@ export default function ClaimDetailsViewOnly({ type, claimDetails, claimsList })
                 <div class="col-lg-3 col-md-6">
                   <div class="policies-details-single-info">
                     <h6 class="ltnd__title-4">Civil Id</h6>
-                    <h6>{IdentityNo}</h6>
+                    <h6>{claimDetails?.IdentityNo || ""}</h6>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="policies-details-single-info">
+                    <h6 class="ltnd__title-4">Name</h6>
+                    <h6>{`${claimDetails?.FirstName || ""} ${claimDetails?.LastName || ""}`}</h6>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="policies-details-single-info">
+                    <h6 class="ltnd__title-4">Email</h6>
+                    <h6>{claimDetails?.Email || ""}</h6>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="policies-details-single-info">
+                    <h6 class="ltnd__title-4">Mobile no.</h6>
+                    <h6>{claimDetails?.MobileNo || ""}</h6>
                   </div>
                 </div>
               </div>

@@ -92,7 +92,12 @@ const initialState = {
     IsActive: true,
     ClaimAccidentCarPhotos: [],
     ClaimDocuments: [],
-    StatusName: ""
+    StatusName: "",
+    Email: "",
+    FirstName: "",
+    LastName: "",
+    MobileNo: ""
+
   },
   usersList: [],
   policiesList: [],
