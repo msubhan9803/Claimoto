@@ -6,7 +6,7 @@ import Pagination from "components/Pagination/Pagination";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import ClaimListTable from "components/ClaimOffice/ClaimList/ClaimList";
 
 function ClaimList({ layout }) {
@@ -37,6 +37,12 @@ function ClaimList({ layout }) {
   let navigate = useNavigate();
 
   useEffect(() => {
+    _handleDataFetching();
+
+    return () => dispatch(ClearProviderListData());
+  }, []);
+
+  const _handleDataFetching = () => {
     dispatch(SetPaginatedAgenciesGarages(
       providers_per_page,
       providers_page_index,
@@ -45,9 +51,7 @@ function ClaimList({ layout }) {
       sort_name,
       sort_type
     ));
-
-    return () => dispatch(ClearProviderListData());
-  }, []);
+  }
 
   useEffect(() => {
     dispatch(SetPaginatedAgenciesGarages(
@@ -102,6 +106,10 @@ function ClaimList({ layout }) {
   };
 
   const _handleRedirectToClaimList = () => navigate(`/${layout}/policies`);
+
+  const _handleGridRefresh = () => {
+    _handleDataFetching();
+  }
 
   return (
     <React.Fragment>
@@ -201,6 +209,18 @@ function ClaimList({ layout }) {
                           </select>
                         </div>
                       </li> */}
+                    <li>
+                      <div
+                        className="short-by text-center cursor-pointer"
+                        style={{ width: "32px" }}
+                        data-toggle="tooltip"
+                        data-placement="left"
+                        title="Refresh"
+                        onClick={_handleGridRefresh}
+                      >
+                        <FontAwesomeIcon icon={faArrowRotateRight} />
+                      </div>
+                    </li>
                       <li>
                         <div className="short-by text-center">
                           <select

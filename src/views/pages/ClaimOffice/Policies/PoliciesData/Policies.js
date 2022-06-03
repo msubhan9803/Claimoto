@@ -16,7 +16,7 @@ import ADAnimation from "components/AccessDenied/ADAnimation";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 function Policies(props) {
   const { layout } = props;
@@ -43,9 +43,13 @@ function Policies(props) {
   } = policyListTableFilterData;
 
   useEffect(() => {
+    _handleDataFetching();
+  }, []);
+
+  const _handleDataFetching = () => {
     dispatch(GetPolicies());
     dispatch(GetProducType());
-  }, []);
+  }
 
   //Refs
   let excle_export = createRef();
@@ -155,6 +159,10 @@ function Policies(props) {
 
   const _handleRedirectToClaimList = () => navigate(`/${layout}/claims`);
 
+  const _handleGridRefresh = () => {
+    _handleDataFetching();
+  }
+
   return (
     <React.Fragment>
       {/* {isLoading ?
@@ -254,6 +262,18 @@ function Policies(props) {
                       </div>
                     </li> */}
                     <li>
+                      <div
+                        className="short-by text-center cursor-pointer"
+                        style={{ width: "32px" }}
+                        data-toggle="tooltip"
+                        data-placement="left"
+                        title="Refresh"
+                        onClick={_handleGridRefresh}
+                      >
+                        <FontAwesomeIcon icon={faArrowRotateRight} />
+                      </div>
+                    </li>
+                    <li>
                       <div className="short-by text-center">
                         <select
                           onChange={_handleChange}
@@ -314,7 +334,7 @@ function Policies(props) {
                       <div class="short-by text-center">
                         <label class="ltn__switch-2 align-items-center" style={{ margin: "0px" }}>
                           <input type="checkbox" onClick={() => _handleRedirectToClaimList()} />
-                          <i class="lever"></i> 
+                          <i class="lever"></i>
                           <span class="text">Claim list</span>
                         </label>
                       </div>
