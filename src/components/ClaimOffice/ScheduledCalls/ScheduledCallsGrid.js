@@ -117,13 +117,13 @@ const ScheduledCallGrid = () => {
                                         <ul className="ltn__select-availability-table-head">
                                             <li className="table-data-5">Policy no.</li>
                                             <li className="table-data-5">Claim no.</li>
-                                            <li className="table-data-10">Person Name</li>
+                                            <li className="table-data-10">Policy Holder Name</li>
                                             <li className="table-data-10">Car Brand</li>
                                             <li className="table-data-4">Time</li>
                                             <li className="table-data-4">Date</li>
-                                            <li className="table-data-4">Join</li>
-                                            <li className="table-data-4">Cancel</li>
-                                            <li className="table-data-4">Reschedule</li>
+                                            <li className="table-data-4"></li>
+                                            <li className="table-data-4"></li>
+                                            <li className="table-data-4"></li>
                                         </ul>
                                         {list?.map((record, index) => {
                                             return (

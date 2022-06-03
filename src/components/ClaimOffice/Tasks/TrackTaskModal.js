@@ -7,6 +7,7 @@ import makeAnimated from 'react-select/animated';
 import { Link } from 'react-router-dom';
 import { getAllowActions } from 'functions';
 import { getStatusesOfClaim } from 'store/actions/taskList';
+import moment from 'moment';
 
 
 const TrackTaskModal = ({ openModal, toggleModal, title }) => {
@@ -52,7 +53,7 @@ const TrackTaskModal = ({ openModal, toggleModal, title }) => {
                 <div className="modal-body">
                     <div className="ltnd__adding-modal-inner">
                         <div className="section-title-area text-center mb-30---">
-                            <h1 className="section-title">{title ? title : "Track" }</h1>
+                            <h1 className="section-title">{title ? title : "Track"}</h1>
                         </div>
                         <div className="row">
                             <div className="col-lg-12">
@@ -60,11 +61,12 @@ const TrackTaskModal = ({ openModal, toggleModal, title }) => {
                                     {task_status?.map((status, index) => {
                                         return (
                                             <div key={status.StatusId || ""}
-                                                className={`ltnd__track-modal-item ltnd__track-modal-item_active`}
+                                                className={`ltnd__track-modal-item`}
                                             // className={`ltnd__track-modal-item ${index === 3 ? "ltnd__track-modal-item_active" : ""} `}
                                             >
                                                 <h5>{status.StatusName || ""}</h5>
                                                 <p>{status.StepComments || ""}</p>
+                                                <span data-toggle="tooltip" data-placement="left" title={moment(status.UpdatedDate).format("LL")}>{moment(status.UpdatedDate).fromNow()}</span>
                                             </div>
                                         )
                                     })}

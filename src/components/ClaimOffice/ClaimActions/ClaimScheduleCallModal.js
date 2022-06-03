@@ -15,6 +15,8 @@ import { confirmAlert } from 'functions';
 
 
 const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id, getClaimDetails }) => {
+    let date = new Date();
+    let today = { day: date.getUTCDate(), month: date.getUTCMonth() + 1, year: date.getUTCFullYear() };
     const dispatch = useDispatch();
     let params = useParams();
     let navigate = useNavigate();
@@ -30,12 +32,9 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id
     const { permissions } = useSelector(state => state.authReducer);
 
     useEffect(() => {
-        return () => {
-            dispatch(handleChangeInputSchedule({ name: "selectedDay", value: "" }))
-            dispatch(handleChangeInputSchedule({ name: "selectedSlot", value: "" }))
-
-        }
-    }, []);
+        _handleFieldChange("selectedDay", today);
+        dispatch(handleChangeInputSchedule({ name: "selectedSlot", value: "" }))
+    }, [openModal]);
 
     const _handleFieldChange = (name, value) => {
         if (name === "selectedHourSlot") {
@@ -115,6 +114,7 @@ const ClaimScheduleCallModal = ({ openModal, toggleModal, title, sc_id, claim_id
                                 <Calendar
                                     style={{ width: "100%" }}
                                     value={selectedDay}
+                                    minimumDate={today}
                                     onChange={(e) => _handleFieldChange("selectedDay", e)}
                                     shouldHighlightWeekends
                                     colorPrimary="#0d6efd" // added this
