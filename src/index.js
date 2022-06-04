@@ -12,7 +12,6 @@ import NotFound from "views/pages/404/404";
 // import 'assets/js/main';
 import 'font-awesome/css/font-awesome.min.css'; 
 import history from "utils/history";
-import "config/firebase/firebase";
 require("jquery-nice-select");
 
 
