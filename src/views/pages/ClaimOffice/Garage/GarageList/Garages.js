@@ -215,7 +215,7 @@ function Garages() {
                           className="nice-select"
                         >
                           <option disabled value={""}>
-                            download
+                            Export
                           </option>
                           <option value={1}>CSV</option>
                           <option value={2}>Excle</option>

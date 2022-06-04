@@ -260,7 +260,7 @@ function Provider() {
                                         <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_download} name="sort_name" value={initialState.download} className="nice-select">
-                                                    <option disabled value={""}>Download</option>
+                                                    <option disabled value={""}>Export</option>
                                                     <option value={1} >
                                                         CSV
                                                     </option>
