@@ -167,7 +167,7 @@ function Agencies() {
                       <input
                         type="text"
                         name="search_text"
-                        placeholder="Search product..."
+                        placeholder="Search ..."
                         value={search_text}
                         onChange={_handleChange}
                         className="search"
