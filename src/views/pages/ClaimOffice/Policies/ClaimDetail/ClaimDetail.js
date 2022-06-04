@@ -198,7 +198,7 @@ const ClaimDetail = (props) => {
 
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000)
+    }, 700)
   }
 
   const _getClaimDetails = () => {
