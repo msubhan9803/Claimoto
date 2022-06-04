@@ -25,6 +25,7 @@ import {
   GetPoliciesByCivilId,
   GetUserById,
   HandleUpdateDocAttatchment,
+  GetUserProfileByUserId
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -587,6 +588,7 @@ const ClaimDetail = (props) => {
     dispatch(HandleFieldChange("CivilId", value.value));
     dispatch(HandleFieldChange("PolicyId", 0));
     setSelectedPolicyValue(null);
+    dispatch(GetUserProfileByUserId(value.userId))
   };
 
   const handleUserIdSearch = (inputValue) =>
