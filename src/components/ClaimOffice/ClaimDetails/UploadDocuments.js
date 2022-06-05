@@ -71,7 +71,7 @@ export default function UploadDocuments({
   };
 
   const downloadFIle = (docTypeString) => {
-    let link = process.env.REACT_APP_API_ENVIROMENT + getFileUrl(docTypeString);
+    let link = process.env.REACT_APP_API_ENVIRONMENT + getFileUrl(docTypeString);
     var element = document.createElement("a");
     element.setAttribute("href", link);
     element.setAttribute("target", "_blank");

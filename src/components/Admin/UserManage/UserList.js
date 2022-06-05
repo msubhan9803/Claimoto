@@ -72,7 +72,7 @@ function UserList() {
                                     <ul key={user.UserId} className="ltn__select-availability-table-row">
                                         <li className="table-data-6">
                                             <strong>
-                                                <img src={user.ImageUrl && `${process.env.REACT_APP_API_ENVIROMENT}/${user.ImageUrl}`} alt="" />
+                                                <img src={user.ImageUrl && `${process.env.REACT_APP_API_ENVIRONMENT}/${user.ImageUrl}`} alt="" />
                                                 {`${user.FirstName} ${user.LastName}`}
                                             </strong>
                                         </li>

@@ -13,6 +13,7 @@ import Loader from "components/Loader/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
+import { loadAuth } from "store/actions/auth/user";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -26,13 +27,10 @@ const Login = () => {
   );
   const { username, password } = login_user;
 
-  // //   User authentcicate or not
-  // useEffect(() => {
-  //     if (token && user_details) {
-  //         navigate('/admin/')
-  //     }
+  useEffect(() => {
+      dispatch(loadAuth());
 
-  // }, [token, user_details])
+  }, [])
 
   useEffect(() => {
     // Setting layout based on user roles

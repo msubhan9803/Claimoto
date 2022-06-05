@@ -48,6 +48,7 @@ const ClaimStatusChangeModal = ({ openModal, toggleModal, action, getClaimDetail
         getClaimDetails()
         toggleModal();
         successAlert({ title: "Status Changed Successfully", text: "" });
+        navigate("/claim/tasks?tab=0");
     }
 
     const _initialHandle = () => {

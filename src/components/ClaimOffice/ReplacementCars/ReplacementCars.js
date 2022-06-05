@@ -39,7 +39,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                             <img
                               src={
                                 record.Image &&
-                                `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`
+                                `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`
                               }
                               alt=""
                             />

@@ -26,7 +26,7 @@ export default function CarPhotos({
       let temp = [];
       for (let index = 0; index < ClaimAccidentCarPhotos.length; index++) {
         let path = ClaimAccidentCarPhotos[index].Path;
-        path = process.env.REACT_APP_API_ENVIROMENT + path.substring(1, path.length)
+        path = process.env.REACT_APP_API_ENVIRONMENT + path.substring(1, path.length)
         temp.push(path);
       }
       setImageViewerList(temp);
@@ -143,7 +143,7 @@ export default function CarPhotos({
               src={
                 type === "create"
                   ? image
-                  : `${process.env.REACT_APP_API_ENVIROMENT}${image}`
+                  : `${process.env.REACT_APP_API_ENVIRONMENT}${image}`
               }
               alt="#"
               style={{ maxHeight: "180px", margin: "auto", borderRadius: "5px" }}

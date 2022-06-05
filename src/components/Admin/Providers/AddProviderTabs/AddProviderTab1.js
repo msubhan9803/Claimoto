@@ -106,7 +106,7 @@ const AddProviderTab1 = () => {
                         </div>
                         <p><strong>{capitalizeFirstLetter(type) || ""} logo</strong></p>
                         <div className="garage-logo mb-30">
-                            <img src={logo?.Base64 || typeof logo === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${logo}` || Garage_Icon} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" width={150} />
+                            <img src={logo?.Base64 || typeof logo === "string" && `${process.env.REACT_APP_API_ENVIRONMENT}/${logo}` || Garage_Icon} style={{ cursor: "pointer" }} onClick={() => { imageRef.current.click() }} alt="user_image" width={150} />
                             <input type="file" ref={imageRef} style={{ display: "none" }} onChange={_onImageChange} name="logo" />
                         </div>
 

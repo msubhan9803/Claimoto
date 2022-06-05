@@ -30,15 +30,18 @@ export const getFCMToken = async (setTokenFound) => {
     return getToken(messaging, { vapidKey: firebaseConfig.vapidKey }).then((currentToken) => {
         if (currentToken) {
             let uuid = new DeviceUUID().get();
-
-            console.log('current token for client: ', currentToken);
-            console.log('current Device UUID: ', uuid);
-            setTokenFound(true);
+            let device = window.navigator.platform;
+            setTokenFound(currentToken);
+            return {
+                fcm_token: currentToken,
+                device_id: uuid,
+                device:device
+            }
             // Track the token -> client mapping, by sending to backend server
             // show on the UI that permission is secured
         } else {
             console.log('No registration token available. Request permission to generate one.');
-            setTokenFound(false);
+            setTokenFound(null);
             // shows on the UI that permission is required 
         }
     }).catch((err) => {

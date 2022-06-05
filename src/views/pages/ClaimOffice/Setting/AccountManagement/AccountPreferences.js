@@ -262,7 +262,7 @@ const AccountPreferences = ({ layout }) => {
                                 {TenantLogoPath ? (
                                   <img
                                     src={
-                                      process.env.REACT_APP_API_ENVIROMENT +
+                                      process.env.REACT_APP_API_ENVIRONMENT +
                                       TenantLogoPath.substring(1)
                                     }
                                     onClick={() => imageRef.current.click()}

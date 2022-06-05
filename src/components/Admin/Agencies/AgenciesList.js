@@ -96,7 +96,7 @@ const AgenciesList = () => {
                                             <ul className="ltn__select-availability-table-row">
                                                 <li className="table-data-1">
                                                     <strong>
-                                                        <img src={record.Image && `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`} alt="" />
+                                                        <img src={record.Image && `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`} alt="" />
                                                         {record.Name}
                                                     </strong>
                                                 </li>
