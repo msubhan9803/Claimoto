@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import PoliciesList from "components/ClaimOffice/Policies/PoliciesList/PoliciesList";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import LoaderAnimation from "components/Loader/AnimatedLoaded";
 
 function Policies(props) {
   const { layout } = props;
@@ -27,7 +28,7 @@ function Policies(props) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const policies = useSelector((state) => state.policyReducer.allPolicies);
-  const { isLoading } = useSelector((state) => state.productReducer.product);
+  const [isLoading, setIsLoading] = useState(true);
   const { search_options, policyListTableFilterData, filteredPoliciesList } =
     useSelector((state) => state.policyReducer);
   const {
@@ -47,8 +48,12 @@ function Policies(props) {
   }, []);
 
   const _handleDataFetching = () => {
+    setIsLoading(true);
     dispatch(GetPolicies());
     dispatch(GetProducType());
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700)
   }
 
   //Refs
@@ -165,11 +170,7 @@ function Policies(props) {
 
   return (
     <React.Fragment>
-      {/* {isLoading ?
-        <div className="spinner-grow" role="status">
-            <span className="sr-only">Loading...</span>
-        </div>
-        : */}
+      :
       <div className="body-wrapper">
         <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
           <div className="ltnd__header-middle-area mt-30">
@@ -214,7 +215,7 @@ function Policies(props) {
                     <input
                       type="text"
                       name="search_text"
-                      placeholder="Search product..."
+                      placeholder="Search ..."
                       value={search_text}
                       onChange={_handleChange}
                       className="search"
@@ -254,7 +255,7 @@ function Policies(props) {
                           className="nice-select"
                         >
                           <option disabled value={""}>
-                            download
+                            Export
                           </option>
                           <option value={1}>CSV</option>
                           <option value={2}>Excle</option>
@@ -356,35 +357,36 @@ function Policies(props) {
           </div>
           {/* PRODUCT AREA END */}
 
-          {/* SELECT AVAILABILITY AREA START */}
-          <div className="select-availability-area pb-4">
-            <div className="row">
-              <div className="col-lg-12">
-                {/* ltnd__policies-table start */}
-                {/* {policy_actions?.includes("VIEW") ? ( */}
-                <PoliciesList
-                  policies={_getPaginatedResults(filteredPoliciesList)}
-                />
-                {/* ) : (
-                  <ADAnimation />
-                )} */}
+          {isLoading ?
+            <LoaderAnimation />
+            :
+            <>
+              {/* SELECT AVAILABILITY AREA START */}
+              <div className="select-availability-area pb-4">
+                <div className="row">
+                  <div className="col-lg-12">
+                    {/* ltnd__policies-table start */}
+                    <PoliciesList
+                      policies={_getPaginatedResults(filteredPoliciesList)}
+                    />
 
-                {/* <!-- pagination --> */}
-                {policies_count > 0 && (
-                  <PaginationFromUI
-                    recordsCount={policies_count}
-                    pageIndex={policies_page_index}
-                    recordsPerPage={policies_per_page}
-                    handler={_paginatedListHandler}
-                    className="mt-3"
-                  />
-                )}
+                    {/* <!-- pagination --> */}
+                    {policies_count > 0 && (
+                      <PaginationFromUI
+                        recordsCount={policies_count}
+                        pageIndex={policies_page_index}
+                        recordsPerPage={policies_per_page}
+                        handler={_paginatedListHandler}
+                        className="mt-3"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          }
         </div>
       </div>
-      {/* } */}
     </React.Fragment>
   );
 }

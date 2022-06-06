@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AuthRoutes } from "../routes/auth";
 import { Route, Routes, } from "react-router-dom";
 import NotFound from "views/pages/404/404";
