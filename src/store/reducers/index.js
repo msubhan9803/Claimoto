@@ -17,6 +17,7 @@ import providerServicesPriceScreenReducer from 'store/reducers/providers/service
 import taskListScreenReducer from 'store/reducers/taskList/index';
 import claimsScreenReducer from 'store/reducers/claims/index';
 import claimAgenciesScreenReducer from 'store/reducers/claimAgencies';
+import claimDashboardScreenReducer from 'store/reducers/claimDashboard';
 import claimGaragesScreenReducer from 'store/reducers/claimGarages';
 import claimSurveyorsScreenReducer from 'store/reducers/claimSurveyors';
 import claimReplacementCarScreenReducer from 'store/reducers/claimReplacementCar';
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
   providerServicesPriceScreenReducer:providerServicesPriceScreenReducer,
   taskListScreenReducer:taskListScreenReducer,
   claimsReducer: claimsScreenReducer,
+  claimDashboardReducer: claimDashboardScreenReducer,
   claimAgenciesReducer: claimAgenciesScreenReducer,
   claimGaragesReducer: claimGaragesScreenReducer,
   claimSurveyorsReducer: claimSurveyorsScreenReducer,

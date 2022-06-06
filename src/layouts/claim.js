@@ -52,7 +52,7 @@ export default function Layout() {
                     <div className="ltn__utilize-overlay" />
 
                     <div className="body-content-area body-bg-1 pb-80---">
-                        {location.pathname === '/admin/' ?
+                        {location.pathname === '/claim/' ?
                             <DashboardNavbar />
                             :
                             <UserNavbar layout="claim" />
