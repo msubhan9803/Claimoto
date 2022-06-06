@@ -195,7 +195,7 @@ function Invoice() {
                                         {/* <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_download} name="sort_name" value={initialState.download} className="nice-select">
-                                                    <option disabled value={""}>Export</option>
+                                                    <option disabled value={""}>Download</option>
                                                     <option value={1} >
                                                         CSV
                                                     </option>

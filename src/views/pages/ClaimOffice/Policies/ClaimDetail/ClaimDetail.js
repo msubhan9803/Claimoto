@@ -25,7 +25,6 @@ import {
   GetPoliciesByCivilId,
   GetUserById,
   HandleUpdateDocAttatchment,
-  GetUserProfileByUserId
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -39,8 +38,6 @@ import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetai
 import CustomerDetailsViewOnly from "components/ClaimOffice/ClaimDetails/CustomerDetailsViewOnly";
 import { getStatusesOfClaim } from 'store/actions/taskList';
 import TrackTaskModal from 'components/ClaimOffice/Tasks/TrackTaskModal';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
@@ -98,7 +95,7 @@ const actionButtonsListByStatus = {
 
 const ClaimDetail = (props) => {
   const { type, layout } = props;
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const submitBtnRef = useRef();
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -174,15 +171,6 @@ const ClaimDetail = (props) => {
   });
 
   useEffect(() => {
-    _handleDataFetching();
-
-    return () => {
-      dispatch(ResetClaimDetails());
-    };
-  }, []);
-
-  const _handleDataFetching = () => {
-    setIsLoading(true);
     dispatch(GetUsersList());
     // dispatch(GetPoliciesList());
     dispatch(GetClaimsList());
@@ -196,10 +184,12 @@ const ClaimDetail = (props) => {
       dispatch(HandleFieldChange("AddedById", userDetials.RoleId));
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 700)
-  }
+    return () => {
+      dispatch(ResetClaimDetails());
+    };
+  }, []);
+
+
 
   const _getClaimDetails = () => {
     // If type is equal to view or edit then load claim details state
@@ -597,7 +587,6 @@ const ClaimDetail = (props) => {
     dispatch(HandleFieldChange("CivilId", value.value));
     dispatch(HandleFieldChange("PolicyId", 0));
     setSelectedPolicyValue(null);
-    dispatch(GetUserProfileByUserId(value.userId))
   };
 
   const handleUserIdSearch = (inputValue) =>
@@ -628,10 +617,6 @@ const ClaimDetail = (props) => {
       ...component,
       openModal: !component.openModal
     })
-  }
-
-  const _handleGridRefresh = () => {
-    _handleDataFetching();
   }
 
   return (
@@ -666,16 +651,6 @@ const ClaimDetail = (props) => {
                         >
                           History
                         </button>
-                        <span
-                          className="cursor-pointer"
-                          style={{ margin: "16px" }}
-                          data-toggle="tooltip"
-                          data-placement="left"
-                          title="Refresh"
-                          onClick={_handleGridRefresh}
-                        >
-                          <FontAwesomeIcon icon={faArrowRotateRight} size="lg" />
-                        </span>
                       </div>
                     </div>
                   )

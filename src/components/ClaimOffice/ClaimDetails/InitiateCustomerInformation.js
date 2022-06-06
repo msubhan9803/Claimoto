@@ -33,10 +33,6 @@ export default function InitiateCustomerInformation({
     RepairOption,
     IncidentDate,
     InitialComments,
-    Email,
-    FirstName,
-    LastName,
-    MobileNo
   } = state;
   const dispatch = useDispatch();
 
@@ -55,7 +51,7 @@ export default function InitiateCustomerInformation({
           <div class="ltn__block-item-info">
             <form id="#" action="#" method="#" class="ltnd__form-1">
               <div class="row">
-                <div class="col-md-4  mt-4">
+                <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Civil ID *</h6>
                     <AsyncSelect
@@ -72,54 +68,7 @@ export default function InitiateCustomerInformation({
                     )}
                   </div>
                 </div>
-                {
-                  FirstName || LastName ? (
-                    <div class="col-md-4  mt-4">
-                      <div class="input-item">
-                        <h6 class="ltnd__title-3">Name</h6>
-                        <input
-                          disabled={true}
-                          type="text"
-                          value={`${FirstName || ""} ${LastName || ""}`}
-                          placeholder="ID Card"
-                        />
-                      </div>
-                    </div>
-                  ) : ""
-                }
-                {
-                  Email && (
-                    <div class="col-md-4  mt-4">
-                      <div class="input-item">
-                        <h6 class="ltnd__title-3">Email</h6>
-                        <input
-                          disabled={true}
-                          type="text"
-                          {...register("Email")}
-                          name="Email"
-                          value={Email}
-                        />
-                      </div>
-                    </div>
-                  )
-                }
-                {
-                  MobileNo && (
-                    <div class="col-md-4  mt-4">
-                      <div class="input-item">
-                        <h6 class="ltnd__title-3">Mobile no.</h6>
-                        <input
-                          disabled={true}
-                          type="text"
-                          {...register("MobileNo")}
-                          name="MobileNo"
-                          value={MobileNo}
-                        />
-                      </div>
-                    </div>
-                  )
-                }
-                <div class="col-md-4  mt-4">
+                <div class="col-md-4">
                   <div class="input-item">
                     <h6 class="ltnd__title-3">Policy number *</h6>
                     <Select
