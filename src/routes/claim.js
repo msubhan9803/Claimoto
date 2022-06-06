@@ -130,7 +130,7 @@ export const claimRoutes = ({ userPermissions }) => {
         },
         {
           name: "Claims",
-          path: "/claims/:garageAgencyId/:claimStatusId/:providerName",
+          path: "/claims/:providerType/:garageAgencyId/:claimStatusId/:providerName",
           component: <ClaimList layout="claim" actions={{
             claimsSwitch: false,
             intiateClaim: false,

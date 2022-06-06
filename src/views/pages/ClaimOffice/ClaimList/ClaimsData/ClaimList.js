@@ -2,7 +2,7 @@ import React, { useState, createRef, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  SetPaginatedAgenciesGarages, SetPaginatedAgenciesGaragesClaims,
+  SetPaginatedAgenciesGarages, SetPaginatedAgenciesGaragesClaims, SetPaginatedSurveyorClaims,
   HandleTableInputValue, ClearProviderListData
 } from "store/actions/claimLists";
 import Pagination from "components/Pagination/Pagination";
@@ -12,11 +12,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import ClaimListTable from "components/ClaimOffice/ClaimList/ClaimList";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
+import { claimStatusIdByProfider } from "utils/constants";
 
 function ClaimList({ layout, actions }) {
-  let providerTypeId = 2; // Agencies Provider primary key
+  // let providerTypeId = 2; // Agencies Provider primary key
   const dispatch = useDispatch();
-  const { garageAgencyId, claimStatusId, providerName } = useParams();
+  const { providerType, garageAgencyId, claimStatusId, providerName } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const providers = useSelector((state) => state.claimListsReducer.allProviders);
   const {
@@ -69,17 +70,30 @@ function ClaimList({ layout, actions }) {
   ]);
 
   const _handleLoadData = () => {
-    if (garageAgencyId && claimStatusId) {
-      dispatch(SetPaginatedAgenciesGaragesClaims(
-        providers_per_page,
-        providers_page_index,
-        search_text,
-        search_option,
-        sort_name,
-        sort_type,
-        garageAgencyId,
-        claimStatusId
-      ));
+    if (garageAgencyId && claimStatusId && providerType) {
+      if (providerType === "surveyor") {
+        dispatch(SetPaginatedSurveyorClaims(
+          providers_per_page,
+          providers_page_index,
+          search_text,
+          search_option,
+          sort_name,
+          sort_type,
+          garageAgencyId,
+          claimStatusId
+        ));
+      } else {
+        dispatch(SetPaginatedAgenciesGaragesClaims(
+          providers_per_page,
+          providers_page_index,
+          search_text,
+          search_option,
+          sort_name,
+          sort_type,
+          garageAgencyId,
+          claimStatusId
+        ));
+      }
     } else {
       dispatch(SetPaginatedAgenciesGarages(
         providers_per_page,
@@ -132,6 +146,18 @@ function ClaimList({ layout, actions }) {
     _handleDataFetching();
   }
 
+  const _getProviderTypeText = (claimStatusId) => {
+    if (parseInt(claimStatusId) === claimStatusIdByProfider.assignedClaims) {
+      return "Assigned";
+    } else if (parseInt(claimStatusId) === claimStatusIdByProfider.pending) {
+      return "Pending";
+    } else if (parseInt(claimStatusId) === claimStatusIdByProfider.underAssesment) {
+      return "Under Assesment";
+    } else {
+      return "Closed";
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="body-wrapper">
@@ -146,7 +172,7 @@ function ClaimList({ layout, actions }) {
                       Back
                     </span>
                   </p>
-                  <h2>{providerName ? providerName + " - " : "" } Claim List ({providers.length})</h2>
+                  <h2>{providerName ? `${providerName} - ${_getProviderTypeText(claimStatusId)}` : ""} Claim List ({providers.length})</h2>
                 </div>
               </div>
               <div className="col-lg-3 align-self-center text-end">

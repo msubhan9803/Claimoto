@@ -52,7 +52,7 @@ const AgenciesList = ({ loading, allProviders }) => {
                         <li className="table-data-2 dot_pending cursor-pointer">
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.assignedClaims}/${record.Name}`}
+                            to={`/claim/claims/agency/${record.AgencyGarageId}/${claimStatusIdByProfider.assignedClaims}/${record.Name}`}
                           >
                             <span class="dot_assign_provider"></span>
                             {record?.AssignedClaims || ""}
@@ -61,7 +61,7 @@ const AgenciesList = ({ loading, allProviders }) => {
                         <li className="table-data-2 dot_pending">
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.pending}/${record.Name}`}
+                            to={`/claim/claims/agency/${record.AgencyGarageId}/${claimStatusIdByProfider.pending}/${record.Name}`}
                           >
                             <span class="dot_assign_provider"></span>
                             <b>{record?.Pending}</b>
@@ -70,7 +70,7 @@ const AgenciesList = ({ loading, allProviders }) => {
                         <li className="table-data-2 dot_under_assesment">
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.underAssesment}/${record.Name}`}
+                            to={`/claim/claims/agency/${record.AgencyGarageId}/${claimStatusIdByProfider.underAssesment}/${record.Name}`}
                           >
                             <span class="dot_assign_provider "></span>
                             <b>{record?.Under_Repair}</b>
@@ -79,7 +79,7 @@ const AgenciesList = ({ loading, allProviders }) => {
                         <li className="table-data-2 dot_close">
                           <Link
                             className="ltn__secondary-color"
-                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.closed}/${record.Name}`}
+                            to={`/claim/claims/agency/${record.AgencyGarageId}/${claimStatusIdByProfider.closed}/${record.Name}`}
                           >
                             <span class="dot_assign_provider "></span>
                             <b>{record?.Closed}</b>

@@ -245,7 +245,7 @@ function Agencies() {
                         </select>
                       </div>
                     </li>
-                    <li>
+                    {/* <li>
                       <div className="short-by text-center">
                         <select
                           onChange={_handleChange}
@@ -259,12 +259,9 @@ function Agencies() {
                           <option key={"asc"} value={"asc"}>
                             Ascending
                           </option>
-                          {/* <option key={"desc"} value={"desc"}>
-                              Descending
-                            </option> */}
                         </select>
                       </div>
-                    </li>
+                    </li> */}
                     <li>
                       <div className="short-by text-center">
                         <div className="short-by-menu">
