@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "@firebase/messaging";
 import DeviceUUID from "config/Device/DeviceUUID";
 
 // TODO: Add SDKs for Firebase products that you want to use
