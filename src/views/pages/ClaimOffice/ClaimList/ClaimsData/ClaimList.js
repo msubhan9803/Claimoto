@@ -1,7 +1,10 @@
 import React, { useState, createRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { SetPaginatedAgenciesGarages, HandleTableInputValue, ClearProviderListData } from "store/actions/claimLists";
+import {
+  SetPaginatedAgenciesGarages, SetPaginatedAgenciesGaragesClaims,
+  HandleTableInputValue, ClearProviderListData
+} from "store/actions/claimLists";
 import Pagination from "components/Pagination/Pagination";
 import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
@@ -10,9 +13,10 @@ import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons"
 import ClaimListTable from "components/ClaimOffice/ClaimList/ClaimList";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
 
-function ClaimList({ layout }) {
+function ClaimList({ layout, actions }) {
   let providerTypeId = 2; // Agencies Provider primary key
   const dispatch = useDispatch();
+  const { garageAgencyId, claimStatusId, providerName } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const providers = useSelector((state) => state.claimListsReducer.allProviders);
   const {
@@ -45,28 +49,16 @@ function ClaimList({ layout }) {
 
   const _handleDataFetching = () => {
     setIsLoading(true);
-    dispatch(SetPaginatedAgenciesGarages(
-      providers_per_page,
-      providers_page_index,
-      search_text,
-      search_option,
-      sort_name,
-      sort_type
-    ));
+
+    _handleLoadData();
+
     setTimeout(() => {
       setIsLoading(false);
     }, 700)
   }
 
   useEffect(() => {
-    dispatch(SetPaginatedAgenciesGarages(
-      providers_per_page,
-      providers_page_index,
-      search_text,
-      search_option,
-      sort_name,
-      sort_type
-    ));
+    _handleLoadData();
   }, [
     search_text,
     search_option,
@@ -75,6 +67,30 @@ function ClaimList({ layout }) {
     providers_per_page,
     providers_page_index
   ]);
+
+  const _handleLoadData = () => {
+    if (garageAgencyId && claimStatusId) {
+      dispatch(SetPaginatedAgenciesGaragesClaims(
+        providers_per_page,
+        providers_page_index,
+        search_text,
+        search_option,
+        sort_name,
+        sort_type,
+        garageAgencyId,
+        claimStatusId
+      ));
+    } else {
+      dispatch(SetPaginatedAgenciesGarages(
+        providers_per_page,
+        providers_page_index,
+        search_text,
+        search_option,
+        sort_name,
+        sort_type
+      ));
+    }
+  }
 
   const _handleChange = (event) => {
     let name = event.target.name;
@@ -124,7 +140,13 @@ function ClaimList({ layout }) {
             <div className="row">
               <div className="col-lg-9">
                 <div className="ltnd__page-title-area">
-                  <h2>Claim List ({providers.length})</h2>
+                  <p className="page-back-btn cursor-pointer">
+                    <span onClick={() => window.history.back()}>
+                      <i className="icon-left-arrow-1" />
+                      Back
+                    </span>
+                  </p>
+                  <h2>{providerName ? providerName + " - " : "" } Claim List ({providers.length})</h2>
                 </div>
               </div>
               <div className="col-lg-3 align-self-center text-end">
@@ -278,25 +300,33 @@ function ClaimList({ layout }) {
                           </div>
                         </div>
                       </li> */}
-                    <li>
-                      <div class="short-by text-center">
-                        <label class="ltn__switch-2 align-items-center" style={{ margin: "0px" }}>
-                          <input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} />
-                          <i class="lever"></i>
-                          <span class="text">Claim list</span>
-                        </label>
-                      </div>
-                    </li>
-                    <li style={{ marginLeft: "10px" }}>
-                      <div className="btn-wrapper text-center mt-0">
-                        <Link
-                          to="/claim/initiate_claim"
-                          className="btn theme-btn-1 btn-round-12"
-                        >
-                          Initiate Claim
-                        </Link>
-                      </div>
-                    </li>
+                    {
+                      actions.claimsSwitch && (
+                        <li>
+                          <div class="short-by text-center">
+                            <label class="ltn__switch-2 align-items-center" style={{ margin: "0px" }}>
+                              <input type="checkbox" defaultChecked={true} onClick={() => _handleRedirectToClaimList()} />
+                              <i class="lever"></i>
+                              <span class="text">Claim list</span>
+                            </label>
+                          </div>
+                        </li>
+                      )
+                    }
+                    {
+                      actions.intiateClaim && (
+                        <li style={{ marginLeft: "10px" }}>
+                          <div className="btn-wrapper text-center mt-0">
+                            <Link
+                              to="/claim/initiate_claim"
+                              className="btn theme-btn-1 btn-round-12"
+                            >
+                              Initiate Claim
+                            </Link>
+                          </div>
+                        </li>
+                      )
+                    }
                   </ul>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllowActions } from "functions";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
+import { claimStatusIdByProfider } from "utils/constants";
 
 const GaragesList = ({ loading, allProviders }) => {
   //Permissions Controlling
@@ -44,21 +45,41 @@ const GaragesList = ({ loading, allProviders }) => {
                             {record.Name}
                           </strong>
                         </li>
-                        <li className="table-data-2 dot_pending">
-                          <span class="dot_assign_provider"></span>
-                          {record?.AssignedClaims || ""}
+                        <li className="table-data-2 dot_pending cursor-pointer">
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.assignedClaims}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider"></span>
+                            {record?.AssignedClaims || ""}
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_pending">
-                          <span class="dot_assign_provider"></span>
-                          <b>{record?.Pending}</b>
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.pending}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider"></span>
+                            <b>{record?.Pending}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_under_assesment">
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.underAssesment}/${record.Name}`}
+                          >
                             <span class="dot_assign_provider "></span>
                             <b>{record?.Under_Repair}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_close">
-                          <span class="dot_assign_provider "></span>
-                          <b>{record?.Closed}</b>
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/${record.AgencyGarageId}/${claimStatusIdByProfider.closed}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider "></span>
+                            <b>{record?.Closed}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2">
                           <strong>
