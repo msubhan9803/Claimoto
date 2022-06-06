@@ -63,7 +63,7 @@ function Call() {
         return new Promise(async (res, rej) => {
             let config = {
                 method: 'get',
-                url: `${process.env.REACT_APP_TOKEN_API_ENVIROMENT}/rtc/${channel}/audience/userAccount/0`,
+                url: `${process.env.REACT_APP_TOKEN_API_ENVIRONMENT}/rtc/${channel}/audience/userAccount/0`,
                 headers: {}
             };
 
@@ -85,7 +85,7 @@ function Call() {
         return new Promise(async (res, rej) => {
             let config = {
                 method: 'get',
-                url: `${process.env.REACT_APP_TOKEN_API_ENVIROMENT}/rtm/${user_details.UserId}`,
+                url: `${process.env.REACT_APP_TOKEN_API_ENVIRONMENT}/rtm/${user_details.UserId}`,
                 headers: {}
             };
 

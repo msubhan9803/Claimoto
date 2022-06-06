@@ -15,7 +15,7 @@ const sleepRequest = (milliseconds, originalRequest) => {
 
 const instance = axios.create({
   // .. where we make our configurations
-  baseURL: process.env.REACT_APP_API_ENVIROMENT,
+  baseURL: process.env.REACT_APP_API_ENVIRONMENT,
   maxRedirects:4,
   headers: {
     Authorization: `Bearer ${localStorage.getItem(localStorageVarible)}`

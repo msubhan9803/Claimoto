@@ -77,12 +77,12 @@ export const modalStyleCenterScheduleCall = {
         borderRadius: '4px',
         outline: 'none',
         left: "50%",
-        top: "50%",
+        top: "45%",
         transform: "translate(-50%, -50%)",
         padding: '20px',
         zIndex: 1,
         width:700,
-        minHeight:740
+        minHeight:540
     },
 
 }
@@ -106,12 +106,12 @@ export const modalStyleCenterTask = {
         borderRadius: '4px',
         outline: 'none',
         left: "50%",
-        top: "50%",
+        top: "45%",
         transform: "translate(-50%, -50%)",
         padding: '20px',
         zIndex: 1,
         minWidth:600,
-        minHeight:710
+        minHeight:510
     },
 
 }
@@ -136,12 +136,12 @@ export const modalStyleCenterStatus = {
         borderRadius: '4px',
         outline: 'none',
         left: "50%",
-        top: "50%",
+        top: "45%",
         transform: "translate(-50%, -50%)",
         padding: '20px',
         zIndex: 1,
         minWidth:600,
-        minHeight:750
+        minHeight:550
     },
 
 }

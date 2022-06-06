@@ -68,7 +68,7 @@ const AgencyDetail = () => {
                                     <div class="ltn__block-item-info">
                                         <div class="ltnd__edit-table-logo-title mb-20">
                                             <div class="ltnd__edit-table-logo">
-                                                <img src={logo?.Base64 || typeof logo === "string" && `${process.env.REACT_APP_API_ENVIROMENT}/${logo}` || Garage_Icon} alt="#" />
+                                                <img src={logo?.Base64 || typeof logo === "string" && `${process.env.REACT_APP_API_ENVIRONMENT}/${logo}` || Garage_Icon} alt="#" />
                                             </div>
                                             <div class="ltnd__edit-table-title">
                                                 <h3 class="animated fadeIn">{name} </h3>

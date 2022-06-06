@@ -27,6 +27,7 @@ const GaragesList = ({ loading, allProviders }) => {
                     <li className="table-data-2">Pending</li>
                     <li className="table-data-2">Under assesment</li>
                     <li className="table-data-2">Closed</li>
+                    <li className="table-data-7">Services</li>
                     <li className="table-data-2">Details</li>
                   </ul>
                   {allProviders.map((record) => {
@@ -37,7 +38,7 @@ const GaragesList = ({ loading, allProviders }) => {
                             <img
                               src={
                                 record.Image &&
-                                `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`
+                                `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`
                               }
                               alt=""
                             />
@@ -53,12 +54,17 @@ const GaragesList = ({ loading, allProviders }) => {
                           <b>{record?.Pending}</b>
                         </li>
                         <li className="table-data-2 dot_under_assesment">
-                            <span class="dot_assign_provider "></span>
-                            <b>{record?.Under_Repair}</b>
+                          <span class="dot_assign_provider "></span>
+                          <b>{record?.Under_Repair}</b>
                         </li>
                         <li className="table-data-2 dot_close">
                           <span class="dot_assign_provider "></span>
                           <b>{record?.Closed}</b>
+                        </li>
+                        <li className="table-data-7 text-primary">
+                            <strong>
+                              <Link to={`/claim/view_provider_services/garage/${record.AgencyGarageId}?tab=0`} >Services</Link>
+                            </strong>
                         </li>
                         <li className="table-data-2">
                           <strong>

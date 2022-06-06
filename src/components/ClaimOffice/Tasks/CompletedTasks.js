@@ -50,6 +50,7 @@ function CompletedTaskList() {
             <TrackTaskModal toggleModal={_toggleModal} openModal={component.openModal} />
             {loading_list ? <LoaderAnimation /> :
                 <div style={{ overflowX: "auto", display: "flex", flexDirection: "row" }}>
+                    <h4>Under Progress ...</h4>
                     {/* {list?.map((k, index) => (
                         <div className="col-lg-3 col-md-3 col-sm-6" >
                             <div className={`ltnd__tasks-item-column ltnd__tasks-column-border tasks-border-${index + 1}`}>

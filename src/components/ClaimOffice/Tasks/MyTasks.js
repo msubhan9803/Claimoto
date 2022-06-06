@@ -54,7 +54,7 @@ function MyTaskList() {
     const _returnColumn = (claim) => {
         return (
             <div className="ltnd__tasks-item">
-                <h6 className="ltnd__product-title"><a ><img style={{ maxWidth: 100, maxHeight: 50 }} src={`${process.env.REACT_APP_API_ENVIROMENT}${claim?.MakeImage}`} alt="make_image" /> {claim?.CarNo || ""}</a></h6>
+                <h6 className="ltnd__product-title"><a ><img style={{ maxWidth: 100, maxHeight: 50 }} src={`${process.env.REACT_APP_API_ENVIRONMENT}${claim?.MakeImage}`} alt="make_image" /> {claim?.CarNo || ""}</a></h6>
                 <p className="ltnd__space-between">Policy no. <strong>{claim?.PolicyId || ""}</strong></p>
                 <p className="ltnd__space-between">Claim no. <strong>{claim?.ClaimId || ""}</strong></p>
                 <p className="ltnd__space-between">Claim type <strong>{claim?.ClaimTypeName || ""}</strong></p>

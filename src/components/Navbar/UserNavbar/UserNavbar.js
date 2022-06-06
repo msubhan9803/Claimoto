@@ -52,7 +52,7 @@ function ProductNavbar({ layout }) {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <Link to="/">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -68,7 +68,7 @@ function ProductNavbar({ layout }) {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <Link to="/">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -84,7 +84,7 @@ function ProductNavbar({ layout }) {
                                                                     <div className="ltnd-dropdown-menu-item">
                                                                         <a href="#">
                                                                             <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                                             </div>
                                                                             <div className="content">
                                                                                 <h6>
@@ -107,12 +107,12 @@ function ProductNavbar({ layout }) {
                                             <ClickAwayListener onClickAway={() => setShowProfile(false)}>
                                                 <div>
                                                     <a className="toggle" role="button" >
-                                                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="user_image" />
+                                                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="user_image" />
                                                     </a>
                                                     <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
                                                             <div className="dropdown-menu-user-img">
-                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIROMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
                                                             </div>
                                                             <div className="dropdown-menu-user-info">
                                                                 <h6>{`${FirstName} ${LastName}`}</h6>

@@ -64,7 +64,7 @@ const Carasole = ({ openModal , closeModel}) => {
 
             <div className='imgContainer' key={i}>
 
-              <img src={`${process.env.REACT_APP_API_ENVIROMENT}/${img}`} alt="" layout="fill" objectFit="contain" />
+              <img src={`${process.env.REACT_APP_API_ENVIRONMENT}/${img}`} alt="" layout="fill" objectFit="contain" />
             </div>
           )})}
         </div>

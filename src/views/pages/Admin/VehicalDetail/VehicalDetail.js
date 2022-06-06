@@ -114,7 +114,7 @@ function VehicalDetail(props) {
     let temp = [];
     for (let index = 0; index < imagesList.length; index++) {
       const image = imagesList[index];
-      temp.push(`${process.env.REACT_APP_API_ENVIROMENT}/${image}`);
+      temp.push(`${process.env.REACT_APP_API_ENVIRONMENT}/${image}`);
     }
     console.log("temp: ", temp);
     setImageViewerList(temp);
@@ -496,7 +496,7 @@ function VehicalDetail(props) {
                                   src={
                                     Image1?.Base64 ||
                                     (typeof Image1 === "string" &&
-                                      `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}`) ||
+                                      `${process.env.REACT_APP_API_ENVIRONMENT}/${Image1}`) ||
                                     URL.createObjectURL(Image1)
                                   }
                                   alt="Image"
@@ -522,7 +522,7 @@ function VehicalDetail(props) {
                                 src={
                                   Image1?.Base64 ||
                                   (typeof Image1 === "string" &&
-                                    `${process.env.REACT_APP_API_ENVIROMENT}/${Image1}`) ||
+                                    `${process.env.REACT_APP_API_ENVIRONMENT}/${Image1}`) ||
                                   URL.createObjectURL(Image1)
                                 }
                                 alt="Image"
@@ -578,7 +578,7 @@ function VehicalDetail(props) {
                                       src={
                                         Image2?.Base64 ||
                                         (typeof Image2 === "string" &&
-                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}`) ||
+                                          `${process.env.REACT_APP_API_ENVIRONMENT}/${Image2}`) ||
                                         URL.createObjectURL(Image2)
                                       }
                                       alt="Image"
@@ -603,7 +603,7 @@ function VehicalDetail(props) {
                                     src={
                                       Image1?.Base64 ||
                                       (typeof Image1 === "string" &&
-                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image2}`) ||
+                                        `${process.env.REACT_APP_API_ENVIRONMENT}/${Image2}`) ||
                                       URL.createObjectURL(Image1)
                                     }
                                     alt="Image"
@@ -655,7 +655,7 @@ function VehicalDetail(props) {
                                       src={
                                         Image3?.Base64 ||
                                         (typeof Image3 === "string" &&
-                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}`) ||
+                                          `${process.env.REACT_APP_API_ENVIRONMENT}/${Image3}`) ||
                                         URL.createObjectURL(Image3)
                                       }
                                       alt="Image"
@@ -680,7 +680,7 @@ function VehicalDetail(props) {
                                     src={
                                       Image1?.Base64 ||
                                       (typeof Image1 === "string" &&
-                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image3}`) ||
+                                        `${process.env.REACT_APP_API_ENVIRONMENT}/${Image3}`) ||
                                       URL.createObjectURL(Image1)
                                     }
                                     alt="Image"
@@ -732,7 +732,7 @@ function VehicalDetail(props) {
                                       src={
                                         Image4?.Base64 ||
                                         (typeof Image4 === "string" &&
-                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}`) ||
+                                          `${process.env.REACT_APP_API_ENVIRONMENT}/${Image4}`) ||
                                         URL.createObjectURL(Image4)
                                       }
                                       alt="Image"
@@ -757,7 +757,7 @@ function VehicalDetail(props) {
                                     src={
                                       Image1?.Base64 ||
                                       (typeof Image1 === "string" &&
-                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image4}`) ||
+                                        `${process.env.REACT_APP_API_ENVIRONMENT}/${Image4}`) ||
                                       URL.createObjectURL(Image1)
                                     }
                                     alt="Image"
@@ -809,7 +809,7 @@ function VehicalDetail(props) {
                                       src={
                                         Image5?.Base64 ||
                                         (typeof Image5 === "string" &&
-                                          `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}`) ||
+                                          `${process.env.REACT_APP_API_ENVIRONMENT}/${Image5}`) ||
                                         URL.createObjectURL(Image5)
                                       }
                                       alt="Image"
@@ -834,7 +834,7 @@ function VehicalDetail(props) {
                                     src={
                                       Image1?.Base64 ||
                                       (typeof Image1 === "string" &&
-                                        `${process.env.REACT_APP_API_ENVIROMENT}/${Image5}`) ||
+                                        `${process.env.REACT_APP_API_ENVIRONMENT}/${Image5}`) ||
                                       URL.createObjectURL(Image1)
                                     }
                                     alt="Image"

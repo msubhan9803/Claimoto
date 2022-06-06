@@ -21,7 +21,7 @@ const initialState = {
         //     short: "SL"
         // },
         {
-            label: "State of Account",
+            label: "Statement of Account",
             id: "ltn__tab_3_2",
             name: "State%20of%20Account",
             component: <StatementOfAccount />,
