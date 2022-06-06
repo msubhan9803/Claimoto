@@ -22,8 +22,8 @@ import {
 
 
 
-export const changeHandlerAssignProvider = ({ modeule, key, val }) => async dispatch => {
-    dispatch({ type: CHANGE_HANDLER_ASSIGN_PROVIDER, payload: { modeule, key, val } });
+export const changeHandlerAssignProvider = ({ module, key, val }) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_ASSIGN_PROVIDER, payload: { module, key, val } });
 }
 
 
@@ -33,14 +33,14 @@ export const getAssignProvider = ({ provider_id, records_per_page, page_index, s
     try {
         let ProviderTypeId = provider_id;
         search_option = search_text.length < 3 ? "" : search_option;
-        dispatch({ type: GET_ASSIGN_PROVIDER_REQUEST, payload: { modeule: "garages", bool: true, list: [] } });
+        dispatch({ type: GET_ASSIGN_PROVIDER_REQUEST, payload: { module: "garages", bool: true, list: [] } });
         let { data } = await instance.get(`api/AgencyGarage/AgencyGarage?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_ASSIGN_PROVIDER,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_ASSIGN_PROVIDER_REQUEST, payload: { modeule: "record", bool: false, list: [] } });
+        dispatch({ type: GET_ASSIGN_PROVIDER_REQUEST, payload: { module: "record", bool: false, list: [] } });
         console.log(error);
     }
 }
@@ -49,14 +49,14 @@ export const getAssignProvider = ({ provider_id, records_per_page, page_index, s
 export const getAssignProviderBranches = ({ provider_id }) => async dispatch => {
     try {
         let ProviderTypeId = provider_id;
-        dispatch({ type: GET_ASSIGN_PROVIDER_BRANCH_REQUEST, payload: { modeule: "record_branches", bool: true, list: [] } });
+        dispatch({ type: GET_ASSIGN_PROVIDER_BRANCH_REQUEST, payload: { module: "record_branches", bool: true, list: [] } });
         let { data } = await instance.get(`api/AgencyGarage/ProviderBranches?Id=${ProviderTypeId}`);
         dispatch({
             type: GET_ASSIGN_PROVIDER_BRANCH,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_ASSIGN_PROVIDER_BRANCH_REQUEST, payload: { modeule: "record_branches", bool: false, list: [] } });
+        dispatch({ type: GET_ASSIGN_PROVIDER_BRANCH_REQUEST, payload: { module: "record_branches", bool: false, list: [] } });
         console.log(error);
     }
 }

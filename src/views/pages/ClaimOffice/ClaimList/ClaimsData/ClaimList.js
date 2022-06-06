@@ -32,7 +32,7 @@ function ClaimList({ layout }) {
     providers_count,
   } = providerListTableFilterData;
   //Refs
-  let excle_export = createRef();
+  let excel_export = createRef();
   let csv_export = createRef();
   let navigate = useNavigate();
 
@@ -83,7 +83,7 @@ function ClaimList({ layout }) {
         csv_export.current.link.click();
         break;
       case 2:
-        excle_export.current.click();
+        excel_export.current.click();
         break;
 
       default:

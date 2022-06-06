@@ -38,10 +38,10 @@ function CarAgenciesList() {
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "car_agencies";
+        let module = "car_agencies";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({modeule, key, val}));
+        dispatch(changeHandlerProvider({module, key, val}));
     }
 
     const _getList = () => {

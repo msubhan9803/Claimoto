@@ -62,7 +62,7 @@ function Claimlist(props) {
   }
 
   //Refs
-  let excle_export = createRef();
+  let excel_export = createRef();
   let csv_export = createRef();
 
   const _download = (event) => {
@@ -71,7 +71,7 @@ function Claimlist(props) {
         csv_export.current.link.click();
         break;
       case 2:
-        excle_export.current.click();
+        excel_export.current.click();
         break;
 
       default:
@@ -374,7 +374,7 @@ function Claimlist(props) {
                           file_name={_exportData()?.file_name || ""}
                         />
                         <ExportExcle
-                          ref={excle_export}
+                          ref={excel_export}
                           data={_exportData()?._data}
                           file_name={_exportData()?.file_name || ""}
                         />

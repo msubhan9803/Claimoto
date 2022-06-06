@@ -47,10 +47,10 @@ const ScheduledCallGrid = () => {
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "initials";
+        let module = "initials";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerRule({ modeule, key, val }));
+        dispatch(changeHandlerRule({ module, key, val }));
     }
 
 

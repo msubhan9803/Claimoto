@@ -19,7 +19,7 @@ import ExportCSV from 'components/Export/Excle';
 
 function Provider() {
 
-    let excle_export = createRef();
+    let excel_export = createRef();
     let csv_export = createRef();
 
 
@@ -83,7 +83,7 @@ function Provider() {
                 csv_export.current.link.click();
                 break;
             case 2:
-                excle_export.current.click();
+                excel_export.current.click();
                 break;
 
             default:
@@ -286,7 +286,7 @@ function Provider() {
                                         <li>
                                             <div className="btn-wrapper text-center mt-0 d-none">
                                                 <CSVExport ref={csv_export} data={{ header:  _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
-                                                <ExportCSV ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+                                                <ExportCSV ref={excel_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
 
                                                 {/* <ExcleExport /> */}
                                             </div>

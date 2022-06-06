@@ -61,8 +61,8 @@ import {
 
 
 
-export const changeHandlerProvider = ({modeule, key, val}) => async dispatch => {
-    dispatch({ type: CHANGE_HANDLER_PROVIDER, payload: {modeule, key, val} });
+export const changeHandlerProvider = ({module, key, val}) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_PROVIDER, payload: {module, key, val} });
 }
 
 
@@ -141,14 +141,14 @@ export const getGarages = ({ records_per_page, page_index, search_text, search_o
     try {
         let ProviderTypeId = 1;
         search_option = search_text.length < 3 ?  "" : search_option;
-        dispatch({ type: GET_REQUEST, payload: { modeule: "garages", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "garages", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_GARAGES,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST, payload: { modeule: "garages", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "garages", bool: false, list: [] } });
         console.log(error);
     }
 }
@@ -158,14 +158,14 @@ export const getCarAgency = ({ records_per_page, page_index, search_text, search
     try {
         let ProviderTypeId = 3;
         search_option = search_text.length < 3 ?  "" : search_option;
-        dispatch({ type: GET_REQUEST, payload: { modeule: "car_agencies", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "car_agencies", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_CAR_AGENCIES,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST, payload: { modeule: "car_agencies", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "car_agencies", bool: false, list: [] } });
         console.log(error);
     }
 }
@@ -174,14 +174,14 @@ export const getAgency = ({ records_per_page, page_index, search_text, search_op
     try {
         let ProviderTypeId = 2;
         search_option = search_text.length < 3 ?  "" : search_option;
-        dispatch({ type: GET_REQUEST, payload: { modeule: "agencies", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "agencies", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_AGENCIES,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST, payload: { modeule: "agencies", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "agencies", bool: false, list: [] } });
         console.log(error);
     }
 }
@@ -190,14 +190,14 @@ export const getSurveyor = ({ records_per_page, page_index, search_text, search_
     try {
         let ProviderTypeId = 4;
         search_option = search_text.length < 3 ?  "" : search_option;
-        dispatch({ type: GET_REQUEST, payload: { modeule: "surveyorers", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "surveyorers", bool: true, list: [] } });
         let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderTypeId=${ProviderTypeId}`);
         dispatch({
             type: GET_SURVEYORERS,
             payload: data
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST, payload: { modeule: "surveyorers", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST, payload: { module: "surveyorers", bool: false, list: [] } });
         console.log(error);
     }
 }

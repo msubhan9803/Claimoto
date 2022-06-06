@@ -51,10 +51,10 @@ const AgenciesList = () => {
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "agencies";
+        let module = "agencies";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({ modeule, key, val }));
+        dispatch(changeHandlerProvider({ module, key, val }));
     }
 
 

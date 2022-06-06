@@ -85,12 +85,12 @@ const rulesScreenReducer = (state = initialState, action) => {
             break;
 
         case CHANGE_HANDLER_RULES: {
-            let { modeule, key, val } = action.payload;
+            let { module, key, val } = action.payload;
             return {
                 ...state,
-                [modeule]:
+                [module]:
                 {
-                    ...state[modeule],
+                    ...state[module],
                     [key]: val,
                 }
             }
@@ -101,12 +101,12 @@ const rulesScreenReducer = (state = initialState, action) => {
 
 
         case GET_REQUEST_RULES: {
-            let { modeule, bool, list } = action.payload;
+            let { module, bool, list } = action.payload;
             return {
                 ...state,
-                [modeule]:
+                [module]:
                 {
-                    ...state[modeule],
+                    ...state[module],
                     loading: bool,
                     list
                 }

@@ -47,7 +47,7 @@ function Policies() {
 
 
   //Refs
-  let excle_export = createRef();
+  let excel_export = createRef();
   let csv_export = createRef();
 
 
@@ -57,7 +57,7 @@ function Policies() {
         csv_export.current.link.click();
         break;
       case 2:
-        excle_export.current.click();
+        excel_export.current.click();
         break;
 
       default:
@@ -317,7 +317,7 @@ function Policies() {
                     <li>
                       <div className="btn-wrapper text-center mt-0 d-none">
                         <CSVExport ref={csv_export} data={{ header: _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
-                        <ExportExcle ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+                        <ExportExcle ref={excel_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
 
                         {/* <ExcleExport /> */}
                       </div>

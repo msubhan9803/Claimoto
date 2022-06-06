@@ -25,6 +25,7 @@ import scheduleCalls from 'store/reducers/scheduleCalls/schedule_calls';
 import assignProviderScreenReducer from 'store/reducers/claims/assign';
 import forgetPasswordReducer from 'store/reducers/auth/forget_password';
 import invoiceScreenReducer from 'store/reducers/invoice';
+import notificationsScreenReducer from 'store/reducers/notifications';
 
 const rootPersistConfig = {
   key: 'root',
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
   assignProviderScreenReducer:assignProviderScreenReducer,
   scheduleCalls:scheduleCalls,
   invoiceScreenReducer: invoiceScreenReducer,
+  notificationsScreenReducer:notificationsScreenReducer
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

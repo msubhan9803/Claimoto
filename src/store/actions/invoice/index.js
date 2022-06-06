@@ -17,8 +17,8 @@ import {
 
 
 
-export const changeHandlerProvider = ({modeule, key, val}) => async dispatch => {
-    dispatch({ type: CHANGE_HANDLER_INVOICE, payload: {modeule, key, val} });
+export const changeHandlerProvider = ({module, key, val}) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_INVOICE, payload: {module, key, val} });
 }
 
 

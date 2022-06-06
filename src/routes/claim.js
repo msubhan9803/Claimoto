@@ -31,6 +31,7 @@ import Error from "views/pages/ClaimOffice/Setting/LogsManagement/Error.js";
 
 import ViewProviderServices from "components/Admin/Providers/ViewProviderServices";
 import ViewProviderServicesPrices from "components/Admin/Providers/ServicePrices/ServicePrice";
+import Notifications from "views/pages/Notifications/Notifications";
 
 
 export const claimRoutes = ({ userPermissions }) => {
@@ -341,6 +342,28 @@ export const claimRoutes = ({ userPermissions }) => {
           layout: "claim",
         },
       ],
+    },
+
+
+    {
+      name: "Notifications",
+      component: <Notifications />,
+      collapse: true,
+      path: "/notifications",
+      icon: "ti-files",
+      layout: "claim",
+      short_name: "NOT",
+      views: [
+        {
+          name: "Notifications",
+          path: "/notifications",
+          component: <Notifications />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "NOT",
+        },
+
+      ]
     },
   ];
 };

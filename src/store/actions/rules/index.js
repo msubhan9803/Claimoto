@@ -29,7 +29,7 @@ import {
 
 export const getInitials = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
-        dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "initials", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST_RULES, payload: { module: "initials", bool: true, list: [] } });
         // let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
         let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixs`);
         let Records = data ; let TotalRecord = 0;
@@ -38,7 +38,7 @@ export const getInitials = ({ records_per_page, page_index, search_text, search_
             payload: {Records, TotalRecord}
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "initials", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST_RULES, payload: { module: "initials", bool: false, list: [] } });
         console.log(error);
     }
 }
@@ -46,7 +46,7 @@ export const getInitials = ({ records_per_page, page_index, search_text, search_
 
 export const getAfters = ({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
     try {
-        dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "afters", bool: true, list: [] } });
+        dispatch({ type: GET_REQUEST_RULES, payload: { module: "afters", bool: true, list: [] } });
         // let { data } = await instance.get(`/api/Provider/Pagination?PageIndex=${page_index}&PageSize=${records_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
         let { data } = await instance.get(`/api/AuthorityMatrix/AuthorityMatrixsAssess`);
         let Records = data ; let TotalRecord = 0;
@@ -55,14 +55,14 @@ export const getAfters = ({ records_per_page, page_index, search_text, search_op
             payload: {Records, TotalRecord}
         });
     } catch (error) {
-        dispatch({ type: GET_REQUEST_RULES, payload: { modeule: "afters", bool: false, list: [] } });
+        dispatch({ type: GET_REQUEST_RULES, payload: { module: "afters", bool: false, list: [] } });
         console.log(error);
     }
 }
 
 
-export const changeHandlerRule = ({ modeule, key, val }) => async dispatch => {
-    dispatch({ type: CHANGE_HANDLER_RULES, payload: { modeule, key, val } });
+export const changeHandlerRule = ({ module, key, val }) => async dispatch => {
+    dispatch({ type: CHANGE_HANDLER_RULES, payload: { module, key, val } });
 }
 
 

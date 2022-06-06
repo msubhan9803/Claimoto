@@ -5,7 +5,7 @@ import ExportExcle from 'components/Export/Excle'
 
 function ExportComponent({ exportData }) {
     //Refs
-    let excle_export = createRef();
+    let excel_export = createRef();
     let csv_export = createRef();
 
     const _download = (event) => {
@@ -14,7 +14,7 @@ function ExportComponent({ exportData }) {
                 csv_export.current.link.click();
                 break;
             case 2:
-                excle_export.current.click();
+                excel_export.current.click();
                 break;
 
             default:
@@ -47,7 +47,7 @@ function ExportComponent({ exportData }) {
             <li>
                 <div className="btn-wrapper text-center mt-0 d-none">
                     <CSVExport ref={csv_export} data={{ header: exportData()?.header, csv_data: exportData()?._data }} file_name={exportData()?.file_name || ""} />
-                    <ExportExcle ref={excle_export} data={exportData()?._data} file_name={exportData()?.file_name || ""} />
+                    <ExportExcle ref={excel_export} data={exportData()?._data} file_name={exportData()?.file_name || ""} />
 
                     {/* <ExcleExport /> */}
                 </div>

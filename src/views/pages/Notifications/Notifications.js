@@ -1,26 +1,32 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
-import TabsWrapper from 'components/Tabs/TabsWrapper';
-import TabContent from 'components/Tabs/TabsContent';
-import TabsHeader from 'components/Tabs/TabsHeader';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSearchParams } from "react-router-dom";
-import { handleInvoiceInputValue } from 'store/actions/invoice';
 import { getAllowActions } from 'functions';
 import ADAnimation from 'components/AccessDenied/ADAnimation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import CSVExport from 'components/Export/CSV';
 import ExportCSV from 'components/Export/Excle';
+import { getNotifications } from 'store/actions/notifications';
+import { handleNotificationsInputValue } from 'store/actions/notifications';
+import NotificationList from 'components/Notifications/NotificationList';
 
-function Invoice() {
+function Notifications() {
 
     let excel_export = createRef();
     let csv_export = createRef();
 
 
     let dispatch = useDispatch();
-    let [searchParams, setSearchParams] = useSearchParams();
 
+
+        //Component State
+        let initialState = {
+            openModal: false,
+            download:""
+        }
+    
+        const [comState, setComState] = useState(initialState);
+    
 
 
     //Permissions Controlling
@@ -30,47 +36,18 @@ function Invoice() {
 
 
     //Redux State
-    const { tabs, search_options, search_option, search_text, sort_type, sort_name } = useSelector(state => state.invoiceScreenReducer);
+    const { search_options, search_option, search_text, sort_type, sort_name, notifications } = useSelector(state => state.notificationsScreenReducer);
+    const {
+        list,
+        loading,
+        records_per_page,
+        page_index,
+        count,
+    } = notifications;
 
-    //Component State
-    let initialState = {
-        openModal: false,
-        download:""
-    }
-
-    const [comState, setComState] = useState(initialState);
 
 
-    //Actions
-    const _handleComActions = () => {
-        // dispatch(getModules());
-        let action = searchParams.get("action");
-        let activeTab = searchParams.get("tab");
-        switch (action) {
-            case "add":
-                setComState((comState) => ({
-                    ...initialState,
-                    openModal: true,
-                }));
-                break;
-            default:
-                setComState(initialState);
-                break;
-        }
-        if (!activeTab) {
-            searchParams.set("tab", 0);
-            setSearchParams(searchParams);
-        }
 
-        // if(action){
-        //     document.body.style.overflow = 'hidden';
-        // }
-        // else{
-        //     setTimeout(() => {
-        //         document.body.style.overflow = 'scroll';
-        //     }, 700);
-        // }
-    }
 
     const _download = (event) => {
         switch (parseInt(event.target.value)) {
@@ -87,37 +64,18 @@ function Invoice() {
     }
 
     const _exportData = () => {
-        switch (searchParams.get("tab")) {
-            default:
-                // return { header: Object.keys(garages.list), _data: garages.list, file_name: `garages - page # ${garages.page_index}` };
-                break;
-        }
+        return { header: Object.keys(notifications.list), _data: notifications.list, file_name: `notifications - page # ${notifications.page_index}` };
     }
 
 
 
-    const _getProvidersList = () => {
-        let records_per_page = 10;
-        let page_index = 1;
-        switch (searchParams.get("tab")) {
-            default:
-                // dispatch(getGarages({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
-                break;
-        }
+    const _getNotificationsList = () => {
+
+        dispatch(getNotifications({ records_per_page, page_index, search_text, search_option, sort_name, sort_type }));
+
     }
 
 
-    //toggleModal
-    const _toggleModal = (action) => {
-        if (searchParams.has("action")) {
-            searchParams.delete("action");
-            setSearchParams(searchParams)
-        }
-        else {
-            searchParams.set("action", action);
-            setSearchParams(searchParams)
-        };
-    }
 
 
 
@@ -125,18 +83,14 @@ function Invoice() {
     const _handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        dispatch(handleInvoiceInputValue({ name, value }));
+        dispatch(handleNotificationsInputValue({ name, value }));
     }
 
-
-    useEffect(() => {
-        _handleComActions();
-    }, [searchParams]);
 
 
     useEffect(() => {
         if (search_text?.length > 2 && search_option !== "" || search_text === "") {
-            _getProvidersList();
+            _getNotificationsList();
         }
     }, [search_text, search_option, sort_name]);
 
@@ -150,9 +104,10 @@ function Invoice() {
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="ltnd__page-title-area">
-                                    <h2>Invoices </h2>
+                                    <h2>Notifications </h2>
                                 </div>
                             </div>
+                           
                         </div>
                     </div>
                     {/* header-middle-area end */}
@@ -192,7 +147,7 @@ function Invoice() {
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
-                                        {/* <li>
+                                        <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_download} name="sort_name" value={initialState.download} className="nice-select">
                                                     <option disabled value={""}>Download</option>
@@ -200,12 +155,12 @@ function Invoice() {
                                                         CSV
                                                     </option>
                                                     <option value={2} >
-                                                        Excle
+                                                        Excel
                                                     </option>
 
                                                 </select>
                                             </div>
-                                        </li> */}
+                                        </li>
                                         <li>
                                             <div className="short-by text-center">
                                                 <select onChange={_handleChange} name="sort_name" value={sort_name} className="nice-select">
@@ -220,8 +175,8 @@ function Invoice() {
 
                                         <li>
                                             <div className="btn-wrapper text-center mt-0 d-none">
-                                                {/* <CSVExport ref={csv_export} data={{ header:  _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} /> */}
-                                                {/* <ExportCSV ref={excel_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} /> */}
+                                                <CSVExport ref={csv_export} data={{ header: _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
+                                                <ExportCSV ref={excel_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
 
                                                 {/* <ExcleExport /> */}
                                             </div>
@@ -242,21 +197,7 @@ function Invoice() {
                                 <div className="select-availability-area pb-120">
                                     <div className="row">
                                         <div className="col-lg-12">
-                                            <TabsWrapper>
-                                                <TabsHeader tabs={tabs} />
-                                                <TabContent>
-                                                    {/* {getAllowActions({ permissions, module_name: tabs[parseInt(searchParams.get("tab"))]?.short }) ? */}
-                                                        {tabs[parseInt(searchParams.get("tab"))]?.component || <h4>Select a Valid Tab</h4>}
-                                                        {/* :
-                                                        <ADAnimation />
-                                                    } */}
-                                                    {/* {tabs.map((tab, index) => (
-                                                        <Tab key={tab.id} tab={tab} index={index}>
-                                                            {tab.component}
-                                                        </Tab>
-                                                    ))} */}
-                                                </TabContent>
-                                            </TabsWrapper>
+                                            <NotificationList />
                                         </div>
                                     </div>
                                 </div>
@@ -270,4 +211,4 @@ function Invoice() {
     )
 }
 
-export default Invoice
+export default Notifications;

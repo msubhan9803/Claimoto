@@ -37,10 +37,10 @@ const AssignProviderGrid = () => {
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "record";
+        let module = "record";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerAssignProvider({ modeule, key, val }));
+        dispatch(changeHandlerAssignProvider({ module, key, val }));
     }
 
 

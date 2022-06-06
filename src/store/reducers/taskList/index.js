@@ -153,12 +153,12 @@ const taskListScreenReducer = (state = initialState, action) => {
             break;
 
         case CHANGE_HANDLER_RULES: {
-            let { modeule, key, val } = action.payload;
+            let { module, key, val } = action.payload;
             return {
                 ...state,
-                [modeule]:
+                [module]:
                 {
-                    ...state[modeule],
+                    ...state[module],
                     [key]: val,
                 }
             }

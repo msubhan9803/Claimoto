@@ -52,7 +52,7 @@ function Policies(props) {
   }
 
   //Refs
-  let excle_export = createRef();
+  let excel_export = createRef();
   let csv_export = createRef();
 
   const _download = (event) => {
@@ -61,7 +61,7 @@ function Policies(props) {
         csv_export.current.link.click();
         break;
       case 2:
-        excle_export.current.click();
+        excel_export.current.click();
         break;
 
       default:

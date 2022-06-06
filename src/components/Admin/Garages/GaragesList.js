@@ -37,10 +37,10 @@ const GaragesList = () => {
 
 
     const _paginationHandler = (pageIndex) => {
-        let modeule = "garages";
+        let module = "garages";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({modeule, key, val}));
+        dispatch(changeHandlerProvider({module, key, val}));
     }
 
 
