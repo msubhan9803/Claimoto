@@ -350,7 +350,7 @@ export const claimRoutes = ({ userPermissions }) => {
       component: <Notifications />,
       collapse: true,
       path: "/notifications",
-      icon: "ti-files",
+      icon: "ti-bell",
       layout: "claim",
       short_name: "NOT",
       views: [
