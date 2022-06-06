@@ -10,11 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Header from 'components/Header/Header';
 import { changeTasksRootValues } from 'store/actions/taskList';
+import { getMyTaskList } from 'store/actions/taskList';
+import { getPendingTaskList } from 'store/actions/taskList';
 
 function TaskList() {
 
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();
+    const { UserId } = useSelector(state => state.authReducer.user_details);
 
 
 
@@ -42,6 +45,26 @@ function TaskList() {
     }
 
 
+    const _handleRefresh = () => {
+        let activeTab = searchParams.get("tab");
+        switch (activeTab) {
+            case "0":
+                dispatch(getMyTaskList(UserId));
+
+                break;
+            case "1":
+                dispatch(getPendingTaskList(UserId));
+
+                break;
+            case "2":
+
+                break;
+
+            default:
+
+                break;
+        }
+    }
 
 
 
@@ -68,12 +91,7 @@ function TaskList() {
 
                 <div className="body-content-area-inner">
                     {/* PRODUCT AREA START */}
-                    <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Task List"} handleChange={_handleChange} />
-
-
-
-
-
+                    <Header search_options={search_options} onRefresh={_handleRefresh} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Task List"} handleChange={_handleChange} />
                     {/* SELECT AVAILABILITY AREA START */}
                     <div className="select-availability-area pb-120">
                         <div className="row">

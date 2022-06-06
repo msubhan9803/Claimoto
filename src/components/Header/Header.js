@@ -2,9 +2,10 @@ import React from 'react'
 import SearchComponent from './Search'
 import ExportComponent from './Export'
 import SortComponent from './Sort'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
-
-function Header({ button_name, name, search_options, sort_options, search_text, search_option, sort_name, addButtonHandler, handleChange, exportData }) {
+function Header({ button_name, name, search_options, sort_options, search_text, search_option, sort_name, addButtonHandler, handleChange, exportData, onRefresh }) {
 
 
     return (
@@ -35,6 +36,19 @@ function Header({ button_name, name, search_options, sort_options, search_text, 
                             <div className="col-lg-7">
                                 <div className="ltn__shop-options ltnd__shop-options select-list-right">
                                     <ul>
+                                    {onRefresh &&
+                                        <li>
+                                            <div
+                                                className="short-by text-center cursor-pointer"
+                                                style={{ width: "32px" }}
+                                                data-toggle="tooltip"
+                                                data-placement="left"
+                                                title="Refresh"
+                                                onClick={onRefresh}
+                                            >
+                                                <FontAwesomeIcon icon={faArrowRotateRight} />
+                                            </div>
+                                        </li>}
                                         {exportData && <ExportComponent exportData={exportData} />}
                                         <SortComponent sort_options={sort_options} sort_name={sort_name} handleChange={handleChange} />
 

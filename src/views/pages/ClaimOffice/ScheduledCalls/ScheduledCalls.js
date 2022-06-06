@@ -11,6 +11,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import ScheduledCallGrid from 'components/ClaimOffice/ScheduledCalls/ScheduledCallsGrid';
 import Header from 'components/Header/Header';
 import { handleRootScheduleInputValue } from 'store/actions/scheduleCalls';
+import { getScheduleCalls } from 'store/actions/scheduleCalls';
 
 function ScheduledCallList() {
 
@@ -26,9 +27,15 @@ function ScheduledCallList() {
 
 
     //Redux State
-    const { tabs, search_options, search_option, search_text, sort_type, sort_name, initials, afters } = useSelector(state => state.scheduleCalls);
+    const { calls, tabs, search_options, search_option, search_text, sort_type, sort_name, initials, afters } = useSelector(state => state.scheduleCalls);
 
-
+    const {
+        list,
+        loading,
+        records_per_page,
+        page_index,
+        count,
+    } = calls;
 
     //Actions
     const _handleComActions = () => {
@@ -59,6 +66,18 @@ function ScheduledCallList() {
     }, [searchParams]);
 
 
+
+    const _handleRefresh = () => {
+        dispatch(getScheduleCalls({
+            records_per_page, page_index, search_option,
+            search_text,
+            sort_type,
+            sort_name,
+        }));
+    }
+
+
+
     // useEffect(() => {
     //     if (search_text?.length > 2 && search_option !== "" || search_text === "") {
     //         _getRulesList();
@@ -71,15 +90,15 @@ function ScheduledCallList() {
         <React.Fragment>
             <div className="body-wrapper">
                 <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
-                   
+
                     {/* header-middle-area end */}
 
                 </div>
                 {/* <!-- Body Content Area Inner Start --> */}
 
                 <div className="body-content-area-inner">
-                    
-                <Header search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Scheduled Calls"} handleChange={_handleChange} />
+
+                    <Header onRefresh={_handleRefresh} search_options={search_options} sort_options={search_options} search_text={search_text} search_option={search_option} sort_name={sort_name} name={"Scheduled Calls"} handleChange={_handleChange} />
 
 
                     {/* SELECT AVAILABILITY AREA START */}
