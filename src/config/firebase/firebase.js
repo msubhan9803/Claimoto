@@ -21,12 +21,12 @@ const firebaseConfig = {
     vapidKey: "BBS9HLA-9_FB3TZEA6swtFIt6KT6ftidhtVhaVXVWstYiLJuaR6pyavFlZDExPHOP74daEc75jRePW96m_vPAtU"
 };
 
-
+let messaging ;
 if (ENVIRONMENT !== "DEVELOPMENT") {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-    const messaging = getMessaging(app);
+    messaging = getMessaging(app);
 
 }
 export const getFCMToken = async (setTokenFound) => {
