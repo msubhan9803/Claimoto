@@ -29,9 +29,7 @@ export const cancelScheduledCall = (id, Callback) => async dispatch => {
         let { data } = await instance.put(`/api/ScheduledCallsAndChat/CancelScheduledCall?SC_Id=${id}`);
         successAlert({ title: "Success", text: data });
         if (data) {
-            setTimeout(() => {
                 Callback();
-            }, 10000);
         }
 
     } catch (error) {
