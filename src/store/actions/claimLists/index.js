@@ -30,6 +30,60 @@ export const SetPaginatedAgenciesGarages = (
     }
 }
 
+// Get paginated Agencies/Garages Claim list 
+// GET /api/AgencyGarage/AgencyGarageClaims
+export const SetPaginatedAgenciesGaragesClaims = (
+    providers_per_page,
+    providers_page_index,
+    search_text,
+    search_option,
+    sort_name,
+    sort_type,
+    garageAgencyId,
+    claimStatusId
+) => async dispatch => {
+    try {
+        let { data } = await instance.get(`/api/AgencyGarage/AgencyGarageClaims?PageIndex=${providers_page_index}&PageSize=${providers_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&Garage_Agency_Id=${garageAgencyId}&Claim_Status_Id=${claimStatusId}`);
+
+        dispatch({
+            type: SET_PAGINATED_REQUEST_CLAIM_LIST,
+            payload: {
+                list: data.AllClaims,
+                count: data.Count
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// Get paginated Surveyor Claim list 
+// GET /api/Surveyour/SurveyourClaims
+export const SetPaginatedSurveyorClaims = (
+    providers_per_page,
+    providers_page_index,
+    search_text,
+    search_option,
+    sort_name,
+    sort_type,
+    garageAgencyId,
+    claimStatusId
+) => async dispatch => {
+    try {
+        let { data } = await instance.get(`/api/Surveyour/SurveyourClaims?PageIndex=${providers_page_index}&PageSize=${providers_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&Surveyour_Id=${garageAgencyId}&Claim_Status_Id=${claimStatusId}`);
+
+        dispatch({
+            type: SET_PAGINATED_REQUEST_CLAIM_LIST,
+            payload: {
+                list: data.AllClaims,
+                count: data.Count
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const HandleTableInputValue = ({ name, value }) => (dispatch) => {
     try {
         dispatch({

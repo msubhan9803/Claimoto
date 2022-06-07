@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllowActions } from "functions";
 import LoaderAnimation from "components/Loader/AnimatedLoaded";
+import { claimStatusIdByProfider } from "utils/constants";
 
 const GaragesList = ({ loading, allProviders }) => {
   //Permissions Controlling
@@ -27,7 +28,6 @@ const GaragesList = ({ loading, allProviders }) => {
                     <li className="table-data-2">Pending</li>
                     <li className="table-data-2">Under assesment</li>
                     <li className="table-data-2">Closed</li>
-                    <li className="table-data-7">Services</li>
                     <li className="table-data-2">Details</li>
                   </ul>
                   {allProviders.map((record) => {
@@ -38,33 +38,48 @@ const GaragesList = ({ loading, allProviders }) => {
                             <img
                               src={
                                 record.Image &&
-                                `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`
+                                `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`
                               }
                               alt=""
                             />
                             {record.Name}
                           </strong>
                         </li>
-                        <li className="table-data-2 dot_pending">
-                          <span class="dot_assign_provider"></span>
-                          {record?.AssignedClaims || ""}
+                        <li className="table-data-2 dot_pending cursor-pointer">
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/garage/${record.AgencyGarageId}/${claimStatusIdByProfider.assignedClaims}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider"></span>
+                            {record?.AssignedClaims || ""}
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_pending">
-                          <span class="dot_assign_provider"></span>
-                          <b>{record?.Pending}</b>
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/garage/${record.AgencyGarageId}/${claimStatusIdByProfider.pending}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider"></span>
+                            <b>{record?.Pending}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_under_assesment">
-                          <span class="dot_assign_provider "></span>
-                          <b>{record?.Under_Repair}</b>
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/garage/${record.AgencyGarageId}/${claimStatusIdByProfider.underAssesment}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider "></span>
+                            <b>{record?.Under_Repair}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2 dot_close">
-                          <span class="dot_assign_provider "></span>
-                          <b>{record?.Closed}</b>
-                        </li>
-                        <li className="table-data-7 text-primary">
-                            <strong>
-                              <Link to={`/claim/view_provider_services/garage/${record.AgencyGarageId}?tab=0`} >Services</Link>
-                            </strong>
+                          <Link
+                            className="ltn__secondary-color"
+                            to={`/claim/claims/garage/${record.AgencyGarageId}/${claimStatusIdByProfider.closed}/${record.Name}`}
+                          >
+                            <span class="dot_assign_provider "></span>
+                            <b>{record?.Closed}</b>
+                          </Link>
                         </li>
                         <li className="table-data-2">
                           <strong>
