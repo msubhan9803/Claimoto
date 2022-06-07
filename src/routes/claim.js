@@ -127,7 +127,22 @@ export const claimRoutes = ({ userPermissions }) => {
         {
           name: "Claims",
           path: "/claims",
-          component: <ClaimList layout="claim" />,
+          component: <ClaimList layout="claim" actions={{
+            claimsSwitch: true,
+            intiateClaim: true,
+            backButton: false
+          }} />,
+          layout: "claim",
+        },
+        {
+          name: "Claims",
+          path: "/claims/:providerType/:garageAgencyId/:claimStatusId/:providerName",
+          component: <ClaimList layout="claim" actions={{
+            claimsSwitch: false,
+            intiateClaim: false,
+            backButton: true
+          }}
+          />,
           layout: "claim",
         },
         {

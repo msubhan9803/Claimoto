@@ -1,5 +1,5 @@
 import {
-  SET_PAGINATED_REQUEST,
+  SET_PAGINATED_REQUEST_AGENCY,
   CHANGE_HANDLER_PROVIDER,
   PROVIDERS_LIST_TABLE_DATA_CHANGE,
   CLEAR_PROVIDER_LIST_DATA
@@ -46,7 +46,7 @@ const initialState = {
 
 const claimAgencies = (state = initialState, action) => {
   switch (action.type) {
-    case SET_PAGINATED_REQUEST: {
+    case SET_PAGINATED_REQUEST_AGENCY: {
       return {
         ...state,
         isSuccess: false,
