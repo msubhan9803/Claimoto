@@ -11,17 +11,17 @@ import { ENVIRONMENT } from "variables";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCXXn9MO2bpGZhebmO5C9c5ysVS47lTosQ",
-    authDomain: "claimoto-web-app.firebaseapp.com",
-    projectId: "claimoto-web-app",
-    storageBucket: "claimoto-web-app.appspot.com",
-    messagingSenderId: "304292134229",
-    appId: "1:304292134229:web:ce29a8130e186c350203dc",
-    measurementId: "G-4S49MWR1GF",
-    vapidKey: "BBS9HLA-9_FB3TZEA6swtFIt6KT6ftidhtVhaVXVWstYiLJuaR6pyavFlZDExPHOP74daEc75jRePW96m_vPAtU"
+    apiKey: "AIzaSyC9phkk20eEoTj7ncrP2bkXTxAGs-ozlzQ",
+    authDomain: "claimoto-74b0d.firebaseapp.com",
+    projectId: "claimoto-74b0d",
+    storageBucket: "claimoto-74b0d.appspot.com",
+    messagingSenderId: "295095794480",
+    appId: "1:295095794480:web:2ed443008555f73568a6f5",
+    measurementId: "G-MGSWPV5WQX",
+    vapidKey: "BEjDroizWHXcP0wbmmHGakGtuzgUGz-B43KC4kiHCVs8ejcytAekS8tHGhcIzDTrY1BJHCVwFds--v8MIyqEZ9A"
 };
 
-let messaging ;
+let messaging;
 if (ENVIRONMENT !== "DEVELOPMENT") {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
