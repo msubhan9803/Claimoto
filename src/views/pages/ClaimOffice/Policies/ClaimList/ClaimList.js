@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import ClaimList from "components/ClaimOffice/Policies/ClaimList/ClaimList";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,6 @@ import CSVExport from "components/Export/CSV";
 import ExportExcle from "components/Export/Excle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
-import LoaderAnimation from "components/Loader/AnimatedLoaded";
 
 function Claimlist(props) {
   const { layout } = props;
@@ -30,7 +29,7 @@ function Claimlist(props) {
 
   const dispatch = useDispatch();
   const claims = useSelector((state) => state.claimsReducer.allClaims);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isLoading } = useSelector((state) => state.productReducer.product);
   //   const { search_options, policyListTableFilterData, filteredPoliciesList } = useSelector((state) => state.policyReducer);
   const { search_options, claimsListTableFilterData, filteredClaimsList } =
     useSelector((state) => state.claimsReducer);
@@ -56,18 +55,14 @@ function Claimlist(props) {
   }, []);
 
   const _handleDataFetching = () => {
-    setIsLoading(true);
     if (params.policyId) {
       dispatch(GetClaimsByPolicyId(params.policyId));
     }
     dispatch(GetProducType());
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 700)
   }
 
   //Refs
-  let excle_export = createRef();
+  let excel_export = createRef();
   let csv_export = createRef();
 
   const _download = (event) => {
@@ -76,7 +71,7 @@ function Claimlist(props) {
         csv_export.current.link.click();
         break;
       case 2:
-        excle_export.current.click();
+        excel_export.current.click();
         break;
 
       default:
@@ -109,6 +104,7 @@ function Claimlist(props) {
         let item = result[i].item;
         tempList.push(item);
       }
+      console.log("tempList: ", tempList);
 
       dispatch(HandleFilterTable(tempList.length > 0 ? tempList : claims));
       dispatch({
@@ -182,6 +178,11 @@ function Claimlist(props) {
 
   return (
     <React.Fragment>
+      {/* {isLoading ?
+        <div className="spinner-grow" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+        : */}
       <div className="body-wrapper">
         {/* HEADER AREA START */}
         <div className="ltnd__header-area ltnd__header-area-2 section-bg-2---">
@@ -246,7 +247,7 @@ function Claimlist(props) {
                     <input
                       type="text"
                       name="search_text"
-                      placeholder="Search ..."
+                      placeholder="Search product..."
                       value={search_text}
                       onChange={_handleChange}
                       className="search"
@@ -286,7 +287,7 @@ function Claimlist(props) {
                           className="nice-select"
                         >
                           <option disabled value={""}>
-                            Export
+                            download
                           </option>
                           <option value={1}>CSV</option>
                           <option value={2}>Excle</option>
@@ -373,7 +374,7 @@ function Claimlist(props) {
                           file_name={_exportData()?.file_name || ""}
                         />
                         <ExportExcle
-                          ref={excle_export}
+                          ref={excel_export}
                           data={_exportData()?._data}
                           file_name={_exportData()?.file_name || ""}
                         />
@@ -388,32 +389,30 @@ function Claimlist(props) {
           </div>
           {/* PRODUCT AREA END */}
 
-          {isLoading ?
-            <LoaderAnimation />
-            :
-            <>
-              {/* SELECT AVAILABILITY AREA START */}
-              <div className="select-availability-area pb-4">
-                <div className="row">
-                  <div className="col-lg-12">
-                    {/* ltnd__policies-table start */}
-                    <ClaimList claims={_getPaginatedResults(filteredClaimsList)} />
+          {/* SELECT AVAILABILITY AREA START */}
+          <div className="select-availability-area pb-4">
+            <div className="row">
+              <div className="col-lg-12">
+                {/* ltnd__policies-table start */}
+                {/* {policy_actions?.includes("VIEW") ? ( */}
+                <ClaimList claims={_getPaginatedResults(filteredClaimsList)} />
+                {/* ) : (
+                  <ADAnimation />
+                )} */}
 
-                    {/* <!-- pagination --> */}
-                    {claims_count > 0 && (
-                      <PaginationFromUI
-                        recordsCount={claims_count}
-                        pageIndex={claims_page_index}
-                        recordsPerPage={claims_per_page}
-                        handler={_paginatedListHandler}
-                        className="mt-3"
-                      />
-                    )}
-                  </div>
-                </div>
+                {/* <!-- pagination --> */}
+                {claims_count > 0 && (
+                  <PaginationFromUI
+                    recordsCount={claims_count}
+                    pageIndex={claims_page_index}
+                    recordsPerPage={claims_per_page}
+                    handler={_paginatedListHandler}
+                    className="mt-3"
+                  />
+                )}
               </div>
-            </>
-          }
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>

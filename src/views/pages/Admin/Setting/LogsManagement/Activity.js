@@ -184,7 +184,7 @@ const Activity = () => {
                           name="download"
                         >
                           <option selected disabled value={""}>
-                            Export
+                            Download
                           </option>
                           <option value="csv">CSV</option>
                           <option value="pdf">PDF</option>
