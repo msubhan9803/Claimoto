@@ -32,7 +32,7 @@ function Products() {
 
 
   //Refs
-  let excel_export = createRef();
+  let excle_export = createRef();
   let csv_export = createRef();
 
 
@@ -83,7 +83,7 @@ function Products() {
         csv_export.current.link.click();
         break;
       case 2:
-        excel_export.current.click();
+        excle_export.current.click();
         break;
 
       default:
@@ -261,7 +261,7 @@ function Products() {
                     <li>
                       <div className="short-by text-center">
                         <select onChange={_download} name="sort_name" value={""} className="nice-select">
-                          <option disabled value={""}>download</option>
+                          <option disabled value={""}>Export</option>
                           <option value={1} >
                             CSV
                           </option>
@@ -346,7 +346,7 @@ function Products() {
                     <li>
                       <div className="btn-wrapper text-center mt-0 d-none">
                         <CSVExport ref={csv_export} data={{ header: _exportData()?.header, csv_data: _exportData()?._data }} file_name={_exportData()?.file_name || ""} />
-                        <ExportExcle ref={excel_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
+                        <ExportExcle ref={excle_export} data={_exportData()?._data} file_name={_exportData()?.file_name || ""} />
 
                         {/* <ExcleExport /> */}
                       </div>

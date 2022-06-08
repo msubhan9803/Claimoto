@@ -39,7 +39,7 @@ const SurveyorList = ({ loading, allProviders }) => {
                             <img
                               src={
                                 record.Image &&
-                                `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`
+                                `${process.env.REACT_APP_API_ENVIROMENT}/${record.Image}`
                               }
                               alt=""
                             />
@@ -85,7 +85,6 @@ const SurveyorList = ({ loading, allProviders }) => {
                             <b>{record?.Closed}</b>
                           </Link>
                         </li>
-                        
                         <li className="table-data-2">
                           <strong>
                             <Link
