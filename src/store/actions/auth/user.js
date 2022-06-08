@@ -70,14 +70,16 @@ export const loginUser = (payload) => async dispatch => {
 export const handleLogout = () => async dispatch => {
     try {
         let uuid = new DeviceUUID().get();
+        if (ENVIRONMENT !== "DEVELOPMENT") {
+            await instance.delete(`/api/Notifications?deviceId=${uuid}`);
+        }
 
+        
         dispatch({
             type: SET_LOGOUT,
             payload: {}
         });
-        if (ENVIRONMENT !== "DEVELOPMENT") {
-            await instance.delete(`/api/Notifications?deviceId=${uuid}`);
-        }
+        
 
     }
     catch (err) {
