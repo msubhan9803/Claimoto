@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
+    GetDashboardTaskList,
     ChangeTabHandler
 } from "store/actions/claimDashboard";
 import Counter from 'components/ClaimOffice/Dashboard/Counter/Counter';
@@ -13,12 +14,17 @@ import { getAllowActions } from 'functions';
 function DashBoard() {
     const { permissions } = useSelector(state => state.authReducer);
     let dashboard_actions = getAllowActions({ permissions, module_name: "AD" });
+    const { UserId } = useSelector(state => state.authReducer.user_details);
     const dispatch = useDispatch();
     const {
         tabs,
         selectedTab,
         taskList
     } = useSelector(state => state.claimDashboardReducer);
+
+    useEffect(() => {
+        dispatch(GetDashboardTaskList(UserId));
+    }, []);
 
     const _handleClaimListTabChange = (value) => {
         dispatch(ChangeTabHandler(value))

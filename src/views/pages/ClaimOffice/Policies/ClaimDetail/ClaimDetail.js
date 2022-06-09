@@ -25,7 +25,8 @@ import {
   GetPoliciesByCivilId,
   GetUserById,
   HandleUpdateDocAttatchment,
-  GetUserProfileByUserId
+  GetUserProfileByUserId,
+  GetClaimRejectApproveCard
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -41,6 +42,7 @@ import { getStatusesOfClaim } from 'store/actions/taskList';
 import TrackTaskModal from 'components/ClaimOffice/Tasks/TrackTaskModal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import ActionsPerformedDetails from 'components/ClaimOffice/ClaimDetails/ActionsPerformedDetails';
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
@@ -110,6 +112,7 @@ const ClaimDetail = (props) => {
     claimsList,
     claimActionPermissions,
     userProfileList,
+    actionPerformedDetails
   } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
@@ -208,6 +211,9 @@ const ClaimDetail = (props) => {
         dispatch(GetClaimDetails(params.id));
         let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
         dispatch(GetClaimActionsByRoleId(userDetials.RoleId, params.id));
+
+        // Getting Action Permoed Details
+        dispatch(GetClaimRejectApproveCard(params.id));
       }
     }
   }
@@ -811,6 +817,14 @@ const ClaimDetail = (props) => {
                 _handlePhotoPush={_handlePhotoPush}
                 error={errorClaimAccidentCarPhotos}
               />
+
+              {/* Action Performed Details */}{
+                type !== "create" && (
+                  <ActionsPerformedDetails
+                    state={actionPerformedDetails}
+                  />
+                )
+              }
             </div>
 
             <footer className="ltnd__footer-1 fixed-footer-1">

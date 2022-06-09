@@ -21,6 +21,7 @@ import {
   SET_DAY_SLOTS,
   SET_HOUR_SLOTS,
   SET_USER_PROFILES_LIST,
+  ACTION_PERFORMED_DETAILS
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -497,6 +498,18 @@ export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) =
       res = await instance.post(`/api/ScheduledCallsAndChat`, payload);
     }
     callback();
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+// GET /api/Claims/ClaimRejectApproveCard
+export const GetClaimRejectApproveCard = (claimId) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/Claims/ClaimRejectApproveCard?ClaimId=" + claimId);
+    console.log("ClaimRejectApproveCard", res);
+
+    dispatch({ type: ACTION_PERFORMED_DETAILS, payload: res.data });
   } catch (err) {
     console.log("err", err);
   }

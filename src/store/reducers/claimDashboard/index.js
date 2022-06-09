@@ -1,5 +1,5 @@
 import {
-    SET_TASK_LIST,
+    SET_DASHBOARD_TASK_LIST,
     CHANGE_TAB,
     CHANGE_HANDLER_RULES
 } from '../../types/claimDashboard.js';
@@ -49,7 +49,7 @@ const initialState = {
 
 const claimDashboardScreenReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_TASK_LIST: {
+        case SET_DASHBOARD_TASK_LIST: {
             return { ...state, task_status: action.payload }
         }
 
