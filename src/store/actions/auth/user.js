@@ -2,6 +2,7 @@
 import { REGISTER_USER } from '../../types/types'
 import { SET_LOGIN_VALUES, SET_LOGOUT, SET_AUTH, SET_AUTH_VALUES, SET_LAYOUT } from 'store/types/auth'
 import instance from 'config/axios/instance'
+import { getToken } from 'firebase/messaging';
 import DeviceUUID from 'config/Device/DeviceUUID';
 import { ENVIRONMENT } from 'variables';
 

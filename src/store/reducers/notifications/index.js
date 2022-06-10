@@ -85,15 +85,15 @@ const notificationsScreenReducer = (state = initialState, action) => {
             break;
 
         case GET_NOTIFICATIONS: {
-            const { ModelProvider, TotalRecord } = action.payload;
+            const { Count, Notifications } = action.payload;
             return {
                 ...state,
                 notifications:
                 {
                     ...state.notifications,
-                    // list: ModelProvider || [],
-                    // count: TotalRecord || 0,
-                    // loading: false
+                    list: Notifications || [],
+                    count: Count || 0,
+                    loading: false
                 }
             }
         }

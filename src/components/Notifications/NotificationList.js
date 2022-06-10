@@ -4,7 +4,7 @@ import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllowActions } from 'functions';
+import { getAllowActions, formatDateTime } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { getNotifications, changeHandlerNotifications } from 'store/actions/notifications';
 
@@ -76,18 +76,41 @@ const NotificationList = () => {
                                 <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
-                                            <li className="table-data-1"> # </li>
+                                            <li className="table-data-1"> Claim Id </li>
+                                            <li className="table-data-1"> Title </li>
+                                            <li className="table-data-1"> Body </li>
+                                            <li className="table-data-1"> Status </li>
+                                            <li className="table-data-1"> Time </li>
                                         </ul>
                                         {list.map(record => {
                                             return (
                                                 <ul className="ltn__select-availability-table-row">
                                                     <li className="table-data-1">
                                                         <strong>
-                                                            {/* <img src={record.Image && `${process.env.REACT_APP_API_ENVIRONMENT}/${record.Image}`} alt="" />
-                                                            {record.Name} */}
+                                                            {record?.ClaimId}
                                                         </strong>
                                                     </li>
-
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            {record?.Notification_Titile}
+                                                        </strong>
+                                                    </li>
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            {record?.Notification_Body}
+                                                        </strong>
+                                                    </li>
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            {record?.Status}
+                                                        </strong>
+                                                    </li>
+                                                    <li className="table-data-1">
+                                                        <strong>
+                                                            {`${formatDateTime(record?.CreatedDate)?.toAmPM || ""} ${formatDateTime(record?.CreatedDate)?.toDate || ""}`}
+                                                        </strong>
+                                                    </li>
+                                                    
 
                                                 </ul>
                                             )
