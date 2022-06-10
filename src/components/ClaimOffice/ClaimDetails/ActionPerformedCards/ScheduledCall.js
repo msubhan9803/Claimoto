@@ -6,8 +6,9 @@ export default function ScheduledCall({ state }) {
     const _getFormattedTimeSlot = (timeSlot) => {
         let startDate = moment(timeSlot.substring(0, timeSlot.indexOf('To'))).format("hh:mm:ss a")
         let endDate = moment(timeSlot.substring(timeSlot.indexOf('To') + 2, timeSlot.length)).format("hh:mm:ss a")
+        let date = moment(timeSlot.substring(0, timeSlot.indexOf('To'))).format("MMMM Do YYYY");
 
-        return startDate + " To " + endDate;
+        return `${startDate} To ${endDate} (${date})`;
     }
 
     return (
@@ -28,7 +29,10 @@ export default function ScheduledCall({ state }) {
                     <div class="col-lg-4 col-md-6">
                         <div class="policies-details-single-info">
                             <h6 class="ltnd__title-4">Scheduled</h6>
-                            <h6 data-toggle="tooltip" data-placement="left" title={moment(state?.TimeSlotDate).format("LL")}>{moment(state?.TimeSlotDate).fromNow()}</h6>
+                            <h6 data-toggle="tooltip" data-placement="left" title={moment(state?.TimeSlotDate).format("LL")}>
+                                {moment(state?.TimeSlotDate).fromNow()}  &nbsp;
+                                ({moment(state?.TimeSlotDate).format("MMMM Do YYYY, h:mm a")})
+                            </h6>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
