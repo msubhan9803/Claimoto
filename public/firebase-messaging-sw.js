@@ -4,13 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compa
 
 // Initialize the Firebase app in the service worker by passing the generated config
 var firebaseConfig = {
-    apiKey: "AIzaSyCXXn9MO2bpGZhebmO5C9c5ysVS47lTosQ",
-    authDomain: "claimoto-web-app.firebaseapp.com",
-    projectId: "claimoto-web-app",
-    storageBucket: "claimoto-web-app.appspot.com",
-    messagingSenderId: "304292134229",
-    appId: "1:304292134229:web:ce29a8130e186c350203dc",
-    measurementId: "G-4S49MWR1GF"
+    apiKey: "AIzaSyC9phkk20eEoTj7ncrP2bkXTxAGs-ozlzQ",
+    authDomain: "claimoto-74b0d.firebaseapp.com",
+    projectId: "claimoto-74b0d",
+    storageBucket: "claimoto-74b0d.appspot.com",
+    messagingSenderId: "295095794480",
+    appId: "1:295095794480:web:2ed443008555f73568a6f5",
+    measurementId: "G-MGSWPV5WQX",
 };
 
 firebase.initializeApp(firebaseConfig);
