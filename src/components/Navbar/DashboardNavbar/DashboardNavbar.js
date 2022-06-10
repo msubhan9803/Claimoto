@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Link } from 'react-router-dom'
 import mcIcon from 'assets/img/icons/mc/png/10.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,17 +7,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from 'store/actions/auth/user';
 import { getCurrentPeriodOfDay } from "functions";
 import ClickAwayListener from 'react-click-away-listener';
+import { getNotifications } from "store/actions/notifications";
+import { formatDateTime } from "functions";
 
 
 export default function DashboardNavbar() {
 
   const dispatch = useDispatch();
-  const { FirstName, LastName, Username, Email, ImageUrl  } = useSelector(state => state.authReducer.user_details);
+  const { FirstName, LastName, Username, Email, ImageUrl } = useSelector(state => state.authReducer.user_details);
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const _handleLogout = () => {
     dispatch(handleLogout());
   }
+
+
+
+  const {
+    list,
+    loading,
+    records_per_page,
+    page_index,
+    count,
+  } = useSelector(state => state.notificationsScreenReducer.notifications);
+
+
+
+
+  useEffect(() => {
+    dispatch(getNotifications({
+      records_per_page: 5,
+      page_index: 1,
+      search_option: "",
+      search_text: "",
+      sort_type: "asc",
+      sort_name: "",
+    }));
+  }, []);
 
 
 
@@ -39,94 +65,68 @@ export default function DashboardNavbar() {
                   <ul>
                     {/*Notifications*/}
                     <li className="ltnd-dropdown">
-                    <ClickAwayListener  onClickAway={()=> setShowNotifications(false)}>
-                      <div>
-                      <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
-                      <FontAwesomeIcon icon={faBell} />
-                      </a>
-                      <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
-                        <div className="head">
-                          <h4 className="title">Notifications (3)</h4>
+                      <ClickAwayListener onClickAway={() => setShowNotifications(false)}>
+                        <div>
+                          <a className="toggle" role="button" onClick={() => setShowNotifications(!showNotifications)} >
+                            <FontAwesomeIcon icon={faBell} />
+                          </a>
+                          <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
+                            <div className="head">
+                              <h4 className="title">Notification</h4>
+                            </div>
+                            <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
+                              <ul>
+                                {list.map(notification => {
+                                  return (
+                                    <li>
+                                      <div className="ltnd-dropdown-menu-item">
+                                        <Link to={`/claim/claim_detail/${notification?.ClaimId}`}>
+                                          <div className="image">
+                                            <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                          </div>
+                                          <div className="content">
+                                            <h6>
+                                              <strong>{notification?.Notification_Titile || ""}</strong>
+                                              <strong>{notification?.Notification_Body || ""}</strong>
+                                            </h6>
+                                            <p className="ltn__color-1">{formatDateTime(notification?.CreatedDate)?.dateTime || ""} </p>
+                                          </div>
+                                        </Link>
+                                      </div>
+                                    </li>
+                                  )
+                                })
+
+                                }
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                        <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
-                          <ul>
-                            <li>
-                              <div className="ltnd-dropdown-menu-item">
-                                <Link to="/">
-                                  <div className="image">
-                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
-                                  </div>
-                                  <div className="content">
-                                    <h6>
-                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                      <strong>vehicle 13454</strong>
-                                    </h6>
-                                    <p className="ltn__color-1">2 mins ago </p>
-                                  </div>
-                                </Link>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="ltnd-dropdown-menu-item">
-                                <Link to="/">
-                                  <div className="image">
-                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
-                                  </div>
-                                  <div className="content">
-                                    <h6>
-                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                      <strong>vehicle 13454</strong>
-                                    </h6>
-                                    <p className="ltn__color-1">2 mins ago </p>
-                                  </div>
-                                </Link>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="ltnd-dropdown-menu-item">
-                                <a href="#">
-                                  <div className="image">
-                                    <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}`  : mcIcon} alt="user_image" />
-                                  </div>
-                                  <div className="content">
-                                    <h6>
-                                      <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                      <strong>vehicle 13454</strong>
-                                    </h6>
-                                    <p className="ltn__color-1">2 mins ago </p>
-                                  </div>
-                                </a>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      </div>
-                        </ClickAwayListener>
+                      </ClickAwayListener>
                     </li>
                     {/*User Account*/}
                     <li className="ltnd-dropdown ltnd__user-img">
-                    <ClickAwayListener  onClickAway={()=> setShowProfile(false)}>
-                      <div>
-                      <a className="toggle" role="button" >
-                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="user_image" />
-                      </a>
+                      <ClickAwayListener onClickAway={() => setShowProfile(false)}>
+                        <div>
+                          <a className="toggle" role="button" >
+                            <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} onClick={() => setShowProfile(!showProfile)} alt="user_image" />
+                          </a>
                           <div className="ltnd-dropdown-menu dropdown-menu-user" style={showProfile ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
-                          <div className="head">
-                            <div className="dropdown-menu-user-img">
-                              <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
-                            </div>
-                            <div className="dropdown-menu-user-info">
-                              <h6>{`${FirstName} ${LastName}`}</h6>
-                              <p className="dropdown-menu-user-mail">
-                                {Email}
-                              </p>
+                            <div className="head">
+                              <div className="dropdown-menu-user-img">
+                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                              </div>
+                              <div className="dropdown-menu-user-info">
+                                <h6>{`${FirstName} ${LastName}`}</h6>
+                                <p className="dropdown-menu-user-mail">
+                                  {Email}
+                                </p>
 
+                              </div>
                             </div>
-                          </div>
-                          <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
-                            <ul>
-                              {/* <li>
+                            <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
+                              <ul>
+                                {/* <li>
                               <div className="ltnd-dropdown-menu-item">
                                 <p className="dropdown-menu-user-language">
                                   <strong>Language</strong>
@@ -141,26 +141,26 @@ export default function DashboardNavbar() {
                                 </div>
                               </div>
                             </li> */}
-                              <li>
-                                <div className="ltnd-dropdown-menu-item">
-                                  <p >
-                                    <Link to="/admin/settings/account_preferences"><strong> Account</strong></Link>
-                                  </p>
-                                </div>
-                              </li>
-                              <li>
-                                <div className="ltnd-dropdown-menu-item">
-                                  <p>
-                                    <a onClick={_handleLogout} role="button"><strong>Logout</strong></a>
-                                  </p>
-                                </div>
-                              </li>
+                                <li>
+                                  <div className="ltnd-dropdown-menu-item">
+                                    <p >
+                                      <Link to="/admin/settings/account_preferences"><strong> Account</strong></Link>
+                                    </p>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="ltnd-dropdown-menu-item">
+                                    <p>
+                                      <a onClick={_handleLogout} role="button"><strong>Logout</strong></a>
+                                    </p>
+                                  </div>
+                                </li>
 
-                            </ul>
+                              </ul>
+                            </div>
                           </div>
-                          </div>
-                          </div>
-                        </ClickAwayListener>
+                        </div>
+                      </ClickAwayListener>
                     </li>
                     {/* <li className="ltnd-dropdown ltnd__user-img">
                       <a role="button" onClick={_handleLogout} className="toggle" href="#">

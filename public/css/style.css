@@ -18219,6 +18219,7 @@ form .ltnd__title-3 {
 
 .dropdown-menu-notifications {
   min-width: 300px;
+  z-index: 999999;
 }
 
 .dropdown-menu-notifications .head {
