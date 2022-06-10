@@ -76,7 +76,7 @@ const NotificationList = () => {
                                 <div className="ltn__select-availability-table-wrap ltnd__policies-table-wrap ltnd__garage-table-wrap">
                                     <div className="ltn__select-availability-table  d-none d-md-block">
                                         <ul className="ltn__select-availability-table-head">
-                                            <li className="table-data-1"> # </li>
+                                            <li className="table-data-1"> Claim Id </li>
                                         </ul>
                                         {list.map(record => {
                                             return (
