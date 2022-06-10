@@ -2,6 +2,13 @@ import React from 'react';
 import moment from 'moment';
 
 export default function AssignedToAgencyGarage({ state }) {
+    console.log("state: ", state)
+
+    const _getBranchName = (branchId) => {
+        let branchName = state?.agencyDetails?.ProviderLocations.find(loc => loc.Id === branchId);
+        return branchName?.BranchName;
+    }
+
     return (
         <div class="ltnd__block-item mt-30 mb-30">
             <div class="ltnd__space-between">
@@ -20,13 +27,13 @@ export default function AssignedToAgencyGarage({ state }) {
                     <div class="col-lg-4 col-md-6">
                         <div class="policies-details-single-info">
                             <h6 class="ltnd__title-4">Agency/Garage name</h6>
-                            <h6>{state?.AgencyGarageId}</h6>
+                            <h6>{state?.agencyDetails?.Name}</h6>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="policies-details-single-info">
                             <h6 class="ltnd__title-4">Branch name</h6>
-                            <h6>{state?.AgencyGarageBranchId}</h6>
+                            <h6>{_getBranchName(state?.AgencyGarageBranchId)}</h6>
                         </div>
                     </div>
                 </div>

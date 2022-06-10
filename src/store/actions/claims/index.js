@@ -507,9 +507,19 @@ export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) =
 export const GetClaimRejectApproveCard = (claimId) => async (dispatch) => {
   try {
     let res = await instance.get("api/Claims/ClaimRejectApproveCard?ClaimId=" + claimId);
-    console.log("ClaimRejectApproveCard", res);
+    let temp = res.data;
 
-    dispatch({ type: ACTION_PERFORMED_DETAILS, payload: res.data });
+    if (temp.AgencyGarageId) {
+      let agencyGarageRes = await instance.get("api/Provider/ProviderByID?Id=" + temp.AgencyGarageId);
+      temp.agencyDetails = agencyGarageRes.data;
+    }
+
+    if (temp.TimeSlotUser) {
+      let userProfile = await instance.get("api/UserProfile/ByID?Id=" + temp.TimeSlotUser);
+      temp.userProfile = userProfile.data[0];
+    }
+
+    dispatch({ type: ACTION_PERFORMED_DETAILS, payload: temp });
   } catch (err) {
     console.log("err", err);
   }
