@@ -28,6 +28,12 @@ import Activity from "views/pages/ClaimOffice/Setting/LogsManagement/Activity.js
 import ActivityDetail from "views/pages/ClaimOffice/Setting/LogsManagement/ActivityDetail.js";
 import Error from "views/pages/ClaimOffice/Setting/LogsManagement/Error.js";
 
+
+import ViewProviderServices from "components/Admin/Providers/ViewProviderServices";
+import ViewProviderServicesPrices from "components/Admin/Providers/ServicePrices/ServicePrice";
+import Notifications from "views/pages/Notifications/Notifications";
+
+
 export const claimRoutes = ({ userPermissions }) => {
   const _checkPer = (msn) => {
     let usr_pre =
@@ -190,6 +196,21 @@ export const claimRoutes = ({ userPermissions }) => {
       layout: "claim",
       collapse: true,
       views: [
+        //Additional Routes
+        {
+          name: "View Provider Services",
+          path: "/view_provider_services/:type/:id",
+          component: <ViewProviderServices />,
+          layout: "claim",
+        },
+        {
+          name: "View Provider Services Prices",
+          path: "/view_provider_services_prices/:type/:provider_id/:service_id",
+          component: <ViewProviderServicesPrices />,
+          layout: "claim",
+
+          
+        },
         {
           name: "Agency",
           path: "/agencies",
@@ -336,6 +357,28 @@ export const claimRoutes = ({ userPermissions }) => {
           layout: "claim",
         },
       ],
+    },
+
+
+    {
+      name: "Notifications",
+      component: <Notifications />,
+      collapse: true,
+      path: "/notifications",
+      icon: "ti-bell",
+      layout: "claim",
+      short_name: "NOT",
+      views: [
+        {
+          name: "Notifications",
+          path: "/notifications",
+          component: <Notifications />,
+          icon: "ti-layout",
+          layout: "claim",
+          short_name: "NOT",
+        },
+
+      ]
     },
   ];
 };
