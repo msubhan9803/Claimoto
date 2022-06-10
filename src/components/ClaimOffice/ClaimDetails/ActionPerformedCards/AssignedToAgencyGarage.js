@@ -21,7 +21,10 @@ export default function AssignedToAgencyGarage({ state }) {
                     <div class="col-lg-4 col-md-6">
                         <div class="policies-details-single-info">
                             <h6 class="ltnd__title-4">Assigned date</h6>
-                            <h6 data-toggle="tooltip" data-placement="left" title={moment(state?.AgencyGarageAssign_Date).format("LL")}>{moment(state?.AgencyGarageAssign_Date).fromNow()}</h6>
+                            <h6 data-toggle="tooltip" data-placement="left" title={moment(state?.AgencyGarageAssign_Date).format("LL")}>
+                                {moment(state?.AgencyGarageAssign_Date).fromNow()} &nbsp;
+                                ({moment(state?.AgencyGarageAssign_Date).format("MMMM Do YYYY, h:mm a")})
+                            </h6>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
