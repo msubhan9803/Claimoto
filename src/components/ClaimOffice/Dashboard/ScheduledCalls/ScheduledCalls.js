@@ -1,4 +1,5 @@
 import React from 'react'
+import CallIcon from "assets/img/call/icon.png"
 
 function ScheduledCalls() {
     return (
@@ -14,7 +15,7 @@ function ScheduledCalls() {
                             <small className="ltn__color-1">09:30 AM - 10:30 AM</small>
                         </div>
                         <div className="ltnd__scheduled-item-icon">
-                            <i className="fas fa-phone-alt"></i>
+                            <img src={CallIcon} />
                         </div>
                     </div>
                     <div className="ltnd__scheduled-item">
@@ -23,7 +24,7 @@ function ScheduledCalls() {
                             <small className="ltn__color-1">09:30 AM - 10:30 AM</small>
                         </div>
                         <div className="ltnd__scheduled-item-icon">
-                            <i className="fas fa-phone-alt"></i>
+                            <img src={CallIcon} />
                         </div>
                     </div>
                     <div className="ltnd__scheduled-item">
@@ -32,7 +33,7 @@ function ScheduledCalls() {
                             <small className="ltn__color-1">09:30 AM - 10:30 AM</small>
                         </div>
                         <div className="ltnd__scheduled-item-icon">
-                            <i className="fas fa-phone-alt"></i>
+                            <img src={CallIcon} />
                         </div>
                     </div>
                     <div className="ltnd__scheduled-item">
@@ -41,7 +42,7 @@ function ScheduledCalls() {
                             <small className="ltn__color-1">09:30 AM - 10:30 AM</small>
                         </div>
                         <div className="ltnd__scheduled-item-icon">
-                            <i className="fas fa-phone-alt"></i>
+                            <img src={CallIcon} />
                         </div>
                     </div>
                 </div>

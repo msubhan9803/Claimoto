@@ -1,4 +1,8 @@
 import React from 'react'
+import carImg1 from "assets/img/icons/mc/png/11.png";
+import TrackIcon from "assets/img/icons/mc/png/14.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 function ClaimList({
     tabs,
@@ -44,95 +48,95 @@ function ClaimList({
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><i className="fas fa-circle"></i> In progress</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><FontAwesomeIcon icon={faCircle} size="sm" /> In progress</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-4"><i className="fas fa-circle"></i> Pending</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-4"><FontAwesomeIcon icon={faCircle} size="sm" /> Pending</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/13.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2"><i className="fas fa-circle"></i> Under repair</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2"><FontAwesomeIcon icon={faCircle} size="sm" /> Under repair</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-5"><i className="fas fa-circle"></i> Under assesment</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-5"><FontAwesomeIcon icon={faCircle} size="sm" /> Under assesment</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-3"><i className="fas fa-circle"></i> Ready for delivery </a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-3"><FontAwesomeIcon icon={faCircle} size="sm" /> Ready for delivery </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
@@ -159,7 +163,7 @@ function ClaimList({
                                                             <li className="table-data-8">Details</li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -172,10 +176,10 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -188,10 +192,10 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -204,10 +208,10 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -220,10 +224,10 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -236,10 +240,10 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/4.png" alt="#" /> Agent orange </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Agent orange </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -252,7 +256,7 @@ function ClaimList({
                                                                     </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="agency-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -277,7 +281,7 @@ function ClaimList({
                                                             <li className="table-data-8">Details</li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/5.png" alt="#" /> Local car agent </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Local car agent </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -293,7 +297,7 @@ function ClaimList({
                                                             <li className="table-data-8"><a className="ltn__secondary-color" href="car-agency-details.html"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/5.png" alt="#" /> Local car agent </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Local car agent </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -309,7 +313,7 @@ function ClaimList({
                                                             <li className="table-data-8"><a className="ltn__secondary-color" href="car-agency-details.html"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/5.png" alt="#" /> Local car agent </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Local car agent </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -325,7 +329,7 @@ function ClaimList({
                                                             <li className="table-data-8"><a className="ltn__secondary-color" href="car-agency-details.html"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/5.png" alt="#" /> Local car agent </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Local car agent </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -341,7 +345,7 @@ function ClaimList({
                                                             <li className="table-data-8"><a className="ltn__secondary-color" href="car-agency-details.html"><strong>Details</strong></a> </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
-                                                            <li className="table-data-1"><strong><img src="img/icons/mc/png/5.png" alt="#" /> Local car agent </strong></li>
+                                                            <li className="table-data-1"><strong><img src={carImg1} alt="#" /> Local car agent </strong></li>
                                                             <li className="table-data-2 ltn__color-1">15869</li>
                                                             <li className="table-data-3">Yasmin Ali</li>
                                                             <li className="table-data-4">079 079 1189</li>
@@ -382,95 +386,95 @@ function ClaimList({
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><i className="fas fa-circle"></i> In progress</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><FontAwesomeIcon icon={faCircle} size="sm" /> In progress</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-4"><i className="fas fa-circle"></i> Pending</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-4"><FontAwesomeIcon icon={faCircle} size="sm" /> Pending</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/13.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2"><i className="fas fa-circle"></i> Under repair</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2"><FontAwesomeIcon icon={faCircle} size="sm" /> Under repair</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-5"><i className="fas fa-circle"></i> Under assesment</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-5"><FontAwesomeIcon icon={faCircle} size="sm" /> Under assesment</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-3"><i className="fas fa-circle"></i> Ready for delivery </a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-3"><FontAwesomeIcon icon={faCircle} size="sm" /> Ready for delivery </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
@@ -500,95 +504,95 @@ function ClaimList({
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><i className="fas fa-circle"></i> In progress</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><FontAwesomeIcon icon={faCircle} size="sm" /> In progress</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-4"><i className="fas fa-circle"></i> Pending</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-4"><FontAwesomeIcon icon={faCircle} size="sm" /> Pending</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/13.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2"><i className="fas fa-circle"></i> Under repair</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2"><FontAwesomeIcon icon={faCircle} size="sm" /> Under repair</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-5"><i className="fas fa-circle"></i> Under assesment</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-5"><FontAwesomeIcon icon={faCircle} size="sm" /> Under assesment</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-3"><i className="fas fa-circle"></i> Ready for delivery </a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-3"><FontAwesomeIcon icon={faCircle} size="sm" /> Ready for delivery </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
@@ -618,95 +622,95 @@ function ClaimList({
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><i className="fas fa-circle"></i> In progress</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2---"><FontAwesomeIcon icon={faCircle} size="sm" /> In progress</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-4"><i className="fas fa-circle"></i> Pending</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-4"><FontAwesomeIcon icon={faCircle} size="sm" /> Pending</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/13.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-2"><i className="fas fa-circle"></i> Under repair</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-2"><FontAwesomeIcon icon={faCircle} size="sm" /> Under repair</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/11.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-5"><i className="fas fa-circle"></i> Under assesment</a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-5"><FontAwesomeIcon icon={faCircle} size="sm" /> Under assesment</a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
                                                         <ul className="ltn__select-availability-table-row">
                                                             <li className="table-data-9"><strong> 10/tpl2020/001 </strong></li>
                                                             <li className="table-data-3 ltn__color-1">10/tpl2020/001</li>
-                                                            <li className="table-data-10"><img src="img/icons/mc/png/12.png" alt="#" />AB-123</li>
+                                                            <li className="table-data-10"><img src={carImg1} alt="#" />AB-123</li>
                                                             <li className="table-data-4">Front glass</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-4">Dec 12, 2021</li>
                                                             <li className="table-data-6">
                                                                 <strong>
-                                                                    <a href="#" className="invoice-btn invoice-btn-3"><i className="fas fa-circle"></i> Ready for delivery </a>
+                                                                    <a href="#" className="invoice-btn invoice-btn-3"><FontAwesomeIcon icon={faCircle} size="sm" /> Ready for delivery </a>
                                                                 </strong>
                                                             </li>
-                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="garage-details.html"><strong>Details</strong></a> </li>
+                                                            <li className="table-data-8"><a className="ltn__secondary-color" href="#"><strong>Details</strong></a> </li>
                                                             <li className="table-data-3">
                                                                 <strong>
-                                                                    <a className="ltn__secondary-color" href="garage-details.html"><img src="img/icons/mc/png/14.png" alt="#" /> Track</a>
+                                                                    <a className="ltn__secondary-color" href="#"><img src={TrackIcon} alt="#" /> Track</a>
                                                                 </strong>
                                                             </li>
                                                         </ul>
