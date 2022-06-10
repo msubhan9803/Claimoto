@@ -18,7 +18,8 @@ import {
   HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
   SET_USER_PROFILES_LIST,
   SET_DAY_SLOTS,
-  SET_HOUR_SLOTS
+  SET_HOUR_SLOTS,
+  ACTION_PERFORMED_DETAILS
 } from "store/types/claims.js";
 
 const initialState = {
@@ -126,7 +127,8 @@ const initialState = {
   },
   userProfileList: [],
   day_slots: [],
-  hour_slots:[]
+  hour_slots:[],
+  actionPerformedDetails: {}
 };
 
 const policyReducer = (state = initialState, action) => {
@@ -291,6 +293,14 @@ const policyReducer = (state = initialState, action) => {
       return {
         ...state,
         hour_slots: action.payload,
+      }
+    }
+
+    // Set Actions Performed Details
+    case ACTION_PERFORMED_DETAILS: {
+      return {
+        ...state,
+        actionPerformedDetails: action.payload
       }
     }
 

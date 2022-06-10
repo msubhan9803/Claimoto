@@ -25,6 +25,8 @@ import {
   GetPoliciesByCivilId,
   GetUserById,
   HandleUpdateDocAttatchment,
+  GetUserProfileByUserId,
+  GetClaimRejectApproveCard
 } from "store/actions/claims";
 import { GetMake, GetMakeModel } from "store/actions/policies";
 import { GetProducType } from "store/actions/product";
@@ -38,6 +40,9 @@ import ClaimDetailsViewOnly from "components/ClaimOffice/ClaimDetails/ClaimDetai
 import CustomerDetailsViewOnly from "components/ClaimOffice/ClaimDetails/CustomerDetailsViewOnly";
 import { getStatusesOfClaim } from 'store/actions/taskList';
 import TrackTaskModal from 'components/ClaimOffice/Tasks/TrackTaskModal';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import ActionsPerformedDetails from 'components/ClaimOffice/ClaimDetails/ActionsPerformedDetails';
 
 const formSchema = Yup.object().shape({
   // AddedById: Yup.string().required("User is required"),
@@ -95,7 +100,7 @@ const actionButtonsListByStatus = {
 
 const ClaimDetail = (props) => {
   const { type, layout } = props;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const submitBtnRef = useRef();
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -107,6 +112,7 @@ const ClaimDetail = (props) => {
     claimsList,
     claimActionPermissions,
     userProfileList,
+    actionPerformedDetails
   } = useSelector((state) => state.claimsReducer);
   const policyMakeList = useSelector((state) => state.policyReducer.make);
   const policyModelList = useSelector((state) => state.policyReducer.model);
@@ -171,6 +177,15 @@ const ClaimDetail = (props) => {
   });
 
   useEffect(() => {
+    _handleDataFetching();
+
+    return () => {
+      dispatch(ResetClaimDetails());
+    };
+  }, []);
+
+  const _handleDataFetching = () => {
+    setIsLoading(true);
     dispatch(GetUsersList());
     // dispatch(GetPoliciesList());
     dispatch(GetClaimsList());
@@ -184,12 +199,10 @@ const ClaimDetail = (props) => {
       dispatch(HandleFieldChange("AddedById", userDetials.RoleId));
     }
 
-    return () => {
-      dispatch(ResetClaimDetails());
-    };
-  }, []);
-
-
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700)
+  }
 
   const _getClaimDetails = () => {
     // If type is equal to view or edit then load claim details state
@@ -198,6 +211,9 @@ const ClaimDetail = (props) => {
         dispatch(GetClaimDetails(params.id));
         let userDetials = jwt_decode(localStorage.getItem(localStorageVarible));
         dispatch(GetClaimActionsByRoleId(userDetials.RoleId, params.id));
+
+        // Getting Action Permoed Details
+        dispatch(GetClaimRejectApproveCard(params.id));
       }
     }
   }
@@ -587,6 +603,7 @@ const ClaimDetail = (props) => {
     dispatch(HandleFieldChange("CivilId", value.value));
     dispatch(HandleFieldChange("PolicyId", 0));
     setSelectedPolicyValue(null);
+    dispatch(GetUserProfileByUserId(value.userId))
   };
 
   const handleUserIdSearch = (inputValue) =>
@@ -617,6 +634,10 @@ const ClaimDetail = (props) => {
       ...component,
       openModal: !component.openModal
     })
+  }
+
+  const _handleGridRefresh = () => {
+    _handleDataFetching();
   }
 
   return (
@@ -651,6 +672,16 @@ const ClaimDetail = (props) => {
                         >
                           History
                         </button>
+                        <span
+                          className="cursor-pointer"
+                          style={{ margin: "16px" }}
+                          data-toggle="tooltip"
+                          data-placement="left"
+                          title="Refresh"
+                          onClick={_handleGridRefresh}
+                        >
+                          <FontAwesomeIcon icon={faArrowRotateRight} size="lg" />
+                        </span>
                       </div>
                     </div>
                   )
@@ -786,6 +817,14 @@ const ClaimDetail = (props) => {
                 _handlePhotoPush={_handlePhotoPush}
                 error={errorClaimAccidentCarPhotos}
               />
+
+              {/* Action Performed Details */}{
+                type !== "create" && (
+                  <ActionsPerformedDetails
+                    state={actionPerformedDetails}
+                  />
+                )
+              }
             </div>
 
             <footer className="ltnd__footer-1 fixed-footer-1">

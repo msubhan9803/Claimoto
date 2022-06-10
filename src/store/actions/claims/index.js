@@ -21,6 +21,7 @@ import {
   SET_DAY_SLOTS,
   SET_HOUR_SLOTS,
   SET_USER_PROFILES_LIST,
+  ACTION_PERFORMED_DETAILS
 } from "store/types/claims";
 
 // GET /api/Claims/Claims
@@ -407,18 +408,35 @@ export const initialHandleClaim = (values, callback) => async (dispatch) => {
   }
 };
 
-export const handleChangeInputMessage =
-  ({ name, value }) =>
-    (dispatch) => {
-      try {
-        dispatch({
-          type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
-          payload: { name, value },
-        });
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
+export const handleChangeInputMessage = ({ name, value }) => (dispatch) => {
+  try {
+    dispatch({
+      type: HANDLE_CHANGE_INPUT_LEAVE_MESSAGE,
+      payload: { name, value },
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+export const GetUserProfileByUserId = (civilId) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/UserProfile/ByID?id=" + civilId);
+    console.log("Get UserProfile res", res);
+    let userProfileInfo = res.data[0];
+    let email = userProfileInfo.Email;
+    let firstName = userProfileInfo.FirstName;
+    let lastName = userProfileInfo.LastName;
+    let mobileNo = userProfileInfo.MobileNo;
+
+    dispatch(HandleFieldChange("Email", email));
+    dispatch(HandleFieldChange("FirstName", firstName));
+    dispatch(HandleFieldChange("LastName", lastName));
+    dispatch(HandleFieldChange("MobileNo", mobileNo));
+  } catch (err) {
+    console.log("err", err);
+  }
+};
 
 export const sendMessagePolicyHolder =
   (values, callback) => async (dispatch) => {
@@ -453,8 +471,8 @@ export const getDaySlots = (value) => async (dispatch) => {
   try {
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let date = new Date(`${value.month}-${value.day}-${value.year}`);
-    let _date = `${value.year}-${value.month}-${value.day}`; 
-    let day = days[date.getDay()];    let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}&dateTime=${_date}`);
+    let _date = `${value.year}-${value.month}-${value.day}`;
+    let day = days[date.getDay()]; let res = await instance.get(`api/ScheduledCallsAndChat/SplitDayTiming?Day=${day}&dateTime=${_date}`);
     dispatch({ type: SET_DAY_SLOTS, payload: res.data });
   } catch (err) {
     console.log("err", err);
@@ -462,7 +480,7 @@ export const getDaySlots = (value) => async (dispatch) => {
 };
 
 
-export const getHourSlots = ({to, from}) => async (dispatch) => {
+export const getHourSlots = ({ to, from }) => async (dispatch) => {
   try {
     let res = await instance.get(`api/ScheduledCallsAndChat/SplitWithInterval?IfromTime=${from}&ItoTime=${to}`);
     dispatch({ type: SET_HOUR_SLOTS, payload: res.data });
@@ -474,9 +492,9 @@ export const getHourSlots = ({to, from}) => async (dispatch) => {
 export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) => {
   try {
     let res;
-    if(payload.SC_Id){
+    if (payload.SC_Id) {
       res = await instance.put(`/api/ScheduledCallsAndChat/ScheduledCallsReAssigned`, payload);
-    }else{
+    } else {
       res = await instance.post(`/api/ScheduledCallsAndChat`, payload);
     }
     callback();
@@ -484,5 +502,15 @@ export const scheduleCallHandleClaim = (payload, callback) => async (dispatch) =
     console.log("err", err);
   }
 };
- 
-  
+
+// GET /api/Claims/ClaimRejectApproveCard
+export const GetClaimRejectApproveCard = (claimId) => async (dispatch) => {
+  try {
+    let res = await instance.get("api/Claims/ClaimRejectApproveCard?ClaimId=" + claimId);
+    console.log("ClaimRejectApproveCard", res);
+
+    dispatch({ type: ACTION_PERFORMED_DETAILS, payload: res.data });
+  } catch (err) {
+    console.log("err", err);
+  }
+};
