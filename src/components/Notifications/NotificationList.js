@@ -46,7 +46,9 @@ const NotificationList = () => {
 
     const _getList = () => {
         dispatch(getNotifications({
-            records_per_page, page_index, search_option,
+            records_per_page,
+            page_index,
+            search_option,
             search_text,
             sort_type,
             sort_name,
