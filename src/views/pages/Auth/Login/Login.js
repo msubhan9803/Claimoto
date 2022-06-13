@@ -86,9 +86,6 @@ const Login = () => {
       case "7":
         return "/claim/";
 
-      case "8":
-        return "/provider/";
-
       default:
         return "/admin/";
     }
