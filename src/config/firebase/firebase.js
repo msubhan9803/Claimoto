@@ -17,7 +17,7 @@ const firebaseConfig = {
     storageBucket: "claimoto-74b0d.appspot.com",
     messagingSenderId: "295095794480",
     appId: "1:295095794480:web:2ed443008555f73568a6f5",
-    measurementId: "G-MGSWPV5WQX",
+    measurementId: "G-MGSWPV5WQX",  
     vapidKey: "BEjDroizWHXcP0wbmmHGakGtuzgUGz-B43KC4kiHCVs8ejcytAekS8tHGhcIzDTrY1BJHCVwFds--v8MIyqEZ9A"
 };
 
