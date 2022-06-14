@@ -120,15 +120,15 @@ function ClaimAssignToBranch() {
                                                                                     </li>
                                                                                     <li className="table-data-2 dot_pending">
                                                                                         <span class="dot_assign_provider "></span>
-                                                                                        <b>12</b>
+                                                                                        <b>{record?.Pending}</b>
                                                                                     </li>
                                                                                     <li className="table-data-2 dot_under_assesment">
                                                                                         <span class="dot_assign_provider "></span>
-                                                                                        <b>14</b>
+                                                                                        <b>{record?.Under_Assessment}</b>
                                                                                     </li>
                                                                                     <li className="table-data-2 dot_close">
                                                                                         <span class="dot_assign_provider "></span>
-                                                                                        <b>12</b>
+                                                                                        <b>{record?.Closed}</b>
                                                                                     </li>
 
                                                                                     <li className="table-data-2 text-primary float-end">
