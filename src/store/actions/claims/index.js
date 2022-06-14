@@ -256,7 +256,12 @@ export const PostClaimDetials =
           }
 
           setIsLoading(false);
-          navigate(`/${layout}/policies`);
+          if (layout === "provider") {
+            // Navigating to Initial estimate screen
+            navigate(`/${layout}/initiate_claim/intial_estimate/${res.data.ClaimId}`);
+          } else {
+            navigate(`/${layout}/policies`);
+          }
           msgAlert({
             title: "Claim initiated successfully!",
             text: "",
