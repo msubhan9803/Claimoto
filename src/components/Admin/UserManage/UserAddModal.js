@@ -18,9 +18,13 @@ import { addUser } from 'store/actions/users/users_screen';
 import { getAllowActions } from 'functions';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import Loader from 'components/Loader/Loader';
+import { useParams } from 'react-router-dom';
 
 
 const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
+    const params = useParams();
+    const provider_id = params?.id || null;
+    const provider_type = params?.type || null;
 
     const { permissions } = useSelector(state => state.authReducer);
     let pre_actions = getAllowActions({ permissions, module_name: "AUM" });
@@ -88,12 +92,21 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
     const animatedComponents = makeAnimated();
 
     const _onSubmit = data => {
+        let payload = {};
         if (id) {
             //Update User
-            dispatch(addUser({ UserId: id, ...userValues }))
+            payload = { UserId: id, ...userValues };
+            if (provider_type) {
+                payload.ProviderId = provider_id;
+            }
+            dispatch(addUser(payload))
         } else {
+            payload = userValues;
+            if (provider_type) {
+                payload.ProviderId = provider_id;
+            }
             //Add User
-            dispatch(addUser(userValues));
+            dispatch(addUser(payload));
         }
         // toggleModal();
     };
@@ -162,6 +175,17 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
         if (edit && id) {
             dispatch(getUserDetails(parseInt(id)));
         }
+
+        if (provider_type) {
+            //if From Provider Default Set is Provider
+            let name = "access_role";
+            let value = {
+                label: 'Garage/Agency',
+                value: 3
+            };
+            dispatch(handleInputValue({ name, value, compnnt: "user" }));
+        }
+
         return () => {
             _clearState();
         }
@@ -255,8 +279,8 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                             <h6 className="ltnd__title-3 mt-3">Contact information</h6>
                                             <input
                                                 {...register("phone")}
-                                                        disabled={view}
-                                                        type="text" onChange={_handleChange} className="mt-2"  name="phone" placeholder="079 079 1189" value={phone} />
+                                                disabled={view}
+                                                type="text" onChange={_handleChange} className="mt-2" name="phone" placeholder="079 079 1189" value={phone} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="phone"
@@ -266,7 +290,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                 {...register("user_name")}
                                                 className="mt-3"
                                                 disabled={view}
-                                                type="text"  onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
+                                                type="text" onChange={_handleChange} name="user_name" placeholder="Username" value={user_name} />
                                             <ErrorMessage
                                                 errors={errors}
                                                 name="user_name"
@@ -380,7 +404,7 @@ const UserAddModal = ({ openModal, toggleModal, id, edit, view }) => {
                                                             <div className="ltnd__right btn-normal">
                                                                 <div className="btn-wrapper">
                                                                     <a onClick={toggleModal} className="ltn__color-1" role="button"><i className="ti-angle-left"></i> Cancel</a>
-                                                                    {!view ? loading_action ? <Loader /> :<button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button> : ""}
+                                                                    {!view ? loading_action ? <Loader /> : <button disabled={loading_action} type="submit" className="btn theme-btn-1 btn-round-12">{loading_action ? "loading" : "Save"}</button> : ""}
                                                                 </div>
                                                             </div>
                                                         </div>

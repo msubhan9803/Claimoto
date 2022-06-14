@@ -119,7 +119,7 @@ export const getModules = (id) => async dispatch => {
 
 
 
-export const getUsers = ({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }) => async dispatch => {
+export const getUsers = ({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type, provider_id }) => async dispatch => {
     try {
         if(!search_text){search_text = ""}
         if(!sort_name){sort_name = ""}
@@ -128,7 +128,7 @@ export const getUsers = ({ users_per_page, users_page_index, search_text, search
             type: SET_USERS_REQUEST,
             payload: true
         })
-        let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}`);
+        let { data } = await instance.get(`api/UserProfile/Paging?PageIndex=${users_page_index}&PageSize=${users_per_page}&SearchText=${search_text}&SearchOption=${search_option}&SortType=${sort_type}&SortName=${sort_name}&ProviderId=${provider_id}`);
         // let { data } = await instance.get(`api/UserProfile`);
         dispatch({
             type: SET_USERS,
@@ -194,7 +194,8 @@ export const addUser = (data) => async dispatch => {
             "RoleId": data?.access_role.value || "",
             "AccessGroupIds": data?.access_group.map(ag => { return { AccessGroupId: ag.value, AccessGroupName: ag.label } }) || [],
             "ImageModel": data?.selected_image || "",
-            "Status": data?.status
+            "Status": data?.status,
+            "ProviderId": parseInt(data?.ProviderId) || null
         };
         dispatch({ type: SET_USER_ADD_REQUEST, payload: {loading_action:true, success:false, error:""} });
         let response = await instance({
