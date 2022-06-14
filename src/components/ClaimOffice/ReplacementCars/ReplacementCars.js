@@ -30,6 +30,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li className="table-data-2">Car no.</li>
                     <li className="table-data-2">Location</li>
                     <li className="table-data-2">Vehicle category</li>
+                    <li className="table-data-2">Services</li>
                   </ul>
                   {/* {allProviders.map((record) => {
                     return (
@@ -82,6 +83,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li class="table-data-2">AB-123</li>
                     <li class="table-data-6  ltn__secondary-color---">Amman, Jordan</li>
                     <li class="table-data-2  ltn__secondary-color---">Luxury</li>
+                    <li class="table-data-2 text-primary">services</li>
                 </ul>
                 <ul class="ltn__select-availability-table-row">
                     <li class="table-data-10"><img src={carImg2} alt="#" />BMW</li>
@@ -90,6 +92,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li class="table-data-2">AB-123</li>
                     <li class="table-data-6  ltn__secondary-color---">Amman, Jordan</li>
                     <li class="table-data-2  ltn__secondary-color---">Luxury</li>
+                    <li class="table-data-2 text-primary">services</li>
                 </ul>
                 <ul class="ltn__select-availability-table-row">
                     <li class="table-data-10"><img src={carImg3} alt="#" />BMW</li>
@@ -98,6 +101,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li class="table-data-2">AB-123</li>
                     <li class="table-data-6  ltn__secondary-color---">Amman, Jordan</li>
                     <li class="table-data-2  ltn__secondary-color---">Luxury</li>
+                    <li class="table-data-2 text-primary">services</li>
                 </ul>
                 <ul class="ltn__select-availability-table-row">
                     <li class="table-data-10"><img src={carImg2} alt="#" />BMW</li>
@@ -106,6 +110,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li class="table-data-2">AB-123</li>
                     <li class="table-data-6  ltn__secondary-color---">Amman, Jordan</li>
                     <li class="table-data-2  ltn__secondary-color---">Luxury</li>
+                    <li class="table-data-2 text-primary">services</li>
                 </ul>
                 <ul class="ltn__select-availability-table-row">
                     <li class="table-data-10"><img src={carImg1} alt="#" />BMW</li>
@@ -114,6 +119,7 @@ const ReplacementCars = ({ loading, allProviders }) => {
                     <li class="table-data-2">AB-123</li>
                     <li class="table-data-6  ltn__secondary-color---">Amman, Jordan</li>
                     <li class="table-data-2  ltn__secondary-color---">Luxury</li>
+                    <li class="table-data-2 text-primary">services</li>
                 </ul>
                 </div>
               </div>
