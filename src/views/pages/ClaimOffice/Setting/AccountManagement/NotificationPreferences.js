@@ -2,8 +2,10 @@ import React from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from "react-redux";
 
 const NotificationPreferences = ({ layout }) => {
+  const { FirstName, LastName, Username, Email, ImageUrl } = useSelector(state => state.authReducer.user_details);
   return (
     <>
       <div className="body-bg-1">
@@ -66,7 +68,7 @@ const NotificationPreferences = ({ layout }) => {
                       <div className="col-lg-5">
                         <div className="notification-item mb-30">
                           <p className="ltn__color-1">Content language</p>
-                          <p>Yasminali@gmail.com</p>
+                          <p>{Email}</p>
                           <div className="ltn__checkbox-radio-group inline---">
                             <label class="ltn__checkbox">
                               <input
