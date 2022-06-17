@@ -22,10 +22,11 @@ export const syncTasksColumns = (state, screen) => async (dispatch) => {
 };
 
 
-export const getMyTaskList = (id) => async dispatch => {
+export const getMyTaskList = (id, layout) => async dispatch => {
     try {
+        let url = layout === "provider" ? `api/MyTask/ProviderClaims?Id=${id}` : `/api/MyTask/Claims?Id=${id}`;
         dispatch({ type: GET_MY_TASKS_REQUEST, payload: { loading_list: true } });
-        let { data } = await instance.get(`/api/MyTask/Claims?Id=${id}`);
+        let { data } = await instance.get(url);
         dispatch({ type: GET_MY_TASKS, payload: data || [] });
         dispatch({ type: GET_MY_TASKS_REQUEST, payload: { loading_list: false } });
     } catch (error) {
@@ -35,10 +36,11 @@ export const getMyTaskList = (id) => async dispatch => {
 }
 
 
-export const getPendingTaskList = (id) => async dispatch => {
+export const getPendingTaskList = (id, layout) => async dispatch => {
     try {
+        let url = layout === "provider" ? `api/MyTask/ProviderPendingClaims?Id=${id}` : `/api/MyTask/PendingClaims?Id=${id}`;
         dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: true } });
-        let { data } = await instance.get(`/api/MyTask/PendingClaims?Id=${id}`);
+        let { data } = await instance.get(url);
         dispatch({ type: GET_PENDING_TASKS, payload: data || [] });
         dispatch({ type: GET_PENDING_TASKS_REQUEST, payload: { loading_list: false } });
     } catch (error) {

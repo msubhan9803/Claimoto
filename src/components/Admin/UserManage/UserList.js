@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getUsers } from "store/actions/users/users_screen";
 import Pagination from 'components/Pagination/Pagination';
 import { setUserPage } from 'store/actions/users/users_screen';
@@ -9,6 +9,8 @@ import Loader from 'components/Loader/Loader';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 
 function UserList() {
+    const { type, id } = useParams();
+
     let [searchParams, setSearchParams] = useSearchParams();
     let dispatch = useDispatch();
     const { users,
@@ -45,7 +47,7 @@ function UserList() {
 
 
     useEffect(() => {
-        dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type }));
+        dispatch(getUsers({ users_per_page, users_page_index, search_text, search_option, sort_name, sort_type, provider_id:id }));
     }, [users_per_page, users_page_index]);
 
 

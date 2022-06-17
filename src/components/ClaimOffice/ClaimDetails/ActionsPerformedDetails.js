@@ -20,7 +20,7 @@ export default function ActionsPerformedDetails({ state }) {
             }
             {/* SCHEDULED CALLS */}
             {
-                state?.TimeSlot && <ScheduledCall state={state} />
+                state?.TimeSlot && state?.TimeSlotUser !== 0 && <ScheduledCall state={state} />
             }
         </>
     )

@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { aSquareCaretLeft } from '@fortawesome/free-solid-svg-icons'
 
 function Counter() {
     return (
@@ -10,7 +12,7 @@ function Counter() {
                     <div className="col-xl-3 col-lg-6 col-sm-6">
                         <div className="ltnd__top-report-item">
                             <div className="ltnd__top-report-icon bg-ltn-color-5">
-                                <i className="far fa-bell" />
+                                <i className="ti-shield" />
                             </div>
                             <div className="ltnd__top-report-info">
                                 <h2>
@@ -25,7 +27,7 @@ function Counter() {
                     <div className="col-xl-3 col-lg-6 col-sm-6">
                         <div className="ltnd__top-report-item">
                             <div className="ltnd__top-report-icon bg-ltn-color-6">
-                                <i className="far fa-bell" />
+                                <i className="ti-receipt" />
                             </div>
                             <div className="ltnd__top-report-info">
                                 <h2>
@@ -40,7 +42,7 @@ function Counter() {
                     <div className="col-xl-3 col-lg-6 col-sm-6">
                         <div className="ltnd__top-report-item">
                             <div className="ltnd__top-report-icon bg-ltn-color-7">
-                                <i className="far fa-bell" />
+                                <i className="ti-home" />
                             </div>
                             <div className="ltnd__top-report-info">
                                 <h2>
@@ -55,7 +57,7 @@ function Counter() {
                     <div className="col-xl-3 col-lg-6 col-sm-6">
                         <div className="ltnd__top-report-item">
                             <div className="ltnd__top-report-icon bg-ltn-color-8">
-                                <i className="far fa-bell" />
+                                <i className="ti-agenda" />
                             </div>
                             <div className="ltnd__top-report-info">
                                 <h2>

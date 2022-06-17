@@ -40,7 +40,7 @@ const GaragesList = () => {
         let module = "garages";
         let key = "page_index";
         let val = pageIndex;
-        dispatch(changeHandlerProvider({module, key, val}));
+        dispatch(changeHandlerProvider({ module, key, val }));
     }
 
 
@@ -81,6 +81,7 @@ const GaragesList = () => {
                                             <li className="table-data-4">Contact number</li>
                                             <li className="table-data-6">Garage address</li>
                                             <li className="table-data-7">Services </li>
+                                            <li className="table-data-7">User List </li>
                                             <li className="table-data-7">Edit </li>
                                             <li className="table-data-8">Details</li>
                                         </ul>
@@ -105,7 +106,15 @@ const GaragesList = () => {
                                                             </strong>
                                                         }
                                                     </li>
-                                                    
+
+                                                    <li className="table-data-7 text-primary">
+                                                        {garage_actions?.includes("VIEW") &&
+                                                            <strong>
+                                                                <Link to={`/admin/view_user_list/garage/${record.Id}?tab=0`} >User List</Link>
+                                                            </strong>
+                                                        }
+                                                    </li>
+
                                                     <li className="table-data-7">
                                                         {garage_actions?.includes("UPDATE") &&
                                                             <strong>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // import RespHeader from "components/Admin/ResponsiveHeader/RespHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
@@ -7,6 +7,8 @@ import ClickAwayListener from 'react-click-away-listener';
 import mcIcon from 'assets/img/icons/mc/png/10.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { getNotifications } from 'store/actions/notifications';
+import { formatDateTime } from 'functions';
 
 
 function ProductNavbar({ layout }) {
@@ -19,6 +21,27 @@ function ProductNavbar({ layout }) {
     }
 
 
+    const {
+        list,
+        loading,
+        records_per_page,
+        page_index,
+        count,
+    } = useSelector(state => state.notificationsScreenReducer.notifications);
+
+
+
+
+    useEffect(() => {
+        dispatch(getNotifications({
+            records_per_page: 5,
+            page_index: 1,
+            search_option: "",
+            search_text: "",
+            sort_type: "asc",
+            sort_name: "",
+        }));
+    }, []);
 
 
 
@@ -44,58 +67,32 @@ function ProductNavbar({ layout }) {
                                                     </a>
                                                     <div className="ltnd-dropdown-menu dropdown-menu-notifications" style={showNotifications ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 }}>
                                                         <div className="head">
-                                                            <h4 className="title">Notifications (3)</h4>
+                                                            <h4 className="title">Notifications</h4>
                                                         </div>
                                                         <div className="ltnd-dropdown-menu-inner ltn__scrollbar">
                                                             <ul>
-                                                                <li>
-                                                                    <div className="ltnd-dropdown-menu-item">
-                                                                        <Link to="/">
-                                                                            <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                {list.map(notification => {
+                                                                    return (
+                                                                        <li>
+                                                                            <div className="ltnd-dropdown-menu-item">
+                                                                                <Link to={`/claim/claim_detail/${notification?.ClaimId}`}>
+                                                                                    <div className="image">
+                                                                                        <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
+                                                                                    </div>
+                                                                                    <div className="content">
+                                                                                        <h6>
+                                                                                            <strong>{notification?.Notification_Titile || ""}</strong>
+                                                                                            <strong>{notification?.Notification_Body || ""}</strong>
+                                                                                        </h6>
+                                                                                        <p className="ltn__color-1">{formatDateTime(notification?.CreatedDate)?.dateTime || ""} </p>
+                                                                                    </div>
+                                                                                </Link>
                                                                             </div>
-                                                                            <div className="content">
-                                                                                <h6>
-                                                                                    <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                                                                    <strong>vehicle 13454</strong>
-                                                                                </h6>
-                                                                                <p className="ltn__color-1">2 mins ago </p>
-                                                                            </div>
-                                                                        </Link>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className="ltnd-dropdown-menu-item">
-                                                                        <Link to="/">
-                                                                            <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
-                                                                            </div>
-                                                                            <div className="content">
-                                                                                <h6>
-                                                                                    <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                                                                    <strong>vehicle 13454</strong>
-                                                                                </h6>
-                                                                                <p className="ltn__color-1">2 mins ago </p>
-                                                                            </div>
-                                                                        </Link>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className="ltnd-dropdown-menu-item">
-                                                                        <a href="#">
-                                                                            <div className="image">
-                                                                                <img src={ImageUrl ? `${process.env.REACT_APP_API_ENVIRONMENT}/${ImageUrl}` : mcIcon} alt="user_image" />
-                                                                            </div>
-                                                                            <div className="content">
-                                                                                <h6>
-                                                                                    <strong>{`${FirstName} ${LastName}`} has</strong> viewed the{" "}
-                                                                                    <strong>vehicle 13454</strong>
-                                                                                </h6>
-                                                                                <p className="ltn__color-1">2 mins ago </p>
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
+                                                                        </li>
+                                                                    )
+                                                                })
+
+                                                                }
                                                             </ul>
                                                         </div>
                                                     </div>
