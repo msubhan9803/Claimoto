@@ -7,15 +7,17 @@ import TrackTaskModal from './TrackTaskModal';
 import { getPendingTaskList } from 'store/actions/taskList';
 import LoaderAnimation from 'components/Loader/AnimatedLoaded';
 import { formatDateTime } from 'functions';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getStatusesOfClaim } from 'store/actions/taskList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareCaretRight, faSquareCaretLeft } from '@fortawesome/free-solid-svg-icons'
 import { useHorizontalScroll } from 'hooks/useHorizentalScroll';
+import { getLayoutName } from 'functions';
 
 
 function PendingTaskList() {
     const hScrollRef = createRef();
+    const location = useLocation();
 
     const [component, setComponent] = useState({
         openModal: false
@@ -29,7 +31,8 @@ function PendingTaskList() {
 
 
     useEffect(() => {
-        dispatch(getPendingTaskList(UserId));
+        const layoutName = getLayoutName(location.pathname);
+        dispatch(getPendingTaskList(UserId, layoutName));
     }, []);
 
     useEffect(() => {

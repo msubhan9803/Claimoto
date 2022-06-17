@@ -13,7 +13,7 @@ import { changeTasksRootValues } from 'store/actions/taskList';
 import { getMyTaskList } from 'store/actions/taskList';
 import { getPendingTaskList } from 'store/actions/taskList';
 
-function TaskList() {
+function TaskList({layout}) {
 
     let dispatch = useDispatch();
     let [searchParams, setSearchParams] = useSearchParams();

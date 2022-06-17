@@ -63,7 +63,7 @@ export const claimRoutes = ({ userPermissions }) => {
         {
           name: "Tasks List",
           path: "/tasks",
-          component: <TaskList />,
+          component: <TaskList layout="claim" />,
           layout: "claim",
         },
         {

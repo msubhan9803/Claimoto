@@ -140,3 +140,10 @@ export const checkIfArrayHasEmptyValue = (array) => {
     return false;
   }
 };
+
+
+
+export const getLayoutName = (location) => {
+  const paths = location.split('/');
+  return paths[1];
+}
